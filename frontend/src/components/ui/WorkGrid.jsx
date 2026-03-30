@@ -63,7 +63,7 @@ function StepCard({ item, index }) {
         {item.desc}
       </p>
 
-      <div className="absolute right-6 bottom-4 text-[120px] font-bold text-white/5 select-none">
+      <div className="absolute rotate-12 transition-all duration-300 hover:rotate-0 right-6 -bottom-10 text-[200px] font-bold text-white/5 select-none">
         {index + 1}
       </div>
     </motion.div>
@@ -84,7 +84,6 @@ export default function HowItWorksSection() {
             <StepCard key={i} item={item} index={i} />
           ))}
         </div>
-
       </div>
     </section>
   );
