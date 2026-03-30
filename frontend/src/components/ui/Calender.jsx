@@ -20,7 +20,7 @@ export default function Calendar() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-6 text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black flex items-center  -mt-50  justify-center p-6 text-white relative">
 
       {/* Glow background */}
       <div className="absolute w-[500px] h-[500px] bg-white/5 blur-[120px] rounded-full" />

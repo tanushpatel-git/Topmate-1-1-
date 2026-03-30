@@ -1,86 +1,110 @@
-import React from "react";
+import { motion } from "framer-motion";
 import { DollarSign, Calendar, Video, RefreshCw, Mic, Zap } from "lucide-react";
+import { useState } from "react";
 
-export default function FeaturesGrid() {
-    const features = [
-    {
-      title: "Set Your Rate",
-      desc: "You choose the price. Per session, per hour, or per day.",
-      icon: DollarSign,
-      span: "md:col-span-2",
-      badge: "+$150.00",
-    },
-    {
-      title: "Automated Scheduling",
-      desc: "Clients book themselves. No back-and-forth DMs.",
-      icon: Calendar,
-    },
-    {
-      title: "Free Zoom Pro",
-      desc: "Zoom Pro included for every creator. No 40-minute cap, no extra fee.",
-      icon: Video,
-    },
-    {
-      title: "Calendar Sync",
-      desc: "Google Calendar syncs in one click. Your availability is always accurate.",
-      icon: RefreshCw,
-    },
-    {
-      title: "Meeting Recordings",
-      desc: "Record every call with one click. Sell the replay or share it later.",
-      icon: Mic,
-    },
-    {
-      title: "Instant Withdrawals",
-      desc: "Withdraw after every session. INR via PayU/Razorpay, global via AirWallex/Stripe.",
-      icon: Zap,
-      span: "md:col-span-2",
-    },
-  ];
+const features = [
+  {
+    icon: DollarSign,
+    title: "Set Your Rate",
+    desc: "You choose the price. Per session, per hour, or per day.",
+    highlight: "+$150.00",
+    large: true,
+  },
+  {
+    icon: Calendar,
+    title: "Automated Scheduling",
+    desc: "Clients book themselves. No back-and-forth DMs.",
+  },
+  {
+    icon: Video,
+    title: "Free Zoom Pro",
+    desc: "Zoom Pro included for every creator. No 40-minute cap.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Calendar Sync",
+    desc: "Google Calendar syncs in one click. Your availability is always accurate.",
+  },
+  {
+    icon: Mic,
+    title: "Meeting Recordings",
+    desc: "Record every call with one click. Sell the replay later.",
+  },
+  {
+    icon: Zap,
+    title: "Instant Withdrawals",
+    desc: "Withdraw after every session via Stripe / Razorpay.",
+    large: true,
+  },
+];
 
+function FeatureCard({ feature }) {
+  const Icon = feature.icon;
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  return (
+    <div
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      }}
+      className={`relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 p-8 transition-all duration-300 hover:border-neutral-600 ${
+        feature.large ? "md:col-span-2" : ""
+      }`}
+    >
+      {/* Spotlight effect */}
+      <div
+        className="pointer-events-none absolute -inset-px opacity-0 hover:opacity-100 transition"
+        style={{
+          background: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(255,255,255,0.08), transparent 40%)`,
+        }}
+      />
+
+      {/* icon */}
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        className="mb-6 w-11 h-11 rounded-lg flex items-center justify-center bg-neutral-900 border border-neutral-800"
+      >
+        <Icon size={18} className="text-neutral-300" />
+      </motion.div>
+
+      {/* highlight */}
+      {feature.highlight && (
+        <div className="absolute top-6 right-6 bg-neutral-900 border border-neutral-700 text-green-400 text-sm px-3 py-1 rounded-lg">
+          {feature.highlight}
+        </div>
+      )}
+
+      <h3 className="text-lg font-semibold text-white mb-2">
+        {feature.title}
+      </h3>
+
+      <p className="text-sm text-neutral-400 leading-relaxed">
+        {feature.desc}
+      </p>
+    </div>
+  );
+}
+
+export default function FeaturesOfGrid() {
   return (
     <section className="bg-black text-white py-28 px-6">
       <div className="max-w-7xl mx-auto">
-
-        {/* Title */}
-        <h2 className="text-4xl md:text-6xl font-semibold text-center mb-20 tracking-tight">
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center text-4xl md:text-5xl font-semibold mb-20 text-neutral-200"
+        >
           One link. Automated bookings. Instant payouts.
-        </h2>
+        </motion.h1>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {features.map((f, i) => {
-            const Icon = f.icon;
-
-            return (
-              <div
-                key={i}
-                className={`rounded-3xl border border-white/10 bg-neutral-900 p-8 relative overflow-hidden group ${f.span || ""}`}
-              >
-                {/* Badge */}
-                {f.badge && (
-                  <div className="absolute top-6 right-6 bg-white/5 text-white/80 px-3 py-1 rounded-full text-xs border border-white/10">
-                    {f.badge}
-                  </div>
-                )}
-
-                {/* Icon */}
-                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 mb-6 text-xl group-hover:scale-110 transition duration-300">
-                  <Icon size={24} />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
-
-                {/* Description */}
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  {f.desc}
-                </p>
-              </div>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {features.map((feature, i) => (
+            <FeatureCard key={i} feature={feature} />
+          ))}
         </div>
       </div>
     </section>
   );
-}  
+}

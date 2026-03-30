@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+::-webkit-scrollbar {
+    display: none;
+}
+::selection {
+  background: rgba(255, 119, 0, 0.867);  /* selection background */
+  color: white;  /* selected text color */
+}
+
