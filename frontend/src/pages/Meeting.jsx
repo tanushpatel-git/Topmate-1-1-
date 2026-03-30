@@ -1,13 +1,13 @@
-import Calendar from "../components/ui/Calender"
-import TopOfMeeting from "../components/ui/TopOfMeeting"
-import FeaturesGrid from "../components/ui/FeatureOfGrid"
-import WorkGrid from "../components/ui/WorkGrid"
-import SpecificExpertise from "../components/ui/SpecificExpertise"
-import WordClassExperience from "../components/ui/WordClassExperience"
-import CreatorPaidSessionsMeeting from "../components/ui/CreatorPaidSessionsMeeting"
-import CommonQnAMeeting from "../components/ui/CommonQnAMeeting"
-import SubcriptionRecommed from "../components/ui/SubcriptionRecommed"
-import ServicesSectionMeeting from "../components/ui/ServicesSectionMeeting"
+import Calendar from "../components/meetingPageComponent/Calender.jsx"
+import TopOfMeeting from "../components/meetingPageComponent/TopOfMeeting.jsx"
+import FeaturesGrid from "../components/meetingPageComponent/FeatureOfGrid.jsx"
+import WorkGrid from "../components/meetingPageComponent/WorkGrid.jsx"
+import SpecificExpertise from "../components/meetingPageComponent/SpecificExpertise.jsx"
+import WordClassExperience from "../components/meetingPageComponent/WordClassExperience.jsx"
+import CreatorPaidSessionsMeeting from "../components/meetingPageComponent/CreatorPaidSessionsMeeting.jsx"
+import CommonQnAMeeting from "../components/meetingPageComponent/CommonQnAMeeting.jsx"
+import SubcriptionRecommed from "../components/meetingPageComponent/SubcriptionRecommed.jsx"
+import ServicesSectionMeeting from "../components/meetingPageComponent/ServicesSectionMeeting.jsx"
 
 const Meeting = () => {
     return (
