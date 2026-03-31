@@ -5,8 +5,9 @@
 }
 ::selection {
   background: rgba(255, 119, 0, 0.867);  /* selection background */
-  color: white;  /* selected text color */
+  color: white; 
 }
+<<<<<<< HEAD
 
 @keyframes float {
   0% { transform: translateY(0px) translateX(0px); }
@@ -18,3 +19,11 @@
   animation: float 6s ease-in-out infinite;
 }
 
+=======
+/* 
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+} */
+>>>>>>> nikesh
