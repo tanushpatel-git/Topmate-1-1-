@@ -8,10 +8,12 @@ import CreatorPaidSessionsMeeting from "../components/meetingPageComponent/Creat
 import CommonQnAMeeting from "../components/meetingPageComponent/CommonQnAMeeting.jsx"
 import SubcriptionRecommed from "../components/meetingPageComponent/SubcriptionRecommed.jsx"
 import ServicesSectionMeeting from "../components/meetingPageComponent/ServicesSectionMeeting.jsx"
+import Navbar from "../components/commonCompo/Navbar.jsx"
 
 const Meeting = () => {
     return (
         <div>
+            <Navbar/>
             <TopOfMeeting/>
             <Calendar/>
             <FeaturesGrid/>

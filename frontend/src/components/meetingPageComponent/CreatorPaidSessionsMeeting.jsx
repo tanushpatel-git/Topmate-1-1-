@@ -77,25 +77,30 @@ export default function CreatorPaidSessionsMeeting() {
               "I went from charging ₹0 for advice to ₹5,000 per session. In three months, I had booked 120 sessions. The platform handled everything — calendar, payments, and meeting links.",
             name: "Priya M.",
             role: "Career Coach • 3,200 followers",
+            image:"https://i.pinimg.com/736x/4e/5d/84/4e5d84e967cdf19ece54aaa281220669.jpg"
           },
           {
             text:
               "My LinkedIn profile was getting 2,000 views a week. I added a link, set a ₹8,000/hr rate, and filled my calendar in the first week.",
             name: "Arjun S.",
             role: "Senior Software Architect",
+            image:"https://i.pinimg.com/736x/61/31/4d/61314d055f92ca874a0f1b50d517ee28.jpg"
           },
           {
             text:
               "I was manually booking through DMs and collecting payments. Now everything is automated with a clean, professional flow.",
             name: "Nisha V.",
             role: "Executive Coach",
+            image:"https://i.pinimg.com/736x/c6/c0/09/c6c009b31ed165171c61a1964a7089bd.jpg"
           },
         ].map((item, i) => (
           <motion.div key={i} variants={fadeUp} className={card}>
             <p className="text-gray-300 leading-relaxed mb-8">“{item.text}”</p>
 
             <div className="border-t border-gray-800 pt-6 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-full bg-gray-700" />
+              <div className="w-10 h-10 rounded-full bg-gray-700 overflow-hidden" >
+                <img className="w-full h-full object-cover" src={item.image} alt="loading" />
+              </div>
               <div>
                 <p className="font-medium">{item.name}</p>
                 <p className="text-sm text-gray-500">{item.role}</p>
@@ -105,7 +110,7 @@ export default function CreatorPaidSessionsMeeting() {
         ))}
       </motion.div>
       <section className="bg-black px-6 py-20 flex justify-center items-center">
-        <div className="w-full max-w-5xl rounded-4xl border border-gray-900 bg-gradient-to-b from-[#0d0d0d] to-black px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
+        <div className="w-full max-w-5xl rounded-4xl border border-gray-900 bg-linear-to-b from-[#0d0d0d] to-black px-8 py-14 grid grid-cols-2 md:grid-cols-4 gap-10 text-center">
           {stats.map((stat, i) => (
             <div key={i} className="flex flex-col items-center justify-center">
               <div className="flex items-center gap-2 text-4xl md:text-5xl font-semibold">
