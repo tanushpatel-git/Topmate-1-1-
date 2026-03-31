@@ -1,12 +1,28 @@
 import React from "react";
+import { Link } from "react-router";
 
 const Navbar = () => {
   const features = [
-    "Meetings",
-    "Webinars",
-    "Cohorts",
-    "Courses",
-    "Priority DM",
+    {
+      name:"Meetings",
+      linkPos:"/features/meeting"
+    },
+    {
+      name:"Webinars",
+      linkPos:"/features/webinar"
+    },
+    {
+      name:"Cohorts",
+      linkPos:"/features/cohort"
+    },
+    {
+      name:"Courses",
+      linkPos:"/features/course"
+    },
+    {
+      name:"Priority DM",
+      linkPos:"/features/priority-dm"
+    },
   ];
 
   return (
@@ -54,29 +70,30 @@ const Navbar = () => {
 
                       <div className="space-y-1">
                         {features.map((item, index) => (
-                          <div
+                          <Link
                             key={index}
+                            to={item.linkPos}
                             className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 cursor-pointer transition"
                           >
                             <div className="w-8 h-8 bg-white/10 rounded-md" />
 
                             <div>
-                              <p className="text-white text-sm">
-                                {item}
-                              </p>
+                              <h4 className="text-white text-sm">
+                                {item.name}
+                              </h4>
 
                               <p className="text-gray-400 text-xs">
                                 Sample description
                               </p>
                             </div>
-                          </div>
+                          </Link>
                         ))}
                       </div>
                     </div>
 
                     {/* COLUMN 2-3 : ECOSYSTEM CARD */}
                     <div className="col-span-2 bg-white/5 rounded-xl p-4">
-                      <div className="h-32 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg mb-4" />
+                      <div className="h-32 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg mb-4" />
 
                       <h4 className="text-white text-sm mb-2">
                         TOPMATE ECOSYSTEM
