@@ -53,7 +53,9 @@ const Navbar = ({ theam = "white" }) => {
 
           {/* LOGO */}
           <Link to="/" className={`${textMain} text-xl font-semibold`}>
-            topmate
+            <div className="w-40">
+              <img src="https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-dark.svg" alt="loading..." />
+            </div>
           </Link>
 
           {/* CENTER */}
@@ -219,6 +221,7 @@ const Navbar = ({ theam = "white" }) => {
           </div>
 
           {/* DASHBOARD */}
+          {/* some change we done after making backend */}
           <button className={`${buttonPrimary} px-5 py-2 rounded-lg`}>
             Dashboard
           </button>

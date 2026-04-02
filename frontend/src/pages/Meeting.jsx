@@ -9,8 +9,13 @@ import CommonQnAMeeting from "../components/meetingPageComponent/CommonQnAMeetin
 import SubcriptionRecommed from "../components/meetingPageComponent/SubcriptionRecommed.jsx"
 import ServicesSectionMeeting from "../components/meetingPageComponent/ServicesSectionMeeting.jsx"
 import Navbar from "../components/commonCompo/Navbar.jsx"
+import { useEffect } from "react"
 
 const Meeting = () => {
+
+    useEffect(() => {
+        window.document.title = "1:1 Meeting Platform for Experts,Coaches & Consultants | Topmate"
+    },[])
     return (
         <div>
             <Navbar theam="black"/>
