@@ -77,21 +77,21 @@ export default function CreatorPaidSessionsMeeting() {
               "I went from charging ₹0 for advice to ₹5,000 per session. In three months, I had booked 120 sessions. The platform handled everything — calendar, payments, and meeting links.",
             name: "Priya M.",
             role: "Career Coach • 3,200 followers",
-            image:"https://i.pinimg.com/736x/4e/5d/84/4e5d84e967cdf19ece54aaa281220669.jpg"
+            image:"https://topmate.io/images/aisearch/profiles/profile1.png"
           },
           {
             text:
               "My LinkedIn profile was getting 2,000 views a week. I added a link, set a ₹8,000/hr rate, and filled my calendar in the first week.",
             name: "Arjun S.",
             role: "Senior Software Architect",
-            image:"https://i.pinimg.com/736x/61/31/4d/61314d055f92ca874a0f1b50d517ee28.jpg"
+            image:"https://topmate.io/images/aisearch/profiles/profile2.png"
           },
           {
             text:
               "I was manually booking through DMs and collecting payments. Now everything is automated with a clean, professional flow.",
             name: "Nisha V.",
             role: "Executive Coach",
-            image:"https://i.pinimg.com/736x/c6/c0/09/c6c009b31ed165171c61a1964a7089bd.jpg"
+            image:"https://topmate.io/images/aisearch/profiles/profile3.png"
           },
         ].map((item, i) => (
           <motion.div key={i} variants={fadeUp} className={card}>

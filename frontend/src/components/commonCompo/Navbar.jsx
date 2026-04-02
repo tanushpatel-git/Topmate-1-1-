@@ -54,7 +54,7 @@ const Navbar = ({ theam = "white" }) => {
           {/* LOGO */}
           <Link to="/" className={`${textMain} text-xl font-semibold`}>
             <div className="w-40">
-              <img src="https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-dark.svg" alt="loading..." />
+              <img src={`${isDark ? "https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-dark.svg" : "https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-light.svg"}`} alt="loading..." />
             </div>
           </Link>
 

@@ -1,5 +1,5 @@
 import Calendar from "../components/meetingPageComponent/Calender.jsx"
-import TopOfMeeting from "../components/meetingPageComponent/TopOfMeeting.jsx"
+import TopOfMeeting from "../components/commonCompo/TopOfProductFeatures.jsx"
 import FeaturesGrid from "../components/meetingPageComponent/FeatureOfGrid.jsx"
 import WorkGrid from "../components/meetingPageComponent/WorkGrid.jsx"
 import SpecificExpertise from "../components/meetingPageComponent/SpecificExpertise.jsx"
@@ -19,7 +19,14 @@ const Meeting = () => {
     return (
         <div>
             <Navbar theam="black"/>
-            <TopOfMeeting/>
+            <TopOfMeeting 
+            theam="dark"
+            badge="1:1 Meetings"
+            title="Turn 1:1 Calls Into a Revenue Stream"
+            description="Set your rate, share one link, and get paid. Free Zoom Pro, calendar sync, and instant payouts — no subscription."
+            button1="Start Getting Paid"
+            button2="See How It Works"
+            />
             <Calendar/>
             <FeaturesGrid/>
             <WorkGrid/>
