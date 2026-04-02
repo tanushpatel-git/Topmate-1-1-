@@ -4,7 +4,7 @@ import Navbar from "../components/commonCompo/Navbar";
 const Webniars = () => {
     return (
         <>
-            <Navbar />
+            <Navbar/>
         </>
     )
 }

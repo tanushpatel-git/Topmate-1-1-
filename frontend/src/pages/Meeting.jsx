@@ -13,7 +13,7 @@ import Navbar from "../components/commonCompo/Navbar.jsx"
 const Meeting = () => {
     return (
         <div>
-            <Navbar/>
+            <Navbar theam="black"/>
             <TopOfMeeting/>
             <Calendar/>
             <FeaturesGrid/>

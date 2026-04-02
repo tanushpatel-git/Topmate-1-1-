@@ -79,16 +79,16 @@ const TopOfMeeting = () => {
         >
           <div className="flex -space-x-2">
             <img
-              className="w-8 h-8 rounded-full border border-black"
-              src="https://i.pravatar.cc/40?img=1"
+              className="w-8 h-8 rounded-full border border-black object-cover"
+              src="https://topmate.io/images/homepage/referral-experts/vani-gupta.jpg"
             />
             <img
-              className="w-8 h-8 rounded-full border border-black"
-              src="https://i.pravatar.cc/40?img=2"
+              className="w-8 h-8 rounded-full border border-black object-cover"
+              src="https://topmate.io/images/homepage/referral-experts/vatsal-nahata.jpg"
             />
             <img
-              className="w-8 h-8 rounded-full border border-black"
-              src="https://i.pravatar.cc/40?img=3"
+              className="w-8 h-8 rounded-full border border-black object-cover"
+              src="https://topmate.io/images/homepage/referral-experts/aditi-paul.jpg"
             />
           </div>
 
