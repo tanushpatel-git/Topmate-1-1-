@@ -7,7 +7,12 @@ export default function VideoSyncInWebinars() {
 
     return (
 
-        <div className="bg-[#F7F7F2] min-h-screen flex items-center justify-center p-4 -mt-80">
+        <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="bg-[#F7F7F2] min-h-screen flex items-center justify-center p-4 -mt-80"
+        >
 
             <div className="w-full max-w-[900px] h-[220px] sm:h-[320px] lg:h-[450px] bg-black rounded-[30px] sm:rounded-[40px] relative overflow-hidden text-white shadow-2xl">
 
@@ -15,11 +20,11 @@ export default function VideoSyncInWebinars() {
 
                 <div className="absolute top-3 sm:top-6 left-3 sm:left-6 bg-zinc-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full flex items-center gap-2 sm:gap-3">
 
-                    <div className="w-7 h-7 sm:w-10 sm:h-10 bg-blue-400 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm">
-                        AM
+                    <div className="w-7 h-7 sm:w-10 sm:h-10 bg-amber-400 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm">
+                        TP
                     </div>
 
-                    <p className="text-xs sm:text-base">Ananya is Live</p>
+                    <p className="text-xs sm:text-base">Tanush is Live</p>
 
                 </div>
 
@@ -116,7 +121,7 @@ export default function VideoSyncInWebinars() {
 
             </div>
 
-        </div>
+        </motion.div>
 
     )
 

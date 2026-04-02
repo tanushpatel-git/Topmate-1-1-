@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "../components/commonCompo/Navbar";
-import TopOfWebinars from "../components/commonCompo/TopOfProductFeatures";
+import TopOfWebinars from "../components/ui/TopOfProductFeatures";
 import VideoSyncInWebinars from "../components/webinarPageComponent/VideoSyncInWebinars";
 import ZoomRecordingBuilt from "../components/webinarPageComponent/ZoomRecordingBuilt";
 import MakingMoneyFormWebinars from "../components/webinarPageComponent/MakingMoneyFormWebinars";

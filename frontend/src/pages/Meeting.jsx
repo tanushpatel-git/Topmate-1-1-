@@ -1,5 +1,5 @@
 import Calendar from "../components/meetingPageComponent/Calender.jsx"
-import TopOfMeeting from "../components/commonCompo/TopOfProductFeatures.jsx"
+import TopOfMeeting from "../components/ui/TopOfProductFeatures.jsx"
 import FeaturesGrid from "../components/meetingPageComponent/FeatureOfGrid.jsx"
 import WorkGrid from "../components/meetingPageComponent/WorkGrid.jsx"
 import SpecificExpertise from "../components/meetingPageComponent/SpecificExpertise.jsx"
