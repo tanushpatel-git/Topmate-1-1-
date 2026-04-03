@@ -1,4 +1,4 @@
-
+import React from "react";
 
 export default function CohortLearningDesc() {
     return (
@@ -21,9 +21,11 @@ export default function CohortLearningDesc() {
                         <h1 className="text-xl font-bold text-white">Completion</h1>
                     </div>
                     <div>
+                        {/* Code pending... */}
                         <div className="relative">
-                            
+
                         </div>
+                        {/* Code pending... */}
                         <div></div>
                     </div>
                 </div>
