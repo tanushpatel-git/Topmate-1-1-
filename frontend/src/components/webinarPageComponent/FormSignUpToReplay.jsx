@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar, Bell, PlayCircle } from "lucide-react";
+import { Calendar, PlayCircle } from "lucide-react";
 
 export default function FormSignUpToReplay() {
   const cardVariants = {
@@ -33,11 +33,24 @@ export default function FormSignUpToReplay() {
             animate="visible"
             variants={cardVariants}
             whileHover={{ y: -8 }}
-            className="bg-white rounded-3xl shadow-sm p-10 text-center"
+            className="bg-white rounded-3xl shadow-sm p-10 text-center flex flex-col justify-center items-center"
           >
-            <div className="flex justify-center mb-8">
-              <div className="bg-gray-100 p-5 rounded-xl">
-                <Calendar className="w-7 h-7 text-gray-700" />
+            <div className="flex h-50 justify-center items-center w-full mb-8 border-b border-gray-400">
+              <div className="w-50 h-30 shadow-xl rounded-3xl flex flex-col gap-2 items-center justify-center">
+                <div className="flex justify-start pl-8 gap-1 w-full">
+                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                  <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                </div>
+                <div className="flex justify-center items-center gap-2">
+                  <Calendar className="w-7 h-7 text-blue-500" />
+                  <div className="flex flex-col justify-center items-center">
+                    <h1 className="text-black text-sm">Workshop Invite</h1>
+                    <p className="text-gray-500 text-sm">zoom.us/j/123...</p>
+                  </div>
+                </div>
+                <div className="w-40 h-7 bg-green-100 rounded-lg text-green-500 flex justify-center items-center">
+                  <h1 className="font-bold">Add to Calendar</h1>
+                </div>
               </div>
             </div>
 
@@ -57,11 +70,22 @@ export default function FormSignUpToReplay() {
             animate="visible"
             variants={cardVariants}
             whileHover={{ y: -8 }}
-            className="bg-white rounded-3xl shadow-sm p-10 text-center"
+            className="bg-white rounded-3xl shadow-sm p-10 text-center flex flex-col justify-center items-center"
           >
-            <div className="flex justify-center mb-8">
-              <div className="bg-gray-100 p-5 rounded-xl">
-                <Bell className="w-7 h-7 text-gray-700" />
+            <div className="flex h-50 flex-col justify-evenly items-center w-full mb-8 border-b border-gray-400">
+              <div className="w-50 h-15 flex justify-center items-center gap-2 shadow-xl rounded-2xl">
+                <div className="h-7 w-7 rounded-sm bg-green-300"></div>
+                <div className="flex flex-col justify-center items-start">
+                  <h1 className="text-black text-sm font-bold">Workshop in 1 hour</h1>
+                  <p className="text-gray-500 text-sm">Don't forget to join live</p>
+                </div>
+              </div>
+              <div className="w-50 h-15 flex justify-center items-center gap-2 shadow-xl rounded-2xl opacity-55">
+                <div className="h-5 w-5 rounded-sm bg-blue-400"></div>
+                <div className="flex flex-col justify-center items-start">
+                  <h1 className="text-black text-[15px] font-bold">Workshop in 24 hour</h1>
+                  <p className="text-gray-500 text-[13px]">See you tomorrow!</p>
+                </div>
               </div>
             </div>
 
@@ -81,11 +105,20 @@ export default function FormSignUpToReplay() {
             animate="visible"
             variants={cardVariants}
             whileHover={{ y: -8 }}
-            className="bg-white rounded-3xl shadow-sm p-10 text-center"
+            className="bg-white rounded-3xl shadow-sm p-10 text-center flex flex-col justify-center items-center"
           >
-            <div className="flex justify-center mb-8">
-              <div className="bg-gray-100 p-5 rounded-xl">
-                <PlayCircle className="w-7 h-7 text-gray-700" />
+            <div className="flex h-50 flex-col relative justify-between items-center w-full mb-8 border-b border-gray-400">
+              <div className="h-40 relative w-60 bg-black/90 rounded-2xl flex flex-col justify-around items-center">
+                <PlayCircle size={40} className="text-white absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                <div className="flex w-full justify-center items-center gap-1 absolute bottom-5">
+                  <div className="h-1 w-[70%] relative bg-gray-400 rounded-full">
+                    <div className="h-1 w-[70%] absolute top-0 left-0 bg-white rounded-full"></div>
+                  </div>
+                  <p className="text-white text-sm font-sans font-light">1:24:05</p>
+                </div>
+              </div>
+              <div className="h-7 w-30 absolute -right-5 bottom-2 bg-black text-white rounded-lg flex justify-center items-center">
+                <h1 className="text-xs font-bold">LIFETIME ACCESS</h1>
               </div>
             </div>
 
