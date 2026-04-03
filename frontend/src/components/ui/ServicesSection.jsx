@@ -1,26 +1,10 @@
 import { motion } from "framer-motion";
-import { Target, Activity, Star, Zap } from "lucide-react";
+import { MoveUpRight } from "lucide-react";
 
-const items = [
-  {
-    title: "Packages",
-    icon: Target,
-  },
-  {
-    title: "Courses",
-    icon: Activity,
-  },
-  {
-    title: "Webinars",
-    icon: Star,
-  },
-  {
-    title: "Priority DM",
-    icon: Zap,
-  },
-];
 
-export default function ServicesSection() {
+
+
+export default function ServicesSection({items=[]}) {
   return (
     <section className="bg-black text-white py-20 px-6">
       {/* Heading */}
@@ -45,12 +29,13 @@ export default function ServicesSection() {
               className="group rounded-2xl border border-gray-800 bg-[#0a0a0a] p-10 h-40 flex flex-col justify-center items-start hover:border-gray-600 transition"
             >
               {/* Icon */}
-              <div className="mb-6 text-gray-500 group-hover:text-white transition">
+              <div className="mb-6 text-gray-500 group-hover:text-white transition flex w-full justify-between items-center">
                 <Icon size={28} strokeWidth={1.5} />
+                <MoveUpRight  size={28}  strokeWidth={1.5} className="group-hover:translate-x-2 text-blue-400 transition opacity-0 group-hover:opacity-100" />
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-medium text-gray-300 group-hover:text-white transition">
+              <h3 className="text-lg font-medium text-gray-400 group-hover:text-white transition">
                 {item.title}
               </h3>
             </motion.div>

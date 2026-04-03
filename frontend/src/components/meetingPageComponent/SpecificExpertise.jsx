@@ -103,7 +103,7 @@ export default function SpecificExpertise() {
             Code reviews, architecture help, mock interviews — technical growth with accountability.
           </p>
 
-          <div className="absolute bottom-20 left-80 w-44 h-28 rounded-2xl bg-gray-800 shadow-lg p-4">
+          <div className="absolute bottom-45 left-80 w-44 h-28 rounded-2xl bg-gray-800 shadow-lg p-4">
             <div className="flex gap-2 mb-3">
               <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
               <div className="w-3 h-3 bg-gray-600 rounded-full"></div>
@@ -128,7 +128,7 @@ export default function SpecificExpertise() {
             Short, high-value slots — clients book when they need your expertise most.
           </p>
 
-          <div className="absolute right-10 bottom-20">
+          <div className="absolute right-10 bottom-10">
             <div className="w-28 h-28 bg-white text-black rounded-full flex items-center justify-center text-3xl font-bold shadow-xl">
               ?
             </div>
