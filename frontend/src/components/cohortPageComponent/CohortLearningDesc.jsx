@@ -1,9 +1,10 @@
 import React from "react";
+import { Play, Users, MessageSquare, Trophy } from "lucide-react";
 
 export default function CohortLearningDesc() {
     return (
         <div className="min-h-screen flex items-center justify-center -mt-20 bg-[#f5f5f5]">
-            <div className="h-100 w-[90%] flex justify-around items-center">
+            <div className="h-100 w-[85%] flex justify-around items-center">
                 <div className="h-full w-[45%] flex flex-col gap-10 items-start">
                     <div className="h-10 w-45 rounded-full bg-gray-200 border border-gray-300 text-gray-700 flex justify-center items-center">
                         <p className="font-bold uppercase font-sans">Cohort Learning</p>
@@ -21,12 +22,33 @@ export default function CohortLearningDesc() {
                         <h1 className="text-xl font-bold text-white">Completion</h1>
                     </div>
                     <div>
-                        {/* Code pending... */}
                         <div className="relative">
-
+                            <div className="w-1 h-70 bg-gray-100 absolute rounded-full top-10 left-10"></div>
+                            <div className="absolute top-10 left-3 flex justify-between w-45 items-center">
+                                <div className="w-15 h-15 rounded-full bg-gray-200 flex justify-center items-center">
+                                    <Users />
+                                </div>
+                                <h1 className="font-medium text-lg">Onboarding</h1>
+                            </div>
+                            <div className="absolute top-30 left-3 flex justify-between w-45 items-center">
+                                <div className="w-15 h-15 rounded-full bg-gray-200 flex justify-center items-center">
+                                    <Play />
+                                </div>
+                                <h1 className="font-medium text-lg">Live Sessions</h1>
+                            </div>
+                            <div className="absolute top-50 left-3 flex justify-between w-45 items-center">
+                                <div className="w-15 h-15 rounded-full bg-gray-200 flex justify-center items-center">
+                                    <MessageSquare />
+                                </div>
+                                <h1 className="font-medium text-lg">Community</h1>
+                            </div>
+                            <div className="absolute top-70 left-3 flex justify-between w-45 items-center">
+                                <div className="w-15 h-15 rounded-full bg-gray-200 flex justify-center items-center">
+                                    <Trophy />
+                                </div>
+                                <h1 className="font-medium text-lg">Graduation</h1>
+                            </div>
                         </div>
-                        {/* Code pending... */}
-                        <div></div>
                     </div>
                 </div>
             </div>
