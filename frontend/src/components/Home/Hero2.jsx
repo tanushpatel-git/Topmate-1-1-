@@ -22,18 +22,18 @@ const Hero2 = () => {
         <div className="relative w-full  mb-20 overflow-hidden mt-6 sm:mt-10">
 
           {/* DESKTOP IMAGE (sm and above same UI) */}
-<img 
-  src={heroImg} 
-  alt="Hero Section" 
-  className="hidden xl:block w-full h-auto object-cover rounded-xl"
-/>
+          <img
+            src={heroImg}
+            alt="Hero Section"
+            className="hidden xl:block w-full h-auto object-cover rounded-xl"
+          />
 
           {/* MOBILE IMAGE */}
-<img 
-  src={heroMobile} 
-  alt="Hero Mobile" 
-  className="block xl:hidden w-full h-auto object-cover rounded-xl"
-/>
+          <img
+            src={heroMobile}
+            alt="Hero Mobile"
+            className="block xl:hidden w-full h-auto object-cover rounded-xl"
+          />
 
           {/* BUTTONS */}
           <div className="

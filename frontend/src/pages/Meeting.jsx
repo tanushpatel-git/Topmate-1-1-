@@ -117,7 +117,7 @@ const Meeting = () => {
             <SpecificExpertise />
             <WordClassExperience />
             <CreatorPaidSessionsMeeting />
-            <CommonQnAMeeting faqs={faqs} />
+            <CommonQnAMeeting faqs={faqs} title="Common questions </br> about Meetings" />
             <SubcriptionRecommed />
             <ServicesSection items={items} />
         </>
