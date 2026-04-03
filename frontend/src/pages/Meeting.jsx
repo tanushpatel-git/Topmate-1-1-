@@ -101,7 +101,7 @@ const Meeting = () => {
         window.document.title = "1:1 Meeting Platform for Experts,Coaches & Consultants | Topmate"
     }, [])
     return (
-        <div>
+        <>
             <Navbar theam="black" />
             <TopOfMeeting
                 theam="dark"
@@ -120,7 +120,7 @@ const Meeting = () => {
             <CommonQnAMeeting faqs={faqs} />
             <SubcriptionRecommed />
             <ServicesSection items={items} />
-        </div>
+        </>
     )
 }
 
