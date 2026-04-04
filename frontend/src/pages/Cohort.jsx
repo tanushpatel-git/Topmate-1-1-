@@ -3,6 +3,7 @@ import Navbar from "../components/commonCompo/Navbar";
 import TopOfCohortFeatures from "../components/ui/TopOfProductFeatures";
 import ProductManagementCard from "../components/cohortPageComponent/ProductManagementCard";
 import CohortLearningDesc from "../components/cohortPageComponent/CohortLearningDesc";
+import UltimateRevenueDriver from "../components/cohortPageComponent/UltimateRevenueDriver";
 
 const Cohort = () => {
     return (
@@ -17,6 +18,7 @@ const Cohort = () => {
             />
             <ProductManagementCard />
             <CohortLearningDesc />
+            <UltimateRevenueDriver />
         </>
     );
 };
