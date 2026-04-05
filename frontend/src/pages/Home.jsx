@@ -1,23 +1,24 @@
 import Navbar from "../components/commonCompo/Navbar"
-import Card from "../components/HomePageComponet/Card"
 import Hero from "../components/HomePageComponet/Hero"
-import HomeNewPage from "../components/HomePageComponet/HomeNewPage"
-import HomeCreatePage from "../components/HomePageComponet/HomeCreatePage"
-import HomeFeedbackpage from "../components/HomePageComponet/HomeFeedbackpage"
-import HomeFAQ from "../components/HomePageComponet/HomeFAQ"
+import Hero2 from "../components/HomePageComponet/Hero2"
+import Hero3 from "../components/HomePageComponet/Hero3"
+import Hero4 from "../components/HomePageComponet/Hero4"
+import Hero5 from "../components/HomePageComponet/Hero5"
 import Footer from "../components/commonCompo/Footer"
 
 const Home = () => {
- 
+
     return (
         <div>
-        <Navbar/>
-        <Hero/>
-        <HomeNewPage/>
-        <HomeCreatePage/>
-        <HomeFeedbackpage/>
-        <HomeFAQ/>
-        <Footer/>
+
+            <Navbar />
+            <Hero />
+            <Hero2 />
+            <Hero3 />
+            <Hero4 />
+            <Hero5 />
+            <Footer />
+
         </div>
     )
 }

@@ -106,7 +106,7 @@ const Webniars = () => {
             <GetStartWithFiveStep />
             <FormSignUpToReplay />
             <CreatorsFillingRoom />
-            <CommonQnAMeeting faqs={faqs} theme="light" />
+            <CommonQnAMeeting faqs={faqs} title="Common questions about Webinars" theme="light" />
             <HostYourFirstWebinars />
             <ServicesSection items={items} />
         </>

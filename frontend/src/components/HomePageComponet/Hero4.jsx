@@ -1,4 +1,4 @@
-import React, { useRef, useState , useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -38,11 +38,11 @@ const testimonials = [
     img: "https://randomuser.me/api/portraits/women/65.jpg",
   },
   {
-      text: "I love Topmate! It has made it seamless to schedule mentoring sessions!",
-      name: "Jessica",
+    text: "I love Topmate! It has made it seamless to schedule mentoring sessions!",
+    name: "Jessica",
     role: "Global Data Lead",
     img: "https://randomuser.me/api/portraits/women/50.jpg",
-},
+  },
 ];
 
 const Hero4 = () => {
@@ -58,34 +58,34 @@ const Hero4 = () => {
   };
 
   const groupedTestimonials = [];
-for (let i = 0; i < testimonials.length; i += 2) {
-  groupedTestimonials.push(testimonials.slice(i, i + 2));
-}
+  for (let i = 0; i < testimonials.length; i += 2) {
+    groupedTestimonials.push(testimonials.slice(i, i + 2));
+  }
 
 
-const topRef = useRef(null);
+  const topRef = useRef(null);
 
-useEffect(() => {
-  const ctx = gsap.context(() => {
+  useEffect(() => {
+    const ctx = gsap.context(() => {
 
-    gsap.from(".testimonial-card", {
-      y: 80,
-      opacity: 0,
-      scale: 0.95,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".testimonial-card",
-        start: "top 85%",
-        toggleActions: "play none none none",
-      },
+      gsap.from(".testimonial-card", {
+        y: 80,
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".testimonial-card",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+
     });
 
-  });
-
-  return () => ctx.revert();
-}, []);
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div className="bg-[#123c3c] py-16 px-4 " >
@@ -111,6 +111,7 @@ useEffect(() => {
       className="testimonial-card relative bg-gray-200 rounded-[30px] p-6 min-h-[220px] flex flex-col justify-between"
     >
       
+      {/* 🔥 SVG Quote Icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="absolute top-5 left-5 w-8 h-8 text-gray-300"
@@ -120,51 +121,50 @@ useEffect(() => {
         <path d="M7.17 6A5.001 5.001 0 0 0 2 11v5a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H6.09A3.001 3.001 0 0 1 9 6h-1.83zm10 0A5.001 5.001 0 0 0 12 11v5a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-1.91A3.001 3.001 0 0 1 19 6h-1.83z"/>
       </svg>
 
-      {/* 🔹 Text (add padding-top so it doesn't overlap SVG) */}
-      <p className="text-gray-700 mb-6 text-base leading-relaxed pt-6">
-        “{item.text}”
-      </p>
+                  {/* 🔹 Text (add padding-top so it doesn't overlap SVG) */}
+                  <p className="text-gray-700 mb-6 text-base leading-relaxed pt-6">
+                    “{item.text}”
+                  </p>
 
-      {/* 🔹 Profile */}
-      <div className="flex items-center gap-4">
-        <img
-          src={item.img}
-          className="w-12 h-12 rounded-full"
-        />
-        <div>
-          <h4 className="text-base font-semibold">
-            {item.name}
-          </h4>
-          <p className="text-sm text-gray-500">
-            {item.role}
-          </p>
+                  {/* 🔹 Profile */}
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={item.img}
+                      className="w-12 h-12 rounded-full"
+                    />
+                    <div>
+                      <h4 className="text-base font-semibold">
+                        {item.name}
+                      </h4>
+                      <p className="text-sm text-gray-500">
+                        {item.role}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* 🔹 Dots = number of groups */}
+        <div className="flex justify-center mt-4 gap-2">
+          {groupedTestimonials.map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full ${active === index ? "bg-black" : "bg-gray-400"
+                }`}
+            />
+          ))}
         </div>
       </div>
-    </div>
-  ))}
-</div>
-    ))}
-  </div>
-
-  {/* 🔹 Dots = number of groups */}
-  <div className="flex justify-center mt-4 gap-2">
-    {groupedTestimonials.map((_, index) => (
-      <div
-        key={index}
-        className={`w-2 h-2 rounded-full ${
-          active === index ? "bg-black" : "bg-gray-400"
-        }`}
-      />
-    ))}
-  </div>
-</div>
 
 
       {/* 🔹 Desktop Grid */}
       <div className="hidden md:grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto" >
 
         {testimonials.map((item, index) => (
-          <div key={index} className=" testimonial-card  bg-gray-200 rounded-[30px] p-6 min-h-[220px] flex flex-col justify-between"  >
+          <div className=" testimonial-card  bg-gray-200 rounded-[30px] p-6 min-h-[220px] flex flex-col justify-between"  >
   
   {/* SVG Quote */}
   <svg
@@ -176,12 +176,12 @@ useEffect(() => {
     <path d="M7.17 6A5.001 5.001 0 0 0 2 11v5a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H6.09A3.001 3.001 0 0 1 9 6h-1.83zm10 0A5.001 5.001 0 0 0 12 11v5a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-1.91A3.001 3.001 0 0 1 19 6h-1.83z"/>
   </svg>
 
-  <p className="text-gray-700 mb-6 text-base leading-relaxed">
-    “{item.text}”
-  </p>
+            <p className="text-gray-700 mb-6 text-base leading-relaxed">
+              “{item.text}”
+            </p>
 
   <div className="flex items-center gap-4">
-    <img src={item.img} alt={item.name} className="w-12 h-12 rounded-full" />
+    <img src={item.img} className="w-12 h-12 rounded-full" />
     <div>
       <h4 className="text-base font-semibold">{item.name}</h4>
       <p className="text-sm text-gray-500">{item.role}</p>

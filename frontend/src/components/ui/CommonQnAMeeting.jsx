@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function FAQ({ faqs = [], theme = "dark" }) {
+export default function CommonQnAMeeting({ faqs = [], title = "Common questions", theme = "dark" }) {
   const [openId, setOpenId] = useState(null);
 
   const toggle = (id) => {
@@ -30,7 +30,7 @@ export default function FAQ({ faqs = [], theme = "dark" }) {
           </p>
 
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            Common questions <br /> about Meetings
+            {title}
           </h1>
 
           <p
