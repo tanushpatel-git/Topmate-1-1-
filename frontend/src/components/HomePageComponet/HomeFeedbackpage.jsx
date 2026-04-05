@@ -2,6 +2,7 @@ import React, { useRef, useState , useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -44,7 +45,7 @@ const testimonials = [
 },
 ];
 
-const Hero4= () => {
+const HomeFeedbackpage= () => {
   const scrollRef = useRef();
   const [active, setActive] = useState(0);
 
@@ -195,4 +196,4 @@ useEffect(() => {
   );
 };
 
-export default Hero4;
+export default HomeFeedbackpage;

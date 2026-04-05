@@ -3,7 +3,7 @@ import heroImg from '../../assets/hero2.png'
 import heroMobile from '../../assets/hero2_img.jpg'
 
 
-const Hero2 = () => {
+const HomeNewPage = () => {
 
 
 
@@ -62,14 +62,11 @@ const Hero2 = () => {
             ">
               Find your niche
             </button>
-
           </div>
-
         </div>
-
       </div>
     </div>
   )
 }
 
-export default Hero2      
+export default HomeNewPage     

@@ -32,14 +32,14 @@ const faqs = [
   },
 ];
 
-const Hero5 = () => {
+const HomeFAQ = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const toggle = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
-  return (
+return (
  <div
   className="w-full  bg-gray-100 
   flex flex-col lg:flex-row 
@@ -117,4 +117,4 @@ const Hero5 = () => {
   );
 };
 
-export default Hero5;
+export default HomeFAQ;

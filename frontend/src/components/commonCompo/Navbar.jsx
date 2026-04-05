@@ -65,9 +65,11 @@ const Navbar = ({ theam = "white" }) => {
 
               {/* PRODUCTS */}
               <div
-                onMouseEnter={() => {
+                onMouseEnter={() =>{
+
                   setHoverItem("products");
                   openMenu("features");
+
                 }}
                 onMouseLeave={closeMenu}
               >
@@ -233,3 +235,4 @@ const Navbar = ({ theam = "white" }) => {
 };
 
 export default Navbar;
+
