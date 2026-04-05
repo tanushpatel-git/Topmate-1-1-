@@ -32,7 +32,7 @@ const faqs = [
   },
 ];
 
-const HomeFAQ = () => {
+const Hero5 = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const toggle = (index) => {
@@ -117,4 +117,4 @@ return (
   );
 };
 
-export default HomeFAQ;
+export default Hero5;

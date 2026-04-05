@@ -39,7 +39,7 @@ const data = [
   },
 ];
 
-const HomeCreatePage = () => {
+const Hero3 = () => {
 
 
 
@@ -199,5 +199,4 @@ useEffect(() => {
   );
 };
 
-export default HomeCreatePage;
-      // current code is good do not change help build this page responsive for all screen sizes   main div child1 is currently is flex-col  it can we change lessthan 1400 px row 
+export default Hero3;

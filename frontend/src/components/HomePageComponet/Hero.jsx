@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import Card from "./Card";
 
 
 import p1 from '../../assets/person1.jpg'
@@ -13,7 +14,6 @@ import p7 from '../../assets/person7.jpg'
 import p8 from '../../assets/person8.jpg'
 import p9 from '../../assets/person9.jpg'
 import p10 from '../../assets/person10.jpg'
-import Card from "./Card";
 
 const cards = [
   { img: p1, name: "Rahul Sharma", role: "Designer", desc: "Creative designer. Loves clean UI.", color: "bg-orange-400/40" },
