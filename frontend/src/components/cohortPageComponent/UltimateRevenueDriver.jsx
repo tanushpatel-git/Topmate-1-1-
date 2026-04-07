@@ -1,5 +1,5 @@
 import React from "react";
-import { DollarSign } from "lucide-react";
+import { DollarSign, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 
 const UltimateRevenueDriver = () => {
@@ -107,6 +107,79 @@ const UltimateRevenueDriver = () => {
                             </motion.div>
 
                         </div>
+                    </div>
+                </div>
+
+                <div className="h-screen w-full bg-black -mt-20">
+                    <div className="min-h-full w-full flex ml-58 items-start">
+
+                        <motion.div
+                            initial={{ y: 100, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.7, delay: 0.2 }}
+                            viewport={{ once: false }}
+                            className="h-90 w-[23%] border bg-[#141414] border-gray-700/50 rounded-3xl"
+                        >
+                            <div className="m-7 flex flex-col gap-5">
+                                <div>
+                                    <p className="text-gray-400 text-md font-light">Completion Rate</p>
+                                    <h1 className="text-white text-6xl font-bold">88.4%</h1>
+                                </div>
+
+                                <div className="flex gap-5 h-40 items-end">
+                                    <div className="w-14 h-10 bg-[#202020] rounded-lg"></div>
+                                    <div className="w-14 h-25 bg-[#202020] rounded-lg"></div>
+                                    <div className="w-14 h-15 bg-[#202020] rounded-lg"></div>
+                                    <div className="w-14 h-35 bg-[#202020] rounded-lg"></div>
+                                    <div className="w-14 h-32 bg-[#202020] rounded-lg"></div>
+
+                                    <div className="w-14 h-40 bg-[#61A5FA] rounded-lg relative">
+                                        <motion.div
+                                            initial={{ scale: 0, opacity: 0 }}
+                                            whileInView={{ scale: 1, opacity: 1 }}
+                                            transition={{ duration: 0.5, ease: "easeOut", repeat: Infinity }}
+                                            viewport={{ once: false }}
+                                            className="absolute -top-1.5 left-2.5 h-3 w-3 rounded-full bg-white"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <p className="text-gray-400 text-md font-light">
+                                        vs 24% (Self-paced)
+                                    </p>
+                                    <TrendingUp size={20} className="text-green-500" />
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ y: 100, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8, delay: 0.4 }}
+                            viewport={{ once: false }}
+                            className="w-[70%] h-100 flex ml-30"
+                        >
+                            <div className="w-[50%] h-100 flex gap-30 justify-center">
+                                <div className="p-5 h-full w-full flex flex-col gap-5">
+
+                                    <div className="h-15 w-15 rounded-xl border border-gray-500 flex justify-center items-center">
+                                        <TrendingUp size={40} className="text-blue-300" />
+                                    </div>
+
+                                    <h1 className="text-4xl font-bold text-white">
+                                        Higher Completion Rates
+                                    </h1>
+
+                                    <p className="text-xl font-light text-gray-300">
+                                        The shared start date and peer group create accountability.
+                                        Cohort completion rates are 3× higher than self-paced formats.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </motion.div>
+
                     </div>
                 </div>
             </section>
