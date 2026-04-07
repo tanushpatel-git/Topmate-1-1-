@@ -11,6 +11,7 @@ import ServicesSection from "../components/ui/ServicesSection.jsx"
 import Navbar from "../components/commonCompo/Navbar.jsx"
 import { Target, Activity, Star, Zap } from "lucide-react";
 import { useEffect } from "react"
+import Footer from "../components/commonCompo/Footer.jsx"
 
 const Meeting = () => {
 
@@ -120,7 +121,8 @@ const Meeting = () => {
             <CommonQnAMeeting faqs={faqs} title="Common questions </br> about Meetings" />
             <SubcriptionRecommed />
             <ServicesSection items={items} />
-        </>
+            <Footer />
+        </> 
     )
 }
 

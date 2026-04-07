@@ -17,7 +17,6 @@ export default function About() {
       <AboutBrands />
       <ContactSection />            
       <Footer />
-      
     </div>
   );
 }

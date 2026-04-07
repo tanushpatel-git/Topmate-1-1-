@@ -11,6 +11,7 @@ import CommonQnAMeeting from "../components/ui/CommonQnAMeeting";
 import HostYourFirstWebinars from "../components/webinarPageComponent/HostYourFirstWebinars";
 import ServicesSection from "../components/ui/ServicesSection";
 import { Activity, CirclePlay, Circle , DollarSign} from "lucide-react";
+import Footer from "../components/commonCompo/Footer.jsx"
 
 const Webniars = () => {
 
@@ -109,6 +110,7 @@ const Webniars = () => {
             <CommonQnAMeeting faqs={faqs} title="Common questions about Webinars" theme="light" />
             <HostYourFirstWebinars />
             <ServicesSection items={items} />
+            <Footer />
         </>
     )
 }
