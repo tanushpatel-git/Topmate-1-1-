@@ -4,6 +4,7 @@ import TopOfCohortFeatures from "../components/ui/TopOfProductFeatures";
 import ProductManagementCard from "../components/cohortPageComponent/ProductManagementCard";
 import CohortLearningDesc from "../components/cohortPageComponent/CohortLearningDesc";
 import UltimateRevenueDriver from "../components/cohortPageComponent/UltimateRevenueDriver";
+import CommunityAccess from "../components/cohortPageComponent/CommunityAccess";
 import Footer from "../components/commonCompo/Footer.jsx"
 
 const Cohort = () => {
@@ -20,6 +21,7 @@ const Cohort = () => {
             <ProductManagementCard />
             <CohortLearningDesc />
             <UltimateRevenueDriver />
+            <CommunityAccess />
             <Footer />
         </>
     );

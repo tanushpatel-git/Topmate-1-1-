@@ -1,8 +1,14 @@
 import React from "react";
-import { DollarSign, TrendingUp } from "lucide-react";
+import { DollarSign, TrendingUp, Users, RefreshCcw } from "lucide-react";
 import { motion } from "framer-motion";
 
 const UltimateRevenueDriver = () => {
+
+    const curriculum = [
+        { title: "Session 01: Intro", status: "Uploaded" },
+        { title: "Session 02: Strategy", status: "Syncing..." },
+        { title: "Session 03: Pending", status: "Pending" },
+    ];
 
     const totalRevenueDetails = [
         {
@@ -182,6 +188,141 @@ const UltimateRevenueDriver = () => {
 
                     </div>
                 </div>
+                {/* code is pending from here. */}
+                <section className="w-full min-h-screen bg-black text-white flex flex-col items-center -mt-100">
+
+                    {/* MAIN CONTAINER */}
+                    <div className="w-[75%] ml-20 grid grid-cols-2 gap-30">
+
+                        {/* LEFT TEXT SECTION */}
+                        <motion.div
+                            initial={{ x: -120, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="flex flex-col gap-6"
+                        >
+                            <div className="h-14 w-14 border border-gray-700 rounded-xl flex items-center justify-center">
+                                <Users size={28} className="text-blue-400" />
+                            </div>
+
+                            <h1 className="text-5xl font-bold">
+                                Community & Peer Learning
+                            </h1>
+
+                            <p className="text-gray-400 text-lg max-w-xl">
+                                Students learn from each other as well as from you.
+                                Discussion and peer feedback deepen outcomes without
+                                extra prep on your side.
+                            </p>
+                        </motion.div>
+
+                        {/* CHAT UI CARD */}
+                        <motion.div
+                            initial={{ x: 120, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="flex justify-center"
+                        >
+                            <div className="w-80 h-96 bg-[#111] border border-gray-800 rounded-3xl p-5 relative">
+
+                                <div className="flex justify-between items-center mb-6">
+                                    <div className="flex gap-2">
+                                        <div className="h-3 w-3 bg-gray-600 rounded-full"></div>
+                                        <div className="h-3 w-3 bg-gray-600 rounded-full"></div>
+                                        <div className="h-3 w-3 bg-gray-600 rounded-full"></div>
+                                    </div>
+
+                                    <p className="text-green-400 text-sm">+37 online</p>
+                                </div>
+
+                                <div className="flex flex-col gap-4">
+
+                                    <div className="bg-[#1b1b1b] text-sm text-gray-300 p-3 rounded-xl w-60">
+                                        Just finished module 2! The strategy part was 🔥
+                                    </div>
+
+                                    <div className="bg-blue-500 text-sm text-white p-3 rounded-xl w-60 self-end">
+                                        Same! Rahul, did you check the worksheet?
+                                    </div>
+
+                                    <div className="bg-[#1b1b1b] text-sm text-gray-300 p-3 rounded-xl w-60">
+                                        The accountability here is next level.
+                                    </div>
+
+                                </div>
+
+                                <div className="absolute bottom-4 left-5 right-5">
+                                    <div className="bg-[#1b1b1b] h-10 rounded-xl flex items-center px-4 text-gray-500 text-sm">
+                                        Type a message...
+                                    </div>
+                                </div>
+
+                            </div>
+                        </motion.div>
+
+                    </div>
+
+                    {/* SECOND SECTION */}
+
+                    <div className="w-[75%] pt-40 grid grid-cols-2 gap-40 items-center -mt-20">
+
+                        {/* CURRICULUM CARD */}
+
+                        <motion.div
+                            initial={{ y: 120, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="flex justify-center"
+                        >
+                            <div className="w-96 h-72 bg-[#111] border border-gray-800 rounded-3xl p-6">
+
+                                <h2 className="text-lg text-gray-300 mb-6">Curriculum Builder</h2>
+
+                                <div className="flex flex-col gap-4">
+
+                                    {curriculum.map((item, i) => (
+                                        <div
+                                            key={i}
+                                            className="flex justify-between items-center bg-[#1b1b1b] px-4 py-3 rounded-xl"
+                                        >
+                                            <p className="text-sm text-gray-300">{item.title}</p>
+
+                                            <span className="text-xs text-blue-400">
+                                                {item.status}
+                                            </span>
+                                        </div>
+                                    ))}
+
+                                </div>
+
+                            </div>
+                        </motion.div>
+
+                        {/* RIGHT TEXT */}
+
+                        <motion.div
+                            initial={{ y: 120, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            className="flex flex-col gap-6"
+                        >
+                            <div className="h-14 w-14 border border-gray-700 rounded-xl flex items-center justify-center">
+                                <RefreshCcw size={28} className="text-blue-400" />
+                            </div>
+
+                            <h1 className="text-5xl font-bold">
+                                Auto-Course Creation
+                            </h1>
+
+                            <p className="text-gray-400 text-lg max-w-xl">
+                                Every cohort session is recorded and organized into a course
+                                automatically — zero extra effort.
+                            </p>
+
+                        </motion.div>
+
+                    </div>
+                </section>
             </section>
         </>
     )
