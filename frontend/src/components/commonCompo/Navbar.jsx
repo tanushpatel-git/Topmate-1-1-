@@ -20,7 +20,6 @@ const Navbar = ({ theam = "white" }) => {
     { name: "Meetings", linkPos: "/features/meeting" },
     { name: "Webinars", linkPos: "/features/webinar" },
     { name: "Cohorts", linkPos: "/features/cohort" },
-    { name: "Courses", linkPos: "/features/course" },
     { name: "Priority DM", linkPos: "/features/priority-dm" },
   ];
 
