@@ -9,6 +9,7 @@ import Contact from './pages/Contact'
 import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
 import Pricing from './pages/Pricing'
+import Course from './pages/Course'
 
 const App = () => {
   return (  
