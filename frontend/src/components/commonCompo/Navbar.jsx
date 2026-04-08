@@ -105,7 +105,7 @@ const Navbar = ({ theam = "white" }) => {
               </div>
 
               {/* SEARCH */}
-              <button
+              <Link to="/search"
                 onMouseEnter={() => setHoverItem("search")}
                 className={`${textMain} px-4 py-1 rounded-full text-sm transition ${hoverItem === "search"
                   ? isDark
@@ -115,10 +115,10 @@ const Navbar = ({ theam = "white" }) => {
                   }`}
               >
                 Search
-              </button>
+              </Link>
 
               {/* PRICING */}
-              <button
+              <Link to="/pricing"
                 onMouseEnter={() => setHoverItem("pricing")}
                 className={`${textMain} px-4 py-1 rounded-full text-sm transition ${hoverItem === "pricing"
                   ? isDark
@@ -128,7 +128,7 @@ const Navbar = ({ theam = "white" }) => {
                   }`}
               >
                 Pricing
-              </button>
+              </Link>
 
               {/* MEGA MENU */}
               <AnimatePresence>
