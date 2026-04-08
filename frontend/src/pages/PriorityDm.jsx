@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../components/commonCompo/Navbar";
 import Footer from "../components/commonCompo/Footer";
 
-const Course = () => {
+const PriorityDm = () => {
     return (
         <>
             <Navbar />
@@ -12,4 +12,4 @@ const Course = () => {
     );
 };
 
-export default Course;
+export default PriorityDm;
