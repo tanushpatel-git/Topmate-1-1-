@@ -5,6 +5,7 @@ import TopOccurSectionOfPriorityDm from "../components/PriorityDmComponent/TopOc
 import CreatorsChargeAdvice from "../components/PriorityDmComponent/CreatorsChargeAdvice";
 import PriorityDmWork from "../components/PriorityDmComponent/PriorityDmWork";
 import MovingPriorityDm from "../components/PriorityDmComponent/MovingPriorityDm";
+import MonthLookLike from "../components/PriorityDmComponent/MonthLookLike";
 
 const PriorityDm = () => {
     return (
@@ -14,6 +15,7 @@ const PriorityDm = () => {
             <CreatorsChargeAdvice />
             <PriorityDmWork />
             <MovingPriorityDm />
+            <MonthLookLike />
             <Footer />
         </>
     );
