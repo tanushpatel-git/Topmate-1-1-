@@ -8,6 +8,7 @@ import MovingPriorityDm from "../components/PriorityDmComponent/MovingPriorityDm
 import MonthLookLike from "../components/PriorityDmComponent/MonthLookLike";
 import ControlAccess from "../components/PriorityDmComponent/ControlAccess";
 import CommonQnAMeeting from "../components/ui/CommonQnAMeeting";
+import RevenueInPriorityDm from "../components/PriorityDmComponent/RevenueInPriorityDm";
 
 const PriorityDm = () => {
 
@@ -73,6 +74,7 @@ const PriorityDm = () => {
             <MonthLookLike />
             <ControlAccess />
             <CommonQnAMeeting faqs={faqs} title="Common questions about Priority DM" theme="dark" />
+            <RevenueInPriorityDm />
             <Footer />
         </>
     );
