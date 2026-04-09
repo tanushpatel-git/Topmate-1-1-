@@ -13,25 +13,25 @@ import PriorityDm from './pages/PriorityDm'
 import ScrollToTop from './services/ScrollOnTop'
 
 const App = () => {
-  return (  
+  return (
     <>
-      
-      <ScrollToTop />
-    <Routes>
-      
-      <Route path="/" element={<Home />} />
-      <Route path="/features/meeting" element={<Meeting/>} />
-      <Route path='/features/webinar' element={<Webniars/>} />
-      <Route path='/features/cohort' element={<Cohort/>} />
-      <Route path='/about' element={<About/>} />
-      <Route path='/contact' element={<Contact />} />
-      <Route path='/terms' element={<Terms />} />
-      <Route path='/privacy' element={<Privacy/>} />
-      <Route path='/pricing' element={<Pricing/>} />
-      <Route path='/features/priority-dm' element={<PriorityDm/>} />
 
-    </Routes>
-    
+      <ScrollToTop />
+      <Routes>
+
+        <Route path="/" element={<Home />} />
+        <Route path="/features/meeting" element={<Meeting />} />
+        <Route path='/features/webinar' element={<Webniars />} />
+        <Route path='/features/cohort' element={<Cohort />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/terms' element={<Terms />} />
+        <Route path='/privacy' element={<Privacy />} />
+        <Route path='/pricing' element={<Pricing />} />
+        <Route path='/features/priority-dm' element={<PriorityDm />} />
+
+      </Routes>
+
     </>
   )
 }
