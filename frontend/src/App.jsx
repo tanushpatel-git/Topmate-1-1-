@@ -10,11 +10,13 @@ import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
 import Pricing from './pages/Pricing'
 import PriorityDm from './pages/PriorityDm'
+import ScrollToTop from './services/ScrollOnTop'
 
 const App = () => {
   return (  
     <>
       
+      <ScrollToTop />
     <Routes>
       
       <Route path="/" element={<Home />} />
