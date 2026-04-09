@@ -11,6 +11,7 @@ import Privacy from './pages/Privacy'
 import Pricing from './pages/Pricing'
 import PriorityDm from './pages/PriorityDm'
 import ScrollToTop from './services/ScrollOnTop'
+import ProductManagement from './pages/ProductManagement'
 
 const App = () => {
   return (
@@ -18,7 +19,6 @@ const App = () => {
 
       <ScrollToTop />
       <Routes>
-
         <Route path="/" element={<Home />} />
         <Route path="/features/meeting" element={<Meeting />} />
         <Route path='/features/webinar' element={<Webniars />} />
@@ -29,7 +29,7 @@ const App = () => {
         <Route path='/privacy' element={<Privacy />} />
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/features/priority-dm' element={<PriorityDm />} />
-
+        <Route path='/use-cases/product-management' element={<ProductManagement />} />
       </Routes>
 
     </>

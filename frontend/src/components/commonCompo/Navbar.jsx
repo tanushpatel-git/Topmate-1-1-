@@ -6,7 +6,34 @@ const Navbar = ({ theam = "white" }) => {
 
   const [activeMenu, setActiveMenu] = useState(null);
   const closeTimer = useRef(null);
-  const [hoverItem, setHoverItem] = useState("products");
+
+  // ✅ ACTIVE STATES
+  const [activeSection, setActiveSection] = useState("products");
+  const [hoverItem, setHoverItem] = useState(null);
+  const [activeChild, setActiveChild] = useState("");
+
+  const displayItem = hoverItem || activeSection;
+
+  const handleMouseEnter = (item, menu) => {
+    clearTimeout(closeTimer.current);
+    setHoverItem(item);
+    if (menu) {
+      setActiveMenu(menu);
+    } else {
+      setActiveMenu(null);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    closeTimer.current = setTimeout(() => {
+      setActiveMenu(null);
+      setHoverItem(null);
+    }, 300);
+  };
+
+  const keepMenuOpen = () => {
+    clearTimeout(closeTimer.current);
+  };
 
   const isDark = theam === "black";
 
@@ -33,16 +60,7 @@ const Navbar = ({ theam = "white" }) => {
 
   const menuData = activeMenu === "features" ? features : useCases;
 
-  const openMenu = (menu) => {
-    clearTimeout(closeTimer.current);
-    setActiveMenu(menu);
-  };
 
-  const closeMenu = () => {
-    closeTimer.current = setTimeout(() => {
-      setActiveMenu(null);
-    }, 500);
-  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>
@@ -61,81 +79,86 @@ const Navbar = ({ theam = "white" }) => {
           <div className={` border ${isDark ? "border-white/10" : "border-black/10"}  rounded-full shadow`}>
 
             <div className="hidden md:flex items-center gap-2 relative pl-3 pr-3 pt-2 pb-2">
-
               {/* PRODUCTS */}
               <div
-                onMouseEnter={() =>{
-
-                  setHoverItem("products");
-                  openMenu("features");
-
-                }}
-                onMouseLeave={closeMenu}
+                className="relative cursor-pointer"
+                onMouseEnter={() => handleMouseEnter("products", "features")}
+                onMouseLeave={handleMouseLeave}
               >
-                <button
-                  className={`${textMain} px-4 py-1 rounded-full text-sm transition ${hoverItem === "products"
-                    ? isDark
-                      ? "bg-white/20"
-                      : "bg-black/10"
-                    : ""
-                    }`}
-                >
+                {displayItem === "products" && (
+                  <motion.div
+                    layoutId="nav-bg"
+                    className={`absolute inset-0 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"}`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <button className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
                   Products ▾
                 </button>
               </div>
 
               {/* USE CASES */}
               <div
-                onMouseEnter={() => {
-                  setHoverItem("usecases");
-                  openMenu("usecases");
-                }}
-                onMouseLeave={closeMenu}
+                className="relative cursor-pointer"
+                onMouseEnter={() => handleMouseEnter("usecases", "usecases")}
+                onMouseLeave={handleMouseLeave}
               >
-                <button
-                  className={`${textMain} px-4 py-1 rounded-full text-sm transition ${hoverItem === "usecases"
-                    ? isDark
-                      ? "bg-white/20"
-                      : "bg-black/10"
-                    : ""
-                    }`}
-                >
+                {displayItem === "usecases" && (
+                  <motion.div
+                    layoutId="nav-bg"
+                    className={`absolute inset-0 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"}`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <button className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
                   Use Cases ▾
                 </button>
               </div>
 
               {/* SEARCH */}
               <Link to="/search"
-                onMouseEnter={() => setHoverItem("search")}
-                className={`${textMain} px-4 py-1 rounded-full text-sm transition ${hoverItem === "search"
-                  ? isDark
-                    ? "bg-white/20"
-                    : "bg-black/10"
-                  : ""
-                  }`}
+                className="relative block"
+                onMouseEnter={() => handleMouseEnter("search", null)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => setActiveSection("search")}
               >
-                Search
+                {displayItem === "search" && (
+                  <motion.div
+                    layoutId="nav-bg"
+                    className={`absolute inset-0 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"}`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <div className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
+                  Search
+                </div>
               </Link>
 
               {/* PRICING */}
               <Link to="/pricing"
-                onMouseEnter={() => setHoverItem("pricing")}
-                className={`${textMain} px-4 py-1 rounded-full text-sm transition ${hoverItem === "pricing"
-                  ? isDark
-                    ? "bg-white/20"
-                    : "bg-black/10"
-                  : ""
-                  }`}
+                className="relative block"
+                onMouseEnter={() => handleMouseEnter("pricing", null)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => setActiveSection("pricing")}
               >
-                Pricing
+                {displayItem === "pricing" && (
+                  <motion.div
+                    layoutId="nav-bg"
+                    className={`absolute inset-0 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"}`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <div className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
+                  Pricing
+                </div>
               </Link>
 
               {/* MEGA MENU */}
               <AnimatePresence>
                 {activeMenu && (
                   <motion.div
-                    onMouseEnter={() => clearTimeout(closeTimer.current)}
-                    onMouseLeave={closeMenu}
+                    onMouseEnter={keepMenuOpen}
+                    onMouseLeave={handleMouseLeave}
                     className="absolute left-1/2 top-12 -translate-x-1/2 w-[900px]"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -156,12 +179,25 @@ const Navbar = ({ theam = "white" }) => {
                               <Link
                                 key={index}
                                 to={item.linkPos}
-                                className={`flex items-center gap-3 p-3 rounded-lg ${isDark ? "hover:bg-white/10" : "hover:bg-black/10"} transition`}
+                                // ✅ FIX HERE
+                                onMouseDown={() => {
+                                  setActiveSection(activeMenu === "features" ? "products" : "usecases");
+                                  setActiveChild(item.name);
+                                  setActiveMenu(null);
+                                  setHoverItem(null);
+                                }}
+                                className={`flex items-center gap-3 p-3 rounded-lg ${
+                                  isDark ? "hover:bg-white/10" : "hover:bg-black/10"
+                                } transition`}
                               >
                                 <div className={`w-8 h-8 ${isDark ? "bg-white/10" : "bg-black/10"} rounded-md`} />
 
                                 <div>
-                                  <h4 className={`${textMain} text-sm`}>
+                                  <h4 className={`text-sm ${
+                                    activeChild === item.name
+                                      ? "text-blue-500"
+                                      : textMain
+                                  }`}>
                                     {item.name}
                                   </h4>
 
@@ -222,7 +258,6 @@ const Navbar = ({ theam = "white" }) => {
           </div>
 
           {/* DASHBOARD */}
-          {/* some change we done after making backend */}
           <button className={`${buttonPrimary} px-5 py-2 rounded-lg`}>
             Dashboard
           </button>
@@ -234,4 +269,3 @@ const Navbar = ({ theam = "white" }) => {
 };
 
 export default Navbar;
-
