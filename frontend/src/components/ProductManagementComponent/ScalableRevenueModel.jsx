@@ -6,7 +6,8 @@ const steps = [
   {
     icon: Zap,
     label: "STARTER",
-    value: 80,
+    min: 30,
+    max: 80,
     prefix: "₹",
     suffix: "K",
     desc: "15-20 mock interviews + mentoring calls",
@@ -14,7 +15,8 @@ const steps = [
   {
     icon: ArrowUp,
     label: "GROWING",
-    value: 3,
+    min: 1,
+    max: 3,
     prefix: "₹",
     suffix: "L",
     desc: "Calls + course + digital products",
@@ -22,29 +24,31 @@ const steps = [
   {
     icon: TrendingUp,
     label: "SCALED",
-    value: 5,
+    min: 5,
+    max: 5,
     prefix: "₹",
     suffix: "L+",
     desc: "All services + cohort + Perf Marketing",
   },
 ];
 
-function Counter({ value, prefix = "", suffix = "" }) {
-  const [count, setCount] = useState(0);
+// Counter that animates to max value
+function Counter({ min, max, prefix = "", suffix = "" }) {
+  const [count, setCount] = useState(min);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
     if (!isInView) return;
 
-    let start = 0;
+    let start = min;
     const duration = 2;
-    const increment = value / (duration * 60);
+    const increment = (max - min) / (duration * 60);
 
     const timer = setInterval(() => {
       start += increment;
-      if (start >= value) {
-        setCount(value);
+      if (start >= max) {
+        setCount(max);
         clearInterval(timer);
       } else {
         setCount(parseFloat(start.toFixed(1)));
@@ -52,11 +56,11 @@ function Counter({ value, prefix = "", suffix = "" }) {
     }, 1000 / 60);
 
     return () => clearInterval(timer);
-  }, [isInView, value]);
+  }, [isInView, min, max]);
 
   return (
     <div ref={ref} className="text-4xl md:text-5xl font-bold">
-      {prefix}{count}{suffix}
+      {prefix}{min !== max ? `${min}-` : ""}{count}{suffix}
     </div>
   );
 }
@@ -80,7 +84,10 @@ const item = {
   },
 };
 
-export default function ScalableRevenueModel() {
+export default function RevenueModel() {
+  const lineRef = useRef(null);
+  const isLineInView = useInView(lineRef, { once: true });
+
   return (
     <section className="py-24 bg-linear-to-b from-white to-gray-100 text-center">
       <div className="max-w-5xl mx-auto px-6">
@@ -104,7 +111,17 @@ export default function ScalableRevenueModel() {
 
         {/* Timeline */}
         <div className="relative mt-20">
-          <div className="absolute top-12 left-0 right-0 h-[2px] bg-blue-200" />
+          {/* Base line */}
+          <div className="absolute top-12 left-0 right-0 h-[2px] bg-blue-100" />
+
+          {/* Animated progress line */}
+          <motion.div
+            ref={lineRef}
+            initial={{ scaleX: 0 }}
+            animate={isLineInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="absolute top-12 left-0 right-0 h-[2px] bg-blue-500 origin-left"
+          />
 
           <motion.div
             variants={container}
@@ -115,6 +132,8 @@ export default function ScalableRevenueModel() {
           >
             {steps.map((step, i) => {
               const Icon = step.icon;
+              const isActive = i === steps.length - 1; // highlight last step
+
               return (
                 <motion.div
                   key={i}
@@ -122,8 +141,18 @@ export default function ScalableRevenueModel() {
                   className="flex flex-col z-1 items-center"
                 >
                   {/* Icon Box */}
-                  <div className="w-20 h-20 flex items-center justify-center rounded-2xl bg-white shadow-md border border-gray-200">
-                    <Icon className="w-8 h-8 text-blue-500" />
+                  <div
+                    className={`w-20 h-20 flex items-center justify-center rounded-2xl bg-white shadow-md border ${
+                      isActive
+                        ? "border-blue-500 ring-2 ring-blue-200"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <Icon
+                      className={`w-8 h-8 ${
+                        isActive ? "text-blue-500" : "text-gray-400"
+                      }`}
+                    />
                   </div>
 
                   {/* Content */}
@@ -133,7 +162,8 @@ export default function ScalableRevenueModel() {
                     </p>
 
                     <Counter
-                      value={step.value}
+                      min={step.min}
+                      max={step.max}
                       prefix={step.prefix}
                       suffix={step.suffix}
                     />

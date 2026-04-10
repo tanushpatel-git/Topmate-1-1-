@@ -5,6 +5,7 @@ import TopOfUseCases from '../components/ui/TopOfUseCases'
 import EveryWantTo from '../components/ProductManagementComponent/EveryWantTo'
 import WhatYouCanOffer from '../components/ProductManagementComponent/WhatYouCanOffer'
 import ScalableRevenueModel from '../components/ProductManagementComponent/ScalableRevenueModel'
+import MontlyEarningBreakDown from '../components/ProductManagementComponent/MontlyEarningBreakDown'
 
 const ProductManagement = () => {
   return (
@@ -24,6 +25,7 @@ const ProductManagement = () => {
       <EveryWantTo />
       <WhatYouCanOffer />
       <ScalableRevenueModel />
+      <MontlyEarningBreakDown />
       <Footer />
     </>
   )
