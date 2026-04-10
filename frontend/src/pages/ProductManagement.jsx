@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/commonCompo/Navbar'
 import Footer from '../components/commonCompo/Footer'
 import TopOfUseCases from '../components/ui/TopOfUseCases'
+import EveryWantTo from '../components/ProductManagementComponent/EveryWantTo'
 
 const ProductManagement = () => {
   return (
@@ -18,6 +19,7 @@ const ProductManagement = () => {
         button1="Start Product Management Mentoring Free"
         button2="See Revenue Examples"
       />
+      <EveryWantTo />
       <Footer />
     </>
   )
