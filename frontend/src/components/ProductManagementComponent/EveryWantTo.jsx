@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Users, IndianRupee, Trophy } from "lucide-react";
 
 function Counter({ target, suffix = "", duration = 2 }) {
@@ -35,17 +35,38 @@ function Counter({ target, suffix = "", duration = 2 }) {
 }
 
 export default function EveryWantTo() {
+
+  const words = ["Master Strategy", "Get Hired", "Build Product"];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % words.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-3xl md:text-5xl font-bold mb-12"
-        >
-          Everyone Wants to <span className="text-blue-500">Master Strategy</span>
-        </motion.h2>
+        <h2 className="text-3xl md:text-5xl font-bold mb-12 flex justify-center items-center text-center gap-3">
+          <span>Everyone Wants to</span>
+
+          <span className="relative h-[1.2em] min-w-[250px] overflow-hidden text-blue-500 inline-block">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={words[index]}
+                initial={{ y: 35, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -35, opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                className="absolute left-0 right-0 text-start"
+              >
+                {words[index]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        </h2>
 
         <div className="grid md:grid-cols-3 gap-8 items-center">
           {/* Card 1 */}
