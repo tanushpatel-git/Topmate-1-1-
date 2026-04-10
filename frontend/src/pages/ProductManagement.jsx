@@ -3,6 +3,7 @@ import Navbar from '../components/commonCompo/Navbar'
 import Footer from '../components/commonCompo/Footer'
 import TopOfUseCases from '../components/ui/TopOfUseCases'
 import EveryWantTo from '../components/ProductManagementComponent/EveryWantTo'
+import WhatYouCanOffer from '../components/ProductManagementComponent/WhatYouCanOffer'
 
 const ProductManagement = () => {
   return (
@@ -20,6 +21,7 @@ const ProductManagement = () => {
         button2="See Revenue Examples"
       />
       <EveryWantTo />
+      <WhatYouCanOffer />
       <Footer />
     </>
   )
