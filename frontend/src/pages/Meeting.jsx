@@ -121,8 +121,8 @@ const Meeting = () => {
             <CommonQnAMeeting faqs={faqs} title="Common questions </br> about Meetings" />
             <SubcriptionRecommed />
             <ServicesSection items={items} />
-            <Footer />
-        </> 
+            <Footer />    
+        </>
     )
 }
 
