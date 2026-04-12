@@ -1,15 +1,18 @@
 import React from 'react'
-import Navbar from '../components/commonCompo/Navbar'
-import Footer from '../components/commonCompo/Footer'
-import TopOfUseCases from '../components/ui/TopOfUseCases'
-import MentorOnTopmate from '../components/ProductManagementComponent/MentorOnTopmate'
-import EveryWantTo from '../components/ProductManagementComponent/EveryWantTo'
-import WhatYouCanOffer from '../components/ProductManagementComponent/WhatYouCanOffer'
-import ScalableRevenueModel from '../components/ProductManagementComponent/ScalableRevenueModel'
-import MontlyEarningBreakDown from '../components/ProductManagementComponent/MontlyEarningBreakDown'
-import TopmateStack from '../components/ProductManagementComponent/TopmateStack'
-import { Calendar, BookOpen, Users } from "lucide-react";
-import CommonQnAMeeting from '../components/ui/CommonQnAMeeting'
+import { Calendar, BookOpen, Users } from "lucide-react"
+import Navbar from "../components/commonCompo/Navbar.jsx"
+import TopOfUseCases from "../components/ui/TopOfUseCases.jsx"
+import MentorOnTopmate from "../components/commonComponentForUsesCase/MentorOnTopmate.jsx"
+import EveryWantTo from "../components/commonComponentForUsesCase/EveryWantTo.jsx"
+import WhatYouCanOffer from "../components/commonComponentForUsesCase/WhatYouCanOffer.jsx"
+import ScalableRevenueModel from "../components/commonComponentForUsesCase/ScalableRevenueModel.jsx"
+import MontlyEarningBreakDown from "../components/commonComponentForUsesCase/MontlyEarningBreakDown.jsx"
+import TopmateStack from "../components/commonComponentForUsesCase/TopmateStack.jsx"
+import CommonQnAMeeting from "../components/ui/CommonQnAMeeting.jsx"
+import ManagementBussiness from "../components/commonComponentForUsesCase/ManagementBussiness.jsx"
+import Footer from "../components/commonCompo/Footer.jsx"
+import ManagementBussinessToday from "../components/commonComponentForUsesCase/ManagementBusinessToday.jsx"
+
 
 const ProductManagement = () => {
   const stacks = [
@@ -103,7 +106,9 @@ const ProductManagement = () => {
       <ScalableRevenueModel />
       <MontlyEarningBreakDown />
       <TopmateStack stacks={stacks} />
+      <ManagementBussiness />
       <CommonQnAMeeting theme="light" faqs={faqs} />
+      <ManagementBussinessToday />
       <Footer />
     </>
   )
