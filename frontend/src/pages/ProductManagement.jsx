@@ -163,8 +163,8 @@ const steps = [
         button2="See Revenue Examples"
       />
       <MentorOnTopmate mentors={mentors} title="Top Product Management Mentors on Topmate" description="Award-winning PMs already helping thousands" />
-      <EveryWantTo colorTheme="blue" firstCardTarget="10" secondCardTarget="10" second2CardTarget="100" thirdCardTarget="1" firstCardDesc="Growth in PM upskilling demand since 2023" secondCardDesc="Per session for PM mentoring" thirdCardDesc="Fastest-growing domain on Topmate" />
-      <WhatYouCanOffer colorTheme="blue" />
+      <EveryWantTo mainTitle="Everyone want to be" title="Break into PM" colorTheme="blue" firstCardTarget="10" secondCardTarget="10" second2CardTarget="100" thirdCardTarget="1" firstCardDesc="Growth in PM upskilling demand since 2023" secondCardDesc="Per session for PM mentoring" thirdCardDesc="Fastest-growing domain on Topmate" />
+      <WhatYouCanOffer desc="Service types mapped to the Product Management domain"/>
       <ScalableRevenueModel colorTheme="blue" title="Scalable Revenue Model" title2="From starting out to building a Product Management empire" steps={steps} />
       <MontlyEarningBreakDown colorTheme="blue" />
       <TopmateStack stacks={stacks} />

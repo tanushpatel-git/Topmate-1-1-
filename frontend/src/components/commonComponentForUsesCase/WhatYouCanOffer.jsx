@@ -62,7 +62,7 @@ const item = {
   },
 };
 
-export default function WhatYouCanOffer() {
+export default function WhatYouCanOffer({desc}) {
 
   const colors = {
     blue: {
@@ -191,7 +191,7 @@ export default function WhatYouCanOffer() {
           What You Can Offer
         </h2>
         <p className="text-gray-400 mt-4 text-lg">
-          Service types mapped to the Product Management domain
+          {desc}
         </p>
       </div>
 

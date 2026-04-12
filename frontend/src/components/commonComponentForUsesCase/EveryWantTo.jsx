@@ -176,7 +176,7 @@ export default function EveryWantTo({
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-5xl font-bold mb-12"
         >
-          {mainTitle} <span className={color.text2}>{title}</span>
+          {mainTitle} <span className={`pl-2 ${color.text2}`}>{title}</span>
         </motion.h2>
 
         <div className="grid md:grid-cols-3 gap-8 items-center">

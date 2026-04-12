@@ -1,20 +1,20 @@
 import React from "react";
-import TopOfUseCases from "../components/ui/TopOfUseCases";
 import Navbar from "../components/commonCompo/Navbar";
 import Footer from "../components/commonCompo/Footer";
+import TopOfUseCases from "../components/ui/TopOfUseCases";
 import MentorOnTopmate from "../components/commonComponentForUsesCase/MentorOnTopmate";
 import EveryWantTo from "../components/commonComponentForUsesCase/EveryWantTo";
-import WhatYouCanOffer from "../components/commonComponentForUsesCase/WhatYouCanOffer";
+import { Zap, ArrowUp, TrendingUp, Box } from "lucide-react";
 import ScalableRevenueModel from "../components/commonComponentForUsesCase/ScalableRevenueModel";
-import ManagementBussiness from "../components/commonComponentForUsesCase/ManagementBussiness";
-import ManagementBusinessToday from "../components/commonComponentForUsesCase/ManagementBusinessToday";
-import TopmateStack from "../components/commonComponentForUsesCase/TopmateStack";
+import WhatYouCanOffer from "../components/commonComponentForUsesCase/WhatYouCanOffer";
 import { Book, Users, Video } from "lucide-react";
-import { Zap, ArrowUp, TrendingUp } from "lucide-react";
+import TopmateStack from "../components/commonComponentForUsesCase/TopmateStack";
+import ManagementBussiness from "../components/commonComponentForUsesCase/ManagementBussiness";
 import CommonQnAMeeting from "../components/ui/CommonQnAMeeting";
+import ManagementBusinessToday from "../components/commonComponentForUsesCase/ManagementBusinessToday";
 
 
-const AInML = () => {
+const SoftwareEngineering = () => {
 
     const mentors = [
         {
@@ -47,6 +47,35 @@ const AInML = () => {
         },
     ];
 
+    const steps = [
+        {
+            icon: Zap,
+            label: "STARTER",
+            min: 40,
+            max: 100,
+            prefix: "₹",
+            suffix: "K",
+            desc: "mock interviews + mentoring calls",
+        },
+        {
+            icon: ArrowUp,
+            label: "GROWING",
+            min: 1.5,
+            max: 3,
+            prefix: "₹",
+            suffix: "L",
+            desc: "Calls + course + digital products",
+        },
+        {
+            icon: TrendingUp,
+            label: "SCALED",
+            min: 5,
+            max: 5,
+            prefix: "₹",
+            suffix: "L+",
+            desc: "All services + cohort + Perf Marketing",
+        },
+    ];
 
     const stacks = [
         {
@@ -64,48 +93,23 @@ const AInML = () => {
             description: "Host large group events with automated scheduling and payments.",
             icon: Video,
         },
+        {
+            title: "Digital Products",
+            description: "Upload once, sell forever. E-books, templates, and tools with instant delivery.",
+            icon: Box
+        }
     ]
-
-    const steps = [
-        {
-            icon: Zap,
-            label: "STARTER",
-            min: 30,
-            max: 80,
-            prefix: "₹",
-            suffix: "K",
-            desc: "15-20 mock interviews + mentoring calls",
-        },
-        {
-            icon: ArrowUp,
-            label: "GROWING",
-            min: 1,
-            max: 3,
-            prefix: "₹",
-            suffix: "L",
-            desc: "Calls + course + digital products",
-        },
-        {
-            icon: TrendingUp,
-            label: "SCALED",
-            min: 5,
-            max: 5,
-            prefix: "₹",
-            suffix: "L+",
-            desc: "All services + cohort + Perf Marketing",
-        },
-    ];
 
     const faqs = [
         {
             id: 1,
-            question: "How much can I earn as an AI/ML mentor on Topmate?",
-            answer: "AI/ML mentors on Topmate earn ₹1L-10L/month. Top AI experts earn ₹20L+/month. Earnings depend on your experience, niche, and how you package your offerings."
+            question: "How much can I earn as a Software Engineering mentor on Topmate?",
+            answer: "Software Engineering mentors on Topmate earn ₹50K–5L/month. Top mentors earn ₹10L+/month. Earnings depend on your experience, niche, and how you package your offerings."
         },
         {
             id: 2,
-            question: "What types of AI/ML offerings can I sell on Topmate?",
-            answer: "You can sell 1:1 mentoring, mock interviews, resume reviews, AI/ML courses, cohort-based programs, and AI consulting."
+            question: "What types of Software Engineering offerings can I sell on Topmate?",
+            answer: "You can sell 1:1 mentoring, mock interviews, resume reviews, DSA coaching, system design coaching, and coding interview prep."
         },
         {
             id: 3,
@@ -149,35 +153,53 @@ const AInML = () => {
         }
     ]
 
-    
+
+
     return (
         <>
             <Navbar theam="black" />
             <TopOfUseCases
-                themeSet="purple"
-                badge="AI & MACHINE LEARNING"
-                title="AI & ML Mentorship,"
-                title2="Courses &"
-                title3="Consulting"
-                description="Monetize your AI expertise. Teach ML, run AI bootcamps, offer consulting. AI experts earn ₹1L-10L/month on Topmate."
-                button1="Start AI & Machine Learning Mentoring Free"
+                themeSet="green"
+                badge="Software Engineering"
+                title="Software Engineering Mentorship — DSA,"
+                title2="System Design, Code"
+                title3="Reviews"
+                description="Mentor developers. Teach DSA, system design, coding interviews. Software engineers earn ₹50K-5L/month on Topmate."
+                button1="Start Software Engineering Mentorship Free"
                 button2="See Revenue Examples"
             />
-            <MentorOnTopmate mentors={mentors} title="Top AI & ML Mentors" description="Connect with the best AI & Machine Learning mentors on Topmate. Get expert guidance, mentorship, and career advice from top professionals in the field." colorTheme="purple" />
-            <EveryWantTo colorTheme="purple" mainTitle="Everyone Needs to" title="Learn AI & ML" firstCardTarget="11" secondCardTarget="3" second2CardTarget="15" thirdCardTarget="1" firstCardDesc="Growth in AI upskilling demand since 2023" secondCardDesc="Per session for AI/ML mentoring" thirdCardDesc="Fastest-growing domain on Topmate" />
-            <WhatYouCanOffer desc="Service types mapped to the AI & Machine Learning domain" />
-            <ScalableRevenueModel 
-            colorTheme="purple" 
-            title="Scalable Revenue Model" 
-            title2="From starting out to building an AI & ML empire" 
-            steps={steps} />
-            <TopmateStack colorTheme="purple" stacks={stacks} />
-            <ManagementBussiness colorTheme="purple" />
+            <MentorOnTopmate
+                mentors={mentors}
+                title="Software Engineering Mentors"
+                description="Software engineers on Topmate earn ₹50K–5L/month mentoring students in DSA, system design, coding interviews, and career guidance."
+                colorTheme="green"
+            />
+            <EveryWantTo
+                colorTheme="green"
+                mainTitle="Mentor the Next"
+                title="FAANG Engineer"
+                firstCardTarget="300"
+                secondCardTarget="2"
+                second2CardTarget="8"
+                thirdCardTarget="1"
+                firstCardDesc="CREATORS ON THE PLATFORM"
+                secondCardDesc="PER SESSION FOR SOFTWARE ENGINEERING MENTORING"
+                thirdCardDesc="DOMAIN BY CREATOR VOLUME" />
+            <WhatYouCanOffer
+                desc="Service types mapped to the Software Engineering domain" />
+            <ScalableRevenueModel
+                colorTheme="green"
+                title="Scalable Revenue Model"
+                title2="From starting out to building a Software Engineering empire"
+                steps={steps}
+            />
+            <TopmateStack colorTheme="green" stacks={stacks} />
+            <ManagementBussiness colorTheme="green" />
             <CommonQnAMeeting theme="light" faqs={faqs} />
-            <ManagementBusinessToday colorTheme="purple" button1="Start AI & Machine Learning Mentoring Free" button2="See Revenue Examples" title="Start your AI & ML" title2="business today" description="Monetize your AI expertise. Teach ML, run AI bootcamps, offer consulting. AI experts earn ₹1L-10L/month on Topmate." />
+            <ManagementBusinessToday colorTheme="green" button1="Create Your Free Profile" button2="Explore All Features" title="Start your Software Engineering" title2="business today" description="Everything you need to monetize your Software Engineering expertise. No setup fees, no subscription." />
             <Footer />
         </>
     )
 }
 
-export default AInML
+export default SoftwareEngineering
