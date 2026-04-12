@@ -2,38 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ExternalLink, Star } from "lucide-react";
 
-const mentors = [
-    {
-        name: "Anand Narayandas",
-        handle: "@anand_narayandas",
-        img: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39",
-        desc: "Product Management, Career & Leadership Coach · Ex-Amazon, BCG,...",
-        badge: "Product & PM Careers #1"
-    },
-    {
-        name: "Sumit Kumar Singh",
-        handle: "@theaipmcoach",
-        img: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126",
-        desc: "Harvard Alum, Ex-Microsoft AI PM leader · Mentored 1500+ · Helping Founders,...",
-        badge: "AI/ML #6"
-    },
-    {
-        name: "Malthi Satish",
-        handle: "@malthi_ss",
-        img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12",
-        desc: "Product Coach and Trainer · Chief Product Officer at HerKey",
-        badge: "AI/ML #8"
-    },
-    {
-        name: "Vijay Chandola",
-        handle: "@vijaychandola",
-        img: "https://images.unsplash.com/photo-1560250097-0b93528c311a",
-        desc: "Mentored over 500 people. Product Management leader.",
-        badge: "Product & PM Careers #3"
-    },
-];
-
-export default function PMMentorSection() {
+export default function PMMentorSection({ mentors, title, description, colorTheme = "blue" }) {
     const containerRef = useRef(null);
 
     const { scrollYProgress } = useScroll({
@@ -42,6 +11,126 @@ export default function PMMentorSection() {
     });
 
     const initialRotations = [-20, -10, 0, 10, 20];
+
+    const colors = {
+        blue: {
+            bg: "bg-blue-500",
+            text: "text-white",
+            text2: "text-blue-500",
+        },
+        purple: {
+            bg: "bg-purple-500",
+            text: "text-white",
+            text2: "text-purple-500",
+        },
+        pink: {
+            bg: "bg-pink-500",
+            text: "text-white",
+            text2: "text-pink-500",
+        },
+        green: {
+            bg: "bg-green-500",
+            text: "text-white",
+            text2: "text-green-500",
+        },
+        orange: {
+            bg: "bg-orange-500",
+            text: "text-white",
+            text2: "text-orange-500",
+        },
+        yellow: {
+            bg: "bg-yellow-500",
+            text: "text-white",
+            text2: "text-yellow-500",
+        },
+        red: {
+            bg: "bg-red-500",
+            text: "text-white",
+            text2: "text-red-500",
+        },
+        cyan: {
+            bg: "bg-cyan-500",
+            text: "text-white",
+            text2: "text-cyan-500",
+        },
+        lime: {
+            bg: "bg-lime-500",
+            text: "text-white",
+            text2: "text-lime-500",
+        },
+        indigo: {
+            bg: "bg-indigo-500",
+            text: "text-white",
+            text2: "text-indigo-500",
+        },
+        violet: {
+            bg: "bg-violet-500",
+            text: "text-white",
+            text2: "text-violet-500",
+        },
+        fuchsia: {
+            bg: "bg-fuchsia-500",
+            text: "text-white",
+            text2: "text-fuchsia-500",
+        },
+        rose: {
+            bg: "bg-rose-500",
+            text: "text-white",
+            text2: "text-rose-500",
+        },
+        emerald: {
+            bg: "bg-emerald-500",
+            text: "text-white",
+            text2: "text-emerald-500",
+        },
+        teal: {
+            bg: "bg-teal-500",
+            text: "text-white",
+            text2: "text-teal-500",
+        },
+        sky: {
+            bg: "bg-sky-500",
+            text: "text-white",
+            text2: "text-sky-500",
+        },
+        slate: {
+            bg: "bg-slate-500",
+            text: "text-white",
+            text2: "text-slate-500",
+        },
+        stone: {
+            bg: "bg-stone-500",
+            text: "text-white",
+            text2: "text-stone-500",
+        },
+        neutral: {
+            bg: "bg-neutral-500",
+            text: "text-white",
+            text2: "text-neutral-500",
+        },
+        zinc: {
+            bg: "bg-zinc-500",
+            text: "text-white",
+            text2: "text-zinc-500",
+        },
+        gray: {
+            bg: "bg-gray-500",
+            text: "text-white",
+            text2: "text-gray-500",
+        },
+        black: {
+            bg: "bg-black",
+            text: "text-white",
+            text2: "text-black",
+        },
+        white: {
+            bg: "bg-white",
+            text: "text-black",
+            text2: "text-white",
+        },
+    }
+
+    const color = colors[colorTheme];
 
     return (
         <section
@@ -56,11 +145,11 @@ export default function PMMentorSection() {
                     </div>
 
                     <h2 className="text-4xl md:text-5xl font-semibold">
-                        Top Product Management Mentors on Topmate
+                        {title}
                     </h2>
 
                     <p className="text-neutral-400 mt-3">
-                        Award-winning PMs already helping thousands
+                        {description}
                     </p>
                 </div>
 
@@ -103,7 +192,7 @@ export default function PMMentorSection() {
                                     />
 
                                     {/* Badge */}
-                                    <div className="absolute flex gap-1 top-5 right-5 bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
+                                    <div className={`absolute flex gap-1 top-5 right-5 ${color.bg} ${color.text} text-xs px-3 py-1 rounded-full`}>
                                         <Star fill="#FFD700" stroke="#FFD700" size={16} />
                                         {mentor.badge}
                                     </div>
@@ -123,7 +212,7 @@ export default function PMMentorSection() {
                                             {mentor.desc}
                                         </p>
 
-                                        <button className="flex items-center gap-2 text-blue-400 text-sm mt-3">
+                                        <button className={`flex items-center gap-2 ${color.text2} text-sm mt-3`}>
                                             View Profile
                                             <ExternalLink size={16} />
                                         </button>
