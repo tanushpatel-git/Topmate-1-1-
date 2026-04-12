@@ -149,7 +149,7 @@ export default function ManagementBussiness({ colorTheme = "blue" }) {
           >
             <div className="flex items-center gap-4 mb-6">
               <div className="bg-gray-100 p-3 rounded-xl">
-                <TrendingUp className="text-gray-600" size={22} />
+                <TrendingUp className={color.text2} size={22} />
               </div>
 
               <h3 className="text-2xl font-semibold">Organic Growth</h3>

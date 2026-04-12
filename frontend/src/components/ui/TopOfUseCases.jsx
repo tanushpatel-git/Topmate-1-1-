@@ -21,6 +21,11 @@ const TopOfUseCases = ({
             bg: "bg-blue-500",
             text: "text-blue-500",
         },
+        pink: {
+            bg: "bg-pink-500",
+            text: "text-white",
+            text2: "text-pink-500",
+        },
         red: {
             bg: "bg-red-500",
             text: "text-red-500",
