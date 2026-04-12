@@ -1,36 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Zap, ArrowUp, TrendingUp } from "lucide-react";
 
-const steps = [
-  {
-    icon: Zap,
-    label: "STARTER",
-    min: 30,
-    max: 80,
-    prefix: "₹",
-    suffix: "K",
-    desc: "15-20 mock interviews + mentoring calls",
-  },
-  {
-    icon: ArrowUp,
-    label: "GROWING",
-    min: 1,
-    max: 3,
-    prefix: "₹",
-    suffix: "L",
-    desc: "Calls + course + digital products",
-  },
-  {
-    icon: TrendingUp,
-    label: "SCALED",
-    min: 5,
-    max: 5,
-    prefix: "₹",
-    suffix: "L+",
-    desc: "All services + cohort + Perf Marketing",
-  },
-];
 
 // Counter that animates to max value
 function Counter({ min, max, prefix = "", suffix = "" }) {
@@ -84,9 +54,129 @@ const item = {
   },
 };
 
-export default function RevenueModel() {
+export default function RevenueModel({ colorTheme, title, title2, steps }) {
   const lineRef = useRef(null);
   const isLineInView = useInView(lineRef, { once: true });
+
+  const colors = {
+    blue: {
+      bg: "bg-blue-500",
+      text: "text-white",
+      text2: "text-blue-500",
+    },
+    purple: {
+      bg: "bg-purple-500",
+      text: "text-white",
+      text2: "text-purple-500",
+    },
+    pink: {
+      bg: "bg-pink-500",
+      text: "text-white",
+      text2: "text-pink-500",
+    },  
+    green: {
+      bg: "bg-green-500",
+      text: "text-white",
+      text2: "text-green-500",
+    },
+    orange: {
+      bg: "bg-orange-500",
+      text: "text-white",
+      text2: "text-orange-500",
+    },
+    yellow: {
+      bg: "bg-yellow-500",
+      text: "text-white",
+      text2: "text-yellow-500",
+    },
+    red: {
+      bg: "bg-red-500",
+      text: "text-white",
+      text2: "text-red-500",
+    },
+    cyan: {
+      bg: "bg-cyan-500",
+      text: "text-white",
+      text2: "text-cyan-500",
+    },
+    lime: {
+      bg: "bg-lime-500",
+      text: "text-white",
+      text2: "text-lime-500",
+    },
+    indigo: {
+      bg: "bg-indigo-500",
+      text: "text-white",
+      text2: "text-indigo-500",
+    },
+    violet: {
+      bg: "bg-violet-500",
+      text: "text-white",
+      text2: "text-violet-500",
+    },
+    fuchsia: {
+      bg: "bg-fuchsia-500",
+      text: "text-white",
+      text2: "text-fuchsia-500",
+    },
+    rose: {
+      bg: "bg-rose-500",
+      text: "text-white",
+      text2: "text-rose-500",
+    },
+    emerald: {
+      bg: "bg-emerald-500",
+      text: "text-white",
+      text2: "text-emerald-500",
+    },
+    teal: {
+      bg: "bg-teal-500",
+      text: "text-white",
+      text2: "text-teal-500",
+    },
+    sky: {
+      bg: "bg-sky-500",
+      text: "text-white",
+      text2: "text-sky-500",
+    },
+    slate: {
+      bg: "bg-slate-500",
+      text: "text-white",
+      text2: "text-slate-500",
+    },
+    stone: {
+      bg: "bg-stone-500",
+      text: "text-white",
+      text2: "text-stone-500",
+    },
+    neutral: {
+      bg: "bg-neutral-500",
+      text: "text-white",
+      text2: "text-neutral-500",
+    },
+    zinc: {
+      bg: "bg-zinc-500",
+      text: "text-white",
+      text2: "text-zinc-500",
+    },
+    gray: {
+      bg: "bg-gray-500",
+      text: "text-white",
+      text2: "text-gray-500",
+    },
+    black: {
+      bg: "bg-black",
+      text: "text-white",
+      text2: "text-black",
+    },
+    white: {
+      bg: "bg-white",
+      text: "text-black",
+      text2: "text-white",
+    },
+  }
+
+  const color = colors[colorTheme];
 
   return (
     <section className="py-24 bg-linear-to-b from-white to-gray-100 text-center">
@@ -97,7 +187,7 @@ export default function RevenueModel() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-6xl font-bold"
         >
-          Scalable Revenue Model
+          {title}
         </motion.h2>
 
         <motion.p
@@ -106,7 +196,7 @@ export default function RevenueModel() {
           transition={{ delay: 0.2 }}
           className="text-gray-500 mt-4"
         >
-          From starting out to building a Product Management empire
+          {title2}
         </motion.p>
 
         {/* Timeline */}
@@ -120,7 +210,7 @@ export default function RevenueModel() {
             initial={{ scaleX: 0 }}
             animate={isLineInView ? { scaleX: 1 } : {}}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="absolute top-12 left-0 right-0 h-[2px] bg-blue-500 origin-left"
+            className={`absolute top-12 left-0 right-0 h-[2px] ${color.bg} origin-left`}
           />
 
           <motion.div
@@ -142,16 +232,14 @@ export default function RevenueModel() {
                 >
                   {/* Icon Box */}
                   <div
-                    className={`w-20 h-20 flex items-center justify-center rounded-2xl bg-white shadow-md border ${
-                      isActive
-                        ? "border-blue-500 ring-2 ring-blue-200"
-                        : "border-gray-200"
-                    }`}
+                    className={`w-20 h-20 flex items-center justify-center rounded-2xl bg-white shadow-md border ${isActive
+                      ? `${color.text2} ring-2 ${color.text1}`
+                      : "border-gray-200"
+                      }`}
                   >
                     <Icon
-                      className={`w-8 h-8 ${
-                        isActive ? "text-blue-500" : "text-gray-400"
-                      }`}
+                      className={`w-8 h-8 ${isActive ? color.text2 : "text-gray-400"
+                        }`}
                     />
                   </div>
 

@@ -12,6 +12,7 @@ import CommonQnAMeeting from "../components/ui/CommonQnAMeeting.jsx"
 import ManagementBussiness from "../components/commonComponentForUsesCase/ManagementBussiness.jsx"
 import Footer from "../components/commonCompo/Footer.jsx"
 import ManagementBussinessToday from "../components/commonComponentForUsesCase/ManagementBusinessToday.jsx"
+import { Zap, ArrowUp, TrendingUp } from "lucide-react";
 
 
 const ProductManagement = () => {
@@ -86,6 +87,67 @@ const ProductManagement = () => {
     }
   ]
 
+  const mentors = [
+    {
+        name: "Anand Narayandas",
+        handle: "@anand_narayandas",
+        img: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39",
+        desc: "Product Management, Career & Leadership Coach · Ex-Amazon, BCG,...",
+        badge: "Product & PM Careers #1"
+    },
+    {
+        name: "Sumit Kumar Singh",
+        handle: "@theaipmcoach",
+        img: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126",
+        desc: "Harvard Alum, Ex-Microsoft AI PM leader · Mentored 1500+ · Helping Founders,...",
+        badge: "AI/ML #6"
+    },
+    {
+        name: "Malthi Satish",
+        handle: "@malthi_ss",
+        img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12",
+        desc: "Product Coach and Trainer · Chief Product Officer at HerKey",
+        badge: "AI/ML #8"
+    },
+    {
+        name: "Vijay Chandola",
+        handle: "@vijaychandola",
+        img: "https://images.unsplash.com/photo-1560250097-0b93528c311a",
+        desc: "Mentored over 500 people. Product Management leader.",
+        badge: "Product & PM Careers #3"
+    },
+];
+
+const steps = [
+  {
+    icon: Zap,
+    label: "STARTER",
+    min: 30,
+    max: 80,
+    prefix: "₹",
+    suffix: "K",
+    desc: "15-20 mock interviews + mentoring calls",
+  },
+  {
+    icon: ArrowUp,
+    label: "GROWING",
+    min: 1,
+    max: 3,
+    prefix: "₹",
+    suffix: "L",
+    desc: "Calls + course + digital products",
+  },
+  {
+    icon: TrendingUp,
+    label: "SCALED",
+    min: 5,
+    max: 5,
+    prefix: "₹",
+    suffix: "L+",
+    desc: "All services + cohort + Perf Marketing",
+  },
+];
+
   return (
     <>
       <Navbar theam='black' />
@@ -100,15 +162,15 @@ const ProductManagement = () => {
         button1="Start Product Management Mentoring Free"
         button2="See Revenue Examples"
       />
-      <MentorOnTopmate />
-      <EveryWantTo />
-      <WhatYouCanOffer />
-      <ScalableRevenueModel />
-      <MontlyEarningBreakDown />
+      <MentorOnTopmate mentors={mentors} title="Top Product Management Mentors on Topmate" description="Award-winning PMs already helping thousands" />
+      <EveryWantTo mainTitle="Everyone want to be" title="Break into PM" colorTheme="blue" firstCardTarget="10" secondCardTarget="10" second2CardTarget="100" thirdCardTarget="1" firstCardDesc="Growth in PM upskilling demand since 2023" secondCardDesc="Per session for PM mentoring" thirdCardDesc="Fastest-growing domain on Topmate" />
+      <WhatYouCanOffer desc="Service types mapped to the Product Management domain"/>
+      <ScalableRevenueModel colorTheme="blue" title="Scalable Revenue Model" title2="From starting out to building a Product Management empire" steps={steps} />
+      <MontlyEarningBreakDown colorTheme="blue" />
       <TopmateStack stacks={stacks} />
-      <ManagementBussiness />
+      <ManagementBussiness colorTheme="blue" />
       <CommonQnAMeeting theme="light" faqs={faqs} />
-      <ManagementBussinessToday />
+      <ManagementBussinessToday colorTheme="blue" button1="Start Product Management Mentoring Free" button2="See Revenue Examples" title="Start your Product Management" title2="business today" description="Monetize your Product Management expertise. Teach PM, run PM bootcamps, offer consulting. Product managers earn ₹50K-5L/month on Topmate." />
       <Footer />
     </>
   )
