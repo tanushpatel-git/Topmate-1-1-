@@ -14,7 +14,7 @@ import ScrollToTop from './services/ScrollOnTop'
 import ProductManagement from './pages/ProductManagement'
 import SekerDashboard from './pages/SekerDashboard'
 import Marketplace from './pages/Marketplace'
-
+import Search from './pages/Search'
 
 const App = () => {
   return (
@@ -30,6 +30,7 @@ const App = () => {
         <Route path='/terms' element={<Terms />} />
         <Route path='/privacy' element={<Privacy />} />
         <Route path='/pricing' element={<Pricing />} />
+        <Route path='/Search' element={<Search />} />
         <Route path='/features/priority-dm' element={<PriorityDm />} />
         <Route path='/use-cases/product-management' element={<ProductManagement />} />
        <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
@@ -39,5 +40,4 @@ const App = () => {
     </>
   )
 }
-
 export default App

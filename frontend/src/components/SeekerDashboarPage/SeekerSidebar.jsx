@@ -53,10 +53,11 @@ const SeekerSidebar = () => {
 
           <SidebarLink to="/seeker-dashboard/home" icon={<FaHome />} text="Home" />
                 <SidebarLink to="/seeker-dashboard/booking" icon={<FaPhoneAlt />} text="Booking" />    
-      <SidebarLink to="/seeker-dashboard/people" icon={<FaSearch />} text="Find by People" />
+      <SidebarLink to="/search" icon={<FaSearch />} text="Find by People" />
+
           <SidebarLink to="/seeker-dashboard/profile" icon={<FaUser />} text="Profile" />
-          <SidebarLink to="/seeker-dashboard/rewards" icon={<FaGift />} text="Rewards" />
-          <SidebarLink to="/seeker-dashboard/category" icon={<MdOutlineCategory />} text="Find by Category" />
+          <SidebarLink to="/seeker-dashboard/reward" icon={<FaGift />} text="Rewards" />
+          <SidebarLink to="/marketplace" icon={<MdOutlineCategory />} text="Find by Category" />
 
         </nav>
       </div>
