@@ -1,8 +1,17 @@
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import OTPInput from "react-otp-input"
+import { useState } from "react";
+import { Lock, Mail } from "lucide-react";
 import topmateLogo from "../assets/topmate-light-logo.svg"
+import { useDispatch, useSelector } from "react-redux";
+import { setEmail, setPassword, setOtp } from "../redux/signIn/signInSlice";
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+  const { email, password, otp } = useSelector((state) => state.signIn);
+  const [isLoginWithPass, setIsLoginWithPass] = useState(false);
+  const [doneContinue, setDoneContinue] = useState(false);
+
   return (
     <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
       <div className="w-[1200px] h-[650px] bg-white rounded-2xl shadow-sm grid grid-cols-2 overflow-hidden">
@@ -11,9 +20,12 @@ export default function SignIn() {
         <div className="p-12 flex flex-col justify-center">
 
           {/* Logo */}
-          <div className="flex justify-between items-center gap-2 mb-10">
-            <img className="w-40" src={topmateLogo} alt="topmate" />
-            <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500">Create account</button>
+          <div className="flex flex-col">
+            <div className="flex justify-between items-center gap-2 mb-10">
+              <img className="w-40" src={topmateLogo} alt="topmate" />
+              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500">Create account</button>
+            </div>
+            <div className="h-px bg-gray-200 mb-5" />
           </div>
 
           <motion.h1
@@ -48,25 +60,63 @@ export default function SignIn() {
           </div>
 
           {/* Email input */}
-          <div className="mb-4">
+          {doneContinue || <div className="mb-4">
             <label className="text-sm text-gray-500">Email</label>
             <div className="mt-1 border rounded-lg flex items-center px-3 py-2">
               <Mail className="w-4 h-4 text-gray-400 mr-2" />
               <input
                 type="email"
                 placeholder="Email"
+                value={email}
                 className="outline-none w-full"
+                onChange={(e) => dispatch(setEmail(e.target.value))}
               />
             </div>
-          </div>
+          </div>}
 
-          {/* Continue */}
-          <button className="bg-black text-white py-3 rounded-lg mb-3 hover:opacity-90 transition">
+          {isLoginWithPass && <div className="mb-4">
+            <label className="text-sm text-gray-500">Password</label>
+            <div className="mt-1 border rounded-lg flex items-center px-3 py-2">
+              <Lock className="w-4 h-4 text-gray-400 mr-2" />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                className="outline-none w-full"
+                onChange={(e) => dispatch(setPassword(e.target.value))}
+              />
+            </div>
+          </div>}
+
+
+          {/* Otp code setup */}
+          {doneContinue && <div className="flex justify-center items-center mb-5">
+            <OTPInput
+              value={otp}
+              onChange={(otp) => dispatch(setOtp(otp))}
+              numInputs={6}
+              containerStyle="flex gap-3"
+              renderInput={(props) => (
+                <input
+                  {...props}
+                  inputMode="numeric"
+                  className="w-16 h-16 text-black text-center text-2xl rounded-md border border-gray-600 focus:outline-none focus:border-white"
+                />
+              )}
+            />
+          </div>}
+
+          {/* Continue mix code  */}
+          <button
+            onClick={() => {
+              !doneContinue ? setDoneContinue(!doneContinue) : console.log(otp); // this code is pending for write now
+            }}
+            className="bg-black text-white py-3 rounded-lg mb-3 hover:opacity-90 transition">
             Continue
           </button>
 
-          <button className="bg-gray-100 py-3 rounded-lg text-gray-700 hover:bg-gray-200 transition">
-            Log in with Password
+          <button onClick={() => setIsLoginWithPass(!isLoginWithPass)} className={`bg-gray-100 py-3 rounded-lg text-gray-700 hover:bg-gray-200 transition`}>
+            {isLoginWithPass ? "Back" : "Log in with Password"}
           </button>
         </div>
 
