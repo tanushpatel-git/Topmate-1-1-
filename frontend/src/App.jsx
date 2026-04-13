@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router'
+import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Meeting from './pages/Meeting'
 import Webniars from './pages/Webinar'
@@ -12,11 +12,13 @@ import Pricing from './pages/Pricing'
 import PriorityDm from './pages/PriorityDm'
 import ScrollToTop from './services/ScrollOnTop'
 import ProductManagement from './pages/ProductManagement'
+import SekerDashboard from './pages/SekerDashboard'
+import Marketplace from './pages/Marketplace'
+
 
 const App = () => {
   return (
     <>
-
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -30,6 +32,8 @@ const App = () => {
         <Route path='/pricing' element={<Pricing />} />
         <Route path='/features/priority-dm' element={<PriorityDm />} />
         <Route path='/use-cases/product-management' element={<ProductManagement />} />
+       <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
+       <Route path="/marketplace" element={<Marketplace />} />
       </Routes>
 
     </>
