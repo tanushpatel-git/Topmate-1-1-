@@ -15,6 +15,7 @@ import ProductManagement from './pages/ProductManagement'
 import AInML from './pages/AInML'
 import SoftwareEngineering from './pages/SoftwareEngineering'
 import DesignUxUi from './pages/DesignUxUi'
+import SignIn from './pages/SignIn'
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path='/use-cases/ai-ml' element={<AInML />} />
         <Route path='/use-cases/software-engineer' element={<SoftwareEngineering />} />
         <Route path='/use-cases/design' element={<DesignUxUi />} />
+        <Route path='/signin' element={<SignIn />} />
       </Routes>
 
     </>
