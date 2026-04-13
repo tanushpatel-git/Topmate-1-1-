@@ -8,10 +8,41 @@ import glogo from "../../assets/gumroad-logo.svg";
 export default function PricingComparison() {
   return (
     <div className="min-h-screen bg-white px-4 sm:px-8 py-10">
-{/* Header Logos */}
-<div className="max-w-7xl mx-auto grid grid-cols-4 items-center text-center mb-10">
 
-  {/* Empty first column */}
+
+<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center m-10 ">
+        {/* Left Side */}
+        <div>
+          <p className="text-red-500 font-semibold tracking-wider uppercase mb-4">
+            Comparison
+          </p>
+
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">
+            Here's why we <br /> edge past others
+          </h1>
+        </div>
+
+        {/* Right Side */}
+        <div>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            At topmate the aim is to 
+            <span className="font-semibold">
+              {" "}always challenge the status quo
+            </span>{" "}
+            and create scalable solutions that don't burn holes in the pocket.
+          </p>
+        </div>
+      </div>
+
+
+
+
+{/* Header Logos */}
+<div className="max-w-7xl mx-auto grid grid-cols-4 items-center text-center m-[5rem]  ">
+
+
+
+  {/*  Empty first column */}
   <div></div>
 
   {/* Topmate */}
