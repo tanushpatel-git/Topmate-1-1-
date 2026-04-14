@@ -7,10 +7,7 @@ const Navbar = ({ theam = "white" }) => {
   const [activeMenu, setActiveMenu] = useState(null);
   const closeTimer = useRef(null);
 
-  // MOBILE MENU
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // ACTIVE STATES
+  //  ACTIVE STATES
   const [activeSection, setActiveSection] = useState("products");
   const [hoverItem, setHoverItem] = useState(null);
   const [activeChild, setActiveChild] = useState("");
@@ -57,14 +54,16 @@ const Navbar = ({ theam = "white" }) => {
     { name: "Product Management", linkPos: "/use-cases/product-management" },
     { name: "Ai & Ml", linkPos: "/use-cases/ai-ml" },
     { name: "Software Engineering", linkPos: "/use-cases/software-engineer" },
+    { name: "Data Science", linkPos: "/use-cases/data-science" },
     { name: "Design (Ux & Ui)", linkPos: "/use-cases/design" }
   ];
 
   const menuData = activeMenu === "features" ? features : useCases;
 
+
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>
-
       <div className="max-w-7xl mx-auto px-6">
 
         <div className="flex items-center justify-between h-16">
@@ -72,22 +71,14 @@ const Navbar = ({ theam = "white" }) => {
           {/* LOGO */}
           <Link to="/" className={`${textMain} text-xl font-semibold`}>
             <div className="w-40">
-              <img
-                src={
-                  isDark
-                    ? "https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-dark.svg"
-                    : "https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-light.svg"
-                }
-                alt="logo"
-              />
+              <img src={`${isDark ? "https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-dark.svg" : "https://topmate.io/cdn-cgi/image/width=384,quality=90/images/common/topmate-light.svg"}`} alt="loading..." />
             </div>
           </Link>
 
-          {/* CENTER MENU (DESKTOP ONLY) */}
-          <div className={`border ${isDark ? "border-white/10" : "border-black/10"} rounded-full shadow`}>
+          {/* CENTER */}
+          <div className={` border ${isDark ? "border-white/10" : "border-black/10"}  rounded-full shadow`}>
 
             <div className="hidden md:flex items-center gap-2 relative pl-3 pr-3 pt-2 pb-2">
-
               {/* PRODUCTS */}
               <div
                 className="relative cursor-pointer"
@@ -101,8 +92,7 @@ const Navbar = ({ theam = "white" }) => {
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-
-                <button className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm`}>
+                <button className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
                   Products ▾
                 </button>
               </div>
@@ -120,8 +110,7 @@ const Navbar = ({ theam = "white" }) => {
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-
-                <button className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm`}>
+                <button className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
                   Use Cases ▾
                 </button>
               </div>
@@ -131,15 +120,16 @@ const Navbar = ({ theam = "white" }) => {
                 className="relative block"
                 onMouseEnter={() => handleMouseEnter("search", null)}
                 onMouseLeave={handleMouseLeave}
+                onClick={() => setActiveSection("search")}
               >
                 {displayItem === "search" && (
                   <motion.div
                     layoutId="nav-bg"
                     className={`absolute inset-0 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"}`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-
-                <div className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm`}>
+                <div className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
                   Search
                 </div>
               </Link>
@@ -149,102 +139,131 @@ const Navbar = ({ theam = "white" }) => {
                 className="relative block"
                 onMouseEnter={() => handleMouseEnter("pricing", null)}
                 onMouseLeave={handleMouseLeave}
+                onClick={() => setActiveSection("pricing")}
               >
                 {displayItem === "pricing" && (
                   <motion.div
                     layoutId="nav-bg"
                     className={`absolute inset-0 rounded-full ${isDark ? "bg-white/20" : "bg-black/10"}`}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-
-                <div className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm`}>
+                <div className={`relative z-10 ${textMain} px-4 py-1 rounded-full text-sm transition`}>
                   Pricing
                 </div>
               </Link>
 
+              {/* MEGA MENU */}
+              <AnimatePresence>
+                {activeMenu && (
+                  <motion.div
+                    onMouseEnter={keepMenuOpen}
+                    onMouseLeave={handleMouseLeave}
+                    className="absolute left-1/2 top-12 -translate-x-1/2 w-[900px]"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                  >
+                    <div className={`${dropdownBg} border rounded-2xl p-6 shadow-2xl`}>
+
+                      <div className="grid grid-cols-3 gap-8">
+
+                        <div>
+                          <h4 className="text-gray-400 text-xs mb-4 uppercase">
+                            {activeMenu === "features" ? "Features" : "Use Cases"}
+                          </h4>
+
+                          <div className="space-y-1">
+                            {menuData.map((item, index) => (
+                              <Link
+                                key={index}
+                                to={item.linkPos}
+                                // ✅ FIX HERE
+                                onMouseDown={() => {
+                                  setActiveSection(activeMenu === "features" ? "products" : "usecases");
+                                  setActiveChild(item.name);
+                                  setActiveMenu(null);
+                                  setHoverItem(null);
+                                }}
+                                className={`flex items-center gap-3 p-3 rounded-lg ${
+                                  isDark ? "hover:bg-white/10" : "hover:bg-black/10"
+                                } transition`}
+                              >
+                                <div className={`w-8 h-8 ${isDark ? "bg-white/10" : "bg-black/10"} rounded-md`} />
+
+                                <div>
+                                  <h4 className={`text-sm ${
+                                    activeChild === item.name
+                                      ? "text-blue-500"
+                                      : textMain
+                                  }`}>
+                                    {item.name}
+                                  </h4>
+
+                                  <p className="text-gray-400 text-xs">
+                                    Sample description
+                                  </p>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+
+                        {activeMenu === "features" && (
+                          <div className={`col-span-2 ${cardBg} rounded-xl p-4`}>
+                            <div className="h-32 bg-linear-to-r from-blue-500 to-cyan-500 rounded-lg mb-4" />
+
+                            <h4 className={`${textMain} text-sm mb-2`}>
+                              TOPMATE ECOSYSTEM
+                            </h4>
+
+                            <p className="text-gray-400 text-xs mb-4">
+                              Everything you need to turn your knowledge
+                              into a global business.
+                            </p>
+
+                            <button className="text-blue-400 text-sm hover:underline">
+                              Explore All Tools →
+                            </button>
+                          </div>
+                        )}
+
+                        {activeMenu === "usecases" && (
+                          <div className={`col-span-2 ${cardBg} rounded-xl p-4`}>
+                            <div className="h-32 bg-linear-to-r from-orange-500 to-pink-500 rounded-lg mb-4" />
+
+                            <h4 className={`${textMain} text-sm mb-2`}>
+                              TOPMATE Use Case
+                            </h4>
+
+                            <p className="text-gray-400 text-xs mb-4">
+                              The thing which turn u into an expert by kowning use cases
+                            </p>
+
+                            <button className="text-blue-400 text-sm hover:underline">
+                              Explore All Use Case →
+                            </button>
+                          </div>
+                        )}
+
+                      </div>
+
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
-
-          {/* RIGHT SECTION */}
-          <div className="flex items-center gap-4">
-
-            {/* HAMBURGER (MOBILE) */}
-            <button
-              className={`md:hidden border ${isDark ? "border-white/10" : "border-black/10"} rounded-full flex justify-center items-center text-4xl ${textMain}`}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              ☰
-            </button>
-
-            {/* DASHBOARD (DESKTOP ONLY) */}
-            <button className={`${buttonPrimary} px-5 py-2 rounded-lg hidden md:block`}>
-              Dashboard
-            </button>
 
           </div>
+
+          {/* DASHBOARD */}
+          <button className={`${buttonPrimary} px-5 py-2 rounded-lg`}>
+            Dashboard
+          </button>
 
         </div>
       </div>
-
-      {/* MOBILE MENU */}
-      <AnimatePresence>
-
-        {mobileMenuOpen && (
-
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className={`${dropdownBg} md:hidden border-t`}
-          >
-
-            <div className="px-6 py-6 space-y-6">
-
-              <div>
-                <h3 className="font-semibold mb-2">Products</h3>
-                <div className="space-y-2 pl-3">
-
-                  {features.map((item) => (
-                    <Link key={item.name} to={item.linkPos} className="block text-gray-400">
-                      {item.name}
-                    </Link>
-                  ))}
-
-                </div>
-              </div>
-
-              <div>
-                <h3 className="font-semibold mb-2">Use Cases</h3>
-
-                <div className="space-y-2 pl-3">
-
-                  {useCases.map((item) => (
-                    <Link key={item.name} to={item.linkPos} className="block text-gray-400">
-                      {item.name}
-                    </Link>
-                  ))}
-
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                <Link to="/search">Search</Link>
-
-                <Link to="/pricing">Pricing</Link>
-              </div>
-
-              <button className={`${buttonPrimary} w-full py-2 rounded-lg`}>
-                Dashboard
-              </button>
-
-            </div>
-
-          </motion.div>
-
-        )}
-
-      </AnimatePresence>
-
     </nav>
   );
 };
