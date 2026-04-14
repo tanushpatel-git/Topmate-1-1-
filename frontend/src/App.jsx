@@ -17,6 +17,7 @@ import AInML from './pages/AInML'
 import SoftwareEngineering from './pages/SoftwareEngineering'
 import DesignUxUi from './pages/DesignUxUi'
 import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
 
 
 import SekerDashboard from './pages/SekerDashboard'
@@ -46,6 +47,7 @@ const App = () => {
         <Route path='/use-cases/software-engineer' element={<SoftwareEngineering />} />
         <Route path='/use-cases/design' element={<DesignUxUi />} />
         <Route path='/signin' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
 
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
