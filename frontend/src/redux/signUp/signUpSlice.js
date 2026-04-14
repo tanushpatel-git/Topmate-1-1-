@@ -9,7 +9,7 @@ const signUpSlice = createSlice({
         password: "",
         country: "India",
         currency: "Indian Rupee",
-        expertise: "",
+        expertise: [],
         linkedInUrl: "",
         twitterUrl: "",
         instagramUrl: "",

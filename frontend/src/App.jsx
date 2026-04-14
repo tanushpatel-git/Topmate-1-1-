@@ -18,13 +18,17 @@ import SoftwareEngineering from './pages/SoftwareEngineering'
 import DesignUxUi from './pages/DesignUxUi'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-
+import SignUp2 from './pages/SignUp2'
+import SignUp3 from './pages/SignUp3'
+import SignUp4 from './pages/SignUp4'
+import SignUp5 from './pages/SignUp5'
 
 import SekerDashboard from './pages/SekerDashboard'
 import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 
 const App = () => {
+
   return (
     <>
       <ScrollToTop />
@@ -48,6 +52,10 @@ const App = () => {
         <Route path='/use-cases/design' element={<DesignUxUi />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/signup2' element={<SignUp2 />} />
+        <Route path='/signup3' element={<SignUp3 />} />
+        <Route path='/signup4' element={<SignUp4 />} />
+        <Route path='/signup5' element={<SignUp5 />} />
 
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
