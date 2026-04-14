@@ -5,10 +5,12 @@ import whatAppsSignUp from "../assets/whatAppsSignUp.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { setWhatsAppNumber } from "../redux/signUp/signUpSlice";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const dispatch = useDispatch();
     const whatsAppNumber = useSelector((state) => state.signUp.whatsAppNumber);
+    const navigate = useNavigate();
 
 
     return (
@@ -80,13 +82,19 @@ const SignUp = () => {
                 </div>
             </motion.div>
             {/* Bottom Button */}
-            <div className="border-t bg-white py-6 flex justify-center">
-                <motion.button
-                onClick={() => {console.log(whatsAppNumber);
-                }}
+            <div className="border-t bg-white py-6 flex gap-4 justify-center">
+                 <motion.button
+                    onClick={() => navigate(-1)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className="w-[500px] bg-black text-white py-3 rounded-md font-medium"
+                    className="w-[100px] bg-black text-white py-3 rounded-md font-medium"
+                >
+                    Back
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="w-[400px] bg-black text-white py-3 rounded-md font-medium"
                 >
                     Launch your page
                 </motion.button>

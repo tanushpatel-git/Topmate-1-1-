@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExpertise, setLinkedInUrl, setTwitterUrl, setInstagramUrl } from "../redux/signUp/signUpSlice";
 import SignUpNavbar from "../components/commonCompo/SignUpNavbar";
+import { useNavigate } from "react-router-dom";
 
 const expertiseList = [
     "Cybersecurity",
@@ -28,6 +29,7 @@ export default function SignUp2() {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState([]);
     const [topmateLink, setTopmateLink] = useState("");
+    const navigate = useNavigate();
 
     const toggle = (item) => {
         setSelected((prev) =>
@@ -174,11 +176,19 @@ export default function SignUp2() {
             </motion.div>
 
             {/* Bottom Button */}
-            <div className="border-t bg-white py-6 flex justify-center">
+            <div className="border-t bg-white py-6 flex gap-4 justify-center">
+                <motion.button
+                    onClick={() => navigate(-1)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="w-[100px] bg-black text-white py-3 rounded-md font-medium"
+                >
+                    Back
+                </motion.button>
                 <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className="w-[500px] bg-black text-white py-3 rounded-md font-medium"
+                    className="w-[400px] bg-black text-white py-3 rounded-md font-medium"
                 >
                     Next
                 </motion.button>

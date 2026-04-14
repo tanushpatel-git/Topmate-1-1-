@@ -5,6 +5,7 @@ import { Check } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailability } from "../redux/signUp/signUpSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignUp4 = () => {
 
@@ -22,6 +23,7 @@ const SignUp4 = () => {
     const [startTime, setStartTime] = useState("09:00");
     const [endTime, setEndTime] = useState("20:00");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const toggleDay = (day) => {
         setActiveDays((prev) =>
@@ -150,11 +152,19 @@ ${active ? "bg-green-700 border-green-700 text-white" : "bg-white"}
             </motion.div>
 
             {/* Bottom Button */}
-            <div className="border-t bg-white py-6 flex justify-center">
+            <div className="border-t bg-white py-6 flex gap-4 justify-center">
+                <motion.button
+                    onClick={() => navigate(-1)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="w-[100px] bg-black text-white py-3 rounded-md font-medium"
+                >
+                    Back
+                </motion.button>
                 <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className="w-[500px] bg-black text-white py-3 rounded-md font-medium"
+                    className="w-[400px] bg-black text-white py-3 rounded-md font-medium"
                 >
                     Next
                 </motion.button>

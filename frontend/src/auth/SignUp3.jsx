@@ -3,12 +3,14 @@ import { motion } from "framer-motion";
 import SignUpNavbar from "../components/commonCompo/SignUpNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import { setService } from "../redux/signUp/signUpSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignUp3 = () => {
 
     const dispatch = useDispatch();
     const { service } = useSelector((state) => state.signUp);
     const [selectedServices, setSelectedServices] = useState(service);
+    const navigate = useNavigate();
 
     const toggleService = (service) => {
         setSelectedServices((prev) =>
@@ -82,11 +84,19 @@ const SignUp3 = () => {
             </motion.div>
 
             {/* Bottom Button */}
-            <div className="border-t bg-white py-6 flex justify-center">
+            <div className="border-t bg-white py-6 flex gap-4 justify-center">
+                 <motion.button
+                    onClick={() => navigate(-1)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="w-[100px] bg-black text-white py-3 rounded-md font-medium"
+                >
+                    Back
+                </motion.button>
                 <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className="w-[500px] bg-black text-white py-3 rounded-md font-medium"
+                    className="w-[400px] bg-black text-white py-3 rounded-md font-medium"
                 >
                     Next
                 </motion.button>
