@@ -57,7 +57,6 @@ const Navbar = ({ theam = "white" }) => {
     { name: "Product Management", linkPos: "/use-cases/product-management" },
     { name: "Ai & Ml", linkPos: "/use-cases/ai-ml" },
     { name: "Software Engineering", linkPos: "/use-cases/software-engineer" },
-    { name: "Data Science", linkPos: "/use-cases/data-science" },
     { name: "Design (Ux & Ui)", linkPos: "/use-cases/design" }
   ];
 
