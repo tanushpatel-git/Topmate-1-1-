@@ -93,13 +93,15 @@ const signUpSlice = createSlice({
             state.instagramUrl = action.payload
         },
         setAvailablity: (state, action) => {
-            state.availablity = action.payload
+            state.availablity[action.payload.day].isAvailable = action.payload.availability
+            state.availablity[action.payload.day].startingTime = action.payload.startingTime
+            state.availablity[action.payload.day].endingTime = action.payload.endingTime
         },
         setWhatAppsNumber: (state, action) => {
             state.whatAppsNumber = action.payload
         },
         setService: (state, action) => {
-            state.service = action.payload
+            state.service[action.payload] = !state.service[action.payload]
         }
     }
 })

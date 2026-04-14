@@ -14,7 +14,7 @@ export default function ProgressStepper({ currentStep = 1 }) {
 
                 {/* Active Line */}
                 <motion.div
-                    className="absolute left-0 h-[4px] bg-black rounded-full"
+                    className="absolute left-0 h-[6px] bg-black rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.6 }}
