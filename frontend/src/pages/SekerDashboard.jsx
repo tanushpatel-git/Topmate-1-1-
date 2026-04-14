@@ -1,5 +1,5 @@
 
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import SeekerSidebar from "../components/SeekerDashboarPage/SeekerSidebar";
 import BottomNavbar from "../components/SeekerDashboarPage/BottomNavbar";
 import SeekerHome from "../components/SeekerDashboarPage/SeekerHome";
