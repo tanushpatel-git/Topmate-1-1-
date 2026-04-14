@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router'
+import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Meeting from './pages/Meeting'
 import Webniars from './pages/Webinar'
@@ -12,15 +12,20 @@ import Pricing from './pages/Pricing'
 import PriorityDm from './pages/PriorityDm'
 import ScrollToTop from './services/ScrollOnTop'
 import ProductManagement from './pages/ProductManagement'
+
 import AInML from './pages/AInML'
 import SoftwareEngineering from './pages/SoftwareEngineering'
 import DesignUxUi from './pages/DesignUxUi'
 import SignIn from './pages/SignIn'
 
+
+import SekerDashboard from './pages/SekerDashboard'
+import Marketplace from './pages/Marketplace'
+import Search from './pages/Search'
+
 const App = () => {
   return (
     <>
-
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -32,19 +37,21 @@ const App = () => {
         <Route path='/terms' element={<Terms />} />
         <Route path='/privacy' element={<Privacy />} />
         <Route path='/pricing' element={<Pricing />} />
+        <Route path='/search' element={<Search />} />
         <Route path='/features/priority-dm' element={<PriorityDm />} />
         <Route path='/use-cases/product-management' element={<ProductManagement />} />
+
+
         <Route path='/use-cases/ai-ml' element={<AInML />} />
         <Route path='/use-cases/software-engineer' element={<SoftwareEngineering />} />
         <Route path='/use-cases/design' element={<DesignUxUi />} />
         <Route path='/signin' element={<SignIn />} />
-      </Routes>
 
+        <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
+        <Route path="/marketplace" element={<Marketplace />} />
+      </Routes>
     </>
   )
 }
 
-
-
 export default App
-

@@ -41,7 +41,7 @@ const Hero5 = () => {
 
   return (
     <div
-      className="w-full  bg-gray-100 
+      className="w-full  bg-[#ffffff] 
   flex flex-col lg:flex-row 
   items-start lg:items-center 
   justify-center 
@@ -49,7 +49,7 @@ const Hero5 = () => {
   py-10 gap-10 h-screen"
     >
       {/* LEFT SIDE */}
-      <div className="flex-1 w-full sm-h-[30%] mt-[10%] ">
+      <div className="flex-1 w-full sm-h-[30%] ">
 
         <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-700 leading-tight">
           Frequently asked <br /> questions
