@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const steps = [1, 2, 3, 4, 5];
 
 export default function ProgressStepper({ currentStep = 1 }) {
-    const progress = (currentStep / steps.length) * 68;
+    const progress = (currentStep / steps.length) * 100;
 
     return (
         <div className="w-full flex justify-center mr-50">

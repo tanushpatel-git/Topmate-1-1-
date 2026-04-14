@@ -13,8 +13,8 @@ const signUpSlice = createSlice({
         linkedInUrl: "",
         twitterUrl: "",
         instagramUrl: "",
-        whatAppsNumber: "",
-        availablity: {
+        whatsAppNumber: "",
+        availability: {
             monday: {
                 isAvailable: false,
                 startingTime: "",
@@ -42,24 +42,16 @@ const signUpSlice = createSlice({
             },
             saturday: {
                 isAvailable: true,
-                startingTime: "10:00",
-                endingTime: "18:00"
+                startingTime: "09:00",
+                endingTime: "20:00"
             },
             sunday: {
                 isAvailable: true,
-                startingTime: "10:00",
-                endingTime: "18:00"
+                startingTime: "09:00",
+                endingTime: "20:00"
             }
         },
-        service: {
-            resumeReview: false,
-            mockInterview: false,
-            careerGuidance: false,
-            interviewPreparationNTips: false,
-            oneOnoneMentorship: false,
-            discoveryCall: false,
-            qickChat: false,
-        },
+        service: ["Resume review", "Discovery Call", "Quick chat"],
     },
     reducers: {
         setFirstName: (state, action) => {
@@ -92,16 +84,24 @@ const signUpSlice = createSlice({
         setInstagramUrl: (state, action) => {
             state.instagramUrl = action.payload
         },
-        setAvailablity: (state, action) => {
-            state.availablity[action.payload.day].isAvailable = action.payload.availability
-            state.availablity[action.payload.day].startingTime = action.payload.startingTime
-            state.availablity[action.payload.day].endingTime = action.payload.endingTime
+        setAvailability: (state, action) => {
+            const { day, starting, ending } = action.payload
+            const days = Array.isArray(day) ? day : [day]
+            Object.keys(state.availability).forEach(d => {
+                if (days.includes(d)) {
+                    state.availability[d].isAvailable = true
+                    state.availability[d].startingTime = starting
+                    state.availability[d].endingTime = ending
+                } else {
+                    state.availability[d].isAvailable = false
+                }
+            })
         },
-        setWhatAppsNumber: (state, action) => {
-            state.whatAppsNumber = action.payload
+        setWhatsAppNumber: (state, action) => {
+            state.whatsAppNumber = action.payload
         },
         setService: (state, action) => {
-            state.service[action.payload] = !state.service[action.payload]
+            state.service = action.payload
         }
     }
 })
@@ -117,6 +117,6 @@ export const { setFirstName,
     setLinkedInUrl,
     setTwitterUrl,
     setInstagramUrl,
-    setAvailablity,
-    setWhatAppsNumber,
+    setAvailability,
+    setWhatsAppNumber,
     setService } = signUpSlice.actions

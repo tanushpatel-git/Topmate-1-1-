@@ -22,9 +22,9 @@ const expertiseList = [
     "Marketing",
 ];
 
-export default function TopmateOnboarding() {
+export default function SignUp2() {
 
-    const { firstName, lastName, linkedInUrl, twitterUrl, instagramUrl } = useSelector((state) => state.signUp)
+    const { firstName, lastName } = useSelector((state) => state.signUp)
     const dispatch = useDispatch();
     const [selected, setSelected] = useState([]);
     const [topmateLink, setTopmateLink] = useState("");
