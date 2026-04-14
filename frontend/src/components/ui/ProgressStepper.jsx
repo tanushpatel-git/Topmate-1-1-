@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 
-const steps = [1, 2, 3, 4];
+const steps = [1, 2, 3, 4, 5];
 
 export default function ProgressStepper({ currentStep = 1 }) {
-    const progress = (currentStep / steps.length) * 100;
+    const progress = (currentStep / steps.length) * 68;
 
     return (
         <div className="w-full flex justify-center mr-50">
@@ -23,7 +23,7 @@ export default function ProgressStepper({ currentStep = 1 }) {
                 {/* Pacman */}
                 <motion.img
                     src="https://topmate.io/cdn-cgi/image/width=48,quality=90/_next/static/media/Step-icon.5a80fc09.svg"
-                    className="absolute w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 -translate-x-1/2"
+                    className="absolute w-6 h-6 z-20 sm:w-8 sm:h-8 md:w-10 md:h-10 -translate-x-1/2"
                     animate={{ left: `${progress}%` }}
                     transition={{ type: "spring", stiffness: 120 }}
                 />
