@@ -18,6 +18,7 @@ const SekerDashboard = () => {
 
       {/* Main Content */}
       <div className="md:ml-64 pb-20 md:pb-0">
+        
         <Routes>
           <Route index element={<Navigate to="home" />} />
           <Route path="home" element={<SeekerHome />} />

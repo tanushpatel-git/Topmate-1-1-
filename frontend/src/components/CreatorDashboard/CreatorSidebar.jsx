@@ -5,11 +5,12 @@ import { MdOutlineCategory } from "react-icons/md";
 import Logoicon  from '../../assets/logo-icon.svg'
 import { useState } from "react";
 
-const SeekerSidebar = () => {
+
+const CreatorSidebar = () => {
 
   const [open, setOpen] = useState(false); 
   const navigate = useNavigate();
-  
+
   return (
     <div className="w-64 bg-[#F7F6F2] border-r-1 border-gray-200 flex flex-col justify-between fixed h-full">
 
@@ -20,7 +21,7 @@ const SeekerSidebar = () => {
             <img src={Logoicon} alt="" />
           </div>
           <div>
-            <h2 className="font-semibold">Seeker Dashboard   </h2>  
+            <h2 className="font-semibold">Dashboard   </h2>  
             <p className="text-sm text-gray-500">user name </p>
           </div>
           <div onClick={() => setOpen(!open)} className="cursor-pointer">
@@ -41,7 +42,7 @@ const SeekerSidebar = () => {
   
   <div className="flex items-center gap-2 p-8  ml-3 mr-3  rounded-lg bg-white shadow justify-center h-12">
   <FaUserAlt className="text-1xl text-gray-700" />
-  <h2 className="font-semibold text-sm text-gray-700" onClick={() => navigate('/creator-dashboard')}  > Crator Dashboard</h2>
+  <h2 className="font-semibold text-sm text-gray-700" onClick={()=>navigate('/seeker-dashboard')}> Crator Dashboard</h2>
 </div>
 
 )}
@@ -50,18 +51,40 @@ const SeekerSidebar = () => {
 
 
         {/* Menu */}
-        <nav className="p-4 space-y-2">
-          <p className="text-xs text-gray-400 mb-2">Main</p>
+        <nav className="px-4 py-2 space-y-6">
 
-          <SidebarLink to="/seeker-dashboard/home" icon={<FaHome />} text="Home" />
-                <SidebarLink to="/seeker-dashboard/booking" icon={<FaPhoneAlt />} text="Booking" />    
-      <SidebarLink to="/search" icon={<FaSearch />} text="Find by People" />
+  {/* MANAGE */}
+  <div>
+    <p className="text-xs text-gray-400 mb-2">Manage</p>
 
-          <SidebarLink to="/seeker-dashboard/profile" icon={<FaUser />} text="Profile" />
-          <SidebarLink to="/seeker-dashboard/reward" icon={<FaGift />} text="Rewards" />
-          <SidebarLink to="/marketplace" icon={<MdOutlineCategory />} text="Find by Category" />
+    <SidebarLink to="/creator-dashboard/home" icon={<FaHome />} text="Home" />
+    <SidebarLink to="/creator-dashboard/booking" icon={<FaPhoneAlt />} text="Bookings" />
+    <SidebarLink to="/creator-dashboard/dm" icon={<FaUser />} text="Priority DM" />
+    <SidebarLink to="/creator-dashboard/services" icon={<MdOutlineCategory />} text="Services" badge />
+    <SidebarLink to="/creator-dashboard/calendar" icon={<FaSearch />} text="Calendar" badge />
+    <SidebarLink to="/creator-dashboard/autodm" icon={<FaUserAlt />} text="AutoDM" />
+    <SidebarLink to="/creator-dashboard/payouts" icon={<FaGift />} text="Payouts" />
+  </div>
 
-        </nav>
+  {/* YOUR PAGE */}
+  <div>
+    <p className="text-xs text-gray-400 mb-2">Your Page</p>
+
+    <SidebarLink to="/creator-dashboard/analytics" icon={<FaSearch />} text="Analytics" />
+    <SidebarLink to="/creator-dashboard/testimonials" icon={<FaUser />} text="Testimonials" />
+    <SidebarLink to="/creator-dashboard/profile" icon={<FaUserAlt />} text="Edit Profile" />
+    <SidebarLink to="/creator-dashboard/settings" icon={<FaGift />} text="Settings" />
+  </div>
+
+  {/* MORE */}
+  <div>
+    <p className="text-xs text-gray-400 mb-2">More</p>
+
+    <SidebarLink to="/creator-dashboard/advanced" icon={<MdOutlineCategory />} text="Advanced" />
+    <SidebarLink to="/creator-dashboard/sites" icon={<FaSearch />} text="Sites" />
+  </div>
+
+</nav>
       </div>
 
       {/* Bottom Profile */}
@@ -82,15 +105,14 @@ const SeekerSidebar = () => {
   );
 };
 
-export default SeekerSidebar;
+export default CreatorSidebar;
 
-
-const SidebarLink = ({ to, icon, text }) => {
+const SidebarLink = ({ to, icon, text, badge }) => {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-2 rounded-lg transition-colors
+        `flex items-center justify-between px-4 py-2 rounded-lg transition-colors
         ${
           isActive
             ? "bg-[#ECE6DB] text-black font-medium"
@@ -98,8 +120,15 @@ const SidebarLink = ({ to, icon, text }) => {
         }`
       }
     >
-      {icon}
-      <span>{text}</span>
+      <div className="flex items-center gap-3">
+        {icon}
+        <span>{text}</span>
+      </div>
+
+      {/* Red notification dot */}
+      {badge && (
+        <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+      )}
     </NavLink>
   );
 };

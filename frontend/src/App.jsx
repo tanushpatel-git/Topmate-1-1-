@@ -17,11 +17,10 @@ import AInML from './pages/AInML'
 import SoftwareEngineering from './pages/SoftwareEngineering'
 import DesignUxUi from './pages/DesignUxUi'
 import SignIn from './pages/SignIn'
-
-git add src/App.jsx
 import SekerDashboard from './pages/SekerDashboard'
 import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
+import CreatorDashboard from './pages/CreatorDashboard'
 
 const App = () => {
   return (
@@ -48,6 +47,7 @@ const App = () => {
         <Route path='/signin' element={<SignIn />} />
 
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
+        <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
       </Routes>
     </>
