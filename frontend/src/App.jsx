@@ -16,13 +16,20 @@ import ProductManagement from './pages/ProductManagement'
 import AInML from './pages/AInML'
 import SoftwareEngineering from './pages/SoftwareEngineering'
 import DesignUxUi from './pages/DesignUxUi'
-import SignIn from './pages/SignIn'
+import SignIn from './auth/SignIn'
+import SignUp from './auth/SignUp'
+import SignUp2 from './auth/SignUp2'
+import SignUp3 from './auth/SignUp3'
+import SignUp4 from './auth/SignUp4'
+import SignUp5 from './auth/SignUp5'
+
 import SekerDashboard from './pages/SekerDashboard'
 import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 import CreatorDashboard from './pages/CreatorDashboard'
 
 const App = () => {
+
   return (
     <>
       <ScrollToTop />
@@ -45,6 +52,11 @@ const App = () => {
         <Route path='/use-cases/software-engineer' element={<SoftwareEngineering />} />
         <Route path='/use-cases/design' element={<DesignUxUi />} />
         <Route path='/signin' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signup2' element={<SignUp2 />} />
+        <Route path='/signup3' element={<SignUp3 />} />
+        <Route path='/signup4' element={<SignUp4 />} />
+        <Route path='/signup5' element={<SignUp5 />} />
 
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />

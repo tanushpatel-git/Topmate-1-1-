@@ -1,16 +1,19 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
+import { Menu, X, ChevronDown, ChevronRight, Search } from "lucide-react";
 
 const Navbar = ({ theam = "white" }) => {
 
   const [activeMenu, setActiveMenu] = useState(null);
   const closeTimer = useRef(null);
 
-  // ✅ ACTIVE STATES
+  //  ACTIVE STATES
   const [activeSection, setActiveSection] = useState("products");
   const [hoverItem, setHoverItem] = useState(null);
   const [activeChild, setActiveChild] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState(null);
 
   const displayItem = hoverItem || activeSection;
 
@@ -185,18 +188,16 @@ const Navbar = ({ theam = "white" }) => {
                                   setActiveMenu(null);
                                   setHoverItem(null);
                                 }}
-                                className={`flex items-center gap-3 p-3 rounded-lg ${
-                                  isDark ? "hover:bg-white/10" : "hover:bg-black/10"
-                                } transition`}
+                                className={`flex items-center gap-3 p-3 rounded-lg ${isDark ? "hover:bg-white/10" : "hover:bg-black/10"
+                                  } transition`}
                               >
                                 <div className={`w-8 h-8 ${isDark ? "bg-white/10" : "bg-black/10"} rounded-md`} />
 
                                 <div>
-                                  <h4 className={`text-sm ${
-                                    activeChild === item.name
-                                      ? "text-blue-500"
-                                      : textMain
-                                  }`}>
+                                  <h4 className={`text-sm ${activeChild === item.name
+                                    ? "text-blue-500"
+                                    : textMain
+                                    }`}>
                                     {item.name}
                                   </h4>
 
@@ -257,12 +258,125 @@ const Navbar = ({ theam = "white" }) => {
           </div>
 
           {/* DASHBOARD */}
-          <button className={`${buttonPrimary} px-5 py-2 rounded-lg`}>
-            Dashboard
-          </button>
+          <div className="flex items-center gap-4">
+
+            <button className={`${buttonPrimary} px-5 py-2 rounded-lg hidden md:block`}>
+              Dashboard
+            </button>
+
+            {/* HAMBURGER */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className={`md:hidden ${textMain}`}
+            >
+              {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+
+          </div>
 
         </div>
       </div>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={`md:hidden ${dropdownBg} border-t`}
+          >
+
+            <div className="px-6 py-6 space-y-4">
+
+              {/* PRODUCTS */}
+              <button
+                onClick={() =>
+                  setMobileSection(
+                    mobileSection === "products" ? null : "products"
+                  )
+                }
+                className="flex justify-between items-center w-full text-left"
+              >
+                <span className={textMain}>Products</span>
+                <ChevronDown
+                  size={18}
+                  className={`transition ${mobileSection === "products" ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              {mobileSection === "products" && (
+                <div className="pl-4 space-y-2">
+                  {features.map((item, i) => (
+                    <Link
+                      key={i}
+                      to={item.linkPos}
+                      className={`flex items-center justify-between text-gray-400 ${isDark ? "hover:text-white" : "hover:text-black"}`}
+                    >
+                      {item.name}
+                      <ChevronRight size={16} />
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {/* USE CASES */}
+              <button
+                onClick={() =>
+                  setMobileSection(
+                    mobileSection === "usecases" ? null : "usecases"
+                  )
+                }
+                className="flex justify-between items-center w-full text-left"
+              >
+                <span className={textMain}>Use Cases</span>
+                <ChevronDown
+                  size={18}
+                  className={`transition ${mobileSection === "usecases" ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              {mobileSection === "usecases" && (
+                <div className="pl-4 space-y-2">
+                  {useCases.map((item, i) => (
+                    <Link
+                      key={i}
+                      to={item.linkPos}
+                      className={`flex items-center justify-between text-gray-400 ${isDark ? "hover:text-white" : "hover:text-black"}`}
+                    >
+                      {item.name}
+                      <ChevronRight size={16} />
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {/* SEARCH */}
+              <Link
+                to="/search"
+                className={`flex items-center gap-2 text-gray-400 ${isDark ? "hover:text-white" : "hover:text-black"}`}
+              >
+                <Search size={18} />
+                Search
+              </Link>
+
+              {/* PRICING */}
+              <Link
+                to="/pricing"
+                className={`text-gray-400 ${isDark ? "hover:text-white" : "hover:text-black"} block`}
+              >
+                Pricing
+              </Link>
+
+              <button className={`${buttonPrimary} w-full py-2 rounded-lg mt-4`}>
+                Dashboard
+              </button>
+
+            </div>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

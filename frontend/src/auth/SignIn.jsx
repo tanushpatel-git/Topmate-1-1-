@@ -16,7 +16,7 @@ export default function SignIn() {
     <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
       <div className="w-[1200px] h-[650px] bg-white rounded-2xl shadow-sm grid grid-cols-2 overflow-hidden">
 
-        {/* LEFT SIDE */}
+        { /* LEFT SIDE */}
         <div className="p-12 flex flex-col justify-center">
 
           {/* Logo */}
