@@ -9,8 +9,31 @@ import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
     const dispatch = useDispatch();
+    const [error, setError] = useState("");
     const whatsAppNumber = useSelector((state) => state.signUp.whatsAppNumber);
     const navigate = useNavigate();
+
+    const validateForm = () => {
+
+        if (!whatsAppNumber) {
+            setError("WhatsApp number is required");
+            return false;
+        }
+
+        if (!/^[6-9]\d{9}$/.test(whatsAppNumber)) {
+            setError("Enter a valid 10 digit WhatsApp number");
+            return false;
+        }
+
+        setError("");
+        return true;
+    };
+
+    const handleLaunch = () => {
+        if (validateForm()) {
+            navigate("/dashboard"); // or your success page
+        }
+    };
 
 
     return (
@@ -79,11 +102,15 @@ const SignUp = () => {
 
                     </div>
 
+                    {error && (
+                        <p className="text-red-500 text-sm mt-2">{error}</p>
+                    )}
+
                 </div>
             </motion.div>
             {/* Bottom Button */}
             <div className="border-t bg-white py-6 flex gap-4 justify-center">
-                 <motion.button
+                <motion.button
                     onClick={() => navigate(-1)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
@@ -92,6 +119,7 @@ const SignUp = () => {
                     Back
                 </motion.button>
                 <motion.button
+                    onClick={handleLaunch}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
                     className="w-[400px] bg-black text-white py-3 rounded-md font-medium"

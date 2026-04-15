@@ -5,6 +5,7 @@ const signUpSlice = createSlice({
     initialState: {
         firstName: "",
         lastName: "",
+        userName:"",
         email: "",
         password: "",
         country: "India",
@@ -102,6 +103,9 @@ const signUpSlice = createSlice({
         },
         setService: (state, action) => {
             state.service = action.payload
+        },
+        setUserName : (state, action) => {
+            state.userName = action.payload
         }
     }
 })
@@ -119,4 +123,5 @@ export const { setFirstName,
     setInstagramUrl,
     setAvailability,
     setWhatsAppNumber,
+    setUserName,
     setService } = signUpSlice.actions
