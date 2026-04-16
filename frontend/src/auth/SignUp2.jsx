@@ -23,6 +23,7 @@ const expertiseList = [
     "Marketing",
 ];
 
+
 export default function SignUp2() {
 
     const [errors, setErrors] = useState({});
