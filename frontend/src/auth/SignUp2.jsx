@@ -23,6 +23,7 @@ const expertiseList = [
     "Marketing",
 ];
 
+
 export default function SignUp2() {
 
     const { firstName, lastName } = useSelector((state) => state.signUp)
