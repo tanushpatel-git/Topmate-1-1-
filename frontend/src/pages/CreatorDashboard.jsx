@@ -4,8 +4,9 @@ import CreatorSidebar from "../components/CreatorDashboard/CreatorSidebar";
 import CreatorHome from "../components/CreatorDashboard/CreatorHome";
 import { useNavigate } from "react-router";
 import CreatorBooking from "../components/CreatorDashboard/CreatorBooking";
-
-
+import CreatorProrityDm from "../components/CreatorDashboard/CreatorProrityDm";
+import PriorityDmAnswer from "../components/CreatorDashboard/PriorityDmAnswer";
+import PriorityDmPending from "../components/CreatorDashboard/PriorityDmPending";
 const CreatorDashboard = ()=>{
   return (
     <div className="min-h-screen w-full">
@@ -24,8 +25,10 @@ const CreatorDashboard = ()=>{
           <Route index element={<Navigate to="home" />} /> 
           <Route path="home" element={<CreatorHome/>} />
           <Route path="booking" element={<CreatorBooking />} />
+          <Route path="queries" element={<CreatorProrityDm/>} />
+          <Route path="queries/answer" element={<PriorityDmAnswer/>} />
+          <Route path="queries/pending" element={<PriorityDmPending/>} />
           {/* {/* 
-          <Route path="Profile" element={<SeekerProfile />} />
           <Route path="reward" element={<SeekerReward />} /> */}
         </Routes>
       </div>
