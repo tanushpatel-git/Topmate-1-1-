@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Meeting from './pages/Meeting'
@@ -27,8 +27,25 @@ import SekerDashboard from './pages/SekerDashboard'
 import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 import CreatorDashboard from './pages/CreatorDashboard'
+import useGetCurrUser from './hooks/useGetCurrUser'
+import { setUserName } from './redux/signUp/signUpSlice'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const App = () => {
+
+  const navigate = useNavigate();
+  const { data } = useGetCurrUser();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data?.user) {
+      dispatch(setUserName(data.user.userName));
+      dispatch(setUserImage(data.user.userImageUrl));
+      navigate("/creator-dashboard");
+    }
+  }, [data])
+
 
   return (
     <>
