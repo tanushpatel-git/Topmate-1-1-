@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Image from "../../assets/about-team.png";
+import tanushImage from "../../assets/tanushImage.jpeg"
 
 const topTeam = [
   {
@@ -11,7 +12,7 @@ const topTeam = [
   {
     name: "Tanush Patel",
     role: "Software Engineer / Tech",
-    img: Image,
+    img: tanushImage,
   },
 ];
 

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setExpertise, setLinkedInUrl, setTwitterUrl, setInstagramUrl } from "../redux/signUp/signUpSlice";
+import { setExpertise, setLinkedInUrl, setTwitterUrl, setInstagramUrl, setUserName } from "../redux/signUp/signUpSlice";
 import SignUpNavbar from "../components/commonCompo/SignUpNavbar";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +26,9 @@ const expertiseList = [
 
 export default function SignUp2() {
 
+    const [errors, setErrors] = useState({});
     const { firstName, lastName } = useSelector((state) => state.signUp)
+    const [topmateUsername, setTopmateUsername] = useState(`${firstName}_${lastName}`);
     const dispatch = useDispatch();
     const [selected, setSelected] = useState([]);
     const [topmateLink, setTopmateLink] = useState("");
@@ -38,6 +40,33 @@ export default function SignUp2() {
                 ? prev.filter((i) => i !== item)
                 : [...prev, item]
         );
+    };
+
+    const validateForm = () => {
+        let newErrors = {};
+
+        if (!topmateLink) {
+            newErrors.socialLink = "Please connect your social account";
+        }
+
+        if (!topmateUsername) {
+            newErrors.topmate = "Topmate username required";
+        }
+
+        if (selected.length === 0) {
+            newErrors.expertise = "Select at least one expertise";
+        }
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleNext = () => {
+        if (validateForm()) {
+            dispatch(setUserName(topmateUsername));
+            navigate("/signup3");
+        }
     };
 
     useEffect(() => {
@@ -100,6 +129,9 @@ export default function SignUp2() {
                             placeholder="https://  LinkedIn, Twitter, Instagram"
                             className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/20"
                         />
+                        {errors.socialLink && (
+                            <p className="text-red-500 text-xs mt-1">{errors.socialLink}</p>
+                        )}
                     </div>
 
                     {/* Topmate Link */}
@@ -114,7 +146,8 @@ export default function SignUp2() {
                             </span>
 
                             <input
-                                defaultValue={`${firstName}_${lastName}`}
+                                value={topmateUsername}
+                                onChange={(e) => setTopmateUsername(e.target.value)}
                                 className="flex-1 px-2 py-2 text-sm outline-none"
                             />
 
@@ -172,6 +205,10 @@ export default function SignUp2() {
                                 );
                             })}
                         </div>
+                        {errors.expertise && (
+                            <p className="text-red-500 text-xs mt-2">{errors.expertise}</p>
+                        )}
+
                     </div>
                 </div>
             </motion.div>
@@ -187,6 +224,7 @@ export default function SignUp2() {
                     Back
                 </motion.button>
                 <motion.button
+                    onClick={handleNext}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
                     className="w-[400px] bg-black text-white py-3 rounded-md font-medium"

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const SignUp3 = () => {
 
     const dispatch = useDispatch();
+    const [error, setError] = useState("");
     const { service } = useSelector((state) => state.signUp);
     const [selectedServices, setSelectedServices] = useState(service);
     const navigate = useNavigate();
@@ -18,6 +19,22 @@ const SignUp3 = () => {
                 ? prev.filter((item) => item !== service)
                 : [...prev, service]
         );
+    };
+
+    const validateForm = () => {
+        if (selectedServices.length === 0) {
+            setError("Please select at least one service");
+            return false;
+        }
+
+        setError("");
+        return true;
+    };
+
+    const handleNext = () => {
+        if (validateForm()) {
+            navigate("/signup4");
+        }
     };
 
     useEffect(() => {
@@ -79,13 +96,16 @@ const SignUp3 = () => {
                             );
                         })}
                     </div>
+                    {error && (
+                        <p className="text-red-500 text-sm mt-4">{error}</p>
+                    )}
 
                 </div>
             </motion.div>
 
             {/* Bottom Button */}
             <div className="border-t bg-white py-6 flex gap-4 justify-center">
-                 <motion.button
+                <motion.button
                     onClick={() => navigate(-1)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
@@ -94,6 +114,7 @@ const SignUp3 = () => {
                     Back
                 </motion.button>
                 <motion.button
+                    onClick={handleNext}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
                     className="w-[400px] bg-black text-white py-3 rounded-md font-medium"

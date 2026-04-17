@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Meeting from './pages/Meeting'
@@ -27,12 +27,28 @@ import SekerDashboard from './pages/SekerDashboard'
 import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 import CreatorDashboard from './pages/CreatorDashboard'
+import useGetCurrUser from './hooks/useGetCurrUser'
+import { setUserName, setUserImage } from './redux/userData/userDetails'
+import { useDispatch } from 'react-redux'
+import { Toaster } from 'react-hot-toast'
 
 const App = () => {
+
+  const { data } = useGetCurrUser();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data?.user) {
+      dispatch(setUserName(data.user.userName));
+      dispatch(setUserImage(data.user.userImageUrl));
+    }
+  }, [data])
+
 
   return (
     <>
       <ScrollToTop />
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/features/meeting" element={<Meeting />} />

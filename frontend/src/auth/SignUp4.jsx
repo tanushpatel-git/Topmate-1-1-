@@ -20,6 +20,7 @@ const SignUp4 = () => {
     ];
 
     const [activeDays, setActiveDays] = useState(["sunday", "saturday"]);
+    const [error, setError] = useState("");
     const [startTime, setStartTime] = useState("09:00");
     const [endTime, setEndTime] = useState("20:00");
     const dispatch = useDispatch();
@@ -31,6 +32,28 @@ const SignUp4 = () => {
                 ? prev.filter(d => d !== day)
                 : [...prev, day]
         );
+    };
+
+    const handleNext = () => {
+        if (validateForm()) {
+            navigate("/signup5");
+        }
+    };
+
+    const validateForm = () => {
+
+        if (activeDays.length === 0) {
+            setError("Please select at least one available day");
+            return false;
+        }
+
+        if (startTime >= endTime) {
+            setError("Start time must be earlier than end time");
+            return false;
+        }
+
+        setError("");
+        return true;
     };
 
     useEffect(() => {
@@ -147,6 +170,10 @@ ${active ? "bg-green-700 border-green-700 text-white" : "bg-white"}
                         </button>
                     </div>
 
+                    {error && (
+                        <p className="text-red-500 text-sm mt-4">{error}</p>
+                    )}
+
                 </div>
 
             </motion.div>
@@ -162,6 +189,7 @@ ${active ? "bg-green-700 border-green-700 text-white" : "bg-white"}
                     Back
                 </motion.button>
                 <motion.button
+                    onClick={handleNext}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
                     className="w-[400px] bg-black text-white py-3 rounded-md font-medium"
