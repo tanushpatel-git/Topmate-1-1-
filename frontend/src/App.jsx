@@ -28,13 +28,12 @@ import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 import CreatorDashboard from './pages/CreatorDashboard'
 import useGetCurrUser from './hooks/useGetCurrUser'
-import { setUserName } from './redux/signUp/signUpSlice'
+import { setUserName, setUserImage } from './redux/userData/userDetails'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 
 const App = () => {
 
-  const navigate = useNavigate();
   const { data } = useGetCurrUser();
   const dispatch = useDispatch();
 
@@ -42,7 +41,6 @@ const App = () => {
     if (data?.user) {
       dispatch(setUserName(data.user.userName));
       dispatch(setUserImage(data.user.userImageUrl));
-      navigate("/creator-dashboard");
     }
   }, [data])
 
@@ -50,6 +48,7 @@ const App = () => {
   return (
     <>
       <ScrollToTop />
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/features/meeting" element={<Meeting />} />

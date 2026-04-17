@@ -64,7 +64,7 @@ const Navbar = ({ theam = "white" }) => {
 
   const menuData = activeMenu === "features" ? features : useCases;
 
-  const { userName } = useSelector((state) => state.signUp);
+  const { userName } = useSelector((state) => state.userData);
 
   useEffect(() => {
     if (userName) {

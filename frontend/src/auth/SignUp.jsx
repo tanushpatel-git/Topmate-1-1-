@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useRef , useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Card from "../components/HomePageComponent/Card";
 import Logo from '../assets/topmate-light-logo.svg'
@@ -42,10 +42,10 @@ const cards = [
   { img: p8, name: "Vikas Yadav", role: "Developer", desc: "Backend dev. Handles APIs.", color: "bg-cyan-400/40" },
   { img: p9, name: "Priya Nair", role: "Designer", desc: "UI designer. Focus on UX.", color: "bg-cyan-400/40" },
   { img: p10, name: "Rohit Kumar", role: "Tech", desc: "Tech lover. Builds projects.", color: "bg-cyan-400/40" },
-   { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
+  { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
   { img: p7, name: "Anjali Roy", role: "Designer", desc: "Graphic designer. Loves visuals.", color: "bg-indigo-400/40" },
   { img: p8, name: "Vikas Yadav", role: "Developer", desc: "Backend dev. Handles APIs.", color: "bg-cyan-400/40" },
- 
+
 ];
 
 
@@ -61,10 +61,10 @@ const cards2 = [
   { img: p4, name: "Nikita Gupta", role: "Founder", desc: "Startup founder. Builds ideas.", color: "bg-lime-400/40" },
   { img: p5, name: "Tanush Patel", role: "Marketer", desc: "Digital marketer. Grows brands.", color: "bg-cyan-500/40" },
   { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
-   { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
+  { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
   { img: p7, name: "Anjali Roy", role: "Designer", desc: "Graphic designer. Loves visuals.", color: "bg-indigo-400/40" },
   { img: p8, name: "Vikas Yadav", role: "Developer", desc: "Backend dev. Handles APIs.", color: "bg-cyan-400/40" },
- 
+
 ];
 
 const loopData = [...cards, ...cards, ...cards2,];
@@ -76,37 +76,37 @@ const SignUp = () => {
   const textanime = useRef();
 
 
-const dispatch = useDispatch();
-const formData = useSelector((state) => state.signUp);
+  const dispatch = useDispatch();
+  const formData = useSelector((state) => state.signUp);
 
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate()
 
   const formhandle = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.firstName || !formData.lastName) {
-    alert("Please enter your name");
-    return;
-  }
+    if (!formData.firstName || !formData.lastName) {
+      alert("Please enter your name");
+      return;
+    }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!emailRegex.test(formData.email)) {
-    alert("Please enter a valid email address");
-    return;
-  }
+    if (!emailRegex.test(formData.email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
 
-  if (formData.password.length < 6) {
-    alert("Password must be at least 6 characters");
-    return;
-  }
+    if (formData.password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
 
-  console.log("Final Signup Data:", formData);
+    console.log("Final Signup Data:", formData);
 
-  navigate('/signup2');
-};
+    navigate('/signup2');
+  };
 
 
   useEffect(() => {
@@ -196,102 +196,101 @@ const formData = useSelector((state) => state.signUp);
           </div>
 
           {/* Form */}
-          
-<form
-  className="space-y-4"
-  onSubmit={formhandle}
->
+
+          <form
+            className="space-y-4"
+            onSubmit={formhandle}
+          >
 
 
             {/* Names */}
             <div className="flex gap-3">
               <div className="w-1/2">
                 <label className="text-lg font-bold text-gray-700">First Name</label>
-                
-<input
-  required
-  type="text"
-  placeholder="First name"
-  value={formData.firstName}
-  onChange={(e) => dispatch(setFirstName(e.target.value))}
-  className="text-lg w-full border px-3 py-2 rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
-/>
+
+                <input
+                  required
+                  type="text"
+                  placeholder="First name"
+                  value={formData.firstName}
+                  onChange={(e) => dispatch(setFirstName(e.target.value))}
+                  className="text-lg w-full border px-3 py-2 rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
+                />
 
 
               </div>
 
               <div className="w-1/2">
                 <label className="text-lg font-bold text-gray-700">Last Name</label>
-  
-  <input
-  required
-  type="text"
-  placeholder="Last name"
-  value={formData.lastName}
-  onChange={(e) => dispatch(setLastName(e.target.value))}
-  className="w-full text-lg border px-3 py-2 rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
-/>
-  
+
+                <input
+                  required
+                  type="text"
+                  placeholder="Last name"
+                  value={formData.lastName}
+                  onChange={(e) => dispatch(setLastName(e.target.value))}
+                  className="w-full text-lg border px-3 py-2 rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
+                />
+
               </div>
             </div>
 
             {/* Email */}
             <div>
               <label className="text-lg font-bold text-gray-700">Email</label>
-             <input
-  required
-  type="email"
-  placeholder="email"
-  value={formData.email}
-  onChange={(e) => dispatch(setEmail(e.target.value))}
-  className="w-full border px-3 py-2 text-lg rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
-/>
+              <input
+                required
+                type="email"
+                placeholder="email"
+                value={formData.email}
+                onChange={(e) => dispatch(setEmail(e.target.value))}
+                className="w-full border px-3 py-2 text-lg rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
+              />
 
 
             </div>
 
             {/* Password */}
             <div className="relative">
-      <label className="text-lg font-bold text-gray-700">
-        Password
-      </label>
+              <label className="text-lg font-bold text-gray-700">
+                Password
+              </label>
 
-  
-  <input
-  required
-  type={showPassword ? "text" : "password"}
-  placeholder="Password"
-  value={formData.password}
-  onChange={(e) => dispatch(setPassword(e.target.value))}
-  className="w-full border px-3 py-2 rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
-/>
-<span
-  onClick={() => setShowPassword(!showPassword)}
-  className="absolute right-3 top-10 text-gray-500 cursor-pointer"
->
-  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-</span>
 
-    </div>
+              <input
+                required
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={formData.password}
+                onChange={(e) => dispatch(setPassword(e.target.value))}
+                className="w-full border px-3 py-2 rounded-md mt-1 focus:ring-2 focus:ring-orange-400 outline-none"
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-10 text-gray-500 cursor-pointer"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </span>
+
+            </div>
 
             {/* Button */}
-            
 
-<button
-  type="submit"
-  disabled={
-    !formData.firstName ||
-    !formData.email ||
-    !formData.password
-  }
-  className={`w-full py-3 rounded-md font-medium mt-2 ${
-    !formData.firstName || !formData.email || !formData.password
-      ? "bg-gray-600 text-white cursor-not-allowed"
-      : "bg-black text-white hover:opacity-90"
-  }`}
->
-  Get Started
-</button>
+
+            <button
+              type="submit"
+              disabled={
+                !formData.firstName ||
+                !formData.email ||
+                !formData.password
+              }
+              className={`w-full py-3 rounded-md font-medium mt-2 ${!formData.firstName || !formData.email || !formData.password
+                  ? "bg-gray-600 text-white cursor-not-allowed"
+                  : "bg-black text-white hover:opacity-90"
+                }`}
+            >
+              Get Started
+            </button>
 
 
           </form>
@@ -308,24 +307,24 @@ const formData = useSelector((state) => state.signUp);
 
       {/* RIGHT */}
       <div className="hidden lg:flex w-1/2 items-center justify-center">
-        
 
-<div className="flex-1  ml-10  overflow-hidden flex gap-10 h-full items-start lg:flex hidden ">
-        <div ref={scrollRef1} className="flex flex-col gap-4  shadow-amber-200">
-          {loopData.map((item, index) => (
-            <Card key={index} data={item} />
-          ))}
+
+        <div className="flex-1  ml-10  overflow-hidden flex gap-10 h-full items-start lg:flex hidden ">
+          <div ref={scrollRef1} className="flex flex-col gap-4  shadow-amber-200">
+            {loopData.map((item, index) => (
+              <Card key={index} data={item} />
+            ))}
+          </div>
+
+          <div ref={scrollRef2} className="flex flex-col gap-4">
+            {loopData2.map((item, index) => (
+              <Card key={index} data={item} />
+            ))}
+          </div>
+
         </div>
 
-        <div ref={scrollRef2} className="flex flex-col gap-4">
-          {loopData2.map((item, index) => (
-            <Card key={index} data={item} />
-          ))}
-        </div>
-   
-    </div>
 
-    
       </div>
     </div>
   );

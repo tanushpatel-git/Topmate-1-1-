@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const userDetailsSlice = createSlice({
-    name: "userDetails",
+    name: "userData",
     initialState: {
         userName: null,
         userImage: null,

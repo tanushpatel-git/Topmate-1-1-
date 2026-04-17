@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SignUpNavbar from "../components/commonCompo/SignUpNavbar";
 import { motion } from "framer-motion";
 import whatAppsSignUp from "../assets/whatAppsSignUp.svg";
@@ -6,12 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setWhatsAppNumber } from "../redux/signUp/signUpSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useSignUp from "../hooks/useSignUp";
+import { Loader } from "lucide-react";
 
 const SignUp = () => {
     const dispatch = useDispatch();
     const [error, setError] = useState("");
     const whatsAppNumber = useSelector((state) => state.signUp.whatsAppNumber);
     const navigate = useNavigate();
+    const { mutate: signUpMutate, isPending, data } = useSignUp();
+    const signUpData = useSelector((state) => state.signUp);
 
     const validateForm = () => {
 
@@ -31,9 +35,15 @@ const SignUp = () => {
 
     const handleLaunch = () => {
         if (validateForm()) {
-            navigate("/dashboard"); // or your success page
+            signUpMutate(signUpData);
         }
     };
+
+    useEffect(() => {
+        if (data?.user) {
+            navigate("/creator-dashboard");
+        }
+    }, [data]);
 
 
     return (
@@ -120,11 +130,12 @@ const SignUp = () => {
                 </motion.button>
                 <motion.button
                     onClick={handleLaunch}
+                    disabled={isPending}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className="w-[400px] bg-black text-white py-3 rounded-md font-medium"
+                    className={`w-[400px] bg-black flex items-center justify-center text-white py-3 rounded-md font-medium ${isPending ? "cursor-not-allowed opacity-70" : "hover:opacity-90"}`}
                 >
-                    Launch your page
+                    {isPending ? <Loader size={20} className="animate-spin" /> : "Launch your page"}
                 </motion.button>
             </div>
         </div>
