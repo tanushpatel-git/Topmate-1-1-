@@ -10,6 +10,7 @@ import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
 import { auth, googleProvider } from "../utility/fireBase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import useEmailCheck from "../hooks/SignInWithTwoStep";
 
 
 export default function SignIn() {
@@ -20,13 +21,19 @@ export default function SignIn() {
   const navigate = useNavigate();
   const { mutate: handleSignIn, data, isPending } = useSignIn();
   const { mutate: handleSignInWithGoogle, data: googleData, isPending: googleIsPending } = useSignInWithGoogle();
+  const { mutate: handleEmailCheck, isPending: emailCheckIsPending } = useEmailCheck();
 
 
   const handleClick = () => {
     if (!doneContinue && isLoginWithPass) {
       handleSignIn({ email, password })
     } else if (!doneContinue) {
-      setDoneContinue(true);
+      if(email){
+        handleEmailCheck(email);
+        setDoneContinue(true);
+      }else{
+        toast.error("Email is required");
+      }
     } else if (doneContinue && !isLoginWithPass) {
       //pending
       console.log(otp);
@@ -145,9 +152,9 @@ export default function SignIn() {
           {/* Continue mix code  */}
           <button
             onClick={handleClick}
-            disabled={isPending}
-            className="bg-black text-white py-3 rounded-lg mb-3 hover:opacity-90 transition">
-            {isPending ? <Loader size={20} className="animate-spin" /> : !doneContinue ? "Continue" : "Sign In"}
+            disabled={isPending || emailCheckIsPending}
+            className="bg-black text-white py-3 rounded-lg mb-3 hover:opacity-90 transition flex justify-center items-center gap-2">
+            {isPending || emailCheckIsPending ? <Loader size={20} className="animate-spin" /> : !doneContinue ? "Continue" : "Sign In"}
           </button>
 
           <button onClick={() => setIsLoginWithPass(!isLoginWithPass)} className={`bg-gray-100 py-3 rounded-lg text-gray-700 hover:bg-gray-200 transition`}>

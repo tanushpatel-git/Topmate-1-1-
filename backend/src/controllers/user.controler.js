@@ -6,17 +6,17 @@ const getUser = async (req, res) => {
     try {
         const { token } = req.cookies;
         if (!token) {
-            return res.status(200).json({ message: "Login first" });
+            return res.status(401).json({ message: "Login first" });
         }
         const decodedToken = verifyToken(token);
         const user = await User.findById(decodedToken.id);
         if (!user) {
-            return res.status(200).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
         return res.status(200).json({ user });
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 
 }
@@ -25,14 +25,14 @@ const signUp = async (req, res) => {
 
     try {
         const data = req.body;
-        if (!data) return res.status(200).json({ message: "Please fill all the details" });
+        if (!data) return res.status(400).json({ message: "Please fill all the details" });
         const user = await User.create(data);
         const token = genratedToken(user._id);
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ message: "User SignUp Successfully", user });
     } catch (error) {
         console.log(error);
-        return res.status(200).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
@@ -40,10 +40,10 @@ const signIn = async (req, res) => {
 
     try {
         const { email, password } = req.body;
-        if (!email || !password) return res.status(200).json({ message: "Please fill all the details" });
+        if (!email || !password) return res.status(400).json({ message: "Please fill all the details" });
         const user = await User.findOne({ email })
-        if (!user) return res.status(200).json({ message: "User not found" });
-        if (user.password !== password) return res.status(200).json({ message: "Invalid password" });
+        if (!user) return res.status(404).json({ message: "User not found" });
+        if (user.password !== password) return res.status(401).json({ message: "Invalid password" });
         const token = genratedToken(user._id);
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ message: "User SignIn Successfully", user });
@@ -56,9 +56,9 @@ const signIn = async (req, res) => {
 const signInWithGoogle = async (req, res) => {
     try {
         const email = req.body.email;
-        if (!email) return res.status(200).json({ message: "Email is required" });
+        if (!email) return res.status(400).json({ message: "Email is required" });
         const user = await User.findOne({ email })
-        if (!user) return res.status(200).json({ message: "User not exist please signup first" });
+        if (!user) return res.status(404).json({ message: "User not exist please signup first" });
         const token = genratedToken(user._id);
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ message: "User SignIn Successfully", user });
@@ -67,5 +67,18 @@ const signInWithGoogle = async (req, res) => {
     }
 }
 
+const emailCheckReq = async (req, res) => {
+    try {
+        const {email} = req.body;
+        if(!email) return res.status(400).json({message : "Email is required"});
+        const user = await User.findOne({email});
+        if(!user) return res.status(404).json({message : "User not found"});
+        return res.status(200).json({message : "Email is Verified"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message : "Internal server error"});
+    }
+}
 
-module.exports = { getUser, signUp, signIn, signInWithGoogle }
+
+module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq }
