@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const { verifyToken, genratedToken } = require("../utility/jwToken");
 
 const getUser = async (req, res) => {
+
     try {
         const { token } = req.cookies;
         if (!token) {
@@ -17,10 +18,12 @@ const getUser = async (req, res) => {
         console.log(error);
         return res.status(200).json({ message: "Internal server error" });
     }
+
 }
 
 
 const signUp = async (req, res) => {
+
     try {
         const data = req.body;
         if (!data) return res.status(200).json({ message: "Please fill all the details" });
@@ -34,4 +37,23 @@ const signUp = async (req, res) => {
     }
 }
 
-module.exports = { getUser, signUp }
+
+const signIn = async (req, res) => {
+
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) return res.status(200).json({ message: "Please fill all the details" });
+        const user = await User.findOne({ email })
+        if (!user) return res.status(200).json({ message: "User not found" });
+        if (user.password !== password) return res.status(200).json({ message: "Invalid password" });
+        const token = genratedToken(user._id);
+        res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
+        return res.status(200).json({ message: "User SignIn Successfully", user });
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({ message: "Internal server error" });
+    }
+}
+
+
+module.exports = { getUser, signUp, signIn }

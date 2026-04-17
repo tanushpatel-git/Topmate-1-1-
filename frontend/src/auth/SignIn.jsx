@@ -1,16 +1,51 @@
 import { motion } from "framer-motion";
 import OTPInput from "react-otp-input"
-import { useState } from "react";
-import { Lock, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Loader, Lock, Mail } from "lucide-react";
 import topmateLogo from "../assets/topmate-light-logo.svg"
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setPassword, setOtp } from "../redux/signIn/signInSlice";
+import useSignIn from "../hooks/useSignIn";
+import { auth, googleProvider } from "../utility/fireBase";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+
 
 export default function SignIn() {
   const dispatch = useDispatch();
   const { email, password, otp } = useSelector((state) => state.signIn);
   const [isLoginWithPass, setIsLoginWithPass] = useState(false);
   const [doneContinue, setDoneContinue] = useState(false);
+  const navigate = useNavigate();
+  const { mutate: handleSignIn, data, isPending } = useSignIn();
+
+
+  const handleClick = () => {
+    if (!doneContinue && isLoginWithPass) {
+      handleSignIn({ email, password })
+    } else if (!doneContinue) {
+      setDoneContinue(true);
+    } else if (doneContinue && !isLoginWithPass) {
+      //pending
+      console.log(otp);
+    }
+  }
+
+  useEffect(() => {
+    if(data?.user){
+      navigate("/creator-dashboard")
+    }
+  }, [data])
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const reponse = await signInWithPopup(auth, googleProvider)
+      console.log(reponse)
+      //pending...
+    } catch (error) {
+      throw error
+    }
+  }
 
   return (
     <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
@@ -43,7 +78,7 @@ export default function SignIn() {
 
           {/* Social buttons */}
           <div className="flex gap-4 mb-6">
-            <button className="flex active:scale-95 items-center justify-center gap-2 border rounded-lg px-6 py-3 w-full hover:bg-gray-50 transition">
+            <button onClick={handleGoogleSignIn} className="flex active:scale-95 items-center justify-center gap-2 border rounded-lg px-6 py-3 w-full hover:bg-gray-50 transition">
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 className="w-5 h-5"
@@ -108,11 +143,10 @@ export default function SignIn() {
 
           {/* Continue mix code  */}
           <button
-            onClick={() => {
-              !doneContinue ? setDoneContinue(!doneContinue) : console.log(otp); // this code is pending for write now
-            }}
+            onClick={handleClick}
+            disabled={isPending}
             className="bg-black text-white py-3 rounded-lg mb-3 hover:opacity-90 transition">
-            Continue
+            {isPending ? <Loader size={20} className="animate-spin" /> : !doneContinue ? "Continue" : "Sign In"}
           </button>
 
           <button onClick={() => setIsLoginWithPass(!isLoginWithPass)} className={`bg-gray-100 py-3 rounded-lg text-gray-700 hover:bg-gray-200 transition`}>
