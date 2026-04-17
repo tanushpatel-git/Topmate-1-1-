@@ -6,6 +6,7 @@ import topmateLogo from "../assets/topmate-light-logo.svg"
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setPassword, setOtp } from "../redux/signIn/signInSlice";
 import useSignIn from "../hooks/useSignIn";
+import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
 import { auth, googleProvider } from "../utility/fireBase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ export default function SignIn() {
   const [doneContinue, setDoneContinue] = useState(false);
   const navigate = useNavigate();
   const { mutate: handleSignIn, data, isPending } = useSignIn();
+  const { mutate: handleSignInWithGoogle, data: googleData, isPending: googleIsPending } = useSignInWithGoogle();
 
 
   const handleClick = () => {
@@ -32,16 +34,15 @@ export default function SignIn() {
   }
 
   useEffect(() => {
-    if(data?.user){
+    if (data?.user || googleData?.user) {
       navigate("/creator-dashboard")
     }
-  }, [data])
+  }, [data, googleData])
 
   const handleGoogleSignIn = async () => {
     try {
-      const reponse = await signInWithPopup(auth, googleProvider)
-      console.log(reponse)
-      //pending...
+      const { user } = await signInWithPopup(auth, googleProvider)
+      handleSignInWithGoogle(user?.email)
     } catch (error) {
       throw error
     }

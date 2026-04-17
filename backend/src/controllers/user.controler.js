@@ -21,7 +21,6 @@ const getUser = async (req, res) => {
 
 }
 
-
 const signUp = async (req, res) => {
 
     try {
@@ -36,7 +35,6 @@ const signUp = async (req, res) => {
         return res.status(200).json({ message: "Internal server error" });
     }
 }
-
 
 const signIn = async (req, res) => {
 
@@ -55,5 +53,19 @@ const signIn = async (req, res) => {
     }
 }
 
+const signInWithGoogle = async (req, res) => {
+    try {
+        const email = req.body.email;
+        if (!email) return res.status(200).json({ message: "Email is required" });
+        const user = await User.findOne({ email })
+        if (!user) return res.status(200).json({ message: "User not exist please signup first" });
+        const token = genratedToken(user._id);
+        res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
+        return res.status(200).json({ message: "User SignIn Successfully", user });
+    } catch (error) {
+        
+    }
+}
 
-module.exports = { getUser, signUp, signIn }
+
+module.exports = { getUser, signUp, signIn, signInWithGoogle }
