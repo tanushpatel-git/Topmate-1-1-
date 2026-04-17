@@ -395,12 +395,12 @@ const Navbar = ({ theam = "white" }) => {
                 </button>
               ) : (
                 <div className="flex items-center gap-4">
-                  <button className={`border border-black w-full py-2 rounded-lg mt-4`}>
+                  <Link to="/signIn" className={`border border-black w-full py-2 rounded-lg mt-4`}>
                     Sign In
-                  </button>
-                  <button className={`${buttonPrimary} w-full py-2 rounded-lg mt-4`}>
+                  </Link>
+                  <Link to="/signup" className={`${buttonPrimary} w-full py-2 rounded-lg mt-4`}>
                     Start Selling
-                  </button>
+                  </Link>
                 </div>
               )}
 

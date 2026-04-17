@@ -26,8 +26,12 @@ import {
   setFirstName,
   setLastName,
   setEmail,
-  setPassword
+  setPassword,
+  setUserImage
 } from "../redux/signUp/signUpSlice";
+import { auth, googleProvider } from "../utility/fireBase";
+import { signInWithPopup } from "firebase/auth";
+
 
 
 
@@ -150,6 +154,23 @@ const SignUp = () => {
     return () => ctx.revert();
   }, []);
 
+  const googleSignUP = async () => {
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      console.log("Google Sign Up Success", res);
+      dispatch(setFirstName(res.user.displayName.split(" ")[0]));
+      dispatch(setLastName(res.user.displayName.split(" ")[1]));
+      dispatch(setEmail(res.user.email));
+      dispatch(setUserImage(res.user.photoURL));
+      navigate("/signup2")
+    }
+    catch (error) {
+      console.log("Google Sign Up Error", error);
+    }
+  }
+
+  
+
 
 
 
@@ -177,14 +198,11 @@ const SignUp = () => {
 
           {/* Social Buttons */}
           <div className="flex gap-3  mb-5 ">
-            <button className=" flex-1 border rounded-md py-3 flex items-center justify-center gap-2 text-lg font-medium hover:bg-gray-50">
+            <button
+              onClick={googleSignUP}
+              className=" flex-1 border rounded-md py-3 flex items-center justify-center gap-2 text-lg font-medium hover:bg-gray-50">
               <FcGoogle className="text-2xl" />
               Continue with Google
-            </button>
-
-            <button className="flex-1  border rounded-md py-3 flex items-center justify-center gap-2 text-lg font-medium hover:bg-gray-50">
-              <FaLinkedin className="text-[#0077B5] text-2xl" />
-              Continue with LinkedIn
             </button>
           </div>
 
@@ -285,8 +303,8 @@ const SignUp = () => {
                 !formData.password
               }
               className={`w-full py-3 rounded-md font-medium mt-2 ${!formData.firstName || !formData.email || !formData.password
-                  ? "bg-gray-600 text-white cursor-not-allowed"
-                  : "bg-black text-white hover:opacity-90"
+                ? "bg-gray-600 text-white cursor-not-allowed"
+                : "bg-black text-white hover:opacity-90"
                 }`}
             >
               Get Started
