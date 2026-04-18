@@ -1,7 +1,6 @@
-const express = require("express");
-const app = require("./src/app")
-require("dotenv").config({quiet:true})
-const mongoDB = require("./src/utility/mongoDB");
+require("dotenv/config");
+const app = require("./src/app.js");
+const mongoDB = require("./src/utility/mongoDB.js");
 
 const port = process.env.PORT || 8000;
 

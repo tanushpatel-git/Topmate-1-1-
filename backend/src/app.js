@@ -1,8 +1,8 @@
-//import or require every source
-const cookieParser = require("cookie-parser");
-const userRouter = require("./routes/user.route");
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const userRouter = require("./routes/user.route.js");
+
 const app = express();
 
 app.use(express.json());
@@ -14,7 +14,6 @@ app.use(cors({
 app.use(cookieParser())
 
 
-// router level imports
 app.use("/api/user",userRouter);
 
 

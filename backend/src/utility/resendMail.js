@@ -1,8 +1,8 @@
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function resendMail(toMail, message) {
+async function resendMail(toMail, message) {
     try {
         const response = await resend.emails.send({
             from: "onboarding@resend.dev",
@@ -16,3 +16,5 @@ export async function resendMail(toMail, message) {
         return { success: false, error: error.message };
     }
 }
+
+module.exports = { resendMail };

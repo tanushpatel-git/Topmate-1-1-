@@ -10,7 +10,7 @@ import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
 import { auth, googleProvider } from "../utility/fireBase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import useEmailCheck from "../hooks/SignInWithTwoStep";
+import { useEmailCheck, useOtpVerification } from "../hooks/SignInWithTwoStep";
 
 
 export default function SignIn() {
@@ -22,29 +22,29 @@ export default function SignIn() {
   const { mutate: handleSignIn, data, isPending } = useSignIn();
   const { mutate: handleSignInWithGoogle, data: googleData, isPending: googleIsPending } = useSignInWithGoogle();
   const { mutate: handleEmailCheck, isPending: emailCheckIsPending } = useEmailCheck();
+  const { mutate: handleOtpVerification, data: otpData, isPending: otpVerificationIsPending } = useOtpVerification();
 
 
   const handleClick = () => {
     if (!doneContinue && isLoginWithPass) {
       handleSignIn({ email, password })
     } else if (!doneContinue) {
-      if(email){
+      if (email) {
         handleEmailCheck(email);
         setDoneContinue(true);
-      }else{
+      } else {
         toast.error("Email is required");
       }
     } else if (doneContinue && !isLoginWithPass) {
-      //pending
-      console.log(otp);
+      handleOtpVerification({ email, otp })
     }
   }
 
   useEffect(() => {
-    if (data?.user || googleData?.user) {
+    if (data?.user || googleData?.user || otpData?.user) {
       navigate("/creator-dashboard")
     }
-  }, [data, googleData])
+  }, [data, googleData, otpData])
 
   const handleGoogleSignIn = async () => {
     try {
@@ -152,9 +152,9 @@ export default function SignIn() {
           {/* Continue mix code  */}
           <button
             onClick={handleClick}
-            disabled={isPending || emailCheckIsPending}
+            disabled={isPending || emailCheckIsPending || otpVerificationIsPending}
             className="bg-black text-white py-3 rounded-lg mb-3 hover:opacity-90 transition flex justify-center items-center gap-2">
-            {isPending || emailCheckIsPending ? <Loader size={20} className="animate-spin" /> : !doneContinue ? "Continue" : "Sign In"}
+            {isPending || emailCheckIsPending || otpVerificationIsPending ? <Loader size={20} className="animate-spin" /> : !doneContinue ? "Continue" : "Sign In"}
           </button>
 
           <button onClick={() => setIsLoginWithPass(!isLoginWithPass)} className={`bg-gray-100 py-3 rounded-lg text-gray-700 hover:bg-gray-200 transition`}>

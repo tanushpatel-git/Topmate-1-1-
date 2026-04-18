@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import emailCheckReq from "../services/userAuthServices/emailCheckReq"
+import otpVerificationReq from "../services/userAuthServices/otpVerification"
 
 
 const useEmailCheck = () => {
@@ -16,4 +17,16 @@ const useEmailCheck = () => {
     })
 }
 
-export default useEmailCheck
+const useOtpVerification = () => {
+    return useMutation({
+        mutationKey: ["otpVerification"],
+        mutationFn: ({email , otp}) => otpVerificationReq({email , otp}),
+        onSuccess: (data) => {
+            toast.success(data?.message);
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        }
+    })
+}
+export {useEmailCheck , useOtpVerification}
