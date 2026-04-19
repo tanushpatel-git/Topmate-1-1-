@@ -1,16 +1,22 @@
+
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "topmate-86112.firebaseapp.com",
-  projectId: "topmate-86112",
-  storageBucket: "topmate-86112.firebasestorage.app",
-  messagingSenderId: "850257838765",
-  appId: "1:850257838765:web:189ff3010641507a197c24"
+  authDomain: "topmate-244da.firebaseapp.com",
+  projectId: "topmate-244da",
+  storageBucket: "topmate-244da.firebasestorage.app",
+  messagingSenderId: "824987856658",
+  appId: "1:824987856658:web:9ee6a04c1439ff753b8dcb",
+  measurementId: "G-9YL4135KSD"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+

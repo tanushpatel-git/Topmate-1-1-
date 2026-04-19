@@ -5,12 +5,15 @@ import { Lock, Mail } from "lucide-react";
 import topmateLogo from "../assets/topmate-light-logo.svg"
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setPassword, setOtp } from "../redux/signIn/signInSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { email, password, otp } = useSelector((state) => state.signIn);
   const [isLoginWithPass, setIsLoginWithPass] = useState(false);
   const [doneContinue, setDoneContinue] = useState(false);
+
 
   return (
     <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
@@ -23,7 +26,7 @@ export default function SignIn() {
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 mb-10">
               <img className="w-40" src={topmateLogo} alt="topmate" />
-              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500">Create account</button>
+              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500" onClick={()=>navigate('/signup')}> Create account</button>
             </div>
             <div className="h-px bg-gray-200 mb-5" />
           </div>

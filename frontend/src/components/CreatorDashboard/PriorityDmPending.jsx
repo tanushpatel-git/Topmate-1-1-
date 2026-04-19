@@ -1,16 +1,49 @@
+
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import EmptyScreen from "../../assets/EmptyScreen.svg";
+import { useState } from "react";
+
+
 
 const PriorityDmPending = ({ data }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      {/* If backend data exists */}
+      {/* Navbar */}
+      <nav className="border-b-2 border-gray-200 px-6 md:px-20 py-5">
+        <h1 className="text-3xl md:text-4xl font-semibold mb-5">
+          Priority DM
+        </h1>
+
+        <div className="flex justify-between items-center flex-wrap gap-4">
+          
+          {/* Tabs */}
+          <div className="flex gap-4">
+            <button
+              className="text-lg bg-gray-200 px-4 py-1 rounded-full border"
+            >
+              Pending
+            </button>
+
+            <button
+              onClick={() => navigate("/creator-dashboard/queries/answer")}
+              className="text-lg px-4 py-1 rounded-full border"
+            >
+              Answered
+            </button>
+          </div>
+
+          <button className="flex items-center gap-2 bg-gray-100 px-4 py-2 text-lg rounded-full">
+            Edit Services
+          </button>
+        </div>
+      </nav>
+
+      {/* Content */}
       {data && data.length > 0 ? (
         <div>
-          {/* Render your DM list here */}
           {data.map((item, index) => (
             <div key={index} className="p-4 border-b">
               {item.message}
@@ -18,21 +51,15 @@ const PriorityDmPending = ({ data }) => {
           ))}
         </div>
       ) : (
-        /* Empty State */
         <div className="flex flex-col items-center justify-center mt-[2rem] text-center">
-          
           <img src={EmptyScreen} alt="Empty" />
 
-          <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 mb-2">
+          <h2 className="text-3xl font-semibold text-gray-700 mb-2">
             Share your page
           </h2>
 
-          <p className="text-gray-500 text-lg md:text-xl max-w-md mb-6">
-            A new booking might just be around the corner, share your page today!
-          </p>
-
           <button
-            className="bg-black text-white px-6 py-3 rounded-md font-semibold"
+            className="bg-black text-white px-6 py-3 rounded-md"
             onClick={() => navigate("/search")}
           >
             Share Page
@@ -42,5 +69,6 @@ const PriorityDmPending = ({ data }) => {
     </div>
   );
 };
+
 
 export default PriorityDmPending;
