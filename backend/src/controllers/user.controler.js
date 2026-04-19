@@ -1,6 +1,6 @@
 const User = require("../models/user.model.js");
 const { verifyToken, genratedToken } = require("../utility/jwToken.js");
-const { resendMail } = require("../utility/resendMail.js");
+const nodeMail = require("../utility/nodeMail.js");
 
 const map = new Map();
 
@@ -82,7 +82,7 @@ const emailCheckReq = async (req, res) => {
         <h1>Topmate Verification OTP</h1>
         <p>Your otp is ${otp}</p>
         `;
-        await resendMail(email, message);
+        await nodeMail(email, message);
         return res.status(200).json({ message: "Email is Verified Otp is send to your register email check!" });
     } catch (error) {
         console.log(error);
@@ -107,5 +107,35 @@ const otpCheck = async (req, res) => {
     }
 }
 
+const logout = async (req, res) => {
+    try {
+        res.clearCookie("token");
+        return res.status(200).json({ message: "User Logout Successfully" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
 
-module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck }
+const deleteAccount = async (req, res) => {
+    try {
+        const { token } = req.cookies;
+        if (!token) {
+            return res.status(401).json({ message: "Login first" });
+        }
+        const decodedToken = verifyToken(token);
+        const user = await User.findById(decodedToken.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        await User.deleteOne({ _id: decodedToken.id });
+        res.clearCookie("token");
+        return res.status(200).json({ message: "User Deleted Successfully" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+
+module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount }
