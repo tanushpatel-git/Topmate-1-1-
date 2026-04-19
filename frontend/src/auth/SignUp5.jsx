@@ -35,6 +35,7 @@ const SignUp = () => {
 
     const handleLaunch = () => {
         if (validateForm()) {
+            console.log("Sign Up Data:", signUpData);
             signUpMutate(signUpData);
         }
     };
@@ -113,7 +114,7 @@ const SignUp = () => {
                     </div>
 
                     {error && (
-                        <p className="text-red-500 text-sm mt-2">{error}</p>
+                        <p className="text-red-500 text-sm mt-2">{error.data}</p>
                     )}
 
                 </div>

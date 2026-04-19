@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FormIcon, icons, Search, Send } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SeekerCard from "./SeekerCard";
+
 import AddGoal from '../../assets/seeker-assets/add-goal.svg'
 import goal1 from '../../assets/seeker-assets/goal-1.png'
 import goal2 from '../../assets/seeker-assets/goal-2.png'
