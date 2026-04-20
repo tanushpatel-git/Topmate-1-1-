@@ -22,7 +22,7 @@ return (
   </h1>
 </div>
 <div>
-   <img src="" alt="" /> 
+   {/* <img src="" alt="" />  */}
 <h1> url profile</h1>
 
 </div>

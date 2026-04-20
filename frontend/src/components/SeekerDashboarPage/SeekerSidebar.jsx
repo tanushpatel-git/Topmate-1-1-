@@ -1,13 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 import { FaHome, FaUser, FaUserAlt, FaGift, FaSearch, FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Shopcontext} from "../../Context/ShopContext";
 
 const SeekerSidebar = () => {
 const navigate = useNavigate();
+const { user } = useContext(Shopcontext);
 
   const [open, setOpen] = useState(false);
   return (
@@ -21,7 +24,7 @@ const navigate = useNavigate();
           </div>
           <div>
             <h2 className="font-semibold">Seeker Dashboard   </h2>
-            <p className="text-sm text-gray-500">user name </p>
+            <p className="text-sm text-gray-500">{user?.name}</p>
           </div>
           <div onClick={() => setOpen(!open)} className="cursor-pointer">
             <svg
