@@ -1,17 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes, Navigate } from "react-router";
 import CreatorSidebar from "../components/CreatorDashboard/CreatorSidebar";
 import CreatorHome from "../components/CreatorDashboard/CreatorHome";
 import { useNavigate } from "react-router";
 import CreatorBooking from "../components/CreatorDashboard/CreatorBooking";
-import { useSelector } from "react-redux";
 
 
 const CreatorDashboard = () => {
-  const userData = useSelector((state) => state.userData);
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
 
 
   return (
