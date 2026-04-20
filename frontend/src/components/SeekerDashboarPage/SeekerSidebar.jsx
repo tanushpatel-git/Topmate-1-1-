@@ -4,8 +4,10 @@ import { FaHome, FaUser, FaUserAlt, FaGift, FaSearch, FaPhoneAlt } from "react-i
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SeekerSidebar = () => {
+const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   return (
@@ -37,7 +39,7 @@ const SeekerSidebar = () => {
         {open && (
           <div className="flex items-center gap-2 p-8  ml-3 mr-3  rounded-lg bg-white shadow justify-center h-12">
             <FaUserAlt className="text-1xl text-gray-700" />
-            <h2 className="font-semibold text-sm text-gray-700">Seeker Dashboard</h2>
+            <h2 className="font-semibold text-sm text-gray-700" onClick={()=>navigate('/creator-dashboard')}>Creator Dashboard</h2>
           </div>
 
         )}

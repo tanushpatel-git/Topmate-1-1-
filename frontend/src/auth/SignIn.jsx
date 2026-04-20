@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import OTPInput from "react-otp-input"
 import { useEffect, useState } from "react";
@@ -12,13 +13,12 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEmailCheck, useOtpVerification } from "../hooks/SignInWithTwoStep";
 
-
 export default function SignIn() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { email, password, otp } = useSelector((state) => state.signIn);
   const [isLoginWithPass, setIsLoginWithPass] = useState(false);
   const [doneContinue, setDoneContinue] = useState(false);
-  const navigate = useNavigate();
   const { mutate: handleSignIn, data, isPending } = useSignIn();
   const { mutate: handleSignInWithGoogle, data: googleData, isPending: googleIsPending } = useSignInWithGoogle();
   const { mutate: handleEmailCheck, isPending: emailCheckIsPending } = useEmailCheck();
@@ -55,6 +55,7 @@ export default function SignIn() {
     }
   }
 
+
   return (
     <div className="min-h-screen w-full bg-gray-100 flex items-center justify-center">
       <div className="w-[1200px] h-[650px] bg-white rounded-2xl shadow-sm grid grid-cols-2 overflow-hidden">
@@ -66,7 +67,7 @@ export default function SignIn() {
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 mb-10">
               <img className="w-40" src={topmateLogo} alt="topmate" />
-              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500">Create account</button>
+              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500" onClick={()=>navigate('/signup')}> Create account</button>
             </div>
             <div className="h-px bg-gray-200 mb-5" />
           </div>

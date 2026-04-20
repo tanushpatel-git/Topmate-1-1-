@@ -64,15 +64,16 @@ const Navbar = ({ theam = "white" }) => {
 
   const menuData = activeMenu === "features" ? features : useCases;
 
-  const { userName } = useSelector((state) => state.userData);
+  const data = useSelector((state) => state.userData);
 
   useEffect(() => {
+    const { userName } = data;
     if (userName) {
       setUserAccess(true);
     } else {
       setUserAccess(false);
     }
-  }, [userName])
+  }, [data])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>
