@@ -12,6 +12,10 @@ import { auth, googleProvider } from "../utility/fireBase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEmailCheck, useOtpVerification } from "../hooks/SignInWithTwoStep";
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

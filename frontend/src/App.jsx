@@ -28,7 +28,22 @@ import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 import CreatorDashboard from './pages/CreatorDashboard'
 import useGetCurrUser from './hooks/useGetCurrUser'
-import { setUserName, setUserImage } from './redux/userData/userDetails'
+import {
+  setUserName,
+  setUserImage,
+  setFirstName,
+  setLastName,
+  setEmail,
+  setCountry,
+  setCurrency,
+  setExpertise,
+  setLinkedInUrl,
+  setTwitterUrl,
+  setInstagramUrl,
+  setWhatsAppNumber,
+  setAvailability,
+  setService
+} from './redux/userData/userDetails'
 import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 
@@ -39,11 +54,23 @@ const App = () => {
 
   useEffect(() => {
     if (data?.user) {
-      dispatch(setUserName(data.user.userName));
-      dispatch(setUserImage(data.user.userImageUrl));
+      const { user } = data;
+      dispatch(setUserName(user.userName));
+      dispatch(setUserImage(user.userImageUrl));
+      dispatch(setFirstName(user.firstName));
+      dispatch(setLastName(user.lastName));
+      dispatch(setEmail(user.email));
+      dispatch(setCountry(user.country));
+      dispatch(setCurrency(user.currency));
+      dispatch(setExpertise(user.expertise));
+      dispatch(setLinkedInUrl(user.linkedInUrl));
+      dispatch(setTwitterUrl(user.twitterUrl));
+      dispatch(setInstagramUrl(user.instagramUrl));
+      dispatch(setWhatsAppNumber(user.whatsAppNumber));
+      dispatch(setAvailability(user.availability));
+      dispatch(setService(user.service));
     }
   }, [data])
-
 
   return (
     <>
