@@ -6,16 +6,18 @@ import SeekerHome from "../components/SeekerDashboarPage/SeekerHome";
 import SeekerBooking from "../components/SeekerDashboarPage/SeekerBooking";
 import SeekerProfile from "../components/SeekerDashboarPage/SeekerProfile";
 import SeekerReward from "../components/SeekerDashboarPage/SeekerReward";
-const userData = useSelector((state) => state.userData);
-console.log(userData);
+import { useSelector } from "react-redux";
 
 const SekerDashboard = () => {
+  const userData = useSelector((state) => state.userData);
+
+  console.log(userData)
   return (
     <div className="min-h-screen w-full">
 
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
-        <SeekerSidebar />
+        <SeekerSidebar userData={userData} />
       </div>
 
       {/* Main Content */}

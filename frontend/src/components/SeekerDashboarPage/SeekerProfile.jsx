@@ -1,50 +1,38 @@
 import React, { useState, useEffect } from "react";
+import EditableField from "./EditableField";
 
-const SeekerProfile = () => {
+
+const SeekerProfile = ({ userData }) => {
   const [activeTab, setActiveTab] = useState("profile");
-  const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({});
+  const [editingField, setEditingField] = useState(null);
+  
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    graduationYear: "",
-  });
+useEffect(() => {
+  if (userData) {
+    setFormData(userData);
+  }
 
-  // 🔥 Dummy Profile Data
-  const dummyUser = {
-    firstName: "Nikesh",
-    lastName: "Sharma",
-    graduationYear: "2026",
-  };
+}, [userData]);
 
-  // 🔥 Dummy Account Data
-  const accountData = {
-    email: "nikeshparte726@yahoo.comgmail.com",
-    phone: "+918827934630",
-    notifications: "Email, Whatsapp",
-    joined: "4:42PM, 30th Mar 2026",
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
 
-  useEffect(() => {
-    setTimeout(() => {
-      setFormData(dummyUser);
-      setLoading(false);
-    }, 500);
-  }, []);
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  console.log(name, value, formData);
+};
+
 
   const handleSave = () => {
-    console.log("Saved:", formData);
+
     alert("Saved (dummy)");
+  
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
 
   return (
     <div className="w-full min-h-screen bg-gray-50 px-6 md:px-12 py-8">
@@ -95,9 +83,11 @@ const SeekerProfile = () => {
             
             <div>
               <label className="text-sm text-gray-600 mb-1 block">
-                First Name
+               firstName
               </label>
+
               <input
+              placeholder="firstName"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
@@ -107,9 +97,10 @@ const SeekerProfile = () => {
 
             <div>
               <label className="text-sm text-gray-600 mb-1 block">
-                Last Name
+                   lastName
               </label>
               <input
+              placeholder="lastName"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
@@ -122,9 +113,9 @@ const SeekerProfile = () => {
             <label className="text-sm text-gray-600 mb-1 block">
               Your graduation year
             </label>
-            <input
+            <input 
               name="graduationYear"
-              value={formData.graduationYear}
+              placeholder="Your graduation year" defaultValue={formData.graduationYear}
               onChange={handleChange}
               className="w-full md:w-1/2 border px-4 py-2 rounded-md"
             />
@@ -141,35 +132,39 @@ const SeekerProfile = () => {
             <h2 className="text-xl font-semibold mb-6 text-gray-800">
               Your details
             </h2>
+<EditableField
+  label="Email address"
+  name="email"
+  value={formData.firstName}
+  editingField={editingField}
+  setEditingField={setEditingField}
+  handleChange={handleChange}
+/>
 
-            {/* Email */}
-            <div className="flex justify-between items-start border-b border-gray-200 pb-4 mb-4">
-              <div>
-                <p className="text-sm text-gray-600">Email address</p>
-                <p className="text-gray-800">{accountData.email}</p>
-              </div>
-              <button className="text-sm underline">Edit</button>
-            </div>
 
-            {/* Phone */}
-            <div className="flex justify-between items-start border-b pb-4 mb-4  border-gray-200">
-              <div>
-                <p className="text-sm text-gray-600">Mobile number</p>
-                <p className="text-gray-800">{accountData.phone}</p>
-              </div>
-              <button className="text-sm underline">Edit</button>
-            </div>
+<EditableField
+  label="Mobile number"
+  name="whatsAppNumber"
+  value={formData.whatsAppNumber}
+  editingField={editingField}
+  setEditingField={setEditingField}
+  handleChange={handleChange}
+/>
 
-            {/* Password */}
-            <div className="flex justify-between items-start border-b pb-4  border-gray-200">
-              <div>
-                <p className="text-sm text-gray-600">Password</p>
-              </div>
-              <button className="text-sm underline">Edit</button>
-            </div>
+<EditableField
+  label="Password"
+  name="password"
+  value={formData.password}
+  editingField={editingField}
+  setEditingField={setEditingField}
+  handleChange={handleChange}
+  type="password"
+  isPassword={true}
+/>
 
-            <p className="text-xs text-gray-400 mt-4  border-gray-200">
-              User Since {accountData.joined}
+
+            <p className="text-sm font-medium text-gray-400 mt-4  border-gray-200">
+              User Since {formData.joined}
             </p>
           </div>
 
@@ -181,11 +176,11 @@ const SeekerProfile = () => {
 
             <div className="flex justify-between items-start border-b  border-gray-200 pb-4">
               <div>
-                <p className="text-sm text-gray-600">
+                <p className="text-lg font-medium text-gray-600">
                   Booking notifications
                 </p>
                 <p className="text-gray-800">
-                  On: {accountData.notifications}
+                  On: {formData.notifications || 'Email, Whatsapp'}
                 </p>
               </div>
               <button className="text-sm underline">Edit</button>

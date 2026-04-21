@@ -28,6 +28,8 @@ import Marketplace from './pages/Marketplace'
 import Search from './pages/Search'
 import CreatorDashboard from './pages/CreatorDashboard'
 import useGetCurrUser from './hooks/useGetCurrUser'
+import Profile from './components/CreatorDashboard/Profile'
+
 import {
   setUserName,
   setUserImage,
@@ -104,6 +106,8 @@ const App = () => {
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/profile" element={<Profile />} />
+
       </Routes>
     </>
   )

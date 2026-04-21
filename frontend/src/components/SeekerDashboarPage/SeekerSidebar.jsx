@@ -7,7 +7,7 @@ import Logoicon from '../../assets/logo-icon.svg'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SeekerSidebar = () => {
+const SeekerSidebar = ({ userData }) => {
 const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -22,7 +22,7 @@ const navigate = useNavigate();
           </div>
           <div>
             <h2 className="font-semibold">Seeker Dashboard   </h2>
-            <p className="text-sm text-gray-500">{user?.name}</p>
+            <p className="text-sm text-gray-500">{userData.firstName + ' ' + userData.lastName || 'hii there'}</p>
           </div>
           <div onClick={() => setOpen(!open)} className="cursor-pointer">
             <svg
@@ -68,9 +68,9 @@ const navigate = useNavigate();
           className="w-10 h-10 rounded-full"
         />
         <div>
-          <p className="text-sm font-medium">user name </p>
+          <p className="text-sm font-medium">{userData.firstName + ' ' + userData.lastName || 'hii there'}</p>
           <p className="text-xs text-gray-500 truncate w-32">
-            user Gmail Id
+            {userData.email || 'user@gmail.com'}
           </p>
         </div>
       </div>
