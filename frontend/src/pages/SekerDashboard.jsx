@@ -6,6 +6,8 @@ import SeekerHome from "../components/SeekerDashboarPage/SeekerHome";
 import SeekerBooking from "../components/SeekerDashboarPage/SeekerBooking";
 import SeekerProfile from "../components/SeekerDashboarPage/SeekerProfile";
 import SeekerReward from "../components/SeekerDashboarPage/SeekerReward";
+const userData = useSelector((state) => state.userData);
+console.log(userData);
 
 const SekerDashboard = () => {
   return (
@@ -21,10 +23,10 @@ const SekerDashboard = () => {
         
         <Routes>
           <Route index element={<Navigate to="home" />} />
-          <Route path="home" element={<SeekerHome />} />
-          <Route path="booking" element={<SeekerBooking />} />
-          <Route path="Profile" element={<SeekerProfile />} />
-          <Route path="reward" element={<SeekerReward />} />
+          <Route path="home" element={<SeekerHome userData={userData} />} />
+          <Route path="booking" element={<SeekerBooking userData={userData} />} />
+          <Route path="Profile" element={<SeekerProfile userData={userData} />} />
+          <Route path="reward" element={<SeekerReward userData={userData} />} />
         </Routes>
       </div>
 

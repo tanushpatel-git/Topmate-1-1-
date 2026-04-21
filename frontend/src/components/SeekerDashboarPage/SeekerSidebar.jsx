@@ -6,11 +6,9 @@ import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Shopcontext} from "../../Context/ShopContext";
 
 const SeekerSidebar = () => {
 const navigate = useNavigate();
-const { user } = useContext(Shopcontext);
 
   const [open, setOpen] = useState(false);
   return (
