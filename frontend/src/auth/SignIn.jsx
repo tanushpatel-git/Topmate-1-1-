@@ -21,7 +21,7 @@ export default function SignIn() {
   const [doneContinue, setDoneContinue] = useState(false);
   const { mutate: handleSignIn, data, isPending } = useSignIn();
   const { mutate: handleSignInWithGoogle, data: googleData, isPending: googleIsPending } = useSignInWithGoogle();
-  const { mutate: handleEmailCheck, isPending: emailCheckIsPending } = useEmailCheck();
+  const { mutate: handleEmailCheck, data: emailVerified, isPending: emailCheckIsPending } = useEmailCheck();
   const { mutate: handleOtpVerification, data: otpData, isPending: otpVerificationIsPending } = useOtpVerification();
 
 
@@ -31,7 +31,11 @@ export default function SignIn() {
     } else if (!doneContinue) {
       if (email) {
         handleEmailCheck(email);
-        setDoneContinue(true);
+        //pending.. but also updated
+        if (emailVerified.data) {
+          setDoneContinue(true);
+        }
+        //this is a peak line of doing code today.
       } else {
         toast.error("Email is required");
       }
@@ -67,7 +71,7 @@ export default function SignIn() {
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 mb-10">
               <img className="w-40" src={topmateLogo} alt="topmate" />
-              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500" onClick={()=>navigate('/signup')}> Create account</button>
+              <button className="text-gray-500 font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-10 w-40 rounded-full border border-gray-500" onClick={() => navigate('/signup')}> Create account</button>
             </div>
             <div className="h-px bg-gray-200 mb-5" />
           </div>

@@ -135,7 +135,24 @@ const deleteAccount = async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
     }
+}   
+
+const updateAccount = async (req, res) => {
+    try {
+        const { token } = req.cookies;
+        const { id } = verifyToken(token);
+        console.log(id);
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+        await User.updateOne({ _id: id }, { $set: req.body });
+        return res.status(200).json({ message: "User Updated Successfully" });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: "Internal server error",
+        })
+    }
+
 }
 
-
-module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount }
+module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount, updateAccount }

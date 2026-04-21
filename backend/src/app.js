@@ -13,7 +13,7 @@ app.use(cors({
 }))
 app.use(cookieParser())
 
-
+//routes middleware
 app.use("/api/user",userRouter);
 
 
