@@ -18,7 +18,7 @@ const goalsSchema = new mongoose.Schema({
         default: "Interested"
     },
 
-})
+}, { timestamps: true })
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -106,8 +106,37 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-
-})
+    services: {
+        typeOfServices: {
+            type: String,
+        },
+        title: {
+            type: String,
+        },
+        duration: {
+            type: String,
+        },
+        amount: {
+            type: Number,
+        },
+        questions: [Object],
+        description: {
+            type: String,
+        },
+        serviceDescription: {
+            type: String,
+        },
+        paymentButtonLabel: {
+            type: String,
+        },
+        serviceLabel: {
+            type: String,
+        },
+        slachPricing: {
+            type:String,
+        },
+    },
+}, { timestamps: true })
 
 const userModel = mongoose.model("User", userSchema)
 
