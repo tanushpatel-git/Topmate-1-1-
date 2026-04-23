@@ -59,10 +59,10 @@ const CreatorSidebar = () => {
     <p className="text-xs text-gray-400 mb-2">Manage</p>
 
     <SidebarLink to="/creator-dashboard/home" icon={<FaHome />} text="Home" />
-    <SidebarLink to="/creator-dashboard/booking" icon={<FaPhoneAlt />} text="Bookings" />
+    <SidebarLink to="/creator-dashboard/calls/one-to-one/upcoming" icon={<FaPhoneAlt />} text="Bookings" />
     <SidebarLink to="/creator-dashboard/queries/pending" icon={<FaUser />} text="Priority DM" badge={true} />
-    <SidebarLink to="/creator-dashboard/services" icon={<MdOutlineCategory />} text="Services" badge />
-    <SidebarLink to="/creator-dashboard/calendar" icon={<FaSearch />} text="Calendar" badge />
+    <SidebarLink to="/creator-dashboard/services/one-to-one" icon={<MdOutlineCategory />} text="Services" badge />
+    <SidebarLink to="/creator-dashboard/calendar/setting" icon={<FaSearch />} text="Calendar" badge />
     <SidebarLink to="/creator-dashboard/autodm" icon={<FaUserAlt />} text="AutoDM" />
     <SidebarLink to="/creator-dashboard/payouts" icon={<FaGift />} text="Payouts" />
   </div>

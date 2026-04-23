@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import EmptyScreen from "../../assets/EmptyScreen.svg";
+import EmptyScreen from "../../assets/empty-screen-dm.svg";
 
 const PriorityDmAnswer = ({ data }) => {
   const navigate = useNavigate();
@@ -45,22 +45,24 @@ const PriorityDmAnswer = ({ data }) => {
             </div>
           ))}
         </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center mt-[2rem] text-center">
-          <img src={EmptyScreen} alt="Empty" />
-
-          <h2 className="text-3xl font-semibold text-gray-700 mb-2">
-            Share your page
-          </h2>
-
-          <button
-            className="bg-black text-white px-6 py-3 rounded-md"
-            onClick={() => navigate("/search")}
-          >
-            Share Page
-          </button>
-        </div>
-      )}
+      ) :  (
+              <div className="flex flex-col items-center justify-center  mt-[2rem] text-center">
+                <img src={EmptyScreen} alt="Empty" />
+      
+                <h2 className="text-3xl font-semibold text-gray-700 mb-2">
+                  Try Priority DM
+                </h2>
+      <p>Priority DM allows you to accept DM requests without revealing your information and  reply seamlessly  <br />through <span className="font-bold" > WhatsApp.</span>
+      </p>
+      
+                <button
+                  className="bg-black text-white font-semibold px-6 py-3 rounded-md mt-4"
+                  onClick={() => navigate("/creator-dashboard/services")}
+                >
+                  Add Priority DM
+                </button>
+              </div>
+            )}
     </div>
   );
 };
