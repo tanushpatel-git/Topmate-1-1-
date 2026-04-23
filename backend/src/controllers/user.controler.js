@@ -2,6 +2,7 @@ const User = require("../models/user.model.js");
 const { verifyToken, genratedToken } = require("../utility/jwToken.js");
 const nodeMail = require("../utility/nodeMail.js");
 const map = new Map();
+const { hashingPassword } = require("../utility/bcrypt.js");
 
 
 
@@ -32,7 +33,8 @@ const signUp = async (req, res) => {
     try {
         const data = req.body;
         if (!data) return res.status(200).json({ status:false, message: "Please fill all the details" });
-        const user = await User.create(data);
+        const hashPassword = hashingPassword(data.password);
+        const user = await User.create({...data, password: hashPassword});
         const token = genratedToken(user._id);
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ status:true, message: "User SignUp Successfully", user });
@@ -145,10 +147,14 @@ const updateAccount = async (req, res) => {
     try {
         const { token } = req.cookies;
         const { id } = verifyToken(token);
-        console.log(id);
         const user = await User.findById(id);
         if (!user) return res.status(200).json({ status:false, message: "User not found" });
-        await User.updateOne({ _id: id }, { $set: req.body });
+        if (req.body.password) {
+            const hashPassword = hashingPassword(req.body.password);
+            await User.updateOne({ _id: id }, { $set: {...req.body, password: hashPassword} });
+        }else{
+            await User.updateOne({ _id: id }, { $set: req.body });
+        }
         return res.status(200).json({status:true, message: "User Updated Successfully" });
     } catch (error) {
         console.log(error)

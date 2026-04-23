@@ -11,7 +11,7 @@ router.post('/signin-with-google', signInWithGoogle);
 router.post('/email-check', emailCheckReq);
 router.post('/otp-verification', otpCheck);
 router.post('/logout', logout);
-router.post('/delete-account', deleteAccount);
+router.get('/delete-account', deleteAccount);
 router.post('/update-profile', updateAccount);
 
 
