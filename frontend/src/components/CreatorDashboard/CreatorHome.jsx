@@ -2,31 +2,35 @@
 import React  from "react";
 import loopdesktop from '../../assets/loopdesktop-img.svg'
 import loopMobile from '../../assets/loopmobile_img.svg'
-
-
-const userdata ={
-    username :"nikesh ",
-}
+import { useSelector } from "react-redux";
+import { FiExternalLink, FiCopy } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import Profile from "./Profile";
 const CreatorHome =()=>{
 
+const userData = useSelector((state) => state.userData);
+const navigate = useNavigate();
+
 return (
-
     <div className="w-full h-[100%] " >
-
-
  <nav className="hidden md:flex w-full border-b border-gray-300 bg-white px-4 md:px-8 py-4 items-center  flex justify-between">
 <div>
 
   <h1 className="text-2xl md:text-3xl font-bold text-gray-800 ml-2 md:ml-10">
-   Hi,{userdata.username}
+  Hi,{userData.firstName} 
   </h1>
 </div>
-<div>
-   <img src="" alt="" /> 
-<h1> url profile</h1>
+<div className="flex items-center gap-2" >
+   <div  className="flex items-center gap-2 h-11 border-1 border-[#b08969ff] rounded-lg px-2" >
 
+   <img  src={userData.userImage} alt=""  className="h-10 w-12 object-cover rounded-full"/> 
+   <p className="text-sm font-medium">{userData.profilerUrl || 'Profile URL' }</p>
+   <FiExternalLink size={20} color="#b08969ff" className="cursor-pointer " onClick={()=>navigate('/profile')} />
+   </div>
+<div className="flex items-center gap-2 h-11 border-1 border-[#b08969ff] rounded-lg px-2 cursor-pointer">
+      <FiCopy size={20}  color="#b08969ff" onClick={() => navigate('/Profile')}  />
 </div>
-
+</div>
 
 </nav>
 

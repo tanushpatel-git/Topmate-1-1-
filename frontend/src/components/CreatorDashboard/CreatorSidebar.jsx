@@ -4,12 +4,13 @@ import { FaHome, FaUser, FaUserAlt, FaGift ,FaSearch , FaPhoneAlt} from "react-i
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon  from '../../assets/logo-icon.svg'
 import { useState } from "react";
-
+import { useSelector } from "react-redux";
 
 const CreatorSidebar = () => {
 
   const [open, setOpen] = useState(false); 
   const navigate = useNavigate();
+  const userData = useSelector((state) => state.userData);
 
   return (
     <div className="w-64 bg-[#F7F6F2] border-r-1 border-gray-200 flex flex-col justify-between fixed h-full">
@@ -22,7 +23,7 @@ const CreatorSidebar = () => {
           </div>
           <div>
             <h2 className="font-semibold">Dashboard   </h2>  
-            <p className="text-sm text-gray-500">user name </p>
+            <p className="text-sm text-gray-500">{userData.firstName + ' ' + userData.lastName || 'hii there'}</p>
           </div>
           <div onClick={() => setOpen(!open)} className="cursor-pointer">
       <svg
@@ -42,7 +43,7 @@ const CreatorSidebar = () => {
   
   <div className="flex items-center gap-2 p-8  ml-3 mr-3  rounded-lg bg-white shadow justify-center h-12">
   <FaUserAlt className="text-1xl text-gray-700" />
-  <h2 className="font-semibold text-sm text-gray-700" onClick={()=>navigate('/seeker-dashboard')}> Crator Dashboard</h2>
+  <h2 className="font-semibold text-sm text-gray-700" onClick={()=>navigate('/seeker-dashboard')}> Seeker Dashboard</h2>
 </div>
 
 )}
@@ -58,10 +59,10 @@ const CreatorSidebar = () => {
     <p className="text-xs text-gray-400 mb-2">Manage</p>
 
     <SidebarLink to="/creator-dashboard/home" icon={<FaHome />} text="Home" />
-    <SidebarLink to="/creator-dashboard/booking" icon={<FaPhoneAlt />} text="Bookings" />
+    <SidebarLink to="/creator-dashboard/calls/one-to-one/upcoming" icon={<FaPhoneAlt />} text="Bookings" />
     <SidebarLink to="/creator-dashboard/queries/pending" icon={<FaUser />} text="Priority DM" badge={true} />
-    <SidebarLink to="/creator-dashboard/services" icon={<MdOutlineCategory />} text="Services" badge />
-    <SidebarLink to="/creator-dashboard/calendar" icon={<FaSearch />} text="Calendar" badge />
+    <SidebarLink to="/creator-dashboard/services/one-to-one" icon={<MdOutlineCategory />} text="Services" badge />
+    <SidebarLink to="/creator-dashboard/calendar/setting" icon={<FaSearch />} text="Calendar" badge />
     <SidebarLink to="/creator-dashboard/autodm" icon={<FaUserAlt />} text="AutoDM" />
     <SidebarLink to="/creator-dashboard/payouts" icon={<FaGift />} text="Payouts" />
   </div>
@@ -95,9 +96,9 @@ const CreatorSidebar = () => {
           className="w-10 h-10 rounded-full"
         />
         <div>
-          <p className="text-sm font-medium">user name </p>
+          <p className="text-sm font-medium"> {userData.firstName + ' ' + userData.lastName || 'hii there'} </p>
           <p className="text-xs text-gray-500 truncate w-32">
-            user Gmail Id 
+            {userData.email || 'user@gmail.com'} 
           </p>
         </div>
       </div>

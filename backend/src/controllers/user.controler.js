@@ -1,13 +1,16 @@
 const User = require("../models/user.model.js");
 const { verifyToken, genratedToken } = require("../utility/jwToken.js");
 const nodeMail = require("../utility/nodeMail.js");
-
 const map = new Map();
+
+
 
 const getUser = async (req, res) => {
 
+
     try {
         const { token } = req.cookies;
+
         if (!token) {
             return res.status(200).json({ status:false,message: "Login first" });
         }
@@ -16,7 +19,12 @@ const getUser = async (req, res) => {
         if (!user) {
             return res.status(200).json({ status:false,message: "User not found" });
         }
+<<<<<<< HEAD
         return res.status(200).json({ status:true, user });
+=======
+        return res.status(200).json({ user });
+
+>>>>>>> nikesh
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
@@ -48,8 +56,21 @@ const signIn = async (req, res) => {
         if (!user) return res.status(200).json({ status:false, message: "User not found" });
         if (user.password !== password) return res.status(200).json({ status:false, message: "Invalid password" });
         const token = genratedToken(user._id);
+<<<<<<< HEAD
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ status:true, message: "User SignIn Successfully", user });
+=======
+        console.log(token)
+
+res.cookie("token", token, {
+  httpOnly: true,
+  sameSite: "lax",  
+  secure: false,
+  maxAge: 24 * 60 * 60 * 1000
+});
+
+        return res.status(200).json({ message: "User SignIn Successfully", user });
+>>>>>>> nikesh
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
@@ -59,7 +80,12 @@ const signIn = async (req, res) => {
 const signInWithGoogle = async (req, res) => {
     try {
         const email = req.body.email;
+<<<<<<< HEAD
         if (!email) return res.status(200).json({ status:false, message: "Email is required" });
+=======
+        console.log("Email:", email)
+        if (!email) return res.status(400).json({ message: "Email is required" });
+>>>>>>> nikesh
         const user = await User.findOne({ email })
         if (!user) return res.status(200).json({ status:false, message: "User not exist please signup first" });
         const token = genratedToken(user._id);
