@@ -2,7 +2,7 @@ import React  from "react";
 import { useState } from "react";
 import { MapPin, CalendarDays, Settings } from "lucide-react";
 
-const CreatorCalenderSetting = () => {
+const CreatorCalender = () => {
 
 
 const [timezone, setTimezone] = useState("GMT+5:30 Chennai, Kolkata");
@@ -129,4 +129,4 @@ const [timezone, setTimezone] = useState("GMT+5:30 Chennai, Kolkata");
   </div>;
 };
 
-export default CreatorCalenderSetting;
+export default CreatorCalender;

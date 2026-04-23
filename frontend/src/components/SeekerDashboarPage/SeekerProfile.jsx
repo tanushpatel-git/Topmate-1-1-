@@ -1,42 +1,43 @@
 import React, { useState, useEffect } from "react";
 import EditableField from "./EditableField";
-
+import useUpdate from "../../hooks/useUpdate";
 
 const SeekerProfile = ({ userData }) => {
+
+  const { isPending: isDoneUpdate, mutate: updateProfileReq } = useUpdate();
   const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({});
   const [editingField, setEditingField] = useState(null);
-  
-
-useEffect(() => {
-  if (userData) {
-    setFormData(userData);
-  }
-
-}, [userData]);
-
-const handleChange = (e) => {
-  const { name, value } = e.target;
-
-  setFormData((prev) => ({
-    ...prev,
-    [name]: value,
-  }));
-
-  console.log(name, value, formData);
-};
 
 
-  const handleSave = () => {
+  useEffect(() => {
+    if (userData) {
+      setFormData(userData);
+      console.log(userData.graduationYear);
 
-    alert("Saved (dummy)");
-  
+    }
+
+  }, [userData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    console.log(name, value, formData);
   };
 
 
+  const handleSave = () => {
+    updateProfileReq(formData);
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-50 px-6 md:px-12 py-8">
-      
+
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">Profile</h1>
@@ -53,22 +54,20 @@ const handleChange = (e) => {
       <div className="flex gap-3 mb-8">
         <button
           onClick={() => setActiveTab("profile")}
-          className={`px-4 py-2 rounded-full border text-sm ${
-            activeTab === "profile"
+          className={`px-4 py-2 rounded-full border text-sm ${activeTab === "profile"
               ? "border-black bg-white font-medium"
               : "border-gray-300 text-gray-600"
-          }`}
+            }`}
         >
           Profile
         </button>
 
         <button
           onClick={() => setActiveTab("account")}
-          className={`px-4 py-2 rounded-full border text-sm ${
-            activeTab === "account"
+          className={`px-4 py-2 rounded-full border text-sm ${activeTab === "account"
               ? "border-black bg-white font-medium"
               : "border-gray-300 text-gray-600"
-          }`}
+            }`}
         >
           Account
         </button>
@@ -80,14 +79,14 @@ const handleChange = (e) => {
       {activeTab === "profile" && (
         <div className="max-w-3xl space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+
             <div>
               <label className="text-sm text-gray-600 mb-1 block">
-               firstName
+                firstName
               </label>
 
               <input
-              placeholder="firstName"
+                placeholder="firstName"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
@@ -97,10 +96,10 @@ const handleChange = (e) => {
 
             <div>
               <label className="text-sm text-gray-600 mb-1 block">
-                   lastName
+                lastName
               </label>
               <input
-              placeholder="lastName"
+                placeholder="lastName"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
@@ -113,9 +112,10 @@ const handleChange = (e) => {
             <label className="text-sm text-gray-600 mb-1 block">
               Your graduation year
             </label>
-            <input 
+            <input
               name="graduationYear"
-              placeholder="Your graduation year" defaultValue={formData.graduationYear}
+              placeholder="Your graduation year" 
+              value={formData.graduationYear}
               onChange={handleChange}
               className="w-full md:w-1/2 border px-4 py-2 rounded-md"
             />
@@ -126,45 +126,45 @@ const handleChange = (e) => {
       {/* ================= ACCOUNT TAB ================= */}
       {activeTab === "account" && (
         <div className="max-w-3xl space-y-10">
-          
+
           {/* Your Details */}
           <div>
             <h2 className="text-xl font-semibold mb-6 text-gray-800">
               Your details
             </h2>
-<EditableField
-  label="Email address"
-  name="email"
-  value={formData.firstName}
-  editingField={editingField}
-  setEditingField={setEditingField}
-  handleChange={handleChange}
-/>
+            <EditableField
+              label="Email address"
+              name="email"
+              value={formData.email}
+              editingField={editingField}
+              setEditingField={setEditingField}
+              handleChange={handleChange}
+            />
 
 
-<EditableField
-  label="Mobile number"
-  name="whatsAppNumber"
-  value={formData.whatsAppNumber}
-  editingField={editingField}
-  setEditingField={setEditingField}
-  handleChange={handleChange}
-/>
+            <EditableField
+              label="Mobile number"
+              name="whatsAppNumber"
+              value={formData.whatsAppNumber}
+              editingField={editingField}
+              setEditingField={setEditingField}
+              handleChange={handleChange}
+            />
 
-<EditableField
-  label="Password"
-  name="password"
-  value={formData.password}
-  editingField={editingField}
-  setEditingField={setEditingField}
-  handleChange={handleChange}
-  type="password"
-  isPassword={true}
-/>
+            <EditableField
+              label="Password"
+              name="password"
+              value={formData.password}
+              editingField={editingField}
+              setEditingField={setEditingField}
+              handleChange={handleChange}
+              type="password"
+              isPassword={true}
+            />
 
 
             <p className="text-sm font-medium text-gray-400 mt-4  border-gray-200">
-              User Since {formData.joined}
+              User Since {formData.joindate }
             </p>
           </div>
 
@@ -180,7 +180,7 @@ const handleChange = (e) => {
                   Booking notifications
                 </p>
                 <p className="text-gray-800">
-                  On: {formData.notifications || 'Email, Whatsapp'}
+                  On: {formData.notifications}
                 </p>
               </div>
               <button className="text-sm underline">Edit</button>
@@ -196,7 +196,8 @@ const handleChange = (e) => {
           </p>
 
           {/* Delete */}
-          <button className="border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-50">
+          <button className="border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-50"   >
+
             Delete Account
           </button>
         </div>

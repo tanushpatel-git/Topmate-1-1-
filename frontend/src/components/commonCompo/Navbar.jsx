@@ -75,6 +75,8 @@ const Navbar = ({ theam = "white" }) => {
     }
   }, [data])
 
+  console.log(data);
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>
       <div className="max-w-7xl mx-auto px-6">

@@ -44,7 +44,8 @@ import {
   setInstagramUrl,
   setWhatsAppNumber,
   setAvailability,
-  setService
+  setService,
+  setGraduationYear
 } from './redux/userData/userDetails'
 import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
@@ -72,7 +73,9 @@ const App = () => {
       dispatch(setInstagramUrl(user.instagramUrl));
       dispatch(setWhatsAppNumber(user.whatsAppNumber));
       dispatch(setAvailability(user.availability));
-      dispatch(setService(user.service));
+      dispatch(setService(user.service)); 
+      dispatch(setGraduationYear(user.graduationYear));
+
     }
   }, [data])
 

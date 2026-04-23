@@ -5,17 +5,11 @@ import CreatorHome from "../components/CreatorDashboard/CreatorHome";
 import CreatorBooking from "../components/CreatorDashboard/CreatorBooking";
 import PriorityDmAnswer from "../components/CreatorDashboard/PriorityDmAnswer";
 import PriorityDmPending from "../components/CreatorDashboard/PriorityDmPending";
-
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import CreatorServices from "../components/CreatorDashboard/CreatorServices";
+import CreatorCalenderSetting from "../components/CreatorDashboard/CreatorCalender";
 
 const CreatorDashboard = () => {
-
-  const userData = useSelector((state) => state.userData);
-
-  useEffect(() => {
-    console.log(userData);
-
-  }, [userData])
 
   return (
     <div className="min-h-screen w-full">
