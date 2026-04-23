@@ -6,7 +6,11 @@ const useSignUp = () => {
     return useMutation({
         mutationFn: (data) => signUpReq(data),
         onSuccess: (data) => {
-            toast.success(data?.message || "Sign Up Sucessfull");
+            if (data?.status){
+                toast.success(data?.message || "Sign Up Sucessfull");
+            }else{
+                toast.error(data?.message || "Sign Up Failed");
+            }
         },
         onError: (error) => {
             toast.error(error?.message || "Sign Up Failed");

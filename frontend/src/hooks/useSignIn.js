@@ -6,7 +6,11 @@ const useSignIn = () => {
     return useMutation({
         mutationFn: (userData) => signInReq(userData),
         onSuccess: (data) => {
-            toast.success(data.message);
+            if (data?.status){
+                toast.success(data?.message);
+            }else{
+                toast.error(data?.message);
+            }
         },
         onError: (error) => {
             toast.error(error.message);

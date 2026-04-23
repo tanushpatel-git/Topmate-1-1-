@@ -101,7 +101,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["user", "expert"],
         default: "user"
-    }
+    },
+    graduationYear: {
+        type: String,
+        default: ""
+    },
 
 })
 

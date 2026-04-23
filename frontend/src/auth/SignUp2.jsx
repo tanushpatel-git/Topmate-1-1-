@@ -45,10 +45,6 @@ export default function SignUp2() {
     const validateForm = () => {
         let newErrors = {};
 
-        if (!topmateLink) {
-            newErrors.socialLink = "Please connect your social account";
-        }
-
         if (!topmateUsername) {
             newErrors.topmate = "Topmate username required";
         }
@@ -120,7 +116,7 @@ export default function SignUp2() {
                     {/* Social Link */}
                     <div className="mb-5">
                         <label className="text-sm font-medium mb-2 block">
-                            Connect your social account
+                            Connect your social account <span className="text-gray-500 text-xs">(optional)</span>
                         </label>
                         <input
                             value={topmateLink}
@@ -129,9 +125,6 @@ export default function SignUp2() {
                             placeholder="https://  LinkedIn, Twitter, Instagram"
                             className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black/20"
                         />
-                        {errors.socialLink && (
-                            <p className="text-red-500 text-xs mt-1">{errors.socialLink}</p>
-                        )}
                     </div>
 
                     {/* Topmate Link */}

@@ -31,11 +31,6 @@ export default function SignIn() {
     } else if (!doneContinue) {
       if (email) {
         handleEmailCheck(email);
-        //pending.. but also updated
-        if (emailVerified.data) {
-          setDoneContinue(true);
-        }
-        //this is a peak line of doing code today.
       } else {
         toast.error("Email is required");
       }
@@ -49,6 +44,13 @@ export default function SignIn() {
       navigate("/creator-dashboard")
     }
   }, [data, googleData, otpData])
+
+  useEffect(() => {
+    console.log(emailVerified);
+    if (emailVerified?.status) {
+      setDoneContinue(true);
+    }
+  }, [emailVerified])
 
   const handleGoogleSignIn = async () => {
     try {

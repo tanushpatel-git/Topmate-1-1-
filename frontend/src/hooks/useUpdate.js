@@ -6,7 +6,11 @@ const useUpdate = () => {
     return useMutation({
         mutationFn: (data) => updateProfile(data),
         onSuccess: (data) => {
-            toast.success(data?.message)
+            if (data?.status){
+                toast.success(data?.message)
+            }else{
+                toast.error(data?.message)
+            }
         },
         onError: (error) => {
             toast.error(error?.message)

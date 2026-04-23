@@ -9,7 +9,11 @@ const useEmailCheck = () => {
         mutationKey: ["emailCheck"],
         mutationFn: (email) => emailCheckReq(email),
         onSuccess: (data) => {
-            toast.success(data?.message);
+            if (data?.status){
+                toast.success(data?.message);
+            }else{
+                toast.error(data?.message);
+            }
         },
         onError: (error) => {
             toast.error(error.message);
@@ -22,7 +26,11 @@ const useOtpVerification = () => {
         mutationKey: ["otpVerification"],
         mutationFn: ({email , otp}) => otpVerificationReq({email , otp}),
         onSuccess: (data) => {
-            toast.success(data?.message);
+            if (data?.status){
+                toast.success(data?.message);
+            }else{
+                toast.error(data?.message);
+            }
         },
         onError: (error) => {
             toast.error(error.message);
