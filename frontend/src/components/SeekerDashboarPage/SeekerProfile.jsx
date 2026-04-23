@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import EditableField from "./EditableField";
 import useUpdate from "../../hooks/useUpdate";
+import userDeleteProfile from "../../services/userAuthServices/userDeleteProfile";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+
 
 const SeekerProfile = ({ userData }) => {
 
@@ -8,6 +12,17 @@ const SeekerProfile = ({ userData }) => {
   const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({});
   const [editingField, setEditingField] = useState(null);
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+      const response = await userDeleteProfile();
+      if (response) {
+        toast.success("Profile deleted successfully");
+        navigate("/");
+      } else {
+        toast.error("Failed to delete profile");
+      }
+    }
 
 
   useEffect(() => {
@@ -196,7 +211,10 @@ const SeekerProfile = ({ userData }) => {
           </p>
 
           {/* Delete */}
-          <button className="border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-50"   >
+          <button 
+
+          onClick={handleDelete}
+          className="border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-50"   >
 
             Delete Account
           </button>

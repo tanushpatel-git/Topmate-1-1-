@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
 import { Menu, X, ChevronDown, ChevronRight, Search } from "lucide-react";
-import { useSelector } from "react-redux";
+import useGetCurrUser from "../../hooks/useGetCurrUser";
 
 const Navbar = ({ theam = "white" }) => {
 
@@ -64,18 +64,15 @@ const Navbar = ({ theam = "white" }) => {
 
   const menuData = activeMenu === "features" ? features : useCases;
 
-  const data = useSelector((state) => state.userData);
+  const { data } = useGetCurrUser();
 
   useEffect(() => {
-    const { userName } = data;
-    if (userName) {
+    if (data?.userName) {
       setUserAccess(true);
     } else {
       setUserAccess(false);
     }
-  }, [data])
-
-  console.log(data);
+  }, [data?.userName])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>
