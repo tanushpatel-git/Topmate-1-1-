@@ -23,7 +23,7 @@ const Skeleton = ({ className }) => (
   </div>
 );
 
-export default function DefaultSkeletonPage() {
+export default function DefaultLoading() {
   return (
     <div className="min-h-screen bg-white">
       <ShimmerStyles />

@@ -46,7 +46,8 @@ import {
 } from './redux/userData/userDetails'
 import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
-import DefaultLoadingPage from './components/ui/DefaultLoading'
+import DefaultLoading from './components/ui/DefaultLoading'
+import DefaultLoadingDashboard from './components/ui/DefaultLoadingDashboard'
 
 const App = () => {
 
@@ -105,7 +106,6 @@ const App = () => {
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
-        <Route path="/loading" element={<DefaultLoadingPage />} />
       </Routes>
     </>
   )
