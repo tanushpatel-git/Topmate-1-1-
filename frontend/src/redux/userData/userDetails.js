@@ -18,6 +18,7 @@ const userDetailsSlice = createSlice({
         availability: null,
         service: null,
         userImage: null,
+        graduationYear: new Date().getFullYear() - 4,
     },
     reducers: {
         setFirstName: (state, action) => {
@@ -65,6 +66,10 @@ const userDetailsSlice = createSlice({
         setUserImage: (state, action) => {
             state.userImage = action.payload;
         },
+        setGraduationYear: (state, action) => {
+            state.graduationYear = action.payload;
+        },
+
     },
 })
 
@@ -83,6 +88,8 @@ export const {
     setWhatsAppNumber, 
     setAvailability, 
     setService, 
-    setUserImage 
+    setUserImage,
+    setGraduationYear,
+
 } = userDetailsSlice.actions;
 export default userDetailsSlice.reducer;

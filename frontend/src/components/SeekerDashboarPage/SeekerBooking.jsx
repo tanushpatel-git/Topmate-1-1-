@@ -54,7 +54,7 @@ function SeekerBooking() {
   useEffect(() => {
 
     // Replace this with real API call
-    const result = mockData[activeFilter][activeTab];
+  const result = mockData[activeFilter][activeTab];
     setData(result);
   }, [activeFilter, activeTab]);
 

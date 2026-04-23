@@ -110,6 +110,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    joinDate: {
+        type: Date,
+        default: Date.now,
+    },
 }, { timestamps: true })
 
 const userModel = mongoose.model("User", userSchema)

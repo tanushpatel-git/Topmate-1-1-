@@ -3,14 +3,20 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaUser, FaUserAlt, FaGift ,FaSearch , FaPhoneAlt} from "react-icons/fa";
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon  from '../../assets/logo-icon.svg'
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import { useSelector } from "react-redux";
+
 
 const CreatorSidebar = () => {
 
   const [open, setOpen] = useState(false); 
   const navigate = useNavigate();
+
   const userData = useSelector((state) => state.userData);
+  
+  useEffect(() => {
+
+  }, [userData]);
 
   return (
     <div className="w-64 bg-[#F7F6F2] border-r-1 border-gray-200 flex flex-col justify-between fixed h-full">
