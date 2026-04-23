@@ -105,7 +105,11 @@ const userSchema = new mongoose.Schema({
     graduationYear: {
         type: String,
         default: ""
-    }
+    },
+    notifications:{
+        type: Boolean,
+        default: true
+    },
 }, { timestamps: true })
 
 const userModel = mongoose.model("User", userSchema)
