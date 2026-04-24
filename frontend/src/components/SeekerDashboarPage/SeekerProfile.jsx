@@ -9,6 +9,8 @@ import { toast } from "react-hot-toast";
 const SeekerProfile = ({ userData }) => {
 
   const { isPending: isDoneUpdate, mutate: updateProfileReq } = useUpdate();
+  // const { isPending: isDoneDelete, refetch } = deleteAccount();
+  
   const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({});
   const [editingField, setEditingField] = useState(null);
@@ -28,8 +30,7 @@ const SeekerProfile = ({ userData }) => {
   useEffect(() => {
     if (userData) {
       setFormData(userData);
-      console.log(userData.graduationYear);
-
+              console.log(formData.joinDate)
     }
 
   }, [userData]);
@@ -57,7 +58,7 @@ const SeekerProfile = ({ userData }) => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">Profile</h1>
 
-        <button
+        <button disabled={isDoneUpdate} 
           onClick={handleSave}
           className="bg-black text-white px-5 py-2 rounded-full text-sm"
         >
@@ -179,7 +180,7 @@ const SeekerProfile = ({ userData }) => {
 
 
             <p className="text-sm font-medium text-gray-400 mt-4  border-gray-200">
-              User Since {formData.joindate }
+              User Since {formData.joinDate}
             </p>
           </div>
 
@@ -195,7 +196,7 @@ const SeekerProfile = ({ userData }) => {
                   Booking notifications
                 </p>
                 <p className="text-gray-800">
-                  On: {formData.notifications}
+                  On: whatsApp  
                 </p>
               </div>
               <button className="text-sm underline">Edit</button>
