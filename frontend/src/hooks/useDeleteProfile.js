@@ -8,6 +8,7 @@ const useDeleteProfile = () => {
     return useQuery({
         queryKey: ["delete-profile"],
         queryFn: () => userDeleteProfile(),
+        enabled:false,
         onSuccess: (data) => {
             if (data.status) {
                 toast.success(data.message);
