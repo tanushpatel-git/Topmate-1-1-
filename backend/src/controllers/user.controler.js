@@ -165,4 +165,5 @@ const updateAccount = async (req, res) => {
 
 }
 
+
 module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount, updateAccount }

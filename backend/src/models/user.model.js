@@ -106,7 +106,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    notifications:{
+    notifications: {
         type: Boolean,
         default: true
     },
