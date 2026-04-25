@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import useSignUp from "../hooks/useSignUp";
 import { Loader } from "lucide-react";
 
-const SignUp = () => {
+const SignUp5 = () => {
     const dispatch = useDispatch();
     const [error, setError] = useState("");
     const whatsAppNumber = useSelector((state) => state.signUp.whatsAppNumber);
@@ -49,32 +49,31 @@ const SignUp = () => {
 
     return (
         <div className="min-h-screen bg-[#f7f7f7] flex flex-col">
-            {/* signup navbar */}
+
+            {/* Navbar */}
             <SignUpNavbar currentStep={5} />
 
+            {/* Main */}
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex flex-1 justify-center items-start mt-10"
+                className="flex flex-1 justify-center px-4 sm:px-6 mt-8 sm:mt-10"
             >
-                <div className="w-[520px]">
+                <div className="w-full max-w-lg">
 
                     {/* Title */}
-
-                    <h1 className="text-3xl font-semibold mb-2">
+                    <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2">
                         Alright! One last thing
                     </h1>
 
-                    <p className="text-gray-500 text-sm mb-8">
+                    <p className="text-gray-500 text-sm mb-6 sm:mb-8">
                         Add your WhatsApp number to receive booking updates and reminders.
                     </p>
 
                     {/* Input */}
-
-                    <div className="border rounded-xl p-4 flex items-center gap-3 mb-6">
+                    <div className="border rounded-xl px-3 py-3 flex items-center gap-3 mb-5 bg-white">
 
                         {/* Flag */}
-
                         <div className="flex items-center gap-2 border-r pr-3">
                             <img
                                 src="https://flagcdn.com/w20/in.png"
@@ -84,63 +83,70 @@ const SignUp = () => {
                             <span className="text-sm text-gray-600">+91</span>
                         </div>
 
-                        {/* Number */}
-
+                        {/* Input */}
                         <input
-                            type="text"
+                            type="tel"
                             value={whatsAppNumber}
-                            onChange={(e) => { dispatch(setWhatsAppNumber(e.target.value)) }}
-                            required
+                            onChange={(e) =>
+                                dispatch(setWhatsAppNumber(e.target.value))
+                            }
                             placeholder="WhatsApp number"
-                            className="flex-1 outline-none text-sm"
+                            className="flex-1 outline-none text-sm sm:text-base"
                         />
-
                     </div>
 
+                    {/* Error */}
+                    {error && (
+                        <p className="text-red-500 text-xs sm:text-sm mb-4">
+                            {error}
+                        </p>
+                    )}
+
                     {/* Info Card */}
-
-                    <div className="bg-[#E7F1ED] rounded-xl flex items-center overflow-hidden">
-
-                        {/* Image */}
-
-                        <div className="w-full h-[150px] p-4">
+                    <div className="bg-[#E7F1ED] rounded-xl overflow-hidden">
+                        <div className="w-full h-[140px] sm:h-[160px] p-3 sm:p-4">
                             <img
                                 src={whatAppsSignUp}
                                 alt="whatsapp preview"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain"
                             />
                         </div>
-
                     </div>
-
-                    {error && (
-                        <p className="text-red-500 text-sm mt-2">{error.data}</p>
-                    )}
 
                 </div>
             </motion.div>
-            {/* Bottom Button */}
-            <div className="border-t bg-white py-6 flex gap-4 justify-center">
+
+            {/* Bottom CTA */}
+            <div className="border-t bg-white py-4 px-4 sm:px-6 flex flex-col sm:flex-row gap-3 justify-center items-center">
+
                 <motion.button
                     onClick={() => navigate(-1)}
-                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className="w-[100px] bg-black text-white py-3 rounded-md font-medium"
+                    className="w-full sm:w-[120px] bg-gray-200 text-black py-2.5 rounded-md font-medium"
                 >
                     Back
                 </motion.button>
+
                 <motion.button
                     onClick={handleLaunch}
                     disabled={isPending}
-                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
-                    className={`w-[400px] bg-black flex items-center justify-center text-white py-3 rounded-md font-medium ${isPending ? "cursor-not-allowed opacity-70" : "hover:opacity-90"}`}
+                    className={`w-full sm:w-[300px] bg-black flex items-center justify-center text-white py-2.5 rounded-md font-medium ${isPending
+                        ? "cursor-not-allowed opacity-70"
+                        : "hover:opacity-90"
+                        }`}
                 >
-                    {isPending ? <Loader size={20} className="animate-spin" /> : "Launch your page"}
+                    {isPending ? (
+                        <Loader size={20} className="animate-spin" />
+                    ) : (
+                        "Launch your page"
+                    )}
                 </motion.button>
+
             </div>
+
         </div>
-    )
+    );
 }
 
-export default SignUp
+export default SignUp5

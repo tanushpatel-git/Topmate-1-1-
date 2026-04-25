@@ -7,7 +7,6 @@ const userDetailsSlice = createSlice({
         lastName: "",
         userName: "",
         email: "",
-        password: "",
         country: "India",
         currency: "Indian Rupee",
         expertise: [],
@@ -32,9 +31,6 @@ const userDetailsSlice = createSlice({
         },
         setEmail: (state, action) => {
             state.email = action.payload;
-        },
-        setPassword: (state, action) => {
-            state.password = action.payload;
         },
         setCountry: (state, action) => {
             state.country = action.payload;
@@ -78,7 +74,6 @@ export const {
     setLastName, 
     setUserName, 
     setEmail, 
-    setPassword, 
     setCountry, 
     setCurrency, 
     setExpertise, 

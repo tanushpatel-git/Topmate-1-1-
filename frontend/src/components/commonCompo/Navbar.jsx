@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
 import { Menu, X, ChevronDown, ChevronRight, Search } from "lucide-react";
 import useGetCurrUser from "../../hooks/useGetCurrUser";
+import { useDispatch } from "react-redux";
+import { setUserName, setUserImage, setFirstName, setLastName, setEmail, setCountry, setCurrency, setExpertise, setLinkedInUrl, setTwitterUrl, setInstagramUrl, setWhatsAppNumber, setAvailability, setService, setGraduationYear } from "../../redux/userData/userDetails";
 
 const Navbar = ({ theam = "white" }) => {
 
@@ -67,12 +69,35 @@ const Navbar = ({ theam = "white" }) => {
   const { data } = useGetCurrUser();
 
   useEffect(() => {
-    if (data?.userName) {
+    if (data?.user?.userName) {
       setUserAccess(true);
     } else {
       setUserAccess(false);
     }
-  }, [data?.userName])
+  }, [data])
+    const dispatch = useDispatch();
+  
+    useEffect(() => {
+      if (data?.user) {
+        const { user } = data;
+        dispatch(setUserName(user.userName));
+        dispatch(setUserImage(user.userImageUrl));
+        dispatch(setFirstName(user.firstName));
+        dispatch(setLastName(user.lastName));
+        dispatch(setEmail(user.email));
+        dispatch(setCountry(user.country));
+        dispatch(setCurrency(user.currency));
+        dispatch(setExpertise(user.expertise));
+        dispatch(setLinkedInUrl(user.linkedInUrl));
+        dispatch(setTwitterUrl(user.twitterUrl));
+        dispatch(setInstagramUrl(user.instagramUrl));
+        dispatch(setWhatsAppNumber(user.whatsAppNumber));
+        dispatch(setAvailability(user.availability));
+        dispatch(setService(user.service)); 
+        dispatch(setGraduationYear(user.graduationYear));
+  
+      }
+    }, [data])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>

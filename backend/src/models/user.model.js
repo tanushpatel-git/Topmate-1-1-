@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const goalsSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -83,10 +82,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    service: {
-        type: Array,
-        required: true,
-        trim: true,
+    services: {
+        type: [String],
+        default: [],
     },
     goals: {
         type: [goalsSchema],
