@@ -17,7 +17,6 @@ const getUser = async (req, res) => {
         if (!user) {
             return res.status(200).json({ status: false, message: "User not found" });
         }
-        console.log(user);
         return res.status(200).json({ status: true, user });
     } catch (error) {
         console.log(error);

@@ -12,6 +12,7 @@ import Pricing from './pages/Pricing'
 import PriorityDm from './pages/PriorityDm'
 import ScrollToTop from './services/ScrollOnTop'
 import ProductManagement from './pages/ProductManagement'
+import SearchServices from './pages/SearchServices'
 
 import AInML from './pages/AInML'
 import SoftwareEngineering from './pages/SoftwareEngineering'
@@ -71,7 +72,7 @@ const App = () => {
       dispatch(setInstagramUrl(user.instagramUrl));
       dispatch(setWhatsAppNumber(user.whatsAppNumber));
       dispatch(setAvailability(user.availability));
-      dispatch(setService(user.service)); 
+      dispatch(setService(user.service));
       dispatch(setGraduationYear(user.graduationYear));
 
     }
@@ -110,6 +111,8 @@ const App = () => {
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/profile" element={<Profile />} />
+
+        <Route path='/search-services' element={<SearchServices />} />
 
       </Routes>
     </>

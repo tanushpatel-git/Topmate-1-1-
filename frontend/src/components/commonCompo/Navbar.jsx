@@ -64,6 +64,10 @@ const Navbar = ({ theam = "white" }) => {
     { name: "Design (Ux & Ui)", linkPos: "/use-cases/design" }
   ];
 
+  const buttonSecondary = isDark
+    ? "border border-white text-white hover:bg-white/10"
+    : "border border-black text-black hover:bg-black/10";
+
   const menuData = activeMenu === "features" ? features : useCases;
 
   const { data } = useGetCurrUser();
@@ -75,29 +79,29 @@ const Navbar = ({ theam = "white" }) => {
       setUserAccess(false);
     }
   }, [data])
-    const dispatch = useDispatch();
-  
-    useEffect(() => {
-      if (data?.user) {
-        const { user } = data;
-        dispatch(setUserName(user.userName));
-        dispatch(setUserImage(user.userImageUrl));
-        dispatch(setFirstName(user.firstName));
-        dispatch(setLastName(user.lastName));
-        dispatch(setEmail(user.email));
-        dispatch(setCountry(user.country));
-        dispatch(setCurrency(user.currency));
-        dispatch(setExpertise(user.expertise));
-        dispatch(setLinkedInUrl(user.linkedInUrl));
-        dispatch(setTwitterUrl(user.twitterUrl));
-        dispatch(setInstagramUrl(user.instagramUrl));
-        dispatch(setWhatsAppNumber(user.whatsAppNumber));
-        dispatch(setAvailability(user.availability));
-        dispatch(setService(user.service)); 
-        dispatch(setGraduationYear(user.graduationYear));
-  
-      }
-    }, [data])
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data?.user) {
+      const { user } = data;
+      dispatch(setUserName(user.userName));
+      dispatch(setUserImage(user.userImageUrl));
+      dispatch(setFirstName(user.firstName));
+      dispatch(setLastName(user.lastName));
+      dispatch(setEmail(user.email));
+      dispatch(setCountry(user.country));
+      dispatch(setCurrency(user.currency));
+      dispatch(setExpertise(user.expertise));
+      dispatch(setLinkedInUrl(user.linkedInUrl));
+      dispatch(setTwitterUrl(user.twitterUrl));
+      dispatch(setInstagramUrl(user.instagramUrl));
+      dispatch(setWhatsAppNumber(user.whatsAppNumber));
+      dispatch(setAvailability(user.availability));
+      dispatch(setService(user.service));
+      dispatch(setGraduationYear(user.graduationYear));
+
+    }
+  }, [data])
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 ${navBg} border-b`}>
@@ -153,7 +157,8 @@ const Navbar = ({ theam = "white" }) => {
               </div>
 
               {/* SEARCH */}
-              <Link to="/search"
+              <Link
+                to="/search"
                 className="relative block"
                 onMouseEnter={() => handleMouseEnter("search", null)}
                 onMouseLeave={handleMouseLeave}
@@ -216,7 +221,7 @@ const Navbar = ({ theam = "white" }) => {
                               <Link
                                 key={index}
                                 to={item.linkPos}
-                                // ✅ FIX HERE
+                                // FIX HERE
                                 onMouseDown={() => {
                                   setActiveSection(activeMenu === "features" ? "products" : "usecases");
                                   setActiveChild(item.name);
@@ -301,7 +306,7 @@ const Navbar = ({ theam = "white" }) => {
               </Link>
             ) : (
               <div className="flex items-center gap-4">
-                <Link to="/signIn" className={`border border-black px-5 py-2 rounded-lg hidden md:block`}>
+                <Link to="/signin" className={`${buttonSecondary} px-5 py-2 rounded-lg hidden md:block transition`}>
                   Sign In
                 </Link>
                 <Link to="/signup" className={`${buttonPrimary} px-5 py-2 rounded-lg hidden md:block`}>
@@ -420,10 +425,17 @@ const Navbar = ({ theam = "white" }) => {
                 </button>
               ) : (
                 <div className="flex items-center gap-4">
-                  <Link to="/signIn" className={`border border-black w-full py-2 rounded-lg mt-4`}>
+                  <Link
+                    to="/signin"
+                    className={`${buttonSecondary} w-full py-2 rounded-lg mt-4 text-center transition`}
+                  >
                     Sign In
                   </Link>
-                  <Link to="/signup" className={`${buttonPrimary} w-full py-2 rounded-lg mt-4`}>
+
+                  <Link
+                    to="/signup"
+                    className={`${buttonPrimary} w-full py-2 rounded-lg mt-4 text-center transition`}
+                  >
                     Start Selling
                   </Link>
                 </div>

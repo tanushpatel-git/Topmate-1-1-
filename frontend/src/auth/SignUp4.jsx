@@ -46,7 +46,6 @@ const SignUp4 = () => {
         if (validateForm()) {
             navigate("/signup5");
         }
-        alert("something went wrong")
     };
 
     const validateForm = () => {
