@@ -65,7 +65,23 @@ const userDetailsSlice = createSlice({
         setGraduationYear: (state, action) => {
             state.graduationYear = action.payload;
         },
-
+        clearUserDetails: (state) => {
+            state.firstName = "";
+            state.lastName = "";
+            state.userName = "";
+            state.email = "";
+            state.country = "India";
+            state.currency = "Indian Rupee";
+            state.expertise = [];
+            state.linkedInUrl = "";
+            state.twitterUrl = "";
+            state.instagramUrl = "";
+            state.whatsAppNumber = "";
+            state.availability = null;
+            state.service = null;
+            state.userImage = null;
+            state.graduationYear = new Date().getFullYear() - 4;
+        },
     },
 })
 
@@ -85,6 +101,6 @@ export const {
     setService, 
     setUserImage,
     setGraduationYear,
-
+    clearUserDetails,
 } = userDetailsSlice.actions;
 export default userDetailsSlice.reducer;

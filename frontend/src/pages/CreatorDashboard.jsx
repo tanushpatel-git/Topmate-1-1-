@@ -8,6 +8,7 @@ import PriorityDmPending from "../components/CreatorDashboard/PriorityDmPending"
 import { useEffect } from "react";
 import CreatorServices from "../components/CreatorDashboard/CreatorServices";
 import CreatorCalenderSetting from "../components/CreatorDashboard/CreatorCalender";
+import Profile from "../components/CreatorDashboard/Profile";
 
 const CreatorDashboard = () => {
 
@@ -47,6 +48,9 @@ const CreatorDashboard = () => {
 
           {/* Calender */}
           <Route path="calendar/setting" element={<CreatorCalenderSetting />} />
+
+          {/* Profile */}
+          <Route path="/profile" element={<Profile />} />
         </Routes>
 
 

@@ -2,35 +2,39 @@ import React, { useState, useEffect } from "react";
 import EditableField from "./EditableField";
 import useUpdate from "../../hooks/useUpdate";
 import userDeleteProfile from "../../services/userAuthServices/userDeleteProfile";
+import { useDispatch } from "react-redux";
+import { clearUserDetails } from "../../redux/userData/userDetails";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
 
 const SeekerProfile = ({ userData }) => {
 
   const { isPending: isDoneUpdate, mutate: updateProfileReq } = useUpdate();
-  // const { isPending: isDoneDelete, refetch } = deleteAccount();
-  
+
   const [activeTab, setActiveTab] = useState("profile");
   const [formData, setFormData] = useState({});
-  const [editingField, setEditingField] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [editingField, setEditingField] = useState(null);
 
   const handleDelete = async () => {
-      const response = await userDeleteProfile();
-      if (response) {
-        toast.success("Profile deleted successfully");
-        navigate("/");
-      } else {
-        toast.error("Failed to delete profile");
-      }
+    const res = await userDeleteProfile();
+    dispatch(clearUserDetails());
+    if (res.status) {
+      toast.success("Profile deleted successfully");
+      navigate("/");
     }
+    else {
+      toast.error("Failed to delete profile");
+    }
+
+  }
 
 
   useEffect(() => {
     if (userData) {
       setFormData(userData);
-              console.log(formData.joinDate)
+      console.log(formData.joinDate)
     }
 
   }, [userData]);
@@ -58,7 +62,7 @@ const SeekerProfile = ({ userData }) => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-gray-800">Profile</h1>
 
-        <button disabled={isDoneUpdate} 
+        <button disabled={isDoneUpdate}
           onClick={handleSave}
           className="bg-black text-white px-5 py-2 rounded-full text-sm"
         >
@@ -71,8 +75,8 @@ const SeekerProfile = ({ userData }) => {
         <button
           onClick={() => setActiveTab("profile")}
           className={`px-4 py-2 rounded-full border text-sm ${activeTab === "profile"
-              ? "border-black bg-white font-medium"
-              : "border-gray-300 text-gray-600"
+            ? "border-black bg-white font-medium"
+            : "border-gray-300 text-gray-600"
             }`}
         >
           Profile
@@ -81,8 +85,8 @@ const SeekerProfile = ({ userData }) => {
         <button
           onClick={() => setActiveTab("account")}
           className={`px-4 py-2 rounded-full border text-sm ${activeTab === "account"
-              ? "border-black bg-white font-medium"
-              : "border-gray-300 text-gray-600"
+            ? "border-black bg-white font-medium"
+            : "border-gray-300 text-gray-600"
             }`}
         >
           Account
@@ -130,7 +134,7 @@ const SeekerProfile = ({ userData }) => {
             </label>
             <input
               name="graduationYear"
-              placeholder="Your graduation year" 
+              placeholder="Your graduation year"
               value={formData.graduationYear}
               onChange={handleChange}
               className="w-full md:w-1/2 border px-4 py-2 rounded-md"
@@ -196,7 +200,7 @@ const SeekerProfile = ({ userData }) => {
                   Booking notifications
                 </p>
                 <p className="text-gray-800">
-                  On: whatsApp  
+                  On: whatsApp
                 </p>
               </div>
               <button className="text-sm underline">Edit</button>
@@ -212,10 +216,10 @@ const SeekerProfile = ({ userData }) => {
           </p>
 
           {/* Delete */}
-          <button 
+          <button
 
-          onClick={handleDelete}
-          className="border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-50"   >
+            onClick={handleDelete}
+            className="border border-red-500 text-red-500 px-4 py-2 rounded-md hover:bg-red-50"   >
 
             Delete Account
           </button>
