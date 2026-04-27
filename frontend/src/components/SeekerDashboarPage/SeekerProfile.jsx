@@ -30,7 +30,6 @@ const SeekerProfile = ({ userData }) => {
   useEffect(() => {
     if (userData) {
       setFormData(userData);
-              console.log(formData.joinDate)
     }
 
   }, [userData]);
@@ -180,7 +179,7 @@ const SeekerProfile = ({ userData }) => {
 
 
             <p className="text-sm font-medium text-gray-400 mt-4  border-gray-200">
-              User Since {formData.joinDate}
+              User Since {formData.joinDate ? formData.joinDate : "N/A"}
             </p>
           </div>
 

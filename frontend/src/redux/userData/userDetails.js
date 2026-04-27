@@ -69,6 +69,9 @@ const userDetailsSlice = createSlice({
         setGraduationYear: (state, action) => {
             state.graduationYear = action.payload;
         },
+        setJoinDate: (state, action) => {
+            state.joinDate = action.payload;
+        },
 
     },
 })
@@ -90,6 +93,7 @@ export const {
     setService, 
     setUserImage,
     setGraduationYear,
+    setJoinDate,
 
 } = userDetailsSlice.actions;
 export default userDetailsSlice.reducer;

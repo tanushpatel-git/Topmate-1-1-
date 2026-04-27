@@ -21,7 +21,7 @@ return (
   </h1>
 </div>
 <div className="flex items-center gap-2" >
-   <div  className="flex items-center gap-2 h-11 border-1 border-[#b08969ff] rounded-lg px-2" >
+   <div  className="flex items-center gap-2 h-11 border-1 border-[#b08969ff] rounded-lg px-2 cursor-pointer" >
 
    <img  src={userData.userImage} alt=""  className="h-10 w-12 object-cover rounded-full"/> 
    <p className="text-sm font-medium">{userData.profilerUrl || 'Profile URL' }</p>

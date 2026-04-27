@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const useDeleteProfile = () => {
     const navigate = useNavigate();
+    
     return useQuery({
         queryKey: ["delete-profile"],
         queryFn: () => userDeleteProfile(),
