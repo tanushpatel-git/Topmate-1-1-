@@ -34,10 +34,7 @@ const SeekerProfile = ({ userData }) => {
   useEffect(() => {
     if (userData) {
       setFormData(userData);
-<<<<<<< HEAD
       console.log(formData.joinDate)
-=======
->>>>>>> nikesh
     }
 
   }, [userData]);

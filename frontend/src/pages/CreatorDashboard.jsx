@@ -8,13 +8,8 @@ import PriorityDmPending from "../components/CreatorDashboard/PriorityDmPending"
 import { useEffect } from "react";
 import CreatorServices from "../components/CreatorDashboard/CreatorServices"
 import CreatorCalenderSetting from "../components/CreatorDashboard/CreatorCalender";
-<<<<<<< HEAD
 import Profile from "../components/CreatorDashboard/Profile";
 
-=======
-  import ServiceCustomize from "../components/CreatorDashboard/ServiceCustomize";
-  import CreateService from "../components/CreatorDashboard/CreateService";
->>>>>>> nikesh
 const CreatorDashboard = () => {
 
   return (
