@@ -9,7 +9,8 @@ import { useEffect } from "react";
 import CreatorServices from "../components/CreatorDashboard/CreatorServices"
 import CreatorCalenderSetting from "../components/CreatorDashboard/CreatorCalender";
 import Profile from "../components/CreatorDashboard/Profile";
-
+import CreateService from "../components/CreatorDashboard/CreateService";
+import ServiceCustomize from "../components/CreatorDashboard/ServiceCustomize";
 const CreatorDashboard = () => {
 
   return (
