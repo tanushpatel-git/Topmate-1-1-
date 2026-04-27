@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 async function nodeMail(toMail, message) {
     try {
     await transporter.sendMail({
-      from:process.env.HEADEMAIL,
+      from:process.env.NODE_HEADEMAIL,
       to: toMail,
       subject:"Topmate",
       html:message,

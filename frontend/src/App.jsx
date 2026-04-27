@@ -46,7 +46,8 @@ import {
   setWhatsAppNumber,
   setAvailability,
   setService,
-  setGraduationYear
+  setGraduationYear,
+  setJoinDate
 } from './redux/userData/userDetails'
 import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
@@ -74,7 +75,7 @@ const App = () => {
       dispatch(setAvailability(user.availability));
       dispatch(setService(user.service));
       dispatch(setGraduationYear(user.graduationYear));
-
+      dispatch(setJoinDate(user.joinDate));
     }
   }, [data])
 
@@ -111,6 +112,7 @@ const App = () => {
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/profile" element={<Profile />} />
+        
 
         <Route path='/search-services' element={<SearchServices />} />
 

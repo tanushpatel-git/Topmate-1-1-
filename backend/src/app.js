@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/user.route.js");
+const serviceRouter = require("./routes/Service.route.js");
 
 const app = express();
 
@@ -21,6 +22,6 @@ app.use(cookieParser())
 
 //routes middleware
 app.use("/api/user",userRouter);
+app.use("/api/service",serviceRouter);
 
-
-module.exports = app;
+module.exports = app; 

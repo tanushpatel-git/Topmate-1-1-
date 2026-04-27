@@ -6,7 +6,11 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const useDeleteProfile = () => {
     const navigate = useNavigate();
+<<<<<<< HEAD
     const queryClient = useQueryClient();
+=======
+    
+>>>>>>> nikesh
     return useQuery({
         queryKey: ["delete-profile"],
         queryFn: () => userDeleteProfile(),

@@ -6,10 +6,15 @@ import CreatorBooking from "../components/CreatorDashboard/CreatorBooking";
 import PriorityDmAnswer from "../components/CreatorDashboard/PriorityDmAnswer";
 import PriorityDmPending from "../components/CreatorDashboard/PriorityDmPending";
 import { useEffect } from "react";
-import CreatorServices from "../components/CreatorDashboard/CreatorServices";
+import CreatorServices from "../components/CreatorDashboard/CreatorServices"
 import CreatorCalenderSetting from "../components/CreatorDashboard/CreatorCalender";
+<<<<<<< HEAD
 import Profile from "../components/CreatorDashboard/Profile";
 
+=======
+  import ServiceCustomize from "../components/CreatorDashboard/ServiceCustomize";
+  import CreateService from "../components/CreatorDashboard/CreateService";
+>>>>>>> nikesh
 const CreatorDashboard = () => {
 
   return (
@@ -35,7 +40,6 @@ const CreatorDashboard = () => {
             path="calls/:type/:status"
             element={<CreatorBooking />}
           />
-
           {/* Priority DM */}
           <Route path="queries/answer" element={<PriorityDmAnswer />} />
           <Route path="queries/pending" element={<PriorityDmPending />} />
@@ -45,7 +49,9 @@ const CreatorDashboard = () => {
             path="services/:type"
             element={<CreatorServices />}
           />
-
+          {/* Create services */}
+          <Route path="services/:type/create" element={<CreateService/>} />
+          <Route path="services/:type/edit/:serviceId" element={<ServiceCustomize/>} />
           {/* Calender */}
           <Route path="calendar/setting" element={<CreatorCalenderSetting />} />
 
