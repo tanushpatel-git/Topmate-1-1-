@@ -3,7 +3,7 @@ import axios from "axios";
 const deleteService = async (id) => {
   try {
     const res = await axios.delete(
-      `http://localhost:8001/api/service/${id}`, // ✅ FIXED
+      `http://localhost:8001/api/service/${id}`, 
       {
         withCredentials: true,
       }

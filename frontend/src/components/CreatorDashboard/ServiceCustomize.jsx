@@ -6,6 +6,7 @@ import useUpdateService from "../../hooks/useUpdateService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import DeleteServiceHook from "../../hooks/DeleteServiceHook";
 
 const ServiceCustomize = () => {
 
@@ -16,6 +17,11 @@ const ServiceCustomize = () => {
 
   const [showFileInput, setShowFileInput] = useState(false);
   const [showInstructionInput, setShowInstructionInput] = useState(false);
+
+const { mutate: deleteService } = DeleteServiceHook();
+
+
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -46,6 +52,32 @@ const handleUpdate = () => {
     }
   );
 };
+
+
+
+const handleDelete = (id) => {
+  const confirmDelete = window.confirm("Are you sure?");
+
+  if (!confirmDelete) return;
+
+  deleteService(id, {
+    onSuccess: () => {
+      alert("Deleted successfully");
+      navigate(`/creator-dashboard/services/${type}`);
+    },
+    onError: () => {
+      alert("Delete failed");
+    },
+  });
+};
+
+
+
+
+
+
+
+
 
 
   useEffect(() => {
@@ -186,10 +218,10 @@ const handleUpdate = () => {
             <h2 className="font-semibold mb-2">Service Actions</h2>
 
             <div className="flex gap-3">
-              <button className="border text-red-500 px-4 py-2 rounded">
+              <button className="border text-red-500 px-4 py-2 rounded " onClick={() => handleDelete(serviceId)}>
                 Delete Service
               </button>
-              <button className="border px-4 py-2 rounded">
+              <button className="border px-4 py-2 rounded" >
                 Duplicate Service
               </button>
             </div>
