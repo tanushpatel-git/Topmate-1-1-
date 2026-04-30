@@ -30,7 +30,7 @@ const PriorityDmAnswer = ({ data }) => {
             </button>
           </div>
 
-          <button className="flex items-center gap-2 bg-gray-100 px-4 py-2 text-lg rounded-full">
+          <button className="flex items-center gap-2 bg-gray-100 px-4 py-2 text-lg rounded-full" onClick={() => navigate("/creator-dashboard/services/one-to-one")}>
             Edit Services
           </button>
         </div>

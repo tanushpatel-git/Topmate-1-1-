@@ -18,7 +18,6 @@ const CreateService = () => {
   const navigate = useNavigate();
 
   const { mutate: createService, isPending: isCreatePending } = AddServiceHook();
-
   const [selected, setSelected] = useState("priorityDm");
   const activeFilter = selected;
   const [currentStep, setCurrentStep] = useState(1);
@@ -31,7 +30,6 @@ const { category } = useParams();
     duration: 30,
     price: 0,
   });
-
 
 
   const handleFormChange = (e) => {

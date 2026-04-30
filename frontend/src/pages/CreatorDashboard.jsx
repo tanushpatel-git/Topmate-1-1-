@@ -11,6 +11,7 @@ import CreatorCalenderSetting from "../components/CreatorDashboard/CreatorCalend
 import Profile from "../components/CreatorDashboard/Profile";
 import CreateService from "../components/CreatorDashboard/CreateService";
 import ServiceCustomize from "../components/CreatorDashboard/ServiceCustomize";
+import CreatorBottomNavbar from "../components/CreatorDashboard/CreatorBottomNavbar";
 const CreatorDashboard = () => {
 
   return (
@@ -52,15 +53,19 @@ const CreatorDashboard = () => {
           <Route path="calendar/setting" element={<CreatorCalenderSetting />} />
 
           {/* Profile */}
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />}/>
+
         </Routes>
 
 
-
-
       </div>
+<CreatorBottomNavbar />
+
+
     </div>
   );
 };
 
 export default CreatorDashboard;
+
+

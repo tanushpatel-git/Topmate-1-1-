@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
 import EmptyScreen1 from "../../assets/img-empty1.svg";
 import EmptyScreen2 from "../../assets/img-empty2.svg";
@@ -100,31 +101,40 @@ const handleDelete = (id) => {
         Services
       </h1>
 
-      <div className="flex justify-between border-b" >
+<div className="flex flex-col lg:flex-row lg:items-start xl:items-center lg:justify-between border-b gap-4 px-4 lg:px-8 xl:px-10 py-4">
 
-        {/* Filters */}
-        <div className="flex gap-3 mb-6 flex-wrap px-10">
-          {filters.map((item) => (
-            <button
-              key={item.value}
-              onClick={() => handleFilterChange(item.value)}
-              className={`px-4 py-2 rounded-full border ${activeFilter === item.value
-                  ? "bg-gray-100 border-black-500 border-2 font-semibold "
-                  : "border-gray-300 border-2 "
-                }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
+  {/* Filters */}
+  <div className="flex gap-3 flex-wrap">
+    {filters.map((item) => (
+      <button
+        key={item.value}
+        onClick={() => handleFilterChange(item.value)}
+        className={`px-4 py-2 rounded-full border text-sm ${
+          activeFilter === item.value
+            ? "bg-gray-100 border-black border-2 font-semibold"
+            : "border-gray-300 border-2"
+        }`}
+      >
+        {item.label}
+      </button>
+    ))}
+  </div>
 
-        <div className="flex gap-3 text-center px-10">
-          <button className="bg-black text-white px-4 py-2 rounded-md h-10 font-semibold"> +Add New</button>
-          <button className=" px-4 py-2 rounded-md h-10 bg-gray-100  border-black-300  border-2  text-black font-semibold  hover:bg-gray-200">Templates</button>
-        </div>
+  {/* Actions */}
+  <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 w-full lg:w-auto">
+
+    <button className="bg-black text-white px-4 py-2 rounded-md h-10 font-semibold w-full sm:w-auto">
+      + Add New
+    </button>
+
+    <button className="px-4 py-2 rounded-md h-10 bg-gray-100 border-gray-300 border-2 text-black font-semibold hover:bg-gray-200 w-full sm:w-auto">
+      Templates
+    </button>
+
+  </div>
+</div>
 
 
-      </div>
       {/* Data */}
       {filteredServices.length > 0 ? (
         <div className="space-y-4">

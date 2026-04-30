@@ -12,6 +12,8 @@ const CreatorSidebar = () => {
   const [open, setOpen] = useState(false); 
   const navigate = useNavigate();
 
+  const [settingOpen, setSettingOpen] = useState(false);
+
   const userData = useSelector((state) => state.userData);
   
   useEffect(() => {
@@ -80,8 +82,19 @@ const CreatorSidebar = () => {
     <SidebarLink to="/creator-dashboard/analytics" icon={<FaSearch />} text="Analytics" />
     <SidebarLink to="/creator-dashboard/testimonials" icon={<FaUser />} text="Testimonials" />
     <SidebarLink to="/creator-dashboard/profile" icon={<FaUserAlt />} text="Edit Profile" />
-    <SidebarLink to="/creator-dashboard/settings" icon={<FaGift />} text="Settings" />
+    <SidebarLink to="/creator-dashboard/settings" icon={<FaGift />} text="Settings"    onClick={() => setSettingOpen(!settingOpen)} />
+    {
+      settingOpen && (
+        <h1>Settings</h1>
+
+      )
+    }
+
   </div>
+
+
+    
+
 
   {/* MORE */}
   <div>
