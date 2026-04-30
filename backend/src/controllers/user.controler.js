@@ -31,7 +31,7 @@ const signUp = async (req, res) => {
         const data = req.body;
         if (!data) return res.status(200).json({ status: false, message: "Please fill all the details" });
         const hashPassword = hashingPassword(data.password);
-        const user = await User.create({ ...data, password: hashPassword });
+        const user = await User.create({ ...data, password: hashPassword, availability });
         const token = genratedToken(user._id);
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ status: true, message: "User SignUp Successfully", user });
@@ -154,7 +154,7 @@ const updateAccount = async (req, res) => {
             await User.updateOne({ _id: id }, { $set: req.body });
         }
         return res.status(200).json({ status: true, message: "User Updated Successfully" });
-    } catch (error){
+    } catch (error) {
         console.log(error)
         return res.status(500).json({
             message: "Internal server error",
@@ -165,81 +165,90 @@ const updateAccount = async (req, res) => {
 
 
 const updateUserSettings = async (req, res) => {
-  try {
-    const { userId, ...updates } = req.body;
+    try {
+        const { userId, ...updates } = req.body;
 
-    console.log("Updating user settings:", updates);
+        console.log("Updating user settings:", updates);
 
-    if (!userId) {
-        console.log("User ID is required");
-      return res.status(400).json({ message: "User ID is required" });
+        if (!userId) {
+            console.log("User ID is required");
+            return res.status(400).json({ message: "User ID is required" });
+        }
+        const updateData = {};
+
+        if (updates.timezone !== undefined) {
+            updateData.timezone = updates.timezone;
+        }
+
+        if (updates.bookingPeriod !== undefined) {
+            updateData.bookingPeriod = updates.bookingPeriod;
+        }
+
+        if (updates.slotDuration !== undefined) {
+            updateData.slotDuration = updates.slotDuration;
+        }
+
+        if (updates.reschedulePolicy !== undefined) {
+            updateData.reschedulePolicy = updates.reschedulePolicy;
+        }
+
+        if (updates.rescheduleTiming !== undefined) {
+            updateData.rescheduleTiming = updates.rescheduleTiming;
+        }
+
+
+
+
+        if (updates.noticePeriod !== undefined || updates.noticeUnit !== undefined) {
+            const existingUser = await User.findById(userId);
+
+            updateData.noticePeriod = {
+                value:
+                    updates.noticePeriod !== undefined
+                        ? updates.noticePeriod
+                        : existingUser.noticePeriod.value,
+
+                unit:
+                    updates.noticeUnit !== undefined
+                        ? updates.noticeUnit
+                        : existingUser.noticePeriod.unit,
+            };
+        }
+
+
+        if (updates.availability !== undefined) {
+            const validDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            updateData.availability = updates.availability
+                .filter(item => item && item.day && validDays.includes(item.day))
+                .map(item => ({
+                    day: item.day,
+                    slots: (item.slots || []).filter(slot => slot && slot.start && slot.end).map(slot => ({
+                        start: slot.start,
+                        end: slot.end,
+                    })),
+                }));
+        }
+
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ message: "No valid fields provided" });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $set: updateData },
+            { new: true }
+        );
+
+        res.json({
+            success: true,
+            user: updatedUser,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
-    const updateData = {};
-
-    if (updates.timezone !== undefined) {
-      updateData.timezone = updates.timezone;
-    }
-
-    if (updates.bookingPeriod !== undefined) {
-      updateData.bookingPeriod = updates.bookingPeriod;
-    }
-
-    if (updates.slotDuration !== undefined) {
-      updateData.slotDuration = updates.slotDuration;
-    }
-
-    if (updates.reschedulePolicy !== undefined) {
-      updateData.reschedulePolicy = updates.reschedulePolicy;
-    }
-
-    if (updates.rescheduleTiming !== undefined) {
-      updateData.rescheduleTiming = updates.rescheduleTiming;
-    }
-
-
-
-
-if (updates.noticePeriod !== undefined || updates.noticeUnit !== undefined) {
-  const existingUser = await userModel.findById(userId);
-
-  updateData.noticePeriod = {
-    value:
-      updates.noticePeriod !== undefined
-        ? updates.noticePeriod
-        : existingUser.noticePeriod.value,
-
-    unit:
-      updates.noticeUnit !== undefined
-        ? updates.noticeUnit
-        : existingUser.noticePeriod.unit,
-  };
-}
-
-
-    if (updates.availability !== undefined) {
-      updateData.availability = updates.availability;
-    }
-
-    if (Object.keys(updateData).length === 0) {
-      return res.status(400).json({ message: "No valid fields provided" });
-    }
-
-    const updatedUser = await userModel.findByIdAndUpdate(
-      userId,
-      { $set: updateData },
-      { new: true }
-    );
-
-    res.json({
-      success: true,
-      user: updatedUser,
-    });
-  } catch (error) {
-      console.log(error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
 module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount, updateAccount, updateUserSettings };

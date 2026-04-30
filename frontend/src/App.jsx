@@ -47,6 +47,7 @@ import {
   setAvailability,
   setService,
   setGraduationYear,
+  setJoinDate
 } from './redux/userData/userDetails'
 import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'

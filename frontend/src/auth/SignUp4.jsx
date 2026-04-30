@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import SignUpNavbar from "../components/commonCompo/SignUpNavbar";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailability } from "../redux/signUp/signUpSlice";
 import { useNavigate } from "react-router-dom";
 
 const SignUp4 = () => {
-
     const days = [
         "saturday",
         "sunday",
@@ -21,6 +19,7 @@ const SignUp4 = () => {
 
     const [activeDays, setActiveDays] = useState(["sunday", "saturday"]);
     const [error, setError] = useState("");
+
     const [availability, setAvailabilityState] = useState({
         saturday: { start: "09:00", end: "20:00" },
         sunday: { start: "09:00", end: "20:00" },
@@ -37,50 +36,61 @@ const SignUp4 = () => {
     const toggleDay = (day) => {
         setActiveDays((prev) =>
             prev.includes(day)
-                ? prev.filter(d => d !== day)
+                ? prev.filter((d) => d !== day)
                 : [...prev, day]
         );
     };
 
-    const handleNext = () => {
-        if (validateForm()) {
-            navigate("/signup5");
-        }
-    };
-
+    // VALIDATION FIXED
     const validateForm = () => {
-
         if (activeDays.length === 0) {
             setError("Please select at least one available day");
             return false;
         }
 
-        activeDays.forEach((day) => {
+        for (let day of activeDays) {
             if (availability[day].start >= availability[day].end) {
-                setError("Start time must be earlier than end time");
+                setError(`Invalid time on ${day}`);
                 return false;
             }
-        });
+        }
 
         setError("");
         return true;
     };
 
-    useEffect(() => {
-        dispatch(setAvailability({
-            day: activeDays,
-            starting: availability.monday.start,
-            ending: availability.monday.end,
+    // TRANSFORM DATA FOR SCHEMA
+    const formatAvailability = () => {
+        return activeDays.map((day) => ({
+            day: day.charAt(0).toUpperCase() + day.slice(1),
+            slots: [
+                {
+                    start: availability[day].start,
+                    end: availability[day].end,
+                },
+            ],
         }));
-    }, [activeDays])
+    };
+
+    const handleNext = () => {
+        if (validateForm()) {
+            const formattedAvailability = formatAvailability();
+
+            dispatch(setAvailability(formattedAvailability));
+            navigate("/signup5");
+        }
+    };
+
+    // reusable time options
+    const timeOptions = Array.from({ length: 24 }, (_, i) =>
+        `${String(i).padStart(2, "0")}:00`
+    );
 
     return (
         <div className="min-h-screen bg-[#f7f7f7] flex flex-col">
 
-            {/* Navbar */}
             <SignUpNavbar currentStep={4} />
 
-            {/* Main */}
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -88,16 +98,14 @@ const SignUp4 = () => {
             >
                 <div className="w-full max-w-lg">
 
-                    {/* Title */}
                     <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-2">
                         Great! Now let's set your availability
                     </h1>
 
                     <p className="text-gray-500 text-sm mb-6 sm:mb-8">
-                        Let your audience know when you're available. You can edit this later
+                        Let your audience know when you're available.
                     </p>
 
-                    {/* Card */}
                     <div className="border rounded-xl overflow-hidden divide-y">
 
                         {days.map((day) => {
@@ -106,96 +114,66 @@ const SignUp4 = () => {
                             return (
                                 <div
                                     key={day}
-                                    className={`flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-5 py-4 transition
-                ${active ? "bg-white" : "bg-gray-50"}`}
+                                    className={`flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-4 ${active ? "bg-white" : "bg-gray-50"
+                                        }`}
                                 >
-
                                     {/* LEFT */}
                                     <div className="flex items-center gap-3 mb-2 sm:mb-0">
-
                                         <button
                                             onClick={() => toggleDay(day)}
-                                            className={`w-6 h-6 flex items-center justify-center rounded border
-                    ${active
-                                                    ? "bg-green-600 border-green-600 text-white"
-                                                    : "bg-white"
+                                            className={`w-6 h-6 flex items-center justify-center rounded border ${active
+                                                ? "bg-green-600 border-green-600 text-white"
+                                                : "bg-white"
                                                 }`}
                                         >
                                             {active && <Check size={14} />}
                                         </button>
 
-                                        <span className="text-sm sm:text-base font-medium capitalize">
+                                        <span className="capitalize font-medium">
                                             {day}
                                         </span>
                                     </div>
 
                                     {/* RIGHT */}
                                     {active ? (
-                                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-
+                                        <div className="flex gap-2">
                                             <select
                                                 value={availability[day].start}
-                                                onChange={(e) => setAvailabilityState(prev => ({ ...prev, [day]: { ...prev[day], start: e.target.value } }))}
-                                                className="border rounded-md px-3 py-2 text-sm w-full sm:w-auto"
+                                                onChange={(e) =>
+                                                    setAvailabilityState((prev) => ({
+                                                        ...prev,
+                                                        [day]: {
+                                                            ...prev[day],
+                                                            start: e.target.value,
+                                                        },
+                                                    }))
+                                                }
+                                                className="border rounded px-2 py-1"
                                             >
-                                                <option>00:00</option>
-                                                <option>01:00</option>
-                                                <option>02:00</option>
-                                                <option>03:00</option>
-                                                <option>04:00</option>
-                                                <option>05:00</option>
-                                                <option>06:00</option>
-                                                <option>07:00</option>
-                                                <option>08:00</option>
-                                                <option>09:00</option>
-                                                <option>10:00</option>
-                                                <option>11:00</option>
-                                                <option>12:00</option>
-                                                <option>13:00</option>
-                                                <option>14:00</option>
-                                                <option>15:00</option>
-                                                <option>16:00</option>
-                                                <option>17:00</option>
-                                                <option>18:00</option>
-                                                <option>19:00</option>
-                                                <option>20:00</option>
-                                                <option>21:00</option>
-                                                <option>22:00</option>
-                                                <option>23:00</option>
+                                                {timeOptions.map((time) => (
+                                                    <option key={time}>{time}</option>
+                                                ))}
                                             </select>
 
-                                            <span className="hidden sm:block">-</span>
+                                            <span>-</span>
 
                                             <select
                                                 value={availability[day].end}
-                                                onChange={(e) => setAvailabilityState(prev => ({ ...prev, [day]: { ...prev[day], end: e.target.value } }))}
-                                                className="border rounded-md px-3 py-2 text-sm w-full sm:w-auto"
+                                                onChange={(e) =>
+                                                    setAvailabilityState((prev) => ({
+                                                        ...prev,
+                                                        [day]: {
+                                                            ...prev[day],
+                                                            end: e.target.value,
+                                                        },
+                                                    }))
+                                                }
+                                                className="border rounded px-2 py-1"
                                             >
-                                                <option>01:00</option>
-                                                <option>02:00</option>
-                                                <option>03:00</option>
-                                                <option>04:00</option>
-                                                <option>05:00</option>
-                                                <option>06:00</option>
-                                                <option>07:00</option>
-                                                <option>08:00</option>
-                                                <option>09:00</option>
-                                                <option>10:00</option>
-                                                <option>11:00</option>
-                                                <option>12:00</option>
-                                                <option>13:00</option>
-                                                <option>14:00</option>
-                                                <option>15:00</option>
-                                                <option>16:00</option>
-                                                <option>17:00</option>
-                                                <option>18:00</option>
-                                                <option>19:00</option>
-                                                <option>20:00</option>
-                                                <option>21:00</option>
-                                                <option>22:00</option>
-                                                <option>23:00</option>
+                                                {timeOptions.map((time) => (
+                                                    <option key={time}>{time}</option>
+                                                ))}
                                             </select>
-
                                         </div>
                                     ) : (
                                         <span className="text-gray-400 text-sm">
@@ -205,36 +183,28 @@ const SignUp4 = () => {
                                 </div>
                             );
                         })}
-
                     </div>
 
-                    {/* Apply to all */}
                     <div className="flex justify-end mt-3">
                         <button
                             onClick={() => setActiveDays(days)}
-                            className="text-green-700 text-sm font-semibold hover:underline"
+                            className="text-green-600 text-sm font-semibold"
                         >
                             Apply to all
                         </button>
                     </div>
 
-                    {/* Error */}
                     {error && (
-                        <p className="text-red-500 text-xs sm:text-sm mt-4">
-                            {error}
-                        </p>
+                        <p className="text-red-500 text-sm mt-4">{error}</p>
                     )}
-
                 </div>
             </motion.div>
 
-            {/* Bottom CTA */}
-            <div className="border-t bg-white py-4 px-4 sm:px-6 flex flex-col sm:flex-row gap-3 justify-center items-center">
-
+            <div className="border-t bg-white py-4 px-4 flex gap-3 justify-center">
                 <motion.button
                     onClick={() => navigate(-1)}
                     whileTap={{ scale: 0.96 }}
-                    className="w-full sm:w-[120px] bg-gray-200 text-black py-2.5 rounded-md font-medium"
+                    className="bg-gray-200 px-6 py-2 rounded"
                 >
                     Back
                 </motion.button>
@@ -242,15 +212,13 @@ const SignUp4 = () => {
                 <motion.button
                     onClick={handleNext}
                     whileTap={{ scale: 0.96 }}
-                    className="w-full sm:w-[300px] bg-black text-white py-2.5 rounded-md font-medium"
+                    className="bg-black text-white px-10 py-2 rounded"
                 >
                     Next
                 </motion.button>
-
             </div>
-
         </div>
     );
-}
+};
 
-export default SignUp4
+export default SignUp4;

@@ -169,11 +169,6 @@ const SignUp = () => {
     }
   }
 
-
-
-
-
-
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-[#FFE4D6]">
 

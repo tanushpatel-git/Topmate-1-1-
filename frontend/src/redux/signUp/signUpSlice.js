@@ -16,41 +16,7 @@ const signUpSlice = createSlice({
         instagramUrl: "",
         whatsAppNumber: "",
         availability: {
-            monday: {
-                isAvailable: false,
-                startingTime: "",
-                endingTime: ""
-            },
-            tuesday: {
-                isAvailable: false,
-                startingTime: "",
-                endingTime: ""
-            },
-            wednesday: {
-                isAvailable: false,
-                startingTime: "",
-                endingTime: ""
-            },
-            thursday: {
-                isAvailable: false,
-                startingTime: "",
-                endingTime: ""
-            },
-            friday: {
-                isAvailable: false,
-                startingTime: "",
-                endingTime: ""
-            },
-            saturday: {
-                isAvailable: true,
-                startingTime: "09:00",
-                endingTime: "20:00"
-            },
-            sunday: {
-                isAvailable: true,
-                startingTime: "09:00",
-                endingTime: "20:00"
-            }
+
         },
         service: ["Resume review", "Discovery Call", "Quick chat"],
     },
@@ -86,17 +52,7 @@ const signUpSlice = createSlice({
             state.instagramUrl = action.payload
         },
         setAvailability: (state, action) => {
-            const { day, starting, ending } = action.payload
-            const days = Array.isArray(day) ? day : [day]
-            Object.keys(state.availability).forEach(d => {
-                if (days.includes(d)) {
-                    state.availability[d].isAvailable = true
-                    state.availability[d].startingTime = starting
-                    state.availability[d].endingTime = ending
-                } else {
-                    state.availability[d].isAvailable = false
-                }
-            })
+            state.availability = [action.payload]
         },
         setWhatsAppNumber: (state, action) => {
             state.whatsAppNumber = action.payload
