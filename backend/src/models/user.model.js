@@ -89,18 +89,15 @@ const userSchema = new mongoose.Schema({
             "Saturday",
             "Sunday",
           ],
-          required: true,
         },
         slots: [
           {
             start: {
               type: String,
-              required: true,
               match: /^([01]\d|2[0-3]):([0-5]\d)$/,
             },
             end: {
               type: String,
-              required: true,
               match: /^([01]\d|2[0-3]):([0-5]\d)$/,
             },
           },

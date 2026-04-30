@@ -52,7 +52,7 @@ const signUpSlice = createSlice({
             state.instagramUrl = action.payload
         },
         setAvailability: (state, action) => {
-            state.availability = [action.payload]
+            state.availability = action.payload
         },
         setWhatsAppNumber: (state, action) => {
             state.whatsAppNumber = action.payload

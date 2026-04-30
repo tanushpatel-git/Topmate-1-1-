@@ -31,7 +31,7 @@ const signUp = async (req, res) => {
         const data = req.body;
         if (!data) return res.status(200).json({ status: false, message: "Please fill all the details" });
         const hashPassword = hashingPassword(data.password);
-        const user = await User.create({ ...data, password: hashPassword, availability });
+        const user = await User.create({ ...data, password: hashPassword });
         const token = genratedToken(user._id);
         res.cookie("token", token, { httpOnly: true, sameSite: "strict", maxAge: 24 * 60 * 60 * 1000 });
         return res.status(200).json({ status: true, message: "User SignUp Successfully", user });
