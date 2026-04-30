@@ -168,6 +168,12 @@ const updateUserSettings = async (req, res) => {
   try {
     const { userId, ...updates } = req.body;
 
+    console.log("Updating user settings:", updates);
+
+    if (!userId) {
+        console.log("User ID is required");
+      return res.status(400).json({ message: "User ID is required" });
+    }
     const updateData = {};
 
     if (updates.timezone !== undefined) {
@@ -189,6 +195,9 @@ const updateUserSettings = async (req, res) => {
     if (updates.rescheduleTiming !== undefined) {
       updateData.rescheduleTiming = updates.rescheduleTiming;
     }
+
+
+
 
 if (updates.noticePeriod !== undefined || updates.noticeUnit !== undefined) {
   const existingUser = await userModel.findById(userId);
@@ -226,6 +235,7 @@ if (updates.noticePeriod !== undefined || updates.noticeUnit !== undefined) {
       user: updatedUser,
     });
   } catch (error) {
+      console.log(error);
     res.status(500).json({
       success: false,
       message: error.message,

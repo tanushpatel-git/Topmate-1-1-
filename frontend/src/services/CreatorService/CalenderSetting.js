@@ -2,7 +2,8 @@ import axiosInstance from "../../utility/axios";
 
  const CalenderSetting = async (data) => {
   try {
-    const res = await axiosInstance.patch("/update-settings", data);
+    const res = await axiosInstance.patch("/user/update-settings", data);
+    console.log("User settings updated successfully");
 
     return res.data;
   } catch (error) {

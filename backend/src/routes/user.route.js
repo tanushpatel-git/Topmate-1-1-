@@ -13,6 +13,6 @@ router.post('/otp-verification', otpCheck);
 router.post('/logout', logout);
 router.get('/delete-account', deleteAccount);
 router.post('/update-profile', updateAccount);
-router.post('/update-settings', updateUserSettings);
+router.patch('/update-settings', updateUserSettings);
 
 module.exports = router;

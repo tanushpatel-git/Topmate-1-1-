@@ -1,16 +1,40 @@
 import React, { useState } from "react";
 import { MapPin, CalendarDays, Settings } from "lucide-react";
 import creatorCalenderHook from '../../hooks/creatorCalenderHook';  
+import { useEffect } from "react";
 
 const CreatorCalender = () => {
-
+  
+  const { mutate: updateSettings, isPending } =  creatorCalenderHook();
+  
   const [timezone, setTimezone] = useState("GMT+5:30 Chennai, Kolkata");
   const [bookingPeriod, setBookingPeriod] = useState("3 Months");
   const [noticePeriod, setNoticePeriod] = useState(240);
   const [noticeUnit, setNoticeUnit] = useState("Minutes");
+  const [schedulefun, setSchedulefun] = useState(false);
+  const [rescheduleType, setRescheduleType] = useState("direct");
+  const [notice, setNotice] = useState(1440); // minutes (24 hrs)
 
+  const optionsType = [
+    { label: "Request reschedule", value: "request" },
+    { label: "Directly reschedule", value: "direct" }
+  ];
+
+  const noticeOptions = [
+    { label: "30 mins", value: 30 },
+    { label: "8 hrs", value: 480 },
+    { label: "24 hrs", value: 1440 },
+    { label: "Anytime", value: "anytime" }
+  ];
 const [page , setPage] = useState("setting")
-const { mutate: updateSettings, isPending } =  creatorCalenderHook();
+
+
+
+const USER_ID = "64c9624b46b6814080514960";
+
+
+
+
 
 
 const defaultSchedule = {
@@ -51,6 +75,43 @@ const addSlot = (day) => {
 };
 
 
+const formatAvailability = () => {
+  return Object.keys(schedule)
+    .filter((day) => schedule[day].length > 0)
+    .map((day) => ({
+      day,
+      slots: schedule[day],
+    }));
+};
+
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    updateSettings({
+      userId: USER_ID,
+      timezone,
+      bookingPeriod,
+      noticePeriod: Number(noticePeriod),
+      noticeUnit,
+      reschedulePolicy: rescheduleType,
+      rescheduleTiming:
+        notice === "anytime" ? "Anytime" : `${notice} Minutes`,
+    });
+  }, 800);
+
+  return () => clearTimeout(timeout);
+}, [timezone, bookingPeriod, noticePeriod, noticeUnit, rescheduleType, notice]);
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div className="min-h-screen bg-white text-sm">
       {/* Header */}
@@ -77,6 +138,7 @@ const addSlot = (day) => {
 
       {page === "setting" ? (
         <div className="w-full md:w-[60%] p-6 px-10 space-y-6">
+
         {/* Timezone */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex gap-3">
@@ -116,10 +178,72 @@ const addSlot = (day) => {
             </div>
           </div>
 
-          <button className="text-sm px-4 py-2 border rounded-lg hover:bg-gray-50">
+          <button className="text-sm px-4 py-2 border rounded-lg hover:bg-gray-50" onClick={() => setSchedulefun(true)}>
             Update Policy
           </button>
         </div>
+
+        {schedulefun && (
+
+            <div className="fixed inset-0 flex items-center justify-center bg-black/30">
+      <div className="bg-white w-[380px] rounded-2xl shadow-lg p-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold">Reschedule Policy</h2>
+          <button className="text-gray-500 " onClick={() => setSchedulefun(false)}>✕</button>
+        </div>
+
+        {/* Type Selection */}
+        <p className="text-sm text-gray-600 mb-2">
+          How can your customers initiate a reschedule
+        </p>
+        <div className="flex gap-2 mb-4">
+          {optionsType.map((opt) => (
+            <button
+              key={opt.value}
+              onClick={() => setRescheduleType(opt.value)}
+              className={`px-3 py-2 rounded-lg border text-sm ${
+                rescheduleType === opt.value
+                  ? "border-black font-medium"
+                  : "border-gray-300"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Notice Selection */}
+        <p className="text-sm text-gray-600 mb-2">
+          Minimum notice before rescheduling a call
+        </p>
+        <div className="flex flex-wrap gap-2 mb-6">
+          {noticeOptions.map((opt) => (
+            <button
+              key={opt.label}
+              onClick={() => setNotice(opt.value)}
+              className={`px-3 py-2 rounded-lg border text-sm ${
+                notice === opt.value
+                  ? "border-black font-medium"
+                  : "border-gray-300"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Submit */}
+        <button
+          onClick={() => { updateSettings();}}
+          className="w-full bg-black text-white py-2 rounded-lg"
+        >
+          Update Policy
+        </button>
+      </div>
+    </div>
+        )}
+
+
 
         <hr />
 
@@ -167,11 +291,11 @@ const addSlot = (day) => {
 
           <div className="flex">
             <input
-              type="number"
-              value={noticePeriod}
-              onChange={(e) => setNoticePeriod(e.target.value)}
-              className="text-sm border px-3 py-2 w-24 rounded-l-lg"
-            />
+  type="number"
+  value={noticePeriod}
+  onChange={(e) => setNoticePeriod(e.target.value)}
+  className="text-sm border rounded-l-lg px-3 py-2 w-16"
+/>
 
             <select
               value={noticeUnit}
@@ -212,11 +336,16 @@ const addSlot = (day) => {
         <div className="w-full md:w-[60%] p-6 px-10 space-y-6">
           <h1>Default</h1>
         
-      <button
-  // onClick={saveSchedule}
+     <button
+  onClick={() => {
+    updateSettings({
+      userId: USER_ID,
+      availability: formatAvailability(),
+    });
+  }}
   className="bg-black text-white px-5 py-2 rounded-lg"
 >
-  Save
+  {isPending ? "Saving..." : "Save"}
 </button>
 
 

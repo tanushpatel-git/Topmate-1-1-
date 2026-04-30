@@ -5,11 +5,64 @@ import loopMobile from '../../assets/loopmobile_img.svg'
 import { useSelector } from "react-redux";
 import { FiExternalLink, FiCopy } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import Profile from "./Profile";
+import { ChevronDown, ChevronUp, Check } from "lucide-react";
+import { motion, AnimatePresence, steps } from "framer-motion";
+
 const CreatorHome =()=>{
 
 const userData = useSelector((state) => state.userData);
 const navigate = useNavigate();
+const [steps, setSteps] = useState([
+  {
+    id: 1,
+    title: "Add availability",
+    description: "Add your availability so your followers can select a slot",
+    completed: false,
+    location: "/creator-dashboard/calendar/setting",
+  },
+  {
+    id: 2,
+    title: "Complete your profile",
+    description: "Add your profile pic and description",
+    completed: false,
+    location: "/creator-dashboard/profile",
+
+  },
+  {
+    id: 3,
+    title: "Create a service",
+    description: "",
+    completed: true,
+    location :"/creator-dashboard/services/one-to-one/create"
+  },
+]);
+
+
+const markComplete = (id) => {
+  setSteps((prev) =>
+    prev.map((step) =>
+      step.id === id ? { ...step, completed: true } : step
+    )
+  );
+};
+
+const markIncomplete = (id) => {
+  setSteps((prev) =>
+    prev.map((step) =>
+      step.id === id ? { ...step, completed: false } : step
+    )
+  );
+};
+
+  const [openStep, setOpenStep] = useState(1);
+
+  const toggleStep = (id) => {
+    setOpenStep(openStep === id ? null : id);
+  };
+
+
 
 return (
     <div className="w-full h-[100%] " >
@@ -34,9 +87,100 @@ return (
 
 </nav>
 
+<div className="min-300px bg-gray-100 flex  items-center p-4">
+      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-sm p-6">
+
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-xl font-semibold">Make the page yours!</h1>
+          <p className="text-sm text-gray-500">
+            Unlock the potential of your topmate page
+          </p>
+
+          {/* Progress bar */}
+          <div className="mt-4 h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-1/3 h-full bg-green-600"></div>
+          </div>
+        </div>
+
+        {/* Steps */}
+        <div className="divide-y">
+          {steps.map((step) => {
+            const isOpen = openStep === step.id;
+
+            return (
+              <div key={step.id} className="py-4">
+
+                {/* Header Row */}
+                <div
+                  className="flex justify-between items-center cursor-pointer"
+                  onClick={() => toggleStep(step.id)}
+                >
+                  <div className="flex items-center gap-3">
+
+                    {/* Status Icon */}
+                    {step.completed ? (
+                      <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center text-white">
+                        <Check size={12} />
+                      </div>
+                    ) : (
+                      <div className="w-5 h-5 border rounded-full"></div>
+                    )}
+
+                    <span className="font-medium">{step.title}
+
+                    </span>
+                  </div>
+
+                  {isOpen ? <ChevronUp /> : <ChevronDown />}
+                </div>
+
+                {/* Expand Content */}
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-3 pl-8">
+                        {step.description && (
+                          <p className="text-sm text-gray-500 mb-3">
+                            {step.description}
+                          </p>
+                        )}
+
+                          <div className="flex items-center gap-2">
+
+                            <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-medium" onClick={() => navigate(step.location)}>
+                              {step.title}
+                            </button>
+
+                            <button className={`w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center hover:bg-black hover:text-white  ${step.completed ? 'bg-green-600 text-white' : ''} `} onClick={() => markComplete(step.id)} >
+                              ✓
+                            </button>
+
+                            <button className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center hover:bg-black hover:text-white" onClick={() => markIncomplete(step.id)}>
+                              ✕
+                            </button>
+                          </div>
+                    
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+
 <div className=" px-10 w-full sm:w-[85%] md:w-[85%] lg:w-[85%] xl:w-[70%] flex flex-col">
 
-        <div className="relative w-full  mb-20 overflow-hidden mt-6 sm:mt-10">
+<div className="relative w-full  mb-20 overflow-hidden mt-6 sm:mt-10">
 
           {/* DESKTOP IMAGE (sm and above same UI) */}
           <img
