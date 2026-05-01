@@ -36,9 +36,6 @@ const USER_ID = "64c9624b46b6814080514960";
 
 
 
-
-
-
 const defaultSchedule = {
   Monday: [{ start: "07:45", end: "20:00" }],
   Tuesday: [{ start: "09:00", end: "20:00" }],
