@@ -29,7 +29,7 @@ const Navbar = ({ theam = "white" }) => {
 
   //   Single combined useEffect for Redux dispatches
   useEffect(() => {
-    if (data?.user) {
+    if (userAccess) {
       const { user } = data;
       dispatch(setUserName(user.userName));
       dispatch(setUserImage(user.userImageUrl));

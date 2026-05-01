@@ -19,8 +19,8 @@ const SeekerProfile = ({ userData }) => {
 
   const handleDelete = async () => {
     const res = await userDeleteProfile();
-    dispatch(clearUserDetails());
     if (res.status) {
+      dispatch(clearUserDetails());
       toast.success("Profile deleted successfully");
       navigate("/");
     }

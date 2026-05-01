@@ -11,7 +11,7 @@ import {
     Trophy,
 } from "lucide-react";
 
-const ProfileNavbar = ({ onClose, selectedColor }) => {
+const ProfileNavbar = ({ onClose, selectedColor, onClose2, onClose3, onClose4 }) => {
     const [view, setView] = useState("desktop");
 
     return (
@@ -59,6 +59,7 @@ const ProfileNavbar = ({ onClose, selectedColor }) => {
 
                 {/* Other Icons */}
                 <motion.button
+                    onClick={onClose2}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
@@ -67,6 +68,7 @@ const ProfileNavbar = ({ onClose, selectedColor }) => {
                 </motion.button>
 
                 <motion.button
+                    onClick={onClose3}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
@@ -79,18 +81,11 @@ const ProfileNavbar = ({ onClose, selectedColor }) => {
                     whileTap={{ scale: 0.95 }}
                     className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
                 >
-                    <PenLine size={18} />
-                </motion.button>
-
-                <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
-                >
                     <Image size={18} />
                 </motion.button>
 
                 <motion.button
+                    onClick={onClose4}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
