@@ -2,17 +2,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import CalenderSetting from "../services/CreatorService/CalenderSetting";
 
-const CreatorCalenderHook = () => {
-
+const useCreatorCalender = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
+  const mutation = useMutation({
     mutationFn: CalenderSetting,
 
     onSuccess: (data) => {
+      console.log("✅ Success:", data);
+
       if (data.success) {
         toast.success("Settings updated");
-
         queryClient.invalidateQueries(["user"]);
       } else {
         toast.error(data.message || "Update failed");
@@ -20,11 +20,21 @@ const CreatorCalenderHook = () => {
     },
 
     onError: (error) => {
+      console.error("❌ Error:", error);
+
       toast.error(
-        error?.response?.data?.message || error.message || "Something went wrong"
+        error?.response?.data?.message ||
+        error.message ||
+        "Something went wrong"
       );
     },
   });
+
+  return {
+    updateSettings: mutation.mutate,
+    updateSettingsAsync: mutation.mutateAsync,
+    isPending: mutation.isPending,
+  };
 };
 
-export default CreatorCalenderHook;
+export default useCreatorCalender;

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { MapPin, CalendarDays, Settings } from "lucide-react";
-import creatorCalenderHook from '../../hooks/creatorCalenderHook';  
 import { useEffect } from "react";
+import useCreatorCalender from "../../hooks/useCreatorCalender";
 
 const CreatorCalender = () => {
   
-  const { mutate: updateSettings, isPending } =  creatorCalenderHook();
   
+const { updateSettings, isPending } = useCreatorCalender();
+
+
   const [timezone, setTimezone] = useState("GMT+5:30 Chennai, Kolkata");
   const [bookingPeriod, setBookingPeriod] = useState("3 Months");
   const [noticePeriod, setNoticePeriod] = useState(240);
@@ -75,41 +77,33 @@ const addSlot = (day) => {
 };
 
 
+
 const formatAvailability = () => {
   return Object.keys(schedule)
-    .filter((day) => schedule[day].length > 0)
+    .filter((day) => schedule[day].length > 0) 
     .map((day) => ({
       day,
-      slots: schedule[day],
+      slots: schedule[day].map((slot) => ({
+        start: slot.start,
+        end: slot.end,
+      })),
     }));
 };
 
-useEffect(() => {
-  const timeout = setTimeout(() => {
-    updateSettings({
-      userId: USER_ID,
-      timezone,
-      bookingPeriod,
-      noticePeriod: Number(noticePeriod),
-      noticeUnit,
-      reschedulePolicy: rescheduleType,
-      rescheduleTiming:
-        notice === "anytime" ? "Anytime" : `${notice} Minutes`,
-    });
-  }, 800);
 
-  return () => clearTimeout(timeout);
-}, [timezone, bookingPeriod, noticePeriod, noticeUnit, rescheduleType, notice]);
-
-
-
-
-
-
-
-
-
-
+const sendUpdate = (extraData = {}) => {
+  updateSettings({
+    userId: USER_ID,
+    timezone,
+    bookingPeriod,
+    noticePeriod: Number(noticePeriod),
+    noticeUnit,
+    reschedulePolicy: rescheduleType,
+    rescheduleTiming:
+      notice === "anytime" ? "Anytime" : `${notice} Minutes`,
+    ...extraData,
+  });
+};
 
 
   return (
@@ -154,7 +148,10 @@ useEffect(() => {
 
           <select
             value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}
+            onChange={(e) => {
+              setTimezone(e.target.value);
+              sendUpdate({ timezone: e.target.value });
+            }}
             className="text-sm border rounded-lg px-4 py-2 w-full md:w-72" 
           >
             <option>GMT+5:30 Chennai, Kolkata</option>
@@ -234,7 +231,16 @@ useEffect(() => {
 
         {/* Submit */}
         <button
-          onClick={() => { updateSettings();}}
+          onClick={() => {
+    updateSettings({
+      userId: USER_ID,
+      reschedulePolicy: rescheduleType,
+      rescheduleTiming:
+        notice === "anytime" ? "Anytime" : `${notice} Minutes`,
+    });
+    setSchedulefun(false);
+  }}
+
           className="w-full bg-black text-white py-2 rounded-lg"
         >
           Update Policy
@@ -262,7 +268,10 @@ useEffect(() => {
 
           <select
             value={bookingPeriod}
-            onChange={(e) => setBookingPeriod(e.target.value)}
+            onChange={(e) => {
+              setBookingPeriod(e.target.value);
+              sendUpdate({ bookingPeriod: e.target.value });
+            }}
             className="text-sm border rounded-lg px-4 py-2 w-full md:w-48"
           >
             <option>1 Week</option>
@@ -293,13 +302,20 @@ useEffect(() => {
             <input
   type="number"
   value={noticePeriod}
-  onChange={(e) => setNoticePeriod(e.target.value)}
+  onChange={(e) => {
+  setBookingPeriod(e.target.value);
+  sendUpdate({ bookingPeriod: e.target.value });
+}}
+
   className="text-sm border rounded-l-lg px-3 py-2 w-16"
 />
 
             <select
               value={noticeUnit}
-              onChange={(e) => setNoticeUnit(e.target.value)}
+             onChange={(e) => {
+  setNoticeUnit(e.target.value);
+  sendUpdate({ noticeUnit: e.target.value });
+}}
               className="text-sm border border-l-0 px-3 py-2 rounded-r-lg"
             >
               <option>Minutes</option>

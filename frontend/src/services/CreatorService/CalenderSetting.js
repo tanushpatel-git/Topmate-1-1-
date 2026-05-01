@@ -1,17 +1,17 @@
 import axiosInstance from "../../utility/axios";
 
- const CalenderSetting = async (data) => {
-  try {
-    const res = await axiosInstance.patch("/user/update-settings", data);
-    console.log("User settings updated successfully");
-
-    return res.data;
-  } catch (error) {
-    const message =
-      error.response?.data?.message || "Failed to update settings";
-
-    throw new Error(message);
+const CalenderSetting = async (data) => {
+  if (!data || !data.userId) {
+    throw new Error("userId is required");
   }
+
+  console.log("Sending Data:", data);
+
+  const res = await axiosInstance.patch("/user/update-settings", data);
+
+  console.log("Response:", res.data);
+
+  return res.data;
 };
 
-export default CalenderSetting;   
+export default CalenderSetting;
