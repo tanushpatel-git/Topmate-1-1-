@@ -1,8 +1,5 @@
 const Service = require("../models/userService.model");
 const { verifyToken } = require("../utility/jwToken");
-
-
-
 const slugify = require("slugify");
 
 const createService = async (req, res) => {
@@ -141,7 +138,7 @@ const updateService = async (req, res) => {
 
 const deleteService = async (req, res) => {
   try {
-    const { serviceId } = req.params; 
+    const { serviceId } = req.params;
 
     const service = await Service.findById(serviceId);
 
