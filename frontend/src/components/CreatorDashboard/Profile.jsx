@@ -18,7 +18,7 @@ const Profile = () => {
 
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [open3, setOpen3] = useState(true);
+  const [open3, setOpen3] = useState(false);
   const [open4, setOpen4] = useState(false);
   const [selectedColor, setSelectedColor] = useState(colors[4]);
 

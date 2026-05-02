@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { getCurrUser } from "../services/userAuthServices/getCurrUser"
 
+
+
 const useGetCurrUser = () => {
     return useQuery({
         queryKey: ["currUser"],

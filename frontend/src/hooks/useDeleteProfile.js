@@ -13,8 +13,8 @@ const useDeleteProfile = () => {
         enabled: false,
         onSuccess: (data) => {
             if (data.status) {
-                queryClient.removeQueries(["currentUser"]);
-                queryClient.setQueryData(["currentUser"], null);
+                queryClient.removeQueries({ queryKey: ["currUser"] });
+                queryClient.setQueryData(["currUser"], null);
                 toast.success(data.message);
                 navigate("/");
             } else {

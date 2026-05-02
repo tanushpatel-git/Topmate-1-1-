@@ -19,16 +19,16 @@ const Navbar = ({ theam = "white" }) => {
   const [activeChild, setActiveChild] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState(null);
+  const [userAccess, setUserAccess] = useState(false);
 
   const displayItem = hoverItem || activeSection;
   const dispatch = useDispatch();
   const { data } = useGetCurrUser();
 
-  //  Derive userAccess directly — no useEffect, no extra rerender
-  const userAccess = Boolean(data?.user?.userName && data?.user !== null && data?.user !== undefined);
-
   //   Single combined useEffect for Redux dispatches
   useEffect(() => {
+    const userAccess = Boolean(data?.user?.userName && data?.user !== null && data?.user !== undefined);
+    setUserAccess(userAccess);
     if (userAccess) {
       const { user } = data;
       dispatch(setUserName(user.userName));
@@ -47,7 +47,7 @@ const Navbar = ({ theam = "white" }) => {
       dispatch(setService(user.service));
       dispatch(setGraduationYear(user.graduationYear));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   const handleMouseEnter = (item, menu) => {
     clearTimeout(closeTimer.current);

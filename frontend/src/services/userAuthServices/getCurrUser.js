@@ -5,7 +5,7 @@ export const getCurrUser = async () => {
         const res = await axiosInstance.get("/user/getCurrUser")
         return res.data
     } catch (error) {
-        console.log(error)
+        throw error
     }
 }
 
