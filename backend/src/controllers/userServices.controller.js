@@ -168,10 +168,13 @@ const deleteService = async (req, res) => {
   }
 };
 
-const searchServices = async (req, res) => {
+const searchServices = async (req, res) => 
+  {
   try {
     const { q } = req.query;
 
+    console.log("QUERY:", q);
+    
     const services = await Service.find({
       $text: { $search: q },
       isActive: true,
@@ -189,6 +192,30 @@ const searchServices = async (req, res) => {
 };
 
 
+const getAllServices = async (req, res) => {
+
+  try {
+
+    const services = await Service.find();
+
+    res.status(200).json({
+      success: true,
+      services,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
+
+
+
 module.exports = {
   createService,
   getMyServices,
@@ -196,5 +223,6 @@ module.exports = {
   updateService,
   deleteService,
   searchServices,
-  getServiceById
+  getServiceById,
+  getAllServices
 };

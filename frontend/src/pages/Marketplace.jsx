@@ -1,177 +1,38 @@
-    import React from "react";
-    import Navbar from "../components/commonCompo/Navbar";
-    import CategoryNavbar from "../components/MarketPlaceComponent/CategoryNavbar";
-    import DetailsCardArea from "../components/MarketPlaceComponent/DetailsCardArea";
-    import SearchBar from "../components/MarketPlaceComponent/SearchBar";
+import React, { useEffect } from "react";
+import Navbar from "../components/commonCompo/Navbar";
+import CategoryNavbar from "../components/MarketPlaceComponent/CategoryNavbar";
+import DetailsCardArea from "../components/MarketPlaceComponent/DetailsCardArea";
+import SearchBar from "../components/MarketPlaceComponent/SearchBar";
+import service_userDataHook from "../hooks/Service_userDataHook";
 
-    const Marketplace = () => {
+const Marketplace = () => {
 
-        const detailsOfDeveloper = [
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-        {
-            id: 1,
-            name: "Tanush Patel",
-            role: "Software Developer",
-            rating: 5,
-            reviews: 10,
-            price: 100,
-            duration: "1 hour",
-            mentor: "Tanush Patel",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        },
-    ];
 
-        return (
-            <>
-                <Navbar />
-                <CategoryNavbar />
-                <DetailsCardArea 
-                detailsOfDeveloper={detailsOfDeveloper}
-                />
-                <SearchBar />
-            </>
-        );
-    };
-    export default Marketplace;
+
+  const { data, isLoading, isError } = service_userDataHook("priorityDm");
+
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading data</p>;
+
+  const detailsOfDeveloper = data?.services?.map((item) => ({
+    id: item._id,
+    name: item.userDetails.firstName + " " + item.userDetails.lastName,
+    role: item.userDetails.expertise?.[0],
+    price: item.price,
+    duration: item.duration + " mins",
+    title: item.title,
+    image: item.userDetails.userImageUrl,
+  })) || [];
+
+  return (
+    <>
+      <Navbar />
+      <CategoryNavbar />
+      <DetailsCardArea detailsOfDeveloper={detailsOfDeveloper} />
+      <SearchBar />
+    </>
+  );
+};
+
+export default Marketplace; 
