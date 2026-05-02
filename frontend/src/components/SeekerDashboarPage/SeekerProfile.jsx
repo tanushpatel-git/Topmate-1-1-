@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { clearUserDetails } from "../../redux/userData/userDetails";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const SeekerProfile = ({ userData }) => {
 
@@ -15,12 +16,15 @@ const SeekerProfile = ({ userData }) => {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [editingField, setEditingField] = useState(null);
 
   const handleDelete = async () => {
     const res = await userDeleteProfile();
     if (res.status) {
       dispatch(clearUserDetails());
+      queryClient.removeQueries({ queryKey: ["currUser"] });
+      queryClient.setQueryData(["currUser"], null);
       toast.success("Profile deleted successfully");
       navigate("/");
     }

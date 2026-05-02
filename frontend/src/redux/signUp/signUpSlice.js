@@ -5,7 +5,7 @@ const signUpSlice = createSlice({
     initialState: {
         firstName: "",
         lastName: "",
-        userName:"",
+        userName: "",
         email: "",
         password: "",
         country: "India",
@@ -15,10 +15,9 @@ const signUpSlice = createSlice({
         twitterUrl: "",
         instagramUrl: "",
         whatsAppNumber: "",
-        availability: {
-
-        },
+        availability: {},
         service: ["Resume review", "Discovery Call", "Quick chat"],
+        graduationYear: "",
     },
     reducers: {
         setFirstName: (state, action) => {
@@ -60,12 +59,15 @@ const signUpSlice = createSlice({
         setService: (state, action) => {
             state.service = action.payload
         },
-        setUserName : (state, action) => {
+        setUserName: (state, action) => {
             state.userName = action.payload
         },
-        setUserImage : (state, action) => {
+        setUserImage: (state, action) => {
             state.userImage = action.payload
-        }
+        },
+        setGraduationYear: (state, action) => {
+            state.graduationYear = action.payload
+        },
     }
 })
 
