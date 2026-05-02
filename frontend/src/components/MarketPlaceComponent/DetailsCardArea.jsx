@@ -1,5 +1,6 @@
 import React from "react";
 import OverviewCards from "./OverviewCard";
+import ServiceCard from "./ServiceCard";
 
 const DetailsCardArea = ({ detailsOfDeveloper = [], }) => {
 
@@ -17,8 +18,10 @@ const DetailsCardArea = ({ detailsOfDeveloper = [], }) => {
           gap-4 sm:gap-6"
                 >
                     {detailsOfDeveloper.map((developer) => (
-                        <OverviewCards
-                            key={developer?.id}
+                        
+                        <ServiceCard 
+                        key={developer?.id} service={developer}
+                        
                             title={developer.name}
                             imageUrl={developer.image}
                             price={developer.price}
@@ -37,3 +40,4 @@ const DetailsCardArea = ({ detailsOfDeveloper = [], }) => {
 };
 
 export default DetailsCardArea;
+

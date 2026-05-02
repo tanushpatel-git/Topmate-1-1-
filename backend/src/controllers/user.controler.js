@@ -1,8 +1,10 @@
 const User = require("../models/user.model.js");
+const Service = require("../models/userService.model.js");
 const { verifyToken, genratedToken } = require("../utility/jwToken.js");
 const nodeMail = require("../utility/nodeMail.js");
 const map = new Map();
 const { hashingPassword, comparePassword } = require("../utility/bcrypt.js");
+const { get } = require("mongoose");
 
 
 const getUser = async (req, res) => {
@@ -58,6 +60,7 @@ const signIn = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 }
+
 
 const signInWithGoogle = async (req, res) => {
     try {
@@ -266,4 +269,95 @@ const updateUserSettings = async (req, res) => {
   }
 };
 
-module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount, updateAccount, updateUserSettings };
+
+const getAllUsers = async (req, res) => {
+
+  try {
+    
+
+    const users = await User.find();
+
+    res.status(200).json({
+      success: true,
+      users,
+    });
+
+  } catch (error) {
+    console.log(" Error:", error.message);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+const getMarketplaceData = async (req, res) => {
+  try {
+    const { category } = req.query;
+
+    const services = await Service.aggregate([
+      
+      // ✅ filter category (optional)
+      ...(category ? [{ $match: { category } }] : []),
+
+      // ✅ join user
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+
+      // ✅ convert array → object
+      {
+        $unwind: "$userDetails",
+      },
+
+      // ✅ only active services
+      {
+        $match: { isActive: true },
+      },
+
+      // ✅ final structure (IMPORTANT 🔥)
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          price: 1,
+          duration: 1,
+          category: 1,
+          description: 1,
+
+          userDetails: {
+            _id: "$userDetails._id",
+            firstName: "$userDetails.firstName",
+            lastName: "$userDetails.lastName",
+            userImageUrl: "$userDetails.userImageUrl",
+            expertise: "$userDetails.expertise",
+          },
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      services,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+module.exports = { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, getMarketplaceData, otpCheck, logout, deleteAccount, updateAccount, updateUserSettings, getAllUsers };
