@@ -11,7 +11,7 @@ import {
     Trophy,
 } from "lucide-react";
 
-const ProfileNavbar = ({ onClose, selectedColor, onClose2, onClose3, onClose4 }) => {
+const ProfileNavbar = ({ onClose, selectedColor,onClose5, onClose2, onClose3, onClose4 }) => {
     const [view, setView] = useState("desktop");
 
     return (
@@ -94,6 +94,7 @@ const ProfileNavbar = ({ onClose, selectedColor, onClose2, onClose3, onClose4 })
                 </motion.button>
 
                 <motion.button
+                    onClick={onClose5}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"
