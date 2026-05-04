@@ -292,71 +292,93 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-
-
 const getMarketplaceData = async (req, res) => {
   try {
-    const { category } = req.query;
+    const services = await Service.find()
+      .populate("user", "-password -__v");
 
-    const services = await Service.aggregate([
-      
-      // ✅ filter category (optional)
-      ...(category ? [{ $match: { category } }] : []),
-
-      // ✅ join user
-      {
-        $lookup: {
-          from: "users",
-          localField: "user",
-          foreignField: "_id",
-          as: "userDetails",
-        },
-      },
-
-      // ✅ convert array → object
-      {
-        $unwind: "$userDetails",
-      },
-
-      // ✅ only active services
-      {
-        $match: { isActive: true },
-      },
-
-      // ✅ final structure (IMPORTANT 🔥)
-      {
-        $project: {
-          _id: 1,
-          title: 1,
-          price: 1,
-          duration: 1,
-          category: 1,
-          description: 1,
-
-          userDetails: {
-            _id: "$userDetails._id",
-            firstName: "$userDetails.firstName",
-            lastName: "$userDetails.lastName",
-            userImageUrl: "$userDetails.userImageUrl",
-            expertise: "$userDetails.expertise",
-          },
-        },
-      },
-    ]);
+    const filteredServices = services.filter((s) => s.user !== null);
 
     res.status(200).json({
       success: true,
-      services,
+      count: filteredServices.length,
+      data: filteredServices,
     });
 
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching services:", error);
+
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Server Error",
     });
   }
 };
+
+
+// const getMarketplaceData = async (req, res) => {
+//   try {
+//     const { category } = req.query;
+
+//     const services = await Service.aggregate([
+      
+//       // ✅ filter category (optional)
+//       ...(category ? [{ $match: { category } }] : []),
+
+//       // ✅ join user
+//       {
+//         $lookup: {
+//           from: "users",
+//           localField: "user",
+//           foreignField: "_id",
+//           as: "userDetails",
+//         },
+//       },
+
+//       // ✅ convert array → object
+//       {
+//         $unwind: "$userDetails",
+//       },
+
+//       // ✅ only active services
+//       {
+//         $match: { isActive: true },
+//       },
+
+//       // ✅ final structure (IMPORTANT 🔥)
+//       {
+//         $project: {
+//           _id: 1,
+//           title: 1,
+//           price: 1,
+//           duration: 1,
+//           category: 1,
+//           description: 1,
+
+//           userDetails: {
+//             _id: "$userDetails._id",
+//             firstName: "$userDetails.firstName",
+//             lastName: "$userDetails.lastName",
+//             userImageUrl: "$userDetails.userImageUrl",
+//             expertise: "$userDetails.expertise",
+//           },
+//         },
+//       },
+//     ]);
+
+//     res.status(200).json({
+//       success: true,
+//       services,
+//     });
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
 
 
 

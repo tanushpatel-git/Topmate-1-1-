@@ -1,80 +1,113 @@
 import React from "react";
-import { Star } from "lucide-react";
-import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
-const OverviewCard = ({
-  imageUrl,
-  title,
-  price,
-  rating,
-  reviews,
-  tag,
-  duration,
-  mentor,
-}) => {
+const OverviewCard = ({ service }) => {
+
+const { title, price, category, duration, user } = service;
+
+const navigate = useNavigate();
+
+const handleClick = () => {
+  if (category === "one-to-one") {
+    navigate(`/booking/one-to-one/${service._id}`); 
+  } else if (category === "priorityDm") {
+    console.log("Open DM");
+  } else if (category === "webinar") {
+    console.log("Reserve webinar");
+  } else {
+    console.log("Book package");
+  }
+};
+
+
+
+  const name = `${user?.firstName || ""} ${user?.lastName || ""}`;
+
   return (
-    <motion.div
-      whileHover={{ y: -5 }}
-      className="w-full max-w-sm sm:max-w-md bg-gray-100 rounded-2xl p-4 sm:p-5 shadow-sm"
-    >
-      {/* TOP SECTION */}
-      <div className="flex gap-3 sm:gap-5">
-        {/* IMAGE */}
+    <div className="bg-white h-[300px] rounded-2xl shadow-sm p-4 w-[260px] hover:shadow-md transition">
+<div className="h-[200px]">
+
+      {/* Top Section */}
+      <div className="flex gap-3">
         <img
-          src={imageUrl}
-          alt="mentor"
-          className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl object-cover"
+          src={user?.userImageUrl}
+          alt="user"
+          className="w-14 h-14 rounded-xl object-cover"
         />
 
-        {/* INFO */}
-        <div className="flex-1 min-w-0">
-          <h2 className="text-sm sm:text-lg font-semibold leading-tight line-clamp-2">
+        <div className="flex flex-col justify-between">
+          <h2 className="text-lg font-semibold leading-tight line-clamp-2">
             {title}
           </h2>
 
-          <div className="flex flex-wrap items-center gap-2 mt-2 text-gray-700 text-xs sm:text-sm">
-            <span className="font-medium">₹ {price}</span>
-
-            <span className="text-gray-400 hidden sm:block">|</span>
-
-            <div className="flex items-center gap-1">
-              <Star size={14} className="fill-gray-400 text-gray-400" />
-              <span className="font-semibold">{rating}</span>
-              <span className="text-gray-400">({reviews})</span>
-            </div>
+          <div className="flex items-center gap-2 mt-1 text-gray-500">
+            <span className="text-md font-medium">₹ {price}</span>
+            <span className="text-md bg-green-100 text-green-700 px-2 py-0.5 rounded-md">
+              New
+            </span>
           </div>
         </div>
       </div>
 
-      {/* TAGS */}
-      <div className="flex flex-wrap gap-2 sm:gap-3 mt-4">
-        <span className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border text-xs sm:text-sm text-gray-700">
-          {tag}
+      {/* Description */}
+      <p className="text-ms text-gray-500 mt-3">
+        Top value bundles trusted by our users.
+      </p>
+
+      {/* Tags */}
+        {category === 'package' && (
+      <div className="flex gap-2 mt-3">
+          <span className="border text-sm px-3 py-1 rounded-full">
+            {category || "Package"}
+            </span>
+        <span className="border text-xs px-3 py-1 rounded-full">
+          {duration ? `${duration} mins` : "20 services"}
         </span>
-        <span className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border text-xs sm:text-sm text-gray-700">
-          {duration}
-        </span>
+
       </div>
+        )}
+      
+      {category === 'one-to-one' && (
+      <div className="flex gap-2 mt-3">
+          <span className="border text-sm px-3 py-1 rounded-full">
+            1:1 Call
+            </span>
+        <span className="border text-xs px-3 py-1 rounded-full">
+          {duration ? `${duration} mins` : "20 services"}
+        </span>
 
-      {/* DIVIDER */}
-      <div className="my-4 sm:my-5 border-t" />
+      </div>
+        )}
 
-      {/* BOTTOM */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <p className="text-gray-600 text-xs sm:text-sm">
-          by <span className="text-black font-medium">{mentor}</span>
+      {category === 'priorityDm' && (
+      <div className="flex gap-2 mt-3">
+          <span className="border text-sm px-3 py-1 rounded-full">
+            {category || "Priority DM" }
+            </span>
+
+      </div>
+        )}
+
+
+
+</div>
+   
+      {/* Footer */}
+      <div className="flex h-[50px] justify-between items-center border-t-2 border-gray-200 pt-4 ">
+
+        <p className="text-md line-clamp-1 text-gray-500 ">
+          by {name}
         </p>
 
-        {/* BUTTON */}
-        <motion.button
-          whileTap={{ scale: 0.95 }}
-          whileHover={{ scale: 1.05 }}
-          className="w-full sm:w-auto text-sm bg-black text-white px-4 sm:px-5 py-2 rounded-full border-2 sm:border-4 border-orange-200 shadow-md"
-        >
-          See Availability
-        </motion.button>
+        <button className="bg-black text-white text-sm px-2 py-1.5 rounded-full hover:bg-gray-800  "   onClick={handleClick}
+ >          
+          {category === "one-to-one" ? "See Availability" : category === "priorityDm" ? "send DM" : category == 'webinar' ? "reserve" : "Book Now"}
+
+
+        </button>
       </div>
-    </motion.div>
+
+    </div>
   );
 };
 

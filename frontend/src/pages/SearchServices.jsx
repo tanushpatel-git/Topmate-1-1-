@@ -3,6 +3,7 @@ import Navbar from "../components/commonCompo/Navbar";
 import { Search, ArrowLeft } from "lucide-react";
 import { Link } from "react-router";
 import DetailsCardArea from "../components/MarketPlaceComponent/DetailsCardArea";
+
 const SearchServices = ({ searchName = "Software" }) => {
 
     const data = [

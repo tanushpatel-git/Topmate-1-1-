@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import Service_UserData from "../services/booking-services/Service_UserData";
 
-const Service_userDataHook = (category) => {
+const Service_userDataHook = () => {
+  
   return useQuery({
-    queryKey: ["marketplace", category],
-    queryFn: () => Service_UserData(category),
-    
-    staleTime: 1000*60 *5, 
-
+    queryKey: ["marketplace"], 
+    queryFn: Service_UserData, 
+    staleTime: 1000 * 60 * 5, 
+    retry:1,
   });
 };
 

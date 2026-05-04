@@ -1,11 +1,14 @@
 import axiosInstance from "../../utility/axios";
 
 const Service_UserData = async (category) => {
-  const res = await axiosInstance.get(
-    `/user/marketplace${category ? `?category=${category}` : ""}`
-  );
+  try{
 
-  return res.data;
+    const res = await axiosInstance.get("/user/marketplace");
+    return res.data;
+  } catch (error) {
+    throw error?.response?.data || { message: "Failed to fetch services" };
+  }
+
 };
 
 export default Service_UserData;

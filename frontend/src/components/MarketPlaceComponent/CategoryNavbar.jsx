@@ -22,13 +22,14 @@ const navItems = [
 
 const SCROLL_STEP = 200;
 
-const GodLevelNavbar = () => {
+const GodLevelNavbar = ({ activeval }) => {
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
 
   const [scrollX, setScrollX] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [activeValue, setActiveValue] = useState(activeval);
   const [indicator, setIndicator] = useState({ width: 0, left: 0 });
 
   useEffect(() => {
@@ -69,8 +70,10 @@ const GodLevelNavbar = () => {
   };
 
   return (
-    <div className="relative w-full top-16 bg-[#E9E6DE]/90 py-2 sm:py-3 px-3 sm:px-6 flex items-center">
 
+
+    <div className="relative w-full top-16 bg-[#E9E6DE]/90 py-2 sm:py-3 px-3 sm:px-6 flex items-center">
+      
       {/* LEFT FADE */}
       <div className="pointer-events-none absolute left-0 top-0 h-full w-8 sm:w-12 bg-gradient-to-r from-[#E9E6DE]/70 to-transparent z-10" />
 
@@ -109,7 +112,8 @@ const GodLevelNavbar = () => {
               ref={(el) => (itemRefs.current[i] = el)}
               onClick={() => {
                 setActiveIndex(i);
-
+                setActiveValue(item);
+                     
                 const el = itemRefs.current[i];
                 const containerWidth =
                   containerRef.current.clientWidth;
@@ -123,7 +127,7 @@ const GodLevelNavbar = () => {
                 setScrollX(newX);
               }}
               whileTap={{ scale: 0.95 }}
-              className={`px-3 sm:px-4 py-2 text-sm sm:text-base cursor-pointer font-medium transition ${activeIndex === i
+              className={`px-3 sm:px-4 py-2 text-sm sm:text-base cursor-pointer font-medium transition ${activeIndex === i && activeValue === item
                   ? "text-black"
                   : "text-gray-500 hover:text-black"
                 }`}
