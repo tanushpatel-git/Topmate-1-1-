@@ -3,6 +3,7 @@ import ProfileNavbar from "../ProfileComponent/ProfileNavbar";
 import ColorSet from "../ProfileComponent/ColorSet";
 import AccountEdit from "../ProfileComponent/AccountEdit";
 import AddHighlight from "../ProfileComponent/AddHighlight";
+import Badge from "../ProfileComponent/Badge";
 import { useState } from "react";
 import ArrangmentOfServicePrice from "../ProfileComponent/ArrangmentOfServicePrice";
 
@@ -20,6 +21,7 @@ const Profile = () => {
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
   const [open4, setOpen4] = useState(false);
+  const [open5, setOpen5] = useState(false);
   const [selectedColor, setSelectedColor] = useState(colors[4]);
 
   return (
@@ -28,6 +30,7 @@ const Profile = () => {
         onClose4={() => setOpen4(!open4)}
         onClose3={() => setOpen3(!open3)}
         onClose2={() => setOpen2(!open2)}
+        onClose5={() => setOpen5(!open5)}
         selectedColor={selectedColor}
         onClose={() => setOpen(!open)}
       />
@@ -49,6 +52,10 @@ const Profile = () => {
       <ArrangmentOfServicePrice
         isOpen={open4}
         onClose={() => setOpen4(!open4)}
+      />
+      <Badge
+        isOpen={open5}
+        onClose={() => setOpen5(!open5)}
       />
     </>
   );
