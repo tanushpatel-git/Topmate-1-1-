@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { createBookingAPI } from "../services/booking.service";
+import createBookingAPI from "../services/booking-services/createBookingAPI";
+ 
 
-const useCreateBooking = () => {
+const CreateBookingHook = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+ 
   const createBooking = async (payload) => {
     try {
       setLoading(true);
       setError(null);
-
       const data = await createBookingAPI(payload);
 
       return data;
@@ -24,4 +24,4 @@ const useCreateBooking = () => {
   return { createBooking, loading, error };
 };
 
-export default useCreateBooking;
+export default CreateBookingHook;

@@ -1,6 +1,6 @@
-import axiosInstance from "../axiosInstance";
+import axiosInstance from "../../utility/axios";
 
-export const createBookingAPI = async (data) => {
+const createBookingAPI = async (data) => {
 try {
         const res = await axiosInstance.post("/booking/create", data);
         return res.data;
@@ -9,3 +9,6 @@ try {
     }
 
 };
+
+
+export default createBookingAPI;

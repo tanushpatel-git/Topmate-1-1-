@@ -1,29 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import logoIcon from "../../assets/logo-icon2.svg";
 import { FaLock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import CreateBookingHook from "../../hooks/CreateBookingHook";
+
 
 const BookingConfirm = () => {
-
+  
   const { state } = useLocation(); 
   const safeState = state || {};
-const service = safeState.service;
-const creator = safeState.user; // renamed 
-const selectedDate = safeState.selectedDate;
-const selectedTime = safeState.selectedTime;
-  
-const user = useSelector((state) => state.userData);
+  const service = safeState.service;
+  const creator = safeState.user; // renamed 
+  const selectedDate = safeState.selectedDate;
+  const selectedTime = safeState.selectedTime;
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+  
+  const { createBooking, loading: bookingLoading, error: bookingError } = CreateBookingHook();
+
+  const user = useSelector((state) => state.userData);
 
   const [form, setForm] = useState({
-    firstName: user?.firstName || "",
+    firstName: user?.firstName || "hello",
     lastName: user?.lastName || "",
     email: user?.email || "",
     phone: user?.whatsAppNumber || "",
-    notes: user?.notes || "",
+    notes: user.notes || "",
   });
+
 
   const handleChange = (e) => {
     setForm({
@@ -32,18 +41,83 @@ const user = useSelector((state) => state.userData);
     });
   };
 
-  const handleSubmit = () => {
-    console.log("Final Booking Data:", {
-      ...form,
-      selectedDate,
-      selectedTime,
-      service,
-      user,
-      creator
-    });
 
+const handleSubmit = async () => {
 
+  if (!user?._id) {
+    alert("User not logged in");
+    return;
+  }
+
+  if (!creator?._id || !service?._id) {
+    alert("Service data missing");
+    return;
+  }
+
+  if (!selectedDate || !selectedTime) {
+    alert("Please select date & time");
+    return;
+  }
+
+  if (!form.firstName || !form.email || !form.phone) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  const bookingData = {
+    seeker: user._id || "",
+    creator: creator._id,
+    service: service._id,
+
+    date: new Date(selectedDate),
+
+    time: selectedTime,
+    duration: service.duration,
+    price: service.price,
   };
+
+  try {
+    setLoading(true);
+
+    console.log("Sending booking:", bookingData);
+
+    // FREE BOOKING
+    if (service.price === 0) {
+      const res = await createBooking(bookingData);
+
+      if (res.success) {
+        alert("Booking Confirmed ✅");
+        navigate("/my-bookings");
+      } else {
+        alert(res.message);
+      }
+
+    } else {
+      alert("Proceed to payment 💳");
+    }
+
+  } catch (err) {
+    console.log("ERROR:", err.response?.data || err.message);
+
+    alert(err.response?.data?.message || "Booking failed");
+
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+useEffect(() => {
+  setForm({
+    ...form,
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    email: user.email || "",
+    phone: user.whatsAppNumber || "",
+    notes: user.notes || "",
+  });
+}, []);
 
  return (
   <div className="min-h-screen bg-[#8FB3D9] flex justify-center items-start pt-10">
@@ -92,29 +166,27 @@ const user = useSelector((state) => state.userData);
 
       {/* FORM */}
       <div className="space-y-3 p-5" >
-
-        <input
-          type="text"
-          placeholder={form.firstName ? form.firstName : "First Name"}
-          className="w-full border p-2 rounded-md text-sm"
-
-        />
+<input
+  type="text"
+  name="firstName"
+  value={form.firstName}
+  onChange={handleChange}
+  className="w-full border p-2 rounded-md text-sm"
+/>
 
         <input
           type="email"
-          placeholder={form.email ? form.email : "Email"}
+          name="email"
+          value={form.email}
+          onChange={handleChange}
           className="w-full border p-2 rounded-md text-sm"
         />
 
         <input
           type="text"
-          placeholder="What is the call about?"
-          className="w-full border p-2 rounded-md text-sm"
-        />
-
-        <input
-          type="text"
-          placeholder={form.phone ? form.phone : "Phone"}
+          name="phone"
+          value={form.phone}
+          onChange={handleChange}
           className="w-full border p-2 rounded-md text-sm"
         />
 
@@ -131,7 +203,7 @@ const user = useSelector((state) => state.userData);
 
         <div className="flex justify-between  border-b border-gray-300 p-3">
           <span>Order Summary</span>
-          <span>  {service?.price == 0 ?  "Free" : "₹" + (service?.price + 10)}  </span>
+          <span>  {service?.price == 0 ?  "₹0" : "₹"+ (service?.price + 10)}  </span>
 
         </div> 
 
@@ -150,7 +222,7 @@ const user = useSelector((state) => state.userData);
 
         <div className="flex justify-between font-semibold p-3">
           <span>Total</span>
-          <span>{service?.price == 0 ? "Free" : "₹" + (service?.price + 10) }</span>
+          <span>{service?.price == 0 ?  "₹0" : "₹" + (service?.price + 10) }</span>
         </div>
 
       </div>
@@ -184,12 +256,21 @@ Terms & Conditions
           ₹{service?.price}
         </span>
 
-        <button
-          onClick={handleSubmit}
-          className="bg-black text-white px-4 py-2 rounded-lg"
-        >
-          {service?.price === 0 ? "Confirm" : "Confirm & Pay"}
-        </button>
+       <button
+  onClick={handleSubmit}
+  disabled={loading}
+  className={`px-4 py-2 rounded-lg ${
+    loading
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-black text-white"
+  }`}
+>
+  {loading
+    ? "Processing..."
+    : service?.price === 0
+    ? "Confirm"
+    : "Confirm & Pay"}
+</button>
 
       </div>
     </div>

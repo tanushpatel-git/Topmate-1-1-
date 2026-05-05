@@ -74,7 +74,6 @@ const getServiceById = async (req, res) => {
   }
 };
 
-
 const getSingleService = async (req, res) => {
   try {
     console.log('call successfull')
@@ -96,7 +95,6 @@ const getSingleService = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 
 const updateService = async (req, res) => {
   try {

@@ -1,17 +1,16 @@
 const Booking = require("../models/Booking.model");
 
-// ✅ CREATE BOOKING
- const createBooking = async (req, res) => {
+//  CREATE BOOKING
+
+
+const createBooking = async (req, res) => {
   try {
-    const {
-      seeker,     // logged-in user
-      creator,    // mentor
-      service,    // service id
-      date,
-      time,
-      duration,
-      price,
-    } = req.body;
+    console.log("Incoming Booking Data:", req.body);
+
+    let { seeker, creator, service, date, time, duration, price } = req.body;
+
+    //  normalize date
+    date = new Date(date).toISOString().split("T")[0];
 
     if (!seeker || !creator || !service || !date || !time) {
       return res.status(400).json({
@@ -24,7 +23,7 @@ const Booking = require("../models/Booking.model");
       creator,
       date,
       time,
-      status: { $ne: "cancelled" }, // ignore cancelled
+      status: { $ne: "cancelled" },
     });
 
     if (existing) {
@@ -34,7 +33,6 @@ const Booking = require("../models/Booking.model");
       });
     }
 
-    // ✅ Create booking
     const booking = await Booking.create({
       seeker,
       creator,
@@ -60,8 +58,6 @@ const Booking = require("../models/Booking.model");
     });
   }
 };
-
-
 
 
  const getSeekerBookings = async (req, res) => {
