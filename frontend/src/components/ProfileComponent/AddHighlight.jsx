@@ -29,7 +29,7 @@ export default function AddHighlight({ isOpen = false, onClose }) {
 
   // STEP 1 (Main Options Screen)
   const renderOptionsScreen = () => (
-    <div className="flex  gap-6 w-full">
+    <div className="flex gap-6 w-full z-50">
       {/* LEFT PREVIEW */}
       <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-orange-200 to-yellow-100 rounded-2xl p-6">
         <div className="bg-white rounded-2xl p-4 shadow">
@@ -110,8 +110,8 @@ export default function AddHighlight({ isOpen = false, onClose }) {
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black/40 flex items-center justify-center"
+            <motion.div
+              className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -5,7 +5,7 @@ import { X, Upload, Plus, Check, ExternalLink } from "lucide-react";
 export default function AccountEdit(    { isOpen, onClose }) {
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex absolute z-50 items-center justify-center h-screen bg-gray-100">
       <AnimatePresence>
         {isOpen && (
           <motion.div

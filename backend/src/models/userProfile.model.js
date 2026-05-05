@@ -7,11 +7,17 @@ const userProfileSchema = new mongoose.Schema({
     },
     color: {
         type: String,
-        trim: true
+        trim: true,
+        enum: ["#d9534f",
+            "#8e73d8",
+            "#7ea6d6",
+            "#d88942",
+            "#e9c58b"]
     },
     profileImage: {
         type: String,
-        trim: true
+        trim: true,
+        default: "https://topmate.io/cdn-cgi/image/width=640,quality=90/https://static.topmate.io/hx96Mufeu9YdiLZqySeJeU.png"
     },
     firstName: {
         type: String,

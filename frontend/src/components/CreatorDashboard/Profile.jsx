@@ -26,7 +26,7 @@ const Profile = () => {
   const [selectedColor, setSelectedColor] = useState(colors[4]);
 
   return (
-    <>
+    <div className="h-screen overflow-hidden">
       <ProfileNavbar
         onClose4={() => setOpen4(!open4)}
         onClose3={() => setOpen3(!open3)}
@@ -60,7 +60,7 @@ const Profile = () => {
       />
 
       <LeftSideVeiw />
-    </>
+    </div>
   );
 };
 
