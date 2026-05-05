@@ -33,6 +33,7 @@ import Profile from './components/CreatorDashboard/Profile'
 
 import {
   setUserName,
+  setUserId,
   setUserImage,
   setFirstName,
   setLastName,
@@ -60,6 +61,7 @@ const App = () => {
   useEffect(() => {
     if (data?.user) {
       const { user } = data;
+      dispatch(setUserId(user._id));
       dispatch(setUserName(user.userName));
       dispatch(setUserImage(user.userImageUrl));
       dispatch(setFirstName(user.firstName));

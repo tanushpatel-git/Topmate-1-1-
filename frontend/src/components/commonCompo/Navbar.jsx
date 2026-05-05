@@ -8,7 +8,7 @@ import {
   setUserName, setUserImage, setFirstName, setLastName,
   setEmail, setCountry, setCurrency, setExpertise,
   setLinkedInUrl, setTwitterUrl, setInstagramUrl,
-  setWhatsAppNumber, setAvailability, setService, setGraduationYear
+  setWhatsAppNumber, setAvailability, setService, setGraduationYear, setUserId
 } from "../../redux/userData/userDetails";
 
 const Navbar = ({ theam = "white" }) => {
@@ -31,6 +31,7 @@ const Navbar = ({ theam = "white" }) => {
     setUserAccess(userAccess);
     if (userAccess) {
       const { user } = data;
+      dispatch(setUserId(user._id));
       dispatch(setUserName(user.userName));
       dispatch(setUserImage(user.userImageUrl));
       dispatch(setFirstName(user.firstName));

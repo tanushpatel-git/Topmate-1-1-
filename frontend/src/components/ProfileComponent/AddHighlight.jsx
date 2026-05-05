@@ -29,7 +29,7 @@ export default function AddHighlight({ isOpen = false, onClose }) {
 
   // STEP 1 (Main Options Screen)
   const renderOptionsScreen = () => (
-    <div className="flex gap-6 w-full">
+    <div className="flex  gap-6 w-full">
       {/* LEFT PREVIEW */}
       <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-orange-200 to-yellow-100 rounded-2xl p-6">
         <div className="bg-white rounded-2xl p-4 shadow">

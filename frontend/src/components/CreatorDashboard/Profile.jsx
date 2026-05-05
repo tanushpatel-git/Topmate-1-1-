@@ -6,6 +6,7 @@ import AddHighlight from "../ProfileComponent/AddHighlight";
 import Badge from "../ProfileComponent/Badge";
 import { useState } from "react";
 import ArrangmentOfServicePrice from "../ProfileComponent/ArrangmentOfServicePrice";
+import LeftSideVeiw from "../ProfileComponent/MainLookOfProfileCollection/LeftSideVeiw";
 
 const colors = [
   "#d9534f",
@@ -57,6 +58,8 @@ const Profile = () => {
         isOpen={open5}
         onClose={() => setOpen5(!open5)}
       />
+
+      <LeftSideVeiw />
     </>
   );
 };

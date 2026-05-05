@@ -15,7 +15,7 @@ const ProfileNavbar = ({ onClose, selectedColor,onClose5, onClose2, onClose3, on
     const [view, setView] = useState("desktop");
 
     return (
-        <div className="w-full flex items-center justify-between px-6 py-3 bg-white shadow-sm border-b">
+        <div className="w-full  flex items-center justify-between px-6 py-3 bg-white shadow-sm border-b">
 
             {/* Left Toggle */}
             <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-xl">
