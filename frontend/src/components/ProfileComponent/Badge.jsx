@@ -7,7 +7,7 @@ const Badge = ({ isOpen, onClose }) => {
         <>
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/40 flex items-center justify-center"
+                    className="fixed z-50 inset-0 bg-black/40 flex items-center justify-center"
                 >
                     <div
                         className="bg-white rounded-3xl p-6 w-full max-w-3xl shadow-sm"

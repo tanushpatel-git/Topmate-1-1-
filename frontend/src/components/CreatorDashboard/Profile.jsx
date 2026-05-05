@@ -6,7 +6,8 @@ import AddHighlight from "../ProfileComponent/AddHighlight";
 import Badge from "../ProfileComponent/Badge";
 import { useState } from "react";
 import ArrangmentOfServicePrice from "../ProfileComponent/ArrangmentOfServicePrice";
-import LeftSideVeiw from "../ProfileComponent/MainLookOfProfileCollection/LeftSideVeiw";
+import MainProfile from "../ProfileComponent/MainLookOfProfileCollection/MainProfile";
+
 
 const colors = [
   "#d9534f",
@@ -26,7 +27,7 @@ const Profile = () => {
   const [selectedColor, setSelectedColor] = useState(colors[4]);
 
   return (
-    <>
+    <div className="h-screen overflow-hidden">
       <ProfileNavbar
         onClose4={() => setOpen4(!open4)}
         onClose3={() => setOpen3(!open3)}
@@ -59,8 +60,8 @@ const Profile = () => {
         onClose={() => setOpen5(!open5)}
       />
 
-      <LeftSideVeiw />
-    </>
+      <MainProfile />
+    </div>
   );
 };
 
