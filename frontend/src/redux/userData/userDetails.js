@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const userDetailsSlice = createSlice({
     name: "userData",
     initialState: {
+        userId: null,
         firstName: "",
         lastName: "",
         userName: "",
@@ -68,7 +69,11 @@ const userDetailsSlice = createSlice({
         setJoinDate: (state, action) => {
             state.joinDate = action.payload;
         },
+        setUserId: (state, action) => {
+            state.userId = action.payload;
+        },
         clearUserDetails: (state) => {
+            state.userId = null;
             state.firstName = "";
             state.lastName = "";
             state.userName = "";
@@ -89,6 +94,7 @@ const userDetailsSlice = createSlice({
 })
 
 export const { 
+    setUserId,
     setFirstName, 
     setLastName, 
     setUserName, 
