@@ -73,31 +73,25 @@ const getServiceById = async (req, res) => {
 
 const getSingleService = async (req, res) => {
   try {
-    const { slug } = req.params;
-
-    const service = await Service.findOne({
-      slug,
-      isActive: true,
-      status: "published"
-    });
+    console.log('call successfull')
+    const service = await Service.findById(req.params.id)
+      .populate("user", "-password -__v");
 
     if (!service) {
-      return res.status(200).json({
-        status: false,
-        message: "Service not found"
-      });
+      return res.status(404).json({ message: "Service not found" });
     }
 
-    return res.status(200).json({
-      status: true,
-      service,
+
+    console.log(service);
+    res.status(200).json({
+      success: true,
+      data: service,
     });
 
-  } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
-
 
 const updateService = async (req, res) => {
   try {
@@ -209,7 +203,6 @@ const getAllServices = async (req, res) => {
 
   }
 };
-
 
 
 

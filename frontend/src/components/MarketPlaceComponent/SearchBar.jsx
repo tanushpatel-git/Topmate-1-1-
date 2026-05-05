@@ -34,7 +34,7 @@ export default function SearchBar() {
           layout
           className={`mx-auto flex items-center border border-[#983E01]/30 gap-2 sm:gap-3 bg-white rounded-full shadow-lg px-3 sm:px-4 py-2 sm:py-3
           ${active
-              ? "max-w-full sm:max-w-xl"
+              ? "max-w-full sm:max-w-xl "
               : "max-w-full sm:max-w-md"
             }`}
         >

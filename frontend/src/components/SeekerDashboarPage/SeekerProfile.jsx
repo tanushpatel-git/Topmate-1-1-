@@ -38,7 +38,6 @@ const SeekerProfile = ({ userData }) => {
   useEffect(() => {
     if (userData) {
       setFormData(userData);
-      console.log(formData.joinDate)
     }
 
   }, [userData]);

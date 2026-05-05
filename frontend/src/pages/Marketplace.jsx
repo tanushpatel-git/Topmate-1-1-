@@ -9,27 +9,18 @@ const Marketplace = () => {
 
 
 
-  const { data, isLoading, isError } = service_userDataHook("priorityDm");
+  const { data, isLoading, isError } = service_userDataHook();
+  console.log(data);
 
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading data</p>;
 
-  const detailsOfDeveloper = data?.services?.map((item) => ({
-    id: item._id,
-    name: item.userDetails.firstName + " " + item.userDetails.lastName,
-    role: item.userDetails.expertise?.[0],
-    price: item.price,
-    duration: item.duration + " mins",
-    title: item.title,
-    image: item.userDetails.userImageUrl,
-  })) || [];
-
   return (
     <>
-      <Navbar />
-      <CategoryNavbar />
-      <DetailsCardArea detailsOfDeveloper={detailsOfDeveloper} />
+      <Navbar/>
+      <CategoryNavbar active="Software Development"/>
+      <DetailsCardArea detailsOfDeveloper={data?.data}/>
       <SearchBar />
     </>
   );

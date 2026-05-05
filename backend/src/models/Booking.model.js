@@ -1,39 +1,64 @@
 const mongoose = require("mongoose");
 
-const bookingSchema = new mongoose.Schema({
-    expertId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+const bookingSchema = new mongoose.Schema(
+  {
+    seeker: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
-    bookingId: {
-        type: String,
-    },
-    createdAt: {
-        type: Date,
-    },
-    status: {
-        type: String,
-    },
-    startTime: {
-        type: Date,
-    },
-    endTime: {
-        type: Date,
-    },
-    amount: {
-        type: Number,
-    },
-    paymentId: {
-        type: String,
-    },
-    paymentStatus: {
-        type: Boolean,
-        default: false,
-    },
-}, { timestamps: true })
 
-module.exports = mongoose.model("Booking", bookingSchema)
+    creator: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    service: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      required: true,
+    },
+
+    
+    date: {
+      type: Date,
+      required: true,
+    },
+
+    
+    time: {
+      type: String,
+      required: true,
+    },
+
+    duration: {
+      type: Number,
+      required: true,
+    },
+
+    price: {
+      type: Number,
+      required: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "confirmed", "cancelled"],
+      default: "pending",
+    },
+
+    meetingLink: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
+
+bookingSchema.index(
+  { creator: 1, date: 1, time: 1 },
+  { unique: true }
+);
+
+module.exports = mongoose.model("Booking", bookingSchema);
