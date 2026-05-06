@@ -9,9 +9,13 @@ import {
     List,
     Trophy,
 } from "lucide-react";
+import { useSelector } from "react-redux";
 
-const ProfileNavbar = ({ onClose, selectedColor, onClose5, onClose2, onClose3, onClose4 }) => {
+const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4 }) => {
+
     const [view, setView] = useState("desktop");
+    const userProfile = useSelector((state) => state.userProfile);
+    const { color } = userProfile;
 
     return (
         <div className="w-full flex items-center justify-between px-6 py-3 bg-white shadow-sm border-b">
@@ -49,11 +53,11 @@ const ProfileNavbar = ({ onClose, selectedColor, onClose5, onClose2, onClose3, o
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className={`p-2 rounded-xl `}
-                    style={{ backgroundColor: selectedColor }}
+                    style={{ backgroundColor: color }}
                     onClick={onClose}
                 >
                     <div className="w-5 h-5 rounded-md"
-                        style={{ backgroundColor: selectedColor }} />
+                        style={{ backgroundColor: color }} />
                 </motion.button>
 
                 {/* Other Icons */}

@@ -1,8 +1,9 @@
 import React from "react";
-import badge_recommendation from "../../../assets/badge-recommendation.svg"
+import badge_recommendation from "../../../assets/badge-recommendation.svg";
 import { Link } from "react-router-dom";
 
 const RightSideView = () => {
+
     return (
         <div className="h-[91vh] absolute right-1 top-19 w-[52.3%] bg-[#EFECE3]">
             <div className="w-full pt-5 pl-10">
@@ -14,7 +15,7 @@ const RightSideView = () => {
                     </div>
                 </div>
                 <div className="mt-5">
-                    <div className="w-full flex flex-col rounded-2xl">
+                    <div className="w-full flex flex-col">
                         <h1 className="text-4xl font-bold">About me</h1>
                         <p className="pt-2 text-xl text-black">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis magnam amet perferendis quasi atque voluptates voluptatibus aliquam modi sunt veniam esse iure maiores minus hic doloremque enim vero eligendi, nihil accusamus mollitia rerum sed inventore aspernatur doloribus! Soluta aperiam animi enim nostrum nisi totam pariatur.</p>
                     </div>
@@ -24,7 +25,6 @@ const RightSideView = () => {
                     <Link>Term</Link>
                     <span>|</span>
                     <Link>Privacy</Link>
-
                 </div>
             </div>
         </div>

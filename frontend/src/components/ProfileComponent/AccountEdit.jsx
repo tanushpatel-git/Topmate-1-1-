@@ -1,8 +1,44 @@
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Upload, Plus, Check, ExternalLink } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setFirstName,
+  setLastName,
+  setDisplayName,
+  setTopmateIntro,
+  setAboutYourself,
+  setSocialLink,
+  setProfileImage,
+} from "../../redux/userProfileDesign/profile";
 
-export default function AccountEdit(    { isOpen, onClose }) {
+export default function AccountEdit({ isOpen, onClose }) {
+  const dispatch = useDispatch();
+
+  const {
+    firstName,
+    lastName,
+    displayName,
+    topmateIntro,
+    aboutYourself,
+    socialLink,
+    profileImage,
+  } = useSelector((state) => state.userProfile);
+
+  const { firstName: mainName, lastName: mainLastName, userName: mainUserName } = useSelector((state) => state.userData);
+
+  const handleSave = () => {
+    console.log("Saved Profile:", {
+      firstName: firstName || mainName,
+      lastName: lastName || mainLastName,
+      displayName: displayName || mainDisplayName,
+      topmateIntro,
+      aboutYourself,
+      socialLink,
+      profileImage,
+    });
+
+    onClose();
+  };
 
   return (
     <div className="flex absolute z-50 items-center justify-center h-screen bg-gray-100">
@@ -23,7 +59,7 @@ export default function AccountEdit(    { isOpen, onClose }) {
               {/* Header */}
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-semibold">Edit Profile</h2>
-                <button onClick={() => onClose()}>
+                <button onClick={onClose}>
                   <X size={24} />
                 </button>
               </div>
@@ -31,18 +67,39 @@ export default function AccountEdit(    { isOpen, onClose }) {
               {/* Profile Photo */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-20 h-20 bg-gray-200 rounded-xl" />
+                  <img
+                    src={profileImage}
+                    alt="profile"
+                    className="w-20 h-20 rounded-xl object-cover"
+                  />
                   <div>
                     <p className="font-medium">Profile photo</p>
                     <p className="text-sm text-gray-500">Required</p>
                   </div>
                 </div>
-                <button className="flex items-center gap-2 text-sm underline">
+
+                <input
+                  type="file"
+                  hidden
+                  id="upload"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const url = URL.createObjectURL(file)
+                      dispatch(setProfileImage(url));
+                    }
+                  }}
+                />
+
+                <label
+                  htmlFor="upload"
+                  className="flex items-center gap-2 text-sm underline cursor-pointer"
+                >
                   <Upload size={16} /> Upload Photo
-                </button>
+                </label>
               </div>
 
-              {/* Topmate link */}
+              {/* Topmate Link */}
               <div className="mb-6">
                 <p className="mb-2 font-medium">Your topmate page link</p>
                 <div className="flex items-center border rounded-xl overflow-hidden">
@@ -51,7 +108,10 @@ export default function AccountEdit(    { isOpen, onClose }) {
                   </span>
                   <input
                     className="flex-1 px-3 py-2 outline-none"
-                    defaultValue="tanush_patel"
+                    value={displayName || mainUserName}
+                    onChange={(e) =>
+                      dispatch(setDisplayName(e.target.value))
+                    }
                   />
                   <Check className="mr-2" size={16} />
                   <ExternalLink className="mr-3" size={16} />
@@ -62,26 +122,48 @@ export default function AccountEdit(    { isOpen, onClose }) {
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <p className="mb-1">First Name</p>
-                  <input className="w-full border rounded-xl px-3 py-2" defaultValue="Tanush" />
+                  <input
+                    className="w-full border rounded-xl px-3 py-2"
+                    value={firstName || mainName}
+                    onChange={(e) =>
+                      dispatch(setFirstName(e.target.value))
+                    }
+                  />
                 </div>
+
                 <div>
                   <p className="mb-1">Last Name</p>
-                  <input className="w-full border rounded-xl px-3 py-2" defaultValue="Patel" />
+                  <input
+                    className="w-full border rounded-xl px-3 py-2"
+                    value={lastName || mainLastName}
+                    onChange={(e) =>
+                      dispatch(setLastName(e.target.value))
+                    }
+                  />
                 </div>
               </div>
 
               {/* Display Name */}
               <div className="mb-6">
                 <p className="mb-1">Display Name</p>
-                <input className="w-full border rounded-xl px-3 py-2" defaultValue="Tanush Patel" />
+                <input
+                  className="w-full border rounded-xl px-3 py-2"
+                  value={displayName || mainUserName}
+                  onChange={(e) =>
+                    dispatch(setDisplayName(e.target.value))
+                  }
+                />
               </div>
 
               {/* Intro */}
               <div className="mb-6">
-                <p className="mb-1">Your topmate intro (Required)</p>
+                <p className="mb-1">Your topmate intro</p>
                 <input
                   className="w-full border rounded-xl px-3 py-2"
-                  defaultValue=""
+                  value={topmateIntro}
+                  onChange={(e) =>
+                    dispatch(setTopmateIntro(e.target.value))
+                  }
                 />
               </div>
 
@@ -90,22 +172,31 @@ export default function AccountEdit(    { isOpen, onClose }) {
                 <p className="mb-1">About yourself</p>
                 <textarea
                   className="w-full border rounded-xl px-3 py-2 h-28"
-                  defaultValue=""
+                  value={aboutYourself}
+                  onChange={(e) =>
+                    dispatch(setAboutYourself(e.target.value))
+                  }
                 />
               </div>
 
-              {/* Social Links */}
+              {/* Social Link */}
               <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-3">Social Links</h3>
-                <button className="w-full border border-dashed rounded-xl py-3 flex items-center justify-center gap-2 text-gray-600">
-                  <Plus size={16} /> Add social link
-                </button>
+                <h3 className="text-xl font-semibold mb-3">Social Link</h3>
+                <input
+                  placeholder="Enter social link"
+                  className="w-full border rounded-xl px-3 py-2"
+                  value={socialLink}
+                  onChange={(e) =>
+                    dispatch(setSocialLink(e.target.value))
+                  }
+                />
               </div>
 
               {/* Actions */}
               <div className="flex justify-end gap-3">
                 <motion.button
                   whileTap={{ scale: 0.95 }}
+                  onClick={handleSave}
                   className="px-4 py-2 bg-black text-white rounded-xl"
                 >
                   Save Changes

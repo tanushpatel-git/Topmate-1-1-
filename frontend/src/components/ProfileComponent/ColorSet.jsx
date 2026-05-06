@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { X, Wand2 } from "lucide-react";
-import themeImg from "../../assets/img-theme-modal.svg"
+import { useDispatch, useSelector } from "react-redux";
+import { setColor } from "../../redux/userProfileDesign/profile";
+import themeImg from "../../assets/img-theme-modal.svg";
 
-const ColorSet = ({ isOpen = true, onClose, colors, setSelectedColor, selectedColor }) => {
+const ColorSet = ({ isOpen = true, onClose, colors }) => {
+    const dispatch = useDispatch();
+
+    // get color from Redux
+    const selectedColor = useSelector(
+        (state) => state.userProfile.color
+    );
 
     if (!isOpen) return null;
+
+    const handleSave = () => {
+        console.log("Saved Color:", selectedColor);
+        onClose();
+    };
 
     return (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
@@ -19,7 +32,15 @@ const ColorSet = ({ isOpen = true, onClose, colors, setSelectedColor, selectedCo
                     className="w-1/2 p-6 flex items-center justify-center"
                     style={{ backgroundColor: selectedColor }}
                 >
-                    <motion.img initial={{ y: 20 }} animate={{ y: -10 }} transition={{ duration: 0.5 }} src={themeImg} alt="loading..." whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} />
+                    <motion.img
+                        src={themeImg}
+                        alt="preview"
+                        initial={{ y: 20 }}
+                        animate={{ y: -10 }}
+                        transition={{ duration: 0.5 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    />
                 </div>
 
                 {/* RIGHT PANEL */}
@@ -32,7 +53,9 @@ const ColorSet = ({ isOpen = true, onClose, colors, setSelectedColor, selectedCo
                         <X size={24} />
                     </button>
 
-                    <h1 className="text-4xl font-bold mb-4">Brand your page</h1>
+                    <h1 className="text-4xl font-bold mb-4">
+                        Brand your page
+                    </h1>
                     <p className="text-gray-500 mb-6">
                         Customize and style your profile colors to your Brand
                     </p>
@@ -43,8 +66,10 @@ const ColorSet = ({ isOpen = true, onClose, colors, setSelectedColor, selectedCo
                             <motion.button
                                 key={i}
                                 whileTap={{ scale: 0.9 }}
-                                onClick={() => setSelectedColor(color)}
-                                className={`w-12 h-12 rounded-lg border-2 ${selectedColor === color ? "border-black" : "border-gray-200"
+                                onClick={() => dispatch(setColor(color))}
+                                className={`w-12 h-12 rounded-lg border-2 ${selectedColor === color
+                                    ? "border-black"
+                                    : "border-gray-200"
                                     }`}
                                 style={{ backgroundColor: color }}
                             />
@@ -57,7 +82,9 @@ const ColorSet = ({ isOpen = true, onClose, colors, setSelectedColor, selectedCo
                             <div className="bg-gray-100 p-3 rounded-lg">
                                 <Wand2 size={18} />
                             </div>
-                            <span className="font-medium">Select your theme</span>
+                            <span className="font-medium">
+                                Select your theme
+                            </span>
                         </div>
 
                         <div
@@ -69,6 +96,7 @@ const ColorSet = ({ isOpen = true, onClose, colors, setSelectedColor, selectedCo
                     {/* SAVE BUTTON */}
                     <motion.button
                         whileHover={{ scale: 1.02 }}
+                        onClick={handleSave}
                         className="w-full bg-black text-white py-4 rounded-xl text-lg font-semibold"
                     >
                         Save Changes
