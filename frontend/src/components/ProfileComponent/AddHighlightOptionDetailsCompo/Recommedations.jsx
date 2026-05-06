@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
     ExternalLink
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import badgeRecommendation from '../../../assets/badge-recommendation.svg'
+import { useDispatch, useSelector } from "react-redux";
+import { setRecomdation } from "../../../redux/userProfileDesign/profile";
 
 export default function Recommedations() {
-    const [text, setText] = useState("");
-    const [from, setFrom] = useState("");
+    const dispatch = useDispatch();
+    const { recomdation } = useSelector((state) => state.userProfile);
+    const [text, setText] = useState(recomdation.recomdationText);
+    const [from, setFrom] = useState(recomdation.from);
+
+    const handleAddHighlight = () => {
+        dispatch(setRecomdation({
+            recomdationText: text,
+            from: from
+        }));
+    };
 
     return (
         <div className="w-full max-w-5xl max-h-[80vh] flex rounded-3xl overflow-hidden bg-white">
@@ -92,6 +103,7 @@ export default function Recommedations() {
                 {/* Bottom Button */}
                 <motion.button
                     whileTap={{ scale: 0.97 }}
+                    onClick={handleAddHighlight}
                     className="w-full bg-black text-white py-4 rounded-xl text-lg font-medium"
                 >
                     Add Highlight

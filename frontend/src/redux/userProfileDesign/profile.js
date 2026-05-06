@@ -63,7 +63,10 @@ const userProfileSlice = createSlice({
             state.socialLink = action.payload;
         },
         setRecomdation: (state, action) => {
-            state.recomdation = action.payload;
+            state.recomdation = {
+                ...state.recomdation,
+                ...action.payload
+            };
         },
         setHighlightLink: (state, action) => {
             state.highlightLink = action.payload;
