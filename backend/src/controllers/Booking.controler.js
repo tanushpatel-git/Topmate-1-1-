@@ -60,7 +60,7 @@ const createBooking = async (req, res) => {
 };
 
 
- const getSeekerBookings = async (req, res) => {
+const getSeekerBookings = async (req, res) => {
   try {
     const { seekerId } = req.params;
 
@@ -83,7 +83,7 @@ const createBooking = async (req, res) => {
 
 
 
- const getCreatorBookings = async (req, res) => {
+const getCreatorBookings = async (req, res) => {
   try {
     const { creatorId } = req.params;
 
@@ -136,7 +136,7 @@ const confirmBooking = async (req, res) => {
 
     const booking = await Booking.findByIdAndUpdate(
       bookingId,
-      { 
+      {
         status: "confirmed",
         meetingLink: "https://meet.link/xyz" // later dynamic
       },
