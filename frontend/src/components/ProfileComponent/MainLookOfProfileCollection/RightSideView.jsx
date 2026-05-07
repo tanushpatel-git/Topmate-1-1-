@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const RightSideView = () => {
 
-    const { recomdation, aboutYourself } = useSelector((state) => state.userProfile);
+    const { recomdation, aboutYourself,offer,donation,highlightLink,testimonial } = useSelector((state) => state.userProfile);
 
     return (
         <div className="h-[91vh] absolute right-1 top-19 w-[52.3%] bg-[#EFECE3]">

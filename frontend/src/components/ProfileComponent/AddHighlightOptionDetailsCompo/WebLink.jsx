@@ -6,6 +6,7 @@ export default function WebLink() {
     const [url, setUrl] = useState("");
     const [getDetail, setGetDetail] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
+    
 
     return (
         <div className="w-full max-w-5xl h-[420px] flex rounded-3xl overflow-hidden bg-white">

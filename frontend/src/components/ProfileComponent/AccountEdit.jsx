@@ -30,7 +30,7 @@ export default function AccountEdit({ isOpen, onClose }) {
     console.log("Saved Profile:", {
       firstName: firstName || mainName,
       lastName: lastName || mainLastName,
-      displayName: displayName || mainDisplayName,
+      displayName: displayName || mainUserName,
       topmateIntro,
       aboutYourself,
       socialLink,
@@ -108,10 +108,8 @@ export default function AccountEdit({ isOpen, onClose }) {
                   </span>
                   <input
                     className="flex-1 px-3 py-2 outline-none"
-                    value={displayName || mainUserName}
-                    onChange={(e) =>
-                      dispatch(setDisplayName(e.target.value))
-                    }
+                    value={mainUserName}
+                    disabled
                   />
                   <Check className="mr-2" size={16} />
                   <ExternalLink className="mr-3" size={16} />
@@ -124,7 +122,8 @@ export default function AccountEdit({ isOpen, onClose }) {
                   <p className="mb-1">First Name</p>
                   <input
                     className="w-full border rounded-xl px-3 py-2"
-                    value={firstName || mainName}
+                    value={firstName}
+                    placeholder={mainName}
                     onChange={(e) =>
                       dispatch(setFirstName(e.target.value))
                     }
@@ -135,7 +134,8 @@ export default function AccountEdit({ isOpen, onClose }) {
                   <p className="mb-1">Last Name</p>
                   <input
                     className="w-full border rounded-xl px-3 py-2"
-                    value={lastName || mainLastName}
+                    value={lastName}
+                    placeholder={mainLastName}
                     onChange={(e) =>
                       dispatch(setLastName(e.target.value))
                     }
@@ -148,7 +148,8 @@ export default function AccountEdit({ isOpen, onClose }) {
                 <p className="mb-1">Display Name</p>
                 <input
                   className="w-full border rounded-xl px-3 py-2"
-                  value={displayName || mainUserName}
+                  value={displayName}
+                  placeholder={mainUserName}
                   onChange={(e) =>
                     dispatch(setDisplayName(e.target.value))
                   }

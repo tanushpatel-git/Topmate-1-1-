@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Quote } from "lucide-react";
+import { Quote } from "lucide-react";
 
 export default function HighlightTestimonial() {
   const [text, setText] = useState("");

@@ -11,6 +11,7 @@ const initialState = {
     topmateIntro: "",
     aboutYourself: "",
     socialLink: "",
+    userNameLink:"",
     recomdation: {
         form: "",
         recomdationText: "",
@@ -68,6 +69,9 @@ const userProfileSlice = createSlice({
                 ...action.payload
             };
         },
+        setUserNameLink: (state, action) => {
+            state.userNameLink = action.payload;
+        },
         setHighlightLink: (state, action) => {
             state.highlightLink = action.payload;
         },
@@ -104,6 +108,7 @@ export const {
     setAboutYourself,
     setSocialLink,
     setRecomdation,
+    setUserNameLink,
     setHighlightLink,
     setTestimonial,
     setOffer,
