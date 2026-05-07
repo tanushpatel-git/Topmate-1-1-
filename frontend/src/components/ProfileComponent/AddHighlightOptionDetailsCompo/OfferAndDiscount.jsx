@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import discount_highlight from "../../../assets/discount-highlight.png";
+import { useDispatch } from "react-redux";
+import { setOffer } from "../../../redux/userProfileDesign/profile";
 
 export default function OfferAndDiscount() {
-    const [offer, setOffer] = useState("");
+    const [offerText, setOfferText] = useState("");
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(setOffer(offerText));
+    }
 
     return (
         <div className="w-full max-w-5xl h-[420px] flex rounded-3xl overflow-hidden bg-white">
@@ -20,7 +27,7 @@ export default function OfferAndDiscount() {
                     <div className="w-full bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
 
                         <p className="text-gray-700 text-lg">
-                            {offer || "Add note..."}
+                            {offerText || "Add note..."}
                         </p>
 
                         <div className="w-20 h-20 rounded-xl flex items-center justify-center">
@@ -43,8 +50,8 @@ export default function OfferAndDiscount() {
                             Offer
                         </label>
                         <textarea
-                            value={offer}
-                            onChange={(e) => setOffer(e.target.value)}
+                            value={offerText}
+                            onChange={(e) => setOfferText(e.target.value)}
                             placeholder="All services discounted for the week, go grab!"
                             className="w-full h-24 p-4 rounded-xl border border-gray-300 bg-gray-200 outline-none resize-none"
                         />
@@ -54,8 +61,9 @@ export default function OfferAndDiscount() {
                 {/* Bottom Button */}
                 <motion.button
                     whileTap={{ scale: 0.97 }}
-                    disabled={!offer}
-                    className={`w-full py-4 rounded-xl text-lg font-medium transition ${offer
+                    disabled={!offerText}
+                    onClick={handleClick}
+                    className={`w-full py-4 rounded-xl text-lg font-medium transition ${offerText
                         ? "bg-black text-white"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}

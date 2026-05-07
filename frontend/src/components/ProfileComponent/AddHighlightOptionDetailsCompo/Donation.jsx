@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import give_charity_icon from "../../../assets/give-charity.2efae26c.svg"
+import { setDonation } from "../../../redux/userProfileDesign/profile";
+import { useDispatch } from "react-redux";
 
 export default function Donation() {
   const [pledge, setPledge] = useState("");
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(setDonation(pledge));
+  }
 
   return (
     <div className="w-full max-w-5xl h-[420px] flex rounded-3xl overflow-hidden bg-white">
@@ -23,7 +30,7 @@ export default function Donation() {
               {pledge || "Your donation pledge"}
             </p>
 
-            <img 
+            <img
               src={give_charity_icon}
               alt="Give Charity Icon"
               className="w-20 h-20 rounded-xl"
@@ -61,11 +68,11 @@ export default function Donation() {
         <motion.button
           whileTap={{ scale: 0.97 }}
           disabled={!pledge}
-          className={`w-full py-4 rounded-xl text-lg font-medium transition ${
-            pledge
-              ? "bg-black text-white"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          onClick={handleClick}
+          className={`w-full py-4 rounded-xl text-lg font-medium transition ${pledge
+            ? "bg-black text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
         >
           Add Highlight
         </motion.button>

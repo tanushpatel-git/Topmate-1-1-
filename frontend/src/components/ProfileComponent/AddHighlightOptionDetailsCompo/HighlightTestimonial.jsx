@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { setTestimonial } from "../../../redux/userProfileDesign/profile";
 
 export default function HighlightTestimonial() {
   const [text, setText] = useState("");
   const [from, setFrom] = useState("");
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(setTestimonial({ testimonialText: text, from: from }));
+  }
 
   return (
     <div className="w-full max-w-5xl h-[420px] flex rounded-3xl overflow-hidden bg-white">
@@ -77,11 +84,11 @@ export default function HighlightTestimonial() {
         <motion.button
           whileTap={{ scale: 0.97 }}
           disabled={!text}
-          className={`w-full py-4 rounded-xl text-lg font-medium transition ${
-            text
-              ? "bg-black text-white"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          onClick={handleClick}
+          className={`w-full py-4 rounded-xl text-lg font-medium transition ${text
+            ? "bg-black text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
         >
           Add Highlight
         </motion.button>

@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { setHighlightLink } from "../../../redux/userProfileDesign/profile";
 
 export default function WebLink() {
     const [url, setUrl] = useState("");
     const [getDetail, setGetDetail] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
-    
+    const dispatch = useDispatch();
+
+    const handleAddHighlight = () => {
+        if (getDetail) {
+            dispatch(setHighlightLink({ url: url, imageUrl: imageUrl }))
+        }
+        else {
+            dispatch(setHighlightLink({ url: url, imageUrl: null }))
+        }
+    };
+
 
     return (
         <div className="w-full max-w-5xl h-[420px] flex rounded-3xl overflow-hidden bg-white">
@@ -78,6 +90,7 @@ export default function WebLink() {
                 <motion.button
                     whileTap={{ scale: 0.97 }}
                     disabled={!url}
+                    onClick={handleAddHighlight}
                     className={`w-full py-4 rounded-xl text-lg font-medium transition ${url
                             ? "bg-black text-white"
                             : "bg-gray-300 text-gray-500 cursor-not-allowed"

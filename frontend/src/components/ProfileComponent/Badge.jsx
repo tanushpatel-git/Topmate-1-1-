@@ -17,10 +17,6 @@ const Badge = ({ isOpen, onClose }) => {
                             <h1 className="text-3xl font-semibold text-black">Badges</h1>
 
                             <div className="flex items-center gap-6">
-                                <button className="text-gray-700 underline hover:text-black">
-                                    Edit
-                                </button>
-
                                 <button onClick={() => onClose()} className="bg-gray-200 p-3 rounded-xl hover:bg-gray-300 transition">
                                     <X size={20} />
                                 </button>

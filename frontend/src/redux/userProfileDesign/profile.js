@@ -11,7 +11,7 @@ const initialState = {
     topmateIntro: "",
     aboutYourself: "",
     socialLink: "",
-    userNameLink:"",
+    userNameLink: "",
     recomdation: {
         form: "",
         recomdationText: "",
@@ -73,10 +73,16 @@ const userProfileSlice = createSlice({
             state.userNameLink = action.payload;
         },
         setHighlightLink: (state, action) => {
-            state.highlightLink = action.payload;
+            state.highlightLink = {
+                ...state.highlightLink,
+                ...action.payload
+            };
         },
         setTestimonial: (state, action) => {
-            state.testimonial = action.payload;
+            state.testimonial = {
+                ...state.testimonial,
+                ...action.payload
+            };
         },
         setOffer: (state, action) => {
             state.offer = action.payload;

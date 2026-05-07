@@ -110,8 +110,8 @@ export default function AddHighlight({ isOpen = false, onClose }) {
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <AnimatePresence>
         {isOpen && (
-            <motion.div
-              className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
+          <motion.div
+            className="fixed inset-0 bg-black/40 flex items-center justify-center z-[100]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
