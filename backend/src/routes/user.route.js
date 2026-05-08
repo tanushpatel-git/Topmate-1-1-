@@ -14,7 +14,7 @@ router.post('/logout', logout);
 router.get('/delete-account', deleteAccount);
 router.get('/get-all-users', getAllUsers);
 router.post('/update-profile', updateAccount);
-router.patch('/update-settings', updateUserSettings);
+router.post('/update-settings', updateUserSettings);
 router.get("/marketplace", getMarketplaceData);
 
 module.exports = router;

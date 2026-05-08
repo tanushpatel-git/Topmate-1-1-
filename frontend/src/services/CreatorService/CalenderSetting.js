@@ -7,7 +7,7 @@ const CalenderSetting = async (data) => {
 
   console.log("Sending Data:", data);
 
-  const res = await axiosInstance.patch("/user/update-settings", data);
+  const res = await axiosInstance.post("/user/update-settings", data);
 
   console.log("Response:", res.data);
 

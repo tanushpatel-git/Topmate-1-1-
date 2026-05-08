@@ -6,7 +6,7 @@ const useCreatorCalender = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: CalenderSetting,
+    mutationFn: (data) => CalenderSetting(data),
 
     onSuccess: (data) => {
       console.log("✅ Success:", data);
