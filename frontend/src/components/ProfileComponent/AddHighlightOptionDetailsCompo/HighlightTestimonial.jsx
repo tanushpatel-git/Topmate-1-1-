@@ -3,14 +3,24 @@ import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { setTestimonial } from "../../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function HighlightTestimonial() {
   const [text, setText] = useState("");
   const [from, setFrom] = useState("");
+  const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     dispatch(setTestimonial({ testimonialText: text, from: from }));
+    setSaving(true);
+    try {
+      await updateProfileDesign({ testimonial: { testimonialText: text, from } });
+    } catch (err) {
+      console.error("Failed to save testimonial", err);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -83,14 +93,14 @@ export default function HighlightTestimonial() {
         {/* Bottom Button */}
         <motion.button
           whileTap={{ scale: 0.97 }}
-          disabled={!text}
+          disabled={!text || saving}
           onClick={handleClick}
-          className={`w-full py-4 rounded-xl text-lg font-medium transition ${text
+          className={`w-full py-4 rounded-xl text-lg font-medium transition ${text && !saving
             ? "bg-black text-white"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
         >
-          Add Highlight
+          {saving ? "Saving..." : "Add Highlight"}
         </motion.button>
       </div>
     </div>

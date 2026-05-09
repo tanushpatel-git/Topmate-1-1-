@@ -44,7 +44,7 @@ const userProfileSchema = new mongoose.Schema({
         trim: true
     },
     recomdation: {
-        form: {
+        from: {
             type: String,
             trim: true
         },
@@ -64,7 +64,7 @@ const userProfileSchema = new mongoose.Schema({
         },
     },
     testimonial: {
-        form: {
+        from: {
             type: String,
             trim: true
         },

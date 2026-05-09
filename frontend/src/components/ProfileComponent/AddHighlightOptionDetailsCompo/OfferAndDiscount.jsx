@@ -3,13 +3,23 @@ import { motion } from "framer-motion";
 import discount_highlight from "../../../assets/discount-highlight.png";
 import { useDispatch } from "react-redux";
 import { setOffer } from "../../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function OfferAndDiscount() {
     const [offerText, setOfferText] = useState("");
+    const [saving, setSaving] = useState(false);
     const dispatch = useDispatch();
 
-    const handleClick = () => {
+    const handleClick = async () => {
         dispatch(setOffer(offerText));
+        setSaving(true);
+        try {
+            await updateProfileDesign({ offer: offerText });
+        } catch (err) {
+            console.error("Failed to save offer", err);
+        } finally {
+            setSaving(false);
+        }
     }
 
     return (
@@ -61,14 +71,14 @@ export default function OfferAndDiscount() {
                 {/* Bottom Button */}
                 <motion.button
                     whileTap={{ scale: 0.97 }}
-                    disabled={!offerText}
+                    disabled={!offerText || saving}
                     onClick={handleClick}
-                    className={`w-full py-4 rounded-xl text-lg font-medium transition ${offerText
+                    className={`w-full py-4 rounded-xl text-lg font-medium transition ${offerText && !saving
                         ? "bg-black text-white"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}
                 >
-                    Add Highlight
+                    {saving ? "Saving..." : "Add Highlight"}
                 </motion.button>
             </div>
         </div>

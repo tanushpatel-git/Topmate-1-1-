@@ -1,22 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Reorder } from "framer-motion";
 import { X, GripVertical } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { setServices } from "../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../services/userAuthServices/profileDesignService";
 
 export default function ArrangmentOfServicePrice({ isOpen, onClose }) {
+    const dispatch = useDispatch();
     const [orderType, setOrderType] = useState("low-high");
+    const [saving, setSaving] = useState(false);
 
-    const [services, setServices] = useState([
-        { id: 1, title: "15 mins video call", subtitle: "Video Call", price: 199 },
-        { id: 2, title: "30 mins consultation", subtitle: "Consultation", price: 399 },
-        { id: 3, title: "1 hour mentoring", subtitle: "Mentorship", price: 999 }
-    ]);
+    const services = useSelector((state) => state.userProfile.services || []);
+    const [localServices, setLocalServices] = useState(services);
+
+    useEffect(() => {
+        setLocalServices(services);
+    }, [services]);
 
     const sortServices = (type) => {
         setOrderType(type);
-        const sorted = [...services].sort((a, b) =>
+        const sorted = [...localServices].sort((a, b) =>
             type === "low-high" ? a.price - b.price : b.price - a.price
         );
-        setServices(sorted);
+        setLocalServices(sorted);
     };
 
     return (
@@ -82,11 +88,11 @@ export default function ArrangmentOfServicePrice({ isOpen, onClose }) {
 
                                 <Reorder.Group
                                     axis="y"
-                                    values={services}
-                                    onReorder={setServices}
+                                    values={localServices}
+                                    onReorder={setLocalServices}
                                     className="space-y-3"
                                 >
-                                    {services.map((item) => (
+                                    {localServices.map((item) => (
                                         <Reorder.Item
                                             key={item.id}
                                             value={item}
@@ -108,9 +114,22 @@ export default function ArrangmentOfServicePrice({ isOpen, onClose }) {
                             {/* Save */}
                             <motion.button
                                 whileTap={{ scale: 0.95 }}
-                                className="w-full bg-black text-white py-3 rounded-xl"
+                                onClick={async () => {
+                                    dispatch(setServices(localServices));
+                                    setSaving(true);
+                                    try {
+                                        await updateProfileDesign({ services: localServices });
+                                    } catch (err) {
+                                        console.error("Failed to save services", err);
+                                    } finally {
+                                        setSaving(false);
+                                        onClose();
+                                    }
+                                }}
+                                disabled={saving}
+                                className={`w-full py-3 rounded-xl ${saving ? "bg-gray-400" : "bg-black text-white"}`}
                             >
-                                Save
+                                {saving ? "Saving..." : "Save"}
                             </motion.button>
                         </motion.div>
                     </motion.div>

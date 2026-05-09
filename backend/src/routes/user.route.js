@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getUser, signUp, signIn, signInWithGoogle, emailCheckReq, otpCheck, logout, deleteAccount, updateAccount, updateUserSettings, getAllUsers, getMarketplaceData } = require("../controllers/user.controler.js");
+const { makeProfileDesign, getProfileDesign } = require("../controllers/userProfileDesign.controller.js");
 
 
 // Routes
@@ -16,5 +17,7 @@ router.get('/get-all-users', getAllUsers);
 router.post('/update-profile', updateAccount);
 router.post('/update-settings', updateUserSettings);
 router.get("/marketplace", getMarketplaceData);
+router.get("/profile-design", getProfileDesign);
+router.post("/profile-design", makeProfileDesign);
 
 module.exports = router;

@@ -13,7 +13,7 @@ const initialState = {
     socialLink: "",
     userNameLink: "",
     recomdation: {
-        form: "",
+        from: "",
         recomdationText: "",
     },
     highlightLink: {
@@ -21,7 +21,7 @@ const initialState = {
         imageUrl: "",
     },
     testimonial: {
-        form: "",
+        from: "",
         testimonialText: "",
     },
     offer: "",
@@ -37,7 +37,24 @@ const userProfileSlice = createSlice({
     initialState,
     reducers: {
         setUserProfile: (state, action) => {
-            state.user = action.payload;
+            const data = action.payload;
+            if (data.user) state.user = data.user;
+            if (data.color) state.color = data.color;
+            if (data.profileImage) state.profileImage = data.profileImage;
+            if (data.firstName !== undefined) state.firstName = data.firstName;
+            if (data.lastName !== undefined) state.lastName = data.lastName;
+            if (data.displayName !== undefined) state.displayName = data.displayName;
+            if (data.topmateIntro !== undefined) state.topmateIntro = data.topmateIntro;
+            if (data.aboutYourself !== undefined) state.aboutYourself = data.aboutYourself;
+            if (data.socialLink !== undefined) state.socialLink = data.socialLink;
+            if (data.recomdation) state.recomdation = { ...state.recomdation, ...data.recomdation };
+            if (data.highlightLink) state.highlightLink = { ...state.highlightLink, ...data.highlightLink };
+            if (data.testimonial) state.testimonial = { ...state.testimonial, ...data.testimonial };
+            if (data.offer !== undefined) state.offer = data.offer;
+            if (data.donation !== undefined) state.donation = data.donation;
+            if (data.services) state.services = data.services;
+            if (data.badges) state.badges = data.badges;
+            if (data.imageFun) state.imageFun = data.imageFun;
         },
         setColor: (state, action) => {
             state.color = action.payload;

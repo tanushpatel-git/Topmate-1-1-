@@ -3,13 +3,23 @@ import { motion } from "framer-motion";
 import give_charity_icon from "../../../assets/give-charity.2efae26c.svg"
 import { setDonation } from "../../../redux/userProfileDesign/profile";
 import { useDispatch } from "react-redux";
+import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function Donation() {
   const [pledge, setPledge] = useState("");
+  const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     dispatch(setDonation(pledge));
+    setSaving(true);
+    try {
+      await updateProfileDesign({ donation: pledge });
+    } catch (err) {
+      console.error("Failed to save donation", err);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -67,14 +77,14 @@ export default function Donation() {
         {/* Bottom Button */}
         <motion.button
           whileTap={{ scale: 0.97 }}
-          disabled={!pledge}
+          disabled={!pledge || saving}
           onClick={handleClick}
-          className={`w-full py-4 rounded-xl text-lg font-medium transition ${pledge
+          className={`w-full py-4 rounded-xl text-lg font-medium transition ${pledge && !saving
             ? "bg-black text-white"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
         >
-          Add Highlight
+          {saving ? "Saving..." : "Add Highlight"}
         </motion.button>
       </div>
     </div>

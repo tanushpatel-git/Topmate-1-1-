@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X, Wand2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setColor } from "../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../services/userAuthServices/profileDesignService";
 import themeImg from "../../assets/img-theme-modal.svg";
 
 const ColorSet = ({ isOpen = true, onClose, colors }) => {
     const dispatch = useDispatch();
+    const [saving, setSaving] = useState(false);
 
     // get color from Redux
     const selectedColor = useSelector(
@@ -15,9 +17,16 @@ const ColorSet = ({ isOpen = true, onClose, colors }) => {
 
     if (!isOpen) return null;
 
-    const handleSave = () => {
-        console.log("Saved Color:", selectedColor);
-        onClose();
+    const handleSave = async () => {
+        setSaving(true);
+        try {
+            await updateProfileDesign({ color: selectedColor });
+        } catch (err) {
+            console.error("Failed to save color", err);
+        } finally {
+            setSaving(false);
+            onClose();
+        }
     };
 
     return (
@@ -97,9 +106,10 @@ const ColorSet = ({ isOpen = true, onClose, colors }) => {
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         onClick={handleSave}
-                        className="w-full bg-black text-white py-4 rounded-xl text-lg font-semibold"
+                        disabled={saving}
+                        className={`w-full py-4 rounded-xl text-lg font-semibold ${saving ? "bg-gray-400" : "bg-black text-white"}`}
                     >
-                        Save Changes
+                        {saving ? "Saving..." : "Save Changes"}
                     </motion.button>
                 </div>
             </motion.div>

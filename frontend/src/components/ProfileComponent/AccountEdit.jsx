@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Upload, Plus, Check, ExternalLink } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 import {
   setFirstName,
   setLastName,
@@ -10,9 +11,11 @@ import {
   setSocialLink,
   setProfileImage,
 } from "../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../services/userAuthServices/profileDesignService";
 
 export default function AccountEdit({ isOpen, onClose }) {
   const dispatch = useDispatch();
+  const [saving, setSaving] = useState(false);
 
   const {
     firstName,
@@ -26,18 +29,24 @@ export default function AccountEdit({ isOpen, onClose }) {
 
   const { firstName: mainName, lastName: mainLastName, userName: mainUserName } = useSelector((state) => state.userData);
 
-  const handleSave = () => {
-    console.log("Saved Profile:", {
-      firstName: firstName || mainName,
-      lastName: lastName || mainLastName,
-      displayName: displayName || mainUserName,
-      topmateIntro,
-      aboutYourself,
-      socialLink,
-      profileImage,
-    });
-
-    onClose();
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await updateProfileDesign({
+        firstName: firstName || mainName,
+        lastName: lastName || mainLastName,
+        displayName: displayName || mainUserName,
+        topmateIntro,
+        aboutYourself,
+        socialLink,
+        profileImage,
+      });
+    } catch (err) {
+      console.error("Failed to save profile", err);
+    } finally {
+      setSaving(false);
+      onClose();
+    }
   };
 
   return (
@@ -198,9 +207,10 @@ export default function AccountEdit({ isOpen, onClose }) {
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   onClick={handleSave}
-                  className="px-4 py-2 bg-black text-white rounded-xl"
+                  disabled={saving}
+                  className={`px-4 py-2 rounded-xl ${saving ? "bg-gray-400" : "bg-black text-white"}`}
                 >
-                  Save Changes
+                  {saving ? "Saving..." : "Save Changes"}
                 </motion.button>
               </div>
             </motion.div>

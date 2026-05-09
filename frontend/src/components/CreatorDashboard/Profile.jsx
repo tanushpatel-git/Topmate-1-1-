@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProfileNavbar from "../ProfileComponent/ProfileNavbar";
 import ColorSet from "../ProfileComponent/ColorSet";
 import AccountEdit from "../ProfileComponent/AccountEdit";
 import AddHighlight from "../ProfileComponent/AddHighlight";
 import Badge from "../ProfileComponent/Badge";
-import { useState } from "react";
 import ArrangmentOfServicePrice from "../ProfileComponent/ArrangmentOfServicePrice";
 import MainProfile from "../ProfileComponent/MainLookOfProfileCollection/MainProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserProfile, setColor } from "../../redux/userProfileDesign/profile";
+import { getProfileDesign } from "../../services/userAuthServices/profileDesignService";
 
 
 const colors = [
@@ -18,16 +20,37 @@ const colors = [
 ];
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const savedColor = useSelector((state) => state.userProfile.color);
 
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
   const [open4, setOpen4] = useState(false);
   const [open5, setOpen5] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(colors[4]);
+  const [selectedColor, setSelectedColor] = useState(savedColor || colors[4]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await getProfileDesign();
+        if (res.status && res.data) {
+          dispatch(setUserProfile(res.data));
+          setSelectedColor(res.data.color || colors[4]);
+        }
+      } catch (err) {
+        console.error("Failed to load profile design", err);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    dispatch(setColor(selectedColor));
+  }, [selectedColor]);
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-auto flex flex-col scroll-smooth">
       <ProfileNavbar
         onClose4={() => setOpen4(!open4)}
         onClose3={() => setOpen3(!open3)}

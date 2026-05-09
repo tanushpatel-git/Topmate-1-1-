@@ -3,19 +3,27 @@ import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { setHighlightLink } from "../../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function WebLink() {
     const [url, setUrl] = useState("");
     const [getDetail, setGetDetail] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
+    const [saving, setSaving] = useState(false);
     const dispatch = useDispatch();
 
-    const handleAddHighlight = () => {
-        if (getDetail) {
-            dispatch(setHighlightLink({ url: url, imageUrl: imageUrl }))
-        }
-        else {
-            dispatch(setHighlightLink({ url: url, imageUrl: null }))
+    const handleAddHighlight = async () => {
+        const payload = getDetail
+            ? { url, imageUrl }
+            : { url, imageUrl: null };
+        dispatch(setHighlightLink(payload));
+        setSaving(true);
+        try {
+            await updateProfileDesign({ highlightLink: payload });
+        } catch (err) {
+            console.error("Failed to save web link", err);
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -89,14 +97,14 @@ export default function WebLink() {
                 {/* Bottom Button */}
                 <motion.button
                     whileTap={{ scale: 0.97 }}
-                    disabled={!url}
+                    disabled={!url || saving}
                     onClick={handleAddHighlight}
-                    className={`w-full py-4 rounded-xl text-lg font-medium transition ${url
+                    className={`w-full py-4 rounded-xl text-lg font-medium transition ${url && !saving
                             ? "bg-black text-white"
                             : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}
                 >
-                    Add Highlight
+                    {saving ? "Saving..." : "Add Highlight"}
                 </motion.button>
             </div>
         </div>

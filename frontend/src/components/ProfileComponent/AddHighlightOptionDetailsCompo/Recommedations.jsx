@@ -7,18 +7,28 @@ import { Link } from "react-router-dom";
 import badgeRecommendation from '../../../assets/badge-recommendation.svg'
 import { useDispatch, useSelector } from "react-redux";
 import { setRecomdation } from "../../../redux/userProfileDesign/profile";
+import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function Recommedations() {
     const dispatch = useDispatch();
+    const [saving, setSaving] = useState(false);
     const { recomdation } = useSelector((state) => state.userProfile);
     const [text, setText] = useState(recomdation.recomdationText);
     const [from, setFrom] = useState(recomdation.from);
 
-    const handleAddHighlight = () => {
+    const handleAddHighlight = async () => {
         dispatch(setRecomdation({
             recomdationText: text,
             from: from
         }));
+        setSaving(true);
+        try {
+            await updateProfileDesign({ recomdation: { recomdationText: text, from } });
+        } catch (err) {
+            console.error("Failed to save recommendation", err);
+        } finally {
+            setSaving(false);
+        }
     };
 
     return (
@@ -104,9 +114,10 @@ export default function Recommedations() {
                 <motion.button
                     whileTap={{ scale: 0.97 }}
                     onClick={handleAddHighlight}
-                    className="w-full bg-black text-white py-4 rounded-xl text-lg font-medium"
+                    disabled={saving}
+                    className={`w-full py-4 rounded-xl text-lg font-medium ${saving ? "bg-gray-400" : "bg-black text-white"}`}
                 >
-                    Add Highlight
+                    {saving ? "Saving..." : "Add Highlight"}
                 </motion.button>
             </div>
         </div>

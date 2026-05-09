@@ -13,7 +13,7 @@ const RightSideView = () => {
     const { recomdation, aboutYourself, offer, donation, highlightLink, testimonial } = useSelector((state) => state.userProfile);
 
     return (
-        <div className="h-[91vh] absolute right-1 top-19 w-[52.3%] bg-[#EFECE3]">
+        <div className="h-[91vh] absolute right-1 overflow-auto top-19 w-[52.3%] bg-[#EFECE3]">
             <div className="w-full pt-5 pl-10">
                 {recomdation.recomdationText && recomdation.from && (
                     <div className="w-100 h-40 flex flex-col bg-white rounded-2xl">
@@ -25,7 +25,7 @@ const RightSideView = () => {
                     </div>
                 )}
                 {highlightLink.url && (<div
-                    className="flex-1 flex items-center"
+                    className="flex-1 mt-5 flex items-center"
                 >
                     <div className="w-[30vw] bg-gray-100 rounded-3xl p-8 flex items-center justify-between shadow">
 
@@ -42,7 +42,7 @@ const RightSideView = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex-1 flex items-center"
+                        className="flex-1 flex mt-5 items-center"
                     >
                         <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 shadow flex flex-col justify-center gap-4">
 
@@ -63,7 +63,7 @@ const RightSideView = () => {
                 {donation && (<motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex-1 flex items-center"
+                    className="flex-1 flex mt-5 items-center"
                 >
                     <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
 
@@ -81,7 +81,7 @@ const RightSideView = () => {
                 {offer && (<motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex-1 flex items-center"
+                    className="flex-1 flex mt-5 items-center"
                 >
                     <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
 
@@ -94,20 +94,20 @@ const RightSideView = () => {
                         </div>
                     </div>
                 </motion.div>)}
-                {aboutYourself && <>
-                    <div className="mt-5">
-                        <div className="w-full flex flex-col">
-                            <h1 className="text-4xl font-bold">About me</h1>
-                            <p className="pt-2 text-xl text-black">{aboutYourself}</p>
-                        </div>
+                {aboutYourself && <div className="mt-5 mb-5">
+
+                    <div className="w-full flex flex-col">
+                        <h1 className="text-4xl font-bold">About me</h1>
+                        <p className="pt-2 text-xl text-black">{aboutYourself}</p>
                     </div>
+
                     <div className="mt-5 h-px w-[95%] bg-gray-400" />
                     <div className="flex gap-3">
                         <Link>Term</Link>
                         <span>|</span>
                         <Link>Privacy</Link>
                     </div>
-                </>}
+                </div>}
             </div>
         </div >
     );
