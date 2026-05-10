@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+
 import {
   HiOutlineCalendar,
   HiOutlineMail,
@@ -10,19 +11,22 @@ import {
 import img from '../../assets/create-service1.svg'
 import { useNavigate } from "react-router-dom";
 import AddServiceHook from "../../hooks/AddServiceHook";
-
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+
+
 
 const CreateService = () => {
 
   const navigate = useNavigate();
-
   const { mutate: createService, isPending: isCreatePending } = AddServiceHook();
-  const [selected, setSelected] = useState("priorityDm");
+  const [selected, setSelected] = useState("one-to-one");
   const activeFilter = selected;
   const [currentStep, setCurrentStep] = useState(1);
 const { category } = useParams();
-
+const userData = useSelector((state) => state.userData);
+  console.log(userData?.userId || "No user data found");
 
   const [formData, setFormData] = useState({
     category: selected,
@@ -42,31 +46,35 @@ const { category } = useParams();
   };
   
 const handleSubmit = () => {
-  if (!formData.title || !formData.price) {
+
+  if (!formData.title) {
     alert("Fill required fields");
     return;
   }
 
-  createService(
-    {
-      ...formData,
-      category: selected,
-    },
-    {
-      onSuccess: (data) => {
-        if (data.status) {
-          navigate(
-            `/creator-dashboard/services/${selected}/edit/${data.service._id}`
-          );
+  const formDataToSend = new FormData();
 
-        }
-      },
-    }
-  );
+  formDataToSend.append("user", userData?.userId);
+  formDataToSend.append("title", formData.title);
+  formDataToSend.append("category", selected);
+  formDataToSend.append("duration", formData.duration);
+  formDataToSend.append("price", formData.price);
+
+  createService(formDataToSend, {
+    onSuccess: (data) => {
+
+      if (data.success) {
+
+        navigate(
+          `/creator-dashboard/services/${selected}/edit/${data.service._id}`
+        );
+
+      }
+    },
+  });
 };
 
-
-  const filter = [
+const filter = [
     {
       title: "1:1 Call",
       desc: "Conduct 1:1 video sessions",
@@ -138,7 +146,7 @@ const handleFilterChange = (value) => {
       <div className="flex px-10 py-8 gap-8">
 
         {/* LEFT SIDE */}
-        <div className="w-[40%]">
+        <div className="w-[40%] ">
 
           {/* Select Type */}
           <h2 className="text-lg font-semibold mb-4">Select type</h2>
@@ -164,6 +172,14 @@ const handleFilterChange = (value) => {
           {/* Form */}
           <div className="space-y-4">
 
+            {selected === "product" && (
+              <div className="space-y-4 flex justify-between  border-[#8C5300] bg-[#F7F6F2] shadow-md border-2 py-2 px-4 rounded-lg" > 
+              <p className="text-lg font-semibold">Digital Products </p>
+              <p>E-book, Guides, Resources  </p>
+
+              </div>
+            )}
+                
             <div>
               <label className="block text-sm font-medium mb-1">Title</label>
               <input
@@ -176,7 +192,7 @@ const handleFilterChange = (value) => {
               />
             </div>
 
-            <div>
+            <div className={` ${ selected === "product" ? "hidden" : ""}`}>
               <label className="block text-sm font-medium mb-1">
                 Duration (mins)
               </label>
@@ -214,7 +230,7 @@ const handleFilterChange = (value) => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div key={currentStep} className="bg-[#F7F6F2] w-[20%] rounded-xl transition-all duration-500 ease-in-out opacity-100 h-[250px] ml-20 ">
+        <div key={currentStep} className="hidden  md:block   bg-[#F7F6F2] w-[20%] rounded-xl transition-all duration-500 ease-in-out opacity-100 h-[250px] ml-20   ">
 
           <div className="flex-1 ">
             <div

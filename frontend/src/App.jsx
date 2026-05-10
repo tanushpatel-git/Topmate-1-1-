@@ -32,7 +32,7 @@ import useGetCurrUser from './hooks/useGetCurrUser'
 import Profile from './components/CreatorDashboard/Profile'
 import BookingPages from './pages/bookingPages'
 import BookingConfirm from './components/Booking/BookingConfirm'
-
+import BookingSuccess from './components/Booking/BookingSuccess'
 import {
   setUserName,
   setUserId,
@@ -120,7 +120,8 @@ const App = () => {
         <Route path='/search-services' element={<SearchServices />} />
 
         <Route path='/booking/*' element={<BookingPages/>} />
-          <Route path='/booking/confirm' element={<BookingConfirm />} />
+        <Route path='/booking/confirm' element={<BookingConfirm />} />
+        <Route path='/booking/success' element={<BookingSuccess />} />
 
 
       </Routes>

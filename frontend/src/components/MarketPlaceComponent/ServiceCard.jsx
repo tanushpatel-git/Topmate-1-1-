@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 const ServiceCard = ({ service }) => {
 
   const {
@@ -6,10 +7,30 @@ const ServiceCard = ({ service }) => {
     price,
     duration,
     category,
-    user   // ✅ FIX
+    user 
   } = service;
 
   const name = `${user?.firstName || ""} ${user?.lastName || ""}`;
+
+  const navigate = useNavigate();
+
+
+  const handleClick = () => {
+    if(category === "product"){
+      navigate(`/booking/products/${service._id}`);
+    }
+    else if(category === "package"){
+      navigate("/booking/package", { state: { service } });
+    }
+
+
+  };  
+
+
+
+
+
+
 
   return (
     <div className="bg-white rounded-xl shadow-sm h-[300px] p-4 w-[260px] hover:shadow-md transition">
@@ -56,7 +77,7 @@ const ServiceCard = ({ service }) => {
           by {name}
         </p>
 
-        <button className="bg-black text-white text-sm px-3 py-1.5 rounded-full">
+        <button className="bg-black text-white text-sm px-3 py-1.5 rounded-full " onClick={handleClick} >
           
             Check out
         </button>
