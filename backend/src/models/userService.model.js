@@ -17,6 +17,7 @@ const serviceSchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true
+    
   },
 
   description: {
@@ -64,13 +65,14 @@ const serviceSchema = new mongoose.Schema({
     enum: ["online", "offline"],
     default: "online"
   },
+  links: {
+    type: [String],
+    default: []
+  },
 
   meetingLink: {
     type: String,
-    trim: true,
-    required: function () {
-      return this.mode === "online";
-    }
+    default: "",
   },
 
   maxBookings: {
@@ -104,13 +106,31 @@ const serviceSchema = new mongoose.Schema({
     enum: ["draft", "published", "archived"],
     default: "draft"
   },
-  meetingLink: String,
 
   isActive: {
     type: Boolean,
     default: true,
     index: true
   },
+
+
+  files: [
+    {
+      fileType: {
+        type: String,
+        enum: ["pdf", "image", "video", "link"],
+      },
+
+      url: {
+        type: String,
+      },
+
+      fileName: {
+        type: String,
+        default: "",
+      },
+    },
+  ],
     
   link: {
     type: String,

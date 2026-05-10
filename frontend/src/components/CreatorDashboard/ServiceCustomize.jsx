@@ -5,54 +5,83 @@ import useGetService from "../../hooks/useGetService";
 import useUpdateService from "../../hooks/useUpdateService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useQueryClient } from "@tanstack/react-query";
 import DeleteServiceHook from "../../hooks/DeleteServiceHook";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ServiceCustomize = () => {
 
   const { type, serviceId } = useParams();
   const { mutate: updateService, isPending } = useUpdateService();
+
   const navigate = useNavigate();
   const { data, isLoading } = useGetService(serviceId);
-
   const [showFileInput, setShowFileInput] = useState(false);
   const [showInstructionInput, setShowInstructionInput] = useState(false);
 
 const { mutate: deleteService } = DeleteServiceHook();
 
 
-
-
-  const [formData, setFormData] = useState({
-    title: "",
-    shortDescription: "",
-    description: "",
-    price: "",
-    instructions: "",
-    link:"",
-  });
+const [formData, setFormData] = useState({
+  title: "",
+  shortDescription: "",
+  description: "",
+  price: "",
+  instructions: "",
+  links: [],
+  files: [],
+});
 
 
 
 
 const handleUpdate = () => {
+
+  console.log("Form Data:", formData);
+
   if (!formData.title || !formData.price) {
-    alert("Required fields missing");
+    toast.error("Required fields missing");
     return;
   }
 
+  const serviceData = new FormData();
+
+  serviceData.append("title", formData.title);
+  serviceData.append("description", formData.shortDescription);
+  serviceData.append("longDescription", formData.description);
+  serviceData.append("price", formData.price);
+  serviceData.append("instructions", formData.instructions);
+
+  // OPTIONAL LINKS
+  if (formData.links && formData.links.length > 0) {
+    formData.links.forEach((link) => {
+      if (link.trim() !== "") {
+        serviceData.append("links", link);
+      }
+    });
+  }
+
+  // OPTIONAL FILES
+  if (formData.files && formData.files.length > 0) {
+    formData.files.forEach((file) => {
+      serviceData.append("files", file);
+    });
+  }
+
   updateService(
-    { id: serviceId, formData },
+    {
+      id: serviceId,
+      formData: serviceData,
+    },
     {
       onSuccess: (data) => {
         if (data.status) {
+          toast.success("Updated successfully");
           navigate(`/creator-dashboard/services/${type}`);
         }
-      }
+      },
     }
   );
 };
-
 
 
 const handleDelete = (id) => {
@@ -72,14 +101,6 @@ const handleDelete = (id) => {
 };
 
 
-
-
-
-
-
-
-
-
   useEffect(() => {
     if (data?.service) {
       setFormData({
@@ -91,7 +112,6 @@ const handleDelete = (id) => {
       });
     }
 
-    console.log(data);
   }, [data]);
 
 
@@ -101,7 +121,7 @@ const handleDelete = (id) => {
     <div className="min-h-screen bg-gray-50">
 
       {/* Header */}
-      <div className="flex justify-between items-center mb-6 border-b px-10 py-5">
+      <div className="flex justify-between items-center mb-6 border-b px-10 py-5" onClick={() => navigate(`/creator-dashboard/services/${type}/create`)}>
         <div className="flex items-center gap-3 text-gray-700">
           <button>←</button>
           <h1 className="text-xl font-semibold">Edit</h1>
@@ -165,12 +185,12 @@ const handleDelete = (id) => {
           />
 
           {/* Add File */}
-          <div className="flex flex-col gap-3">
+          {/* <div className="flex flex-col gap-3">
             <button
               onClick={() => setShowFileInput(!showFileInput)}
               className="border px-4 py-2 rounded"
             >
-              Add  link
+              Upload Files or Links
             </button>
 
             {showFileInput && (
@@ -183,8 +203,49 @@ const handleDelete = (id) => {
                 }
               />
             )}
-          </div>
+          </div> */}
+{/* Upload Files */}
+<div className="flex flex-col gap-3">
+  <button
+    onClick={() => setShowFileInput(!showFileInput)}
+    className="border px-4 py-2 rounded"
+  >
+    Upload Files or Links
+  </button>
 
+  {showFileInput && (
+    <div className="flex flex-col gap-3">
+
+      {/* FILE INPUT */}
+      <input
+      className="border p-2 rounded"
+        
+        type="file"
+        multiple
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            files: [...e.target.files],
+          })
+        }
+      />
+
+      {/* LINK INPUT */}
+      <input
+        type="text"
+        placeholder="Paste link here..."
+        className="border p-2 rounded"
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            links: [e.target.value],
+          })
+        }
+      />
+
+    </div>
+  )}
+</div>
           {/* Instructions */}
           <div className="flex flex-col gap-3">
             <button

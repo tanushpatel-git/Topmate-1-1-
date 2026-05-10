@@ -1,6 +1,9 @@
 require("dotenv/config");
+
 const app = require("./src/app.js");
 const mongoDB = require("./src/utility/mongoDB.js");
+
+const { connectCloudinary } = require("./src/utility/CloudInary.js");
 
 const port = process.env.PORT || 8001;
 

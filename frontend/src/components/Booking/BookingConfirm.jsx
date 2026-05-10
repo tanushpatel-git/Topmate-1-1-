@@ -25,8 +25,9 @@ const BookingConfirm = () => {
 
   const user = useSelector((state) => state.userData);
 
+
   const [form, setForm] = useState({
-    firstName: user?.firstName || "hello",
+    firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
     phone: user?.whatsAppNumber || "",
@@ -44,33 +45,32 @@ const BookingConfirm = () => {
 
 const handleSubmit = async () => {
 
-  if (!user?._id) {
-    alert("User not logged in");
-    return;
-  }
+  // if (!user.userId) {
+  //   alert("User not logged in");
+  //   return;
+  // }
 
-  if (!creator?._id || !service?._id) {
-    alert("Service data missing");
-    return;
-  }
+  // if (!creator?._id || !service?._id) {
+  //   alert("Service data missing");
+  //   return;
+  // }
 
-  if (!selectedDate || !selectedTime) {
-    alert("Please select date & time");
-    return;
-  }
+  // if (!selectedDate || !selectedTime) {
+  //   alert("Please select date & time");
+  //   return;
+  // }
 
-  if (!form.firstName || !form.email || !form.phone) {
-    alert("Please fill all required fields");
-    return;
-  }
+  // if (!form.firstName || !form.email || !form.phone) {
+  //   alert("Please fill all required fields");
+  //   return;
+  // }
 
   const bookingData = {
-    seeker: user._id || "",
+    seeker: user.userId,
     creator: creator._id,
     service: service._id,
 
     date: new Date(selectedDate),
-
     time: selectedTime,
     duration: service.duration,
     price: service.price,
@@ -79,15 +79,22 @@ const handleSubmit = async () => {
   try {
     setLoading(true);
 
-    console.log("Sending booking:", bookingData);
 
     // FREE BOOKING
-    if (service.price === 0) {
+    if (service.price === 10) {
       const res = await createBooking(bookingData);
 
       if (res.success) {
-        alert("Booking Confirmed ✅");
-        navigate("/my-bookings");
+        alert("Booking Confirmed Successfully ✅");
+
+        
+    navigate("/booking/success", {
+  state: {
+    booking: res.booking,
+    service,
+    creator,
+  },
+});
       } else {
         alert(res.message);
       }
@@ -117,7 +124,7 @@ useEffect(() => {
     phone: user.whatsAppNumber || "",
     notes: user.notes || "",
   });
-}, []);
+}, [user]);
 
  return (
   <div className="min-h-screen bg-[#8FB3D9] flex justify-center items-start pt-10">
@@ -143,11 +150,13 @@ useEffect(() => {
         <h2 className="font-semibold text-xl text-black">
           {service?.title}
         </h2>
+        { service.category=== "one-to-one" && <p className="text-gray-500">Video Call | {service?.duration}mins</p> }
+        { service.category=== "product" && <p className="text-gray-500">Digital Product</p> }
 
-        <p className="text-gray-500">Video Call | {service?.duration}mins</p>
 
 </div>
-        <div className="mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm">
+
+        <div className={`mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm ${service.category === "product" ? "hidden" : ""}`}>
 
           <div className="p-2 text-black font-bold ">
             <p>
@@ -162,18 +171,22 @@ useEffect(() => {
             Change
           </button>
         </div>
+
+
       </div>
 
       {/* FORM */}
       <div className="space-y-3 p-5" >
-<input
+        <label className="text-md font-semibold">Full Name</label>
+        <input  
   type="text"
   name="firstName"
-  value={form.firstName}
+  value={form.firstName  + " " + form.lastName}
   onChange={handleChange}
   className="w-full border p-2 rounded-md text-sm"
 />
 
+        <label className="text-md font-semibold">Email</label>
         <input
           type="email"
           name="email"
@@ -182,6 +195,7 @@ useEffect(() => {
           className="w-full border p-2 rounded-md text-sm"
         />
 
+        <label className="text-md font-semibold">Phone</label>
         <input
           type="text"
           name="phone"
@@ -253,7 +267,7 @@ Terms & Conditions
       <div className="w-[420px] x-5 shadow-lg flex p-5 justify-between items-center bg-gray-300">
 
         <span className="font-semibold">
-          ₹{service?.price}
+          ₹ {service?.price}
         </span>
 
        <button

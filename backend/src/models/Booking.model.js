@@ -23,33 +23,34 @@ const bookingSchema = new mongoose.Schema(
     
     date: {
       type: Date,
-      required: true,
+      default: Date.now().toString(),
     },
 
     
     time: {
       type: String,
-      required: true,
+      default: Date.now().toString(),
     },
 
     duration: {
       type: Number,
-      required: true,
+      default: 15,
     },
 
     price: {
       type: Number,
-      required: true,
+      default: 0,
     },
 
     status: {
       type: String,
       enum: ["pending", "confirmed", "cancelled"],
-      default: "pending",
+      default: "confirmed",
     },
 
     meetingLink: {
       type: String,
+      default: "",
     },
   },
   { timestamps: true }

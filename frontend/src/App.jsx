@@ -32,7 +32,7 @@ import useGetCurrUser from './hooks/useGetCurrUser'
 import Profile from './components/CreatorDashboard/Profile'
 import BookingPages from './pages/bookingPages'
 import BookingConfirm from './components/Booking/BookingConfirm'
-
+import BookingSuccess from './components/Booking/BookingSuccess'
 import {
   setUserName,
   setUserId,
