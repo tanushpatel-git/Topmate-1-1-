@@ -167,7 +167,6 @@ const updateAccount = async (req, res) => {
 }
 
 const updateUserSettings = async (req, res) => {
-  console.log("route hit");
 
   try {
     if (!req.body) {

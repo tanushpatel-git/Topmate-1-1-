@@ -1,21 +1,23 @@
 const nodemailer = require("nodemailer");
-
+const dotenv = require("dotenv");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.NODE_HEADEMAIL,
     pass: process.env.NODE_HEADEMAIL_PASS,
   },
+
 });
 
 
-async function nodeMail(toMail, message) {
-    try {
+async function nodeMail({ to, subject, html, attachments = [] }) {
+  try {
     await transporter.sendMail({
-      from:process.env.NODE_HEADEMAIL,
-      to: toMail,
-      subject:"Topmate",
-      html:message,
+      from: process.env.NODE_HEADEMAIL,
+      to,
+      subject,
+      html,
+      attachments,
     });
     return true;
   } catch (error) {
