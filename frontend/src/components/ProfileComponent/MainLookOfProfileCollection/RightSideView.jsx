@@ -101,13 +101,13 @@ const RightSideView = () => {
                         <p className="pt-2 text-xl text-black">{aboutYourself}</p>
                     </div>
 
+                </div>}
                     <div className="mt-5 h-px w-[95%] bg-gray-400" />
                     <div className="flex gap-3">
                         <Link>Term</Link>
                         <span>|</span>
                         <Link>Privacy</Link>
                     </div>
-                </div>}
             </div>
         </div >
     );

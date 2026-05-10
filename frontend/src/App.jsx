@@ -100,8 +100,6 @@ const App = () => {
         <Route path='/search' element={<Search />} />
         <Route path='/features/priority-dm' element={<PriorityDm />} />
         <Route path='/use-cases/product-management' element={<ProductManagement />} />
-
-
         <Route path='/use-cases/ai-ml' element={<AInML />} />
         <Route path='/use-cases/software-engineer' element={<SoftwareEngineering />} />
         <Route path='/use-cases/design' element={<DesignUxUi />} />
@@ -111,18 +109,13 @@ const App = () => {
         <Route path='/signup3' element={<SignUp3 />} />
         <Route path='/signup4' element={<SignUp4 />} />
         <Route path='/signup5' element={<SignUp5 />} />
-
         <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/profile" element={<Profile />} />
-
         <Route path='/search-services' element={<SearchServices />} />
-
         <Route path='/booking/*' element={<BookingPages />} />
         <Route path='/booking/confirm' element={<BookingConfirm />} />
-
-
       </Routes>
     </>
   )
