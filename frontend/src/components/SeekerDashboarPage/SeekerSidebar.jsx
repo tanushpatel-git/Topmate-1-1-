@@ -1,22 +1,21 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
 import { FaHome, FaUser, FaUserAlt, FaGift, FaSearch, FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logout from "../../services/userAuthServices/logOut";
+import { useDispatch } from "react-redux";
+import { useQueryClient } from "@tanstack/react-query";
 
 const SeekerSidebar = ({ userData }) => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const [open, setOpen] = useState(false);
   const [logoutOpen, setlogoutOpen] = useState(false);
-
-const handleLogout = () => {
-  localStorage.removeItem("token");
-  navigate("/login");
-};
 
   return (
     <div className="w-64 bg-[#F7F6F2] border-r-1 border-gray-200 flex flex-col justify-between fixed h-full">
@@ -47,7 +46,7 @@ const handleLogout = () => {
         {open && (
           <div className="flex items-center gap-2 p-8  ml-3 mr-3  rounded-lg bg-white shadow justify-center h-12">
             <FaUserAlt className="text-1xl text-gray-700" />
-            <h2 className="font-semibold text-sm text-gray-700" onClick={()=>navigate('/creator-dashboard')}>Creator Dashboard</h2>
+            <h2 className="font-semibold text-sm text-gray-700" onClick={() => navigate('/creator-dashboard')}>Creator Dashboard</h2>
           </div>
 
         )}
@@ -66,11 +65,11 @@ const handleLogout = () => {
           <SidebarLink to="/marketplace" icon={<MdOutlineCategory />} text="Find by Category" />
         </nav>
       </div>
-{logoutOpen && (
-  <div className="absolute bottom-16 left-4 right-4 bg-white shadow rounded-lg p-3 cursor-pointer">
-    <h2 onClick={handleLogout}>Log Out</h2>
-  </div>
-)}
+      {logoutOpen && (
+        <div className="absolute bottom-16 left-4 right-4 bg-white shadow rounded-lg p-3 cursor-pointer">
+          <h2 onClick={() => logout(navigate, dispatch, queryClient)}>Log Out</h2>
+        </div>
+      )}
       {/* Bottom Profile */}
       <div className="p-4 border-t flex items-center gap-3">
         <img
@@ -86,7 +85,7 @@ const handleLogout = () => {
         </div>
         <div className="flex items-center gap-2">
 
-            <div onClick={() => setlogoutOpen(!logoutOpen)} className="cursor-pointer">
+          <div onClick={() => setlogoutOpen(!logoutOpen)} className="cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"

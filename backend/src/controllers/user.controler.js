@@ -116,6 +116,10 @@ const otpCheck = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(200).json({ status: false, message: "Login first" });
+    }
     res.clearCookie("token");
     return res.status(200).json({ status: true, message: "User Logout Successfully" });
   } catch (error) {

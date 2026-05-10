@@ -1,7 +1,3 @@
-
-
-
-
 const createICS = ({ booking, service, seeker, creator }) => {
 
   const start = new Date(booking.date);

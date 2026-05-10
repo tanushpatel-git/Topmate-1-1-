@@ -8,8 +8,6 @@ const bookingRoutes = require("./routes/Booking.routes.js");
 const app = express();
 
 
-
-
 app.use(cookieParser()); 
 app.use("/uploads", express.static("uploads"));
 app.use(express.json());
