@@ -1,13 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import signUpReq from "../services/userAuthServices/signUpReq";
 
 const useSignUp = () => {
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (data) => signUpReq(data),
         onSuccess: (data) => {
             if (data?.status){
                 toast.success(data?.message || "Sign Up Sucessfull");
+                queryClient.invalidateQueries({ queryKey: ["currUser"] });
             }else{
                 toast.error(data?.message || "Sign Up Failed");
             }

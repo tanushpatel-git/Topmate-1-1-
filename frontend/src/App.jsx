@@ -116,11 +116,11 @@ const App = () => {
         <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/profile" element={<Profile />} />
-      
+
         <Route path='/search-services' element={<SearchServices />} />
 
-        <Route path='/booking/*' element={<BookingPages/>} />
-          <Route path='/booking/confirm' element={<BookingConfirm />} />
+        <Route path='/booking/*' element={<BookingPages />} />
+        <Route path='/booking/confirm' element={<BookingConfirm />} />
 
 
       </Routes>

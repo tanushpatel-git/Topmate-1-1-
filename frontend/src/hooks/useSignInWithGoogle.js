@@ -1,13 +1,15 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import signInWithGoogleReq from "../services/userAuthServices/signInWithGoogleReq"
 
 const useSignInWithGoogle = () => {
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (email) => signInWithGoogleReq(email),
         onSuccess: (data) => {
             if (data?.status){
                 toast.success(data?.message);
+                queryClient.invalidateQueries({ queryKey: ["currUser"] });
             }else{
                 toast.error(data?.message);
             }

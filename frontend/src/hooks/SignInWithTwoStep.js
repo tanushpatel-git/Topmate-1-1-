@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import emailCheckReq from "../services/userAuthServices/emailCheckReq"
 import otpVerificationReq from "../services/userAuthServices/otpVerification"
@@ -22,12 +22,14 @@ const useEmailCheck = () => {
 }
 
 const useOtpVerification = () => {
+    const queryClient = useQueryClient();
     return useMutation({
         mutationKey: ["otpVerification"],
         mutationFn: ({email , otp}) => otpVerificationReq({email , otp}),
         onSuccess: (data) => {
             if (data?.status){
                 toast.success(data?.message);
+                queryClient.invalidateQueries({ queryKey: ["currUser"] });
             }else{
                 toast.error(data?.message);
             }
