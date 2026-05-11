@@ -17,7 +17,7 @@ const serviceSchema = new mongoose.Schema({
   slug: {
     type: String,
     unique: true
-    
+
   },
 
   description: {
@@ -90,7 +90,7 @@ const serviceSchema = new mongoose.Schema({
     type: Date,
     default: Date.now() + 86400000,
     index: true
-   },
+  },
 
   coverImage: {
     type: String,
@@ -131,14 +131,14 @@ const serviceSchema = new mongoose.Schema({
       },
     },
   ],
-    
+
   link: {
     type: String,
     default: "",
     trim: true
   },
 
-},{timestamps: true });
+}, { timestamps: true });
 
 
 //Fast filtering
