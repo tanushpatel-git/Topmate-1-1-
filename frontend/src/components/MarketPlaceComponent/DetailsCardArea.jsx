@@ -4,27 +4,41 @@ import ServiceCard from "./ServiceCard";
 
 const DetailsCardArea = ({ detailsOfDeveloper = [] }) => {
   return (
-    <div className="h-[87.5vh] mt-10 py-10 bg-[#E9E6DE] w-full flex justify-center overflow-hidden">
-      <div className="w-[50%] mx-auto">
+    <div className="min-h-screen bg-[#E9E6DE] py-6 md:py-10 px-4">
 
+      <div className="w-full max-w-5xl lg:max-w-6xl mx-auto px-4">
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-[90%] h-full overflow-y-auto">
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-4
+            gap-4
+            md:gap-6
+            mt-5
+            place-items-center
+            bg-red-300
+            mt-10
+          "
 
-        {detailsOfDeveloper.map((developer) => (
-          <>
-            {developer.category === "package" || developer.category === "product" ? (
-              
-              <ServiceCard key={developer?._id} service={developer} />
-              
-            ) : (
-              <OverviewCards key={developer?._id} service={developer} />
-            )}
-          </>
-        ))}
-      </div>
+        >
+          {detailsOfDeveloper.map((developer) => (
+            <div key={developer?._id} className="mt-5  mb-5 w-full max-w-[320px]">  
+              {developer.category === "package" ||
+              developer.category === "product" ? (
+                <ServiceCard service={developer} />
+              ) : (
+                <OverviewCards service={developer} />
+              )}
+
+            </div>
+          ))}
         </div>
+
+      </div>
     </div>
   );
 };
-export default DetailsCardArea;
 
+export default DetailsCardArea;

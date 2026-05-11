@@ -33,7 +33,7 @@ const ServiceCard = ({ service }) => {
 
 
   return (
-    <div className="bg-white rounded-xl shadow-sm h-[300px] p-4 w-[260px] hover:shadow-md transition">
+    <div className="bg-white rounded-xl shadow-sm h-[300px] p-4 w-[260px] hover:shadow-md transition ">
 
 
 <div className="h-[75%]">

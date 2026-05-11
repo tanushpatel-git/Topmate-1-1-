@@ -8,6 +8,7 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
 
+
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -20,7 +21,8 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
 
-    
+    notes:{type:String},
+
     date: {
       type: Date,
       default: Date.now().toString(),

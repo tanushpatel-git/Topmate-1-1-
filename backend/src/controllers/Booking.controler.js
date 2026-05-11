@@ -76,6 +76,8 @@ const createBooking = async (req, res) => {
       creator: creatorUser,
     });
 
+    
+    
     return res.status(201).json({
       success: true,
       booking,
