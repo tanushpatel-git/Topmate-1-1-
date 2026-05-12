@@ -89,7 +89,7 @@ const emailCheckReq = async (req, res) => {
         <h1>Topmate Verification OTP</h1>
         <p>Your otp is ${otp}</p>
         `;
-    await nodeMail(email, message);
+    await nodeMail({ to: email, subject: "Topmate Verification OTP", html: message });
     return res.status(200).json({ status: true, message: "Email is Verified Otp is send to your register email check!" });
   } catch (error) {
     console.log(error);

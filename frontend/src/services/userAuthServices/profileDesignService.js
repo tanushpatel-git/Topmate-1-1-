@@ -17,3 +17,12 @@ export const getProfileDesign = async () => {
         throw error
     }
 }
+
+export const getServiceOfUser = async (id) => {
+    try {
+        const response = await axiosInstance.get(`/user/service/id/${id}`)
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+}

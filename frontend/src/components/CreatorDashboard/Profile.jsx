@@ -7,8 +7,8 @@ import Badge from "../ProfileComponent/Badge";
 import ArrangmentOfServicePrice from "../ProfileComponent/ArrangmentOfServicePrice";
 import MainProfile from "../ProfileComponent/MainLookOfProfileCollection/MainProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserProfile, setColor } from "../../redux/userProfileDesign/profile";
-import { getProfileDesign } from "../../services/userAuthServices/profileDesignService";
+import { setUserProfile, setColor, setServices } from "../../redux/userProfileDesign/profile";
+import { getProfileDesign, getServiceOfUser } from "../../services/userAuthServices/profileDesignService";
 
 
 const colors = [
@@ -21,6 +21,7 @@ const colors = [
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const id = useSelector(state => state.userData.userId)
   const savedColor = useSelector((state) => state.userProfile.color);
 
   const [open, setOpen] = useState(false);
@@ -34,7 +35,9 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const res = await getProfileDesign();
+        const resOfService = await getServiceOfUser(id);
         if (res.status && res.data) {
+          dispatch(setServices(resOfService.data));
           dispatch(setUserProfile(res.data));
           setSelectedColor(res.data.color || colors[4]);
         }

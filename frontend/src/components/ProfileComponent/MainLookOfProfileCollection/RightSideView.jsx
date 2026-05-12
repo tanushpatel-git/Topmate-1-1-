@@ -61,50 +61,44 @@ const RightSideView = () => {
                             }
                         } className={activeSeriveTab == "Webinar" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Webinar</button>
                     </div>
-                    <div className="grid grid-col-2 gap-3">
-                        {/* pending... */}
-                        {services.map((service, index) => {
-                            return (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    transition={{ duration: 0.45, ease: "easeOut" }}
-                                    whileHover={{ y: -4 }}
-                                    className="w-[360px] h-50 rounded-[32px] bg-[#f4f4f4] border border-gray-200 overflow-hidden shadow-sm"
+                    <div className="grid grid-cols-2 gap-3 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.45, ease: "easeOut" }}
+                            whileHover={{ y: -4 }}
+                            className="w-[360px] mt-5 h-50 rounded-[32px] bg-[#f4f4f4] border border-gray-200 overflow-hidden shadow-sm"
+                        >
+                            {/* Top Section */}
+                            <div className="relative px-4 pt-10 pb-12">
+
+                                <p className="text-md text-gray-600 font-medium leading-none">
+                                    voice 
+                                </p>
+
+                                <h1 className="mt-2 text-xl font-bold tracking-tight text-black leading-none">
+                                    tanush
+                                </h1>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="border-t border-gray-300" />
+
+                            {/* Bottom Section */}
+                            <div className="flex items-center justify-between py-2 px-4">
+                                <span className="text-md font-bold tracking-tight text-black">
+                                    1000
+                                </span>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.08 }}
+                                    whileTap={{ scale: 0.92 }}
+                                    className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center shadow-md"
                                 >
-                                    {/* Top Section */}
-                                    <div className="relative px-4 pt-10 pb-12">
-
-                                        <p className="text-md text-gray-600 font-medium leading-none">
-                                            {service.type}
-                                        </p>
-
-                                        <h1 className="mt-2 text-xl font-bold tracking-tight text-black leading-none">
-                                            {service.name}
-                                        </h1>
-                                    </div>
-
-                                    {/* Divider */}
-                                    <div className="border-t border-gray-300" />
-
-                                    {/* Bottom Section */}
-                                    <div className="flex items-center justify-between py-2 px-4">
-                                        <span className="text-md font-bold tracking-tight text-black">
-                                            {service.price}
-                                        </span>
-
-                                        <motion.button
-                                            whileHover={{ scale: 1.08 }}
-                                            whileTap={{ scale: 0.92 }}
-                                            className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center shadow-md"
-                                        >
-                                            <ArrowRight className="text-white w-8 h-8" strokeWidth={1.5} />
-                                        </motion.button>
-                                    </div>
-                                </motion.div>
-                            )
-                        })}
+                                    <ArrowRight className="text-white w-8 h-8" strokeWidth={1.5} />
+                                </motion.button>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
                 {highlightLink.url && (<div
@@ -199,9 +193,7 @@ const RightSideView = () => {
 export default RightSideView;
 
 
-// pending work is i have
 //todo:
-// i have to done services divs check in correct manner and make them done.
 // improve seo
 // add filter 
 // add filter for buttom tabs
