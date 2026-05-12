@@ -89,61 +89,6 @@ const createBooking = async (req, res) => {
   }
 };
 
-// const createBooking = async (req, res) => {
-//   try {
-
-//     let { seeker, creator, service, date, time, duration, price } = req.body;
-
-//     //  normalize date
-//     date = new Date(date).toISOString().split("T")[0];
-
-//     if (!seeker || !creator || !service || !date || !time) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "All required fields are missing",
-//       });
-//     }
-
-//     const existing = await Booking.findOne({
-//       creator,
-//       date,
-//       time,
-//       status: { $ne: "cancelled" },
-//     });
-
-//     if (existing) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Slot already booked",
-//       });
-//     }
-
-//     const booking = await Booking.create({
-//       seeker,
-//       creator,
-//       service,
-//       date,
-//       time,
-//       duration,
-//       price,
-//       status: "pending",
-//     });
-
-//     return res.status(201).json({
-//       success: true,
-//       message: "Booking created successfully",
-//       booking,
-//     });
-
-//   } catch (error) {
-//     console.error("Create Booking Error:", error);
-//     return res.status(500).json({
-//       success: false,
-//       message: "Server error",
-//     });
-//   }
-// };
-
 
 const getSeekerBookings = async (req, res) => {
   try {
