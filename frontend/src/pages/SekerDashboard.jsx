@@ -1,12 +1,15 @@
 
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { Skeleton } from 'boneyard-js/react'
 import SeekerSidebar from "../components/SeekerDashboarPage/SeekerSidebar";
 import BottomNavbar from "../components/SeekerDashboarPage/BottomNavbar";
-import SeekerHome from "../components/SeekerDashboarPage/SeekerHome";
-import SeekerBooking from "../components/SeekerDashboarPage/SeekerBooking";
-import SeekerProfile from "../components/SeekerDashboarPage/SeekerProfile";
-import SeekerReward from "../components/SeekerDashboarPage/SeekerReward";
 import { useSelector } from "react-redux";
+
+const SeekerHome = lazy(() => import("../components/SeekerDashboarPage/SeekerHome"));
+const SeekerBooking = lazy(() => import("../components/SeekerDashboarPage/SeekerBooking"));
+const SeekerProfile = lazy(() => import("../components/SeekerDashboarPage/SeekerProfile"));
+const SeekerReward = lazy(() => import("../components/SeekerDashboarPage/SeekerReward"));
 
 const SekerDashboard = () => {
   const userData = useSelector((state) => state.userData);
@@ -22,13 +25,28 @@ const SekerDashboard = () => {
 
       {/* Main Content */}
       <div className="md:ml-64 pb-20 md:pb-0">
-        
         <Routes>
           <Route index element={<Navigate to="home" />} />
-          <Route path="home" element={<SeekerHome userData={userData} />} />
-          <Route path="booking" element={<SeekerBooking userData={userData} />} />
-          <Route path="Profile" element={<SeekerProfile userData={userData} />} />
-          <Route path="reward" element={<SeekerReward userData={userData} />} />
+          <Route path="home" element={
+            <Suspense fallback={<Skeleton name="seeker-home" loading />}>
+              <Skeleton name="seeker-home" loading={false}><SeekerHome userData={userData} /></Skeleton>
+            </Suspense>
+          } />
+          <Route path="booking" element={
+            <Suspense fallback={<Skeleton name="seeker-booking" loading />}>
+              <Skeleton name="seeker-booking" loading={false}><SeekerBooking userData={userData} /></Skeleton>
+            </Suspense>
+          } />
+          <Route path="Profile" element={
+            <Suspense fallback={<Skeleton name="seeker-profile" loading />}>
+              <Skeleton name="seeker-profile" loading={false}><SeekerProfile userData={userData} /></Skeleton>
+            </Suspense>
+          } />
+          <Route path="reward" element={
+            <Suspense fallback={<Skeleton name="seeker-reward" loading />}>
+              <Skeleton name="seeker-reward" loading={false}><SeekerReward userData={userData} /></Skeleton>
+            </Suspense>
+          } />
         </Routes>
       </div>
 

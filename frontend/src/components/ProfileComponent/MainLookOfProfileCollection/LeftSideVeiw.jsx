@@ -17,7 +17,7 @@ const LeftSideVeiw = () => {
     }, [userDetails]);
 
     return (
-        <div className="absolute top-19 h-[91vh] w-[30%]" style={{ backgroundColor: color }}>
+        <div className="absolute top-19 h-[91vh] w-[35%]" style={{ backgroundColor: color }}>
             <div className="ml-10">
                 <img className="mt-10 w-30 h-30 rounded-full overflow-hidden" src={profileImage} alt="error" />
                 <h1 className="mt-5 text-black text-4xl font-bold">{displayName}</h1>

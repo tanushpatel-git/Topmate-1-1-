@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import badge_recommendation from "../../../assets/badge-recommendation.svg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,10 +12,10 @@ import { ArrowRight } from "lucide-react";
 const RightSideView = () => {
 
     const [activeSeriveTab, setActiveServiceTab] = useState("All");
-    const { recomdation, aboutYourself, offer, donation, highlightLink, testimonial, services } = useSelector((state) => state.userProfile);
+    const { recomdation, aboutYourself, offer, donation, highlightLink, testimonial, services: servicesOfUserInFrontEnd } = useSelector((state) => state.userProfile);
 
     return (
-        <div className="h-[91vh] absolute right-1 overflow-auto top-19 w-[52.3%] bg-[#EFECE3]">
+        <div className="h-[91vh] absolute right-0 overflow-auto top-19 w-[65%] bg-[#EFECE3]">
             <div className="w-full pt-5 pl-10">
                 {recomdation.recomdationText && recomdation.from && (
                     <div className="w-100 h-40 flex flex-col bg-white rounded-2xl">
@@ -62,43 +62,46 @@ const RightSideView = () => {
                         } className={activeSeriveTab == "Webinar" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Webinar</button>
                     </div>
                     <div className="grid grid-cols-2 gap-3 items-center">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.45, ease: "easeOut" }}
-                            whileHover={{ y: -4 }}
-                            className="w-[360px] mt-5 h-50 rounded-[32px] bg-[#f4f4f4] border border-gray-200 overflow-hidden shadow-sm"
-                        >
-                            {/* Top Section */}
-                            <div className="relative px-4 pt-10 pb-12">
+                        {servicesOfUserInFrontEnd && servicesOfUserInFrontEnd?.map((service) => (
+                            <motion.div
+                                key={service?._id}
+                                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ duration: 0.45, ease: "easeOut" }}
+                                whileHover={{ y: -4 }}
+                                className="w-[360px] mt-5 h-50 rounded-[32px] bg-[#f4f4f4] border border-gray-200 overflow-hidden shadow-sm"
+                            >
+                                {/* Top Section */}
+                                <div className="relative px-4 pt-10 pb-12">
 
-                                <p className="text-md text-gray-600 font-medium leading-none">
-                                    voice 
-                                </p>
+                                    <p className="text-md text-gray-600 font-medium leading-none">
+                                        {service?.category}
+                                    </p>
 
-                                <h1 className="mt-2 text-xl font-bold tracking-tight text-black leading-none">
-                                    tanush
-                                </h1>
-                            </div>
+                                    <h1 className="mt-2 text-xl font-bold tracking-tight text-black leading-none">
+                                        {service?.title}
+                                    </h1>
+                                </div>
 
-                            {/* Divider */}
-                            <div className="border-t border-gray-300" />
+                                {/* Divider */}
+                                <div className="border-t border-gray-300" />
 
-                            {/* Bottom Section */}
-                            <div className="flex items-center justify-between py-2 px-4">
-                                <span className="text-md font-bold tracking-tight text-black">
-                                    1000
-                                </span>
+                                {/* Bottom Section */}
+                                <div className="flex items-center justify-between py-2 px-4">
+                                    <span className="text-md font-bold tracking-tight text-black">
+                                        {service?.price}
+                                    </span>
 
-                                <motion.button
-                                    whileHover={{ scale: 1.08 }}
-                                    whileTap={{ scale: 0.92 }}
-                                    className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center shadow-md"
-                                >
-                                    <ArrowRight className="text-white w-8 h-8" strokeWidth={1.5} />
-                                </motion.button>
-                            </div>
-                        </motion.div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.08 }}
+                                        whileTap={{ scale: 0.92 }}
+                                        className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center shadow-md"
+                                    >
+                                        <ArrowRight className="text-white w-8 h-8" strokeWidth={1.5} />
+                                    </motion.button>
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
                 {highlightLink.url && (<div

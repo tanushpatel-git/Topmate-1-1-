@@ -1,38 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import Meeting from './pages/Meeting'
-import Webniars from './pages/Webinar'
-import Cohort from './pages/Cohort'
-import About from './pages/About'
-import Contact from './pages/Contact'
-import Terms from './pages/Terms'
-import Privacy from './pages/Privacy'
-import Pricing from './pages/Pricing'
-import PriorityDm from './pages/PriorityDm'
+import { Skeleton } from 'boneyard-js/react'
 import ScrollToTop from './services/ScrollOnTop'
-import ProductManagement from './pages/ProductManagement'
-import SearchServices from './pages/SearchServices'
-
-import AInML from './pages/AInML'
-import SoftwareEngineering from './pages/SoftwareEngineering'
-import DesignUxUi from './pages/DesignUxUi'
-import SignIn from './auth/SignIn'
-import SignUp from './auth/SignUp'
-import SignUp2 from './auth/SignUp2'
-import SignUp3 from './auth/SignUp3'
-import SignUp4 from './auth/SignUp4'
-import SignUp5 from './auth/SignUp5'
-
-import SekerDashboard from './pages/SekerDashboard'
-import Marketplace from './pages/Marketplace'
-import Search from './pages/Search'
-import CreatorDashboard from './pages/CreatorDashboard'
 import useGetCurrUser from './hooks/useGetCurrUser'
-import Profile from './components/CreatorDashboard/Profile'
-import BookingPages from './pages/bookingPages'
-import BookingConfirm from './components/Booking/BookingConfirm'
-import BookingSuccess from './components/Booking/BookingSuccess'
+
+const Home = lazy(() => import('./pages/Home'))
+const Meeting = lazy(() => import('./pages/Meeting'))
+const Webniars = lazy(() => import('./pages/Webinar'))
+const Cohort = lazy(() => import('./pages/Cohort'))
+const About = lazy(() => import('./pages/About'))
+const Contact = lazy(() => import('./pages/Contact'))
+const Terms = lazy(() => import('./pages/Terms'))
+const Privacy = lazy(() => import('./pages/Privacy'))
+const Pricing = lazy(() => import('./pages/Pricing'))
+const PriorityDm = lazy(() => import('./pages/PriorityDm'))
+const ProductManagement = lazy(() => import('./pages/ProductManagement'))
+const SearchServices = lazy(() => import('./pages/SearchServices'))
+const AInML = lazy(() => import('./pages/AInML'))
+const SoftwareEngineering = lazy(() => import('./pages/SoftwareEngineering'))
+const DesignUxUi = lazy(() => import('./pages/DesignUxUi'))
+const SignIn = lazy(() => import('./auth/SignIn'))
+const SignUp = lazy(() => import('./auth/SignUp'))
+const SignUp2 = lazy(() => import('./auth/SignUp2'))
+const SignUp3 = lazy(() => import('./auth/SignUp3'))
+const SignUp4 = lazy(() => import('./auth/SignUp4'))
+const SignUp5 = lazy(() => import('./auth/SignUp5'))
+const SekerDashboard = lazy(() => import('./pages/SekerDashboard'))
+const Marketplace = lazy(() => import('./pages/Marketplace'))
+const Search = lazy(() => import('./pages/Search'))
+const CreatorDashboard = lazy(() => import('./pages/CreatorDashboard'))
+const Profile = lazy(() => import('./components/CreatorDashboard/Profile'))
+const BookingPages = lazy(() => import('./pages/bookingPages'))
+const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
+const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
 import {
   setUserName,
   setUserId,
@@ -88,35 +88,146 @@ const App = () => {
       <ScrollToTop />
       <Toaster />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/features/meeting" element={<Meeting />} />
-        <Route path='/features/webinar' element={<Webniars />} />
-        <Route path='/features/cohort' element={<Cohort />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/terms' element={<Terms />} />
-        <Route path='/privacy' element={<Privacy />} />
-        <Route path='/pricing' element={<Pricing />} />
-        <Route path='/search' element={<Search />} />
-        <Route path='/features/priority-dm' element={<PriorityDm />} />
-        <Route path='/use-cases/product-management' element={<ProductManagement />} />
-        <Route path='/use-cases/ai-ml' element={<AInML />} />
-        <Route path='/use-cases/software-engineer' element={<SoftwareEngineering />} />
-        <Route path='/use-cases/design' element={<DesignUxUi />} />
-        <Route path='/signin' element={<SignIn />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/signup2' element={<SignUp2 />} />
-        <Route path='/signup3' element={<SignUp3 />} />
-        <Route path='/signup4' element={<SignUp4 />} />
-        <Route path='/signup5' element={<SignUp5 />} />
-        <Route path="/seeker-dashboard/*" element={<SekerDashboard />} />
-        <Route path='/creator-dashboard/*' element={<CreatorDashboard />} />
-        <Route path="/marketplace" element={<Marketplace />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path='/search-services' element={<SearchServices />} />
-        <Route path='/booking/*' element={<BookingPages />} />
-        <Route path='/booking/confirm' element={<BookingConfirm />} />
-        <Route path='/booking/success' element={<BookingSuccess/>} />
+        <Route path="/" element={
+          <Suspense fallback={<Skeleton name="home" loading />}>
+            <Skeleton name="home" loading={false}><Home /></Skeleton>
+          </Suspense>
+        } />
+        <Route path="/features/meeting" element={
+          <Suspense fallback={<Skeleton name="meeting" loading />}>
+            <Skeleton name="meeting" loading={false}><Meeting /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/features/webinar' element={
+          <Suspense fallback={<Skeleton name="webinar" loading />}>
+            <Skeleton name="webinar" loading={false}><Webniars /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/features/cohort' element={
+          <Suspense fallback={<Skeleton name="cohort" loading />}>
+            <Skeleton name="cohort" loading={false}><Cohort /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/about' element={
+          <Suspense fallback={<Skeleton name="about" loading />}>
+            <Skeleton name="about" loading={false}><About /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/contact' element={
+          <Suspense fallback={<Skeleton name="contact" loading />}>
+            <Skeleton name="contact" loading={false}><Contact /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/terms' element={
+          <Suspense fallback={<Skeleton name="terms" loading />}>
+            <Skeleton name="terms" loading={false}><Terms /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/privacy' element={
+          <Suspense fallback={<Skeleton name="privacy" loading />}>
+            <Skeleton name="privacy" loading={false}><Privacy /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/pricing' element={
+          <Suspense fallback={<Skeleton name="pricing" loading />}>
+            <Skeleton name="pricing" loading={false}><Pricing /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/search' element={
+          <Suspense fallback={<Skeleton name="search" loading />}>
+            <Skeleton name="search" loading={false}><Search /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/features/priority-dm' element={
+          <Suspense fallback={<Skeleton name="priority-dm" loading />}>
+            <Skeleton name="priority-dm" loading={false}><PriorityDm /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/use-cases/product-management' element={
+          <Suspense fallback={<Skeleton name="product-management" loading />}>
+            <Skeleton name="product-management" loading={false}><ProductManagement /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/use-cases/ai-ml' element={
+          <Suspense fallback={<Skeleton name="ai-ml" loading />}>
+            <Skeleton name="ai-ml" loading={false}><AInML /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/use-cases/software-engineer' element={
+          <Suspense fallback={<Skeleton name="software-engineer" loading />}>
+            <Skeleton name="software-engineer" loading={false}><SoftwareEngineering /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/use-cases/design' element={
+          <Suspense fallback={<Skeleton name="design" loading />}>
+            <Skeleton name="design" loading={false}><DesignUxUi /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/signin' element={
+          <Suspense fallback={<Skeleton name="signin" loading />}>
+            <Skeleton name="signin" loading={false}><SignIn /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/signup' element={
+          <Suspense fallback={<Skeleton name="signup" loading />}>
+            <Skeleton name="signup" loading={false}><SignUp /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/signup2' element={
+          <Suspense fallback={<Skeleton name="signup2" loading />}>
+            <Skeleton name="signup2" loading={false}><SignUp2 /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/signup3' element={
+          <Suspense fallback={<Skeleton name="signup3" loading />}>
+            <Skeleton name="signup3" loading={false}><SignUp3 /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/signup4' element={
+          <Suspense fallback={<Skeleton name="signup4" loading />}>
+            <Skeleton name="signup4" loading={false}><SignUp4 /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/signup5' element={
+          <Suspense fallback={<Skeleton name="signup5" loading />}>
+            <Skeleton name="signup5" loading={false}><SignUp5 /></Skeleton>
+          </Suspense>
+        } />
+        <Route path="/seeker-dashboard/*" element={
+          <Suspense fallback={<Skeleton name="seeker-dashboard" loading />}>
+            <Skeleton name="seeker-dashboard" loading={false}><SekerDashboard /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/creator-dashboard/*' element={
+          <Suspense fallback={<Skeleton name="creator-dashboard" loading />}>
+            <Skeleton name="creator-dashboard" loading={false}><CreatorDashboard /></Skeleton>
+          </Suspense>
+        } />
+        <Route path="/marketplace" element={
+          <Suspense fallback={<Skeleton name="marketplace" loading />}>
+            <Skeleton name="marketplace" loading={false}><Marketplace /></Skeleton>
+          </Suspense>
+        } />
+        <Route path="/profile" element={
+          <Suspense fallback={<Skeleton name="profile" loading />}>
+            <Skeleton name="profile" loading={false}><Profile /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/search-services' element={
+          <Suspense fallback={<Skeleton name="search-services" loading />}>
+            <Skeleton name="search-services" loading={false}><SearchServices /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/booking/*' element={
+          <Suspense fallback={<Skeleton name="booking" loading />}>
+            <Skeleton name="booking" loading={false}><BookingPages /></Skeleton>
+          </Suspense>
+        } />
+        <Route path='/booking/confirm' element={
+          <Suspense fallback={<Skeleton name="booking-confirm" loading />}>
+            <Skeleton name="booking-confirm" loading={false}><BookingConfirm /></Skeleton>
+          </Suspense>
+        } />
       </Routes>
     </>
   )

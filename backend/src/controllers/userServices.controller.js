@@ -2,6 +2,7 @@ const Service = require("../models/userService.model");
 const { verifyToken } = require("../utility/jwToken");
 const slugify = require("slugify");
 const { cloudinary } = require("../utility/CloudInary");
+const mongoose = require("mongoose");
 
 
 
@@ -106,7 +107,13 @@ const getMyServices = async (req, res) => {
 
 const getServiceById = async (req, res) => {
   try {
-    const service = await Service.findById(req.params.serviceId);
+    const { serviceId } = req.params;
+
+    if (!serviceId || !mongoose.Types.ObjectId.isValid(serviceId)) {
+      return res.status(400).json({ message: "Invalid service ID" });
+    }
+
+    const service = await Service.findById(serviceId);
 
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
@@ -140,6 +147,98 @@ const getSingleService = async (req, res) => {
   }
 };
 
+const updateService = async (req, res) => {
+  try {
+
+    const { serviceId } = req.params;
+
+    const uploadedFiles = req.files || [];
+    const files = [];
+
+    // CLOUDINARY UPLOAD
+    for (const file of uploadedFiles) {
+
+      const cloudinaryUrl = await uploadToCloudinary(file);
+
+      let fileType = "link";
+
+      if (file.mimetype.includes("pdf")) {
+        fileType = "pdf";
+      }
+      else if (file.mimetype.includes("image")) {
+        fileType = "image";
+      }
+      else if (file.mimetype.includes("video")) {
+        fileType = "video";
+      }
+
+      files.push({
+        fileType,
+        url: cloudinaryUrl,
+        fileName: file.originalname,
+      });
+    }
+
+    // LINKS
+    let links = [];
+
+    if (req.body?.links) {
+
+      if (Array.isArray(req.body.links)) {
+        links = req.body.links;
+      } else {
+        links = [req.body.links];
+      }
+    }
+
+    // LINK OBJECTS
+    const linkFiles = links.map((link) => ({
+      fileType: "link",
+      url: link,
+      fileName: "External Link",
+    }));
+
+    // UPDATE OBJECT
+    const updateData = {
+      title: req.body.title,
+      description: req.body.description,
+      longDescription: req.body.longDescription,
+      price: req.body.price,
+      instructions: req.body.instructions,
+    };
+
+    // PUSH FILES ONLY IF EXISTS
+    if (files.length > 0 || linkFiles.length > 0) {
+
+      updateData.$push = {
+        files: {
+          $each: [...files, ...linkFiles],
+        },
+      };
+    }
+
+    const updatedService = await Service.findByIdAndUpdate(
+      serviceId,
+      updateData,
+      { returnDocument: "after" }
+    );
+
+    res.status(200).json({
+      status: true,
+      message: "Service updated successfully",
+      service: updatedService,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      status: false,
+      message: "Internal server error",
+    });
+  }
+};
 
 const deleteService = async (req, res) => {
   try {
@@ -215,100 +314,6 @@ const getAllServices = async (req, res) => {
 };
 
 
-const updateService = async (req, res) => {
-  try {
-
-    const { serviceId } = req.params;
-
-    const uploadedFiles = req.files || [];
-
-    const files = [];
-
-    console.log("Update service called");
-
-    for (const file of uploadedFiles) {
-
-      const uploadedUrl = await uploadToCloudinary(file);
-
-      let fileType = "unknown";
-
-      if (file.mimetype.includes("image")) {
-        fileType = "image";
-
-      } else if (file.mimetype.includes("video")) {
-        fileType = "video";
-
-      } else if (file.mimetype.includes("pdf")) {
-        fileType = "pdf";
-      }
-
-      files.push({
-        fileType,
-        url: uploadedUrl,
-        fileName: file.originalname,
-      });
-    }
-
-    let links = [];
-
-    if (req.body.links) {
-
-      if (Array.isArray(req.body.links)) {
-        links = req.body.links;
-
-      } else {
-        links = [req.body.links];
-      }
-    }
-
-    const linkFiles = links.map((link) => ({
-      fileType: "link",
-      url: link,
-      fileName: "External Link",
-    }));
-
-    const updateData = {
-      title: req.body.title,
-      description: req.body.description,
-      longDescription: req.body.longDescription,
-      price: req.body.price,
-      instructions: req.body.instructions,
-    };
-
-    if (files.length > 0 || linkFiles.length > 0) {
-
-      updateData.$push = {
-        files: {
-          $each: [...files, ...linkFiles],
-        },
-      };
-    }
-
-    const updatedService = await Service.findByIdAndUpdate(
-      serviceId,
-      updateData,
-      {
-        returnDocument: "after",
-      }
-    );
-
-    res.status(200).json({
-      status: true,
-      service: updatedService,
-    });
-
-  } catch (error) {
-
-    console.log(error);
-
-
-
-    res.status(500).json({
-      status: false,
-      message: "Internal server error",
-    });
-  }
-};
 module.exports = {
   createService,
   getMyServices,

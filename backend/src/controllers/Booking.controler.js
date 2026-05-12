@@ -196,7 +196,7 @@ const cancelBooking = async (req, res) => {
     const booking = await Booking.findByIdAndUpdate(
       bookingId,
       { status: "cancelled" },
-      { new: true }
+      { returnDocument: "after" }
     );
 
     res.status(200).json({
@@ -224,7 +224,7 @@ const confirmBooking = async (req, res) => {
         status: "confirmed",
         meetingLink: "https://meet.link/xyz" // later dynamic
       },
-      { new: true }
+      { returnDocument: "after" }
     );
 
     res.status(200).json({

@@ -18,10 +18,10 @@ export const getProfileDesign = async () => {
     }
 }
 
-export const getServiceOfUser = async (id) => {
+export const getMyServices = async () => {
     try {
-        const response = await axiosInstance.get(`/user/service/id/${id}`)
-        return response.data;
+        const response = await axiosInstance.get("/service/my")
+        return response.data.services;
     } catch (error) {
         throw error
     }
