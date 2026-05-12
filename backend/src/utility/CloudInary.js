@@ -1,5 +1,6 @@
-// Config/Cloudnary.js
-require("dotenv").config({quiet:true});
+
+require("dotenv").config();
+
 const cloudinary = require("cloudinary").v2; 
 
 const connectCloudinary = () => {

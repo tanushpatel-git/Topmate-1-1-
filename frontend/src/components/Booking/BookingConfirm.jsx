@@ -7,7 +7,7 @@ import { FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import CreateBookingHook from "../../hooks/CreateBookingHook";
-
+import { toast } from "react-toastify";
 
 const BookingConfirm = () => {
   
@@ -24,14 +24,12 @@ const BookingConfirm = () => {
   const { createBooking, loading: bookingLoading, error: bookingError } = CreateBookingHook();
 
   const user = useSelector((state) => state.userData);
-
-
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     email: user?.email || "",
     phone: user?.whatsAppNumber || "",
-    notes: user.notes || "",
+    notes:'',
   });
 
 
@@ -64,16 +62,21 @@ const handleSubmit = async () => {
   //   alert("Please fill all required fields");
   //   return;
   // }
+if (!form.notes.trim()) {
+  alert("Please enter your question");
+  return;
+}
+
 
   const bookingData = {
     seeker: user.userId,
     creator: creator._id,
     service: service._id,
-
     date: new Date(selectedDate),
     time: selectedTime,
     duration: service.duration,
     price: service.price,
+    notes : form.notes
   };
 
   try {
@@ -81,14 +84,12 @@ const handleSubmit = async () => {
 
 
     // FREE BOOKING
-    if (service.price === 10) {
+    if (service.price === 0) {
       const res = await createBooking(bookingData);
 
       if (res.success) {
-        alert("Booking Confirmed Successfully ✅");
-
-        
-    navigate("/booking/success", {
+    alert("Booking Confirmed Successfully ✅");
+    navigate("/booking/success" , {
   state: {
     booking: res.booking,
     service,
@@ -97,7 +98,7 @@ const handleSubmit = async () => {
 });
       } else {
         alert(res.message);
-      }
+      } 
 
     } else {
       alert("Proceed to payment 💳");
@@ -114,17 +115,16 @@ const handleSubmit = async () => {
 };
 
 
-
 useEffect(() => {
   setForm({
-    ...form,
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
-    email: user.email || "",
-    phone: user.whatsAppNumber || "",
-    notes: user.notes || "",
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    phone: user?.whatsAppNumber || "",
+    notes: form.notes || "",
   });
 }, [user]);
+
 
  return (
   <div className="min-h-screen bg-[#8FB3D9] flex justify-center items-start pt-10">
@@ -195,14 +195,15 @@ useEffect(() => {
           className="w-full border p-2 rounded-md text-sm"
         />
 
-        <label className="text-md font-semibold">Phone</label>
-        <input
-          type="text"
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-          className="w-full border p-2 rounded-md text-sm"
-        />
+        <label className="text-md font-semibold">Your Question</label>
+<input
+  required
+  type="text"
+  name="notes"
+  value={form.notes}
+  onChange={handleChange}
+  className="w-full border p-2 rounded-md text-sm"
+/>
 
         <label className="flex items-center gap-2 text-xs">
           <input type="checkbox" defaultChecked />
