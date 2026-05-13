@@ -17,7 +17,7 @@ export default function ArrangmentOfServicePrice({ isOpen, onClose }) {
         setLocalServices(services);
     }, [services]);
 
-    const sortServices = (type) => {
+    const sortServices = async (type) => {
         setOrderType(type);
         const sorted = [...localServices].sort((a, b) =>
             type === "low-high" ? a.price - b.price : b.price - a.price

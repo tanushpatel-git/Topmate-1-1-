@@ -8,10 +8,6 @@ const transporter = nodemailer.createTransport({
 
 });
 
-
-console.log('node mail connected ')
-console.log(process.env.NODE_HEADEMAIL,)
-
 async function nodeMail({ to, subject, html, attachments = [] }) {
   try {
     await transporter.sendMail({

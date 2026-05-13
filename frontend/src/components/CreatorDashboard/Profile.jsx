@@ -8,7 +8,7 @@ import ArrangmentOfServicePrice from "../ProfileComponent/ArrangmentOfServicePri
 import MainProfile from "../ProfileComponent/MainLookOfProfileCollection/MainProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserProfile, setColor, setServices } from "../../redux/userProfileDesign/profile";
-import { getProfileDesign, getMyServices } from "../../services/userAuthServices/profileDesignService";
+import { getProfileDesign, getMyServices, updateProfileDesign } from "../../services/userAuthServices/profileDesignService";
 
 
 const colors = [
@@ -41,6 +41,7 @@ const Profile = () => {
         const resOfService = await getMyServices();
         if (resOfService) {
           dispatch(setServices(resOfService));
+          await updateProfileDesign({services: resOfService})
         }
       } catch (err) {
         console.error("Failed to load profile design", err);

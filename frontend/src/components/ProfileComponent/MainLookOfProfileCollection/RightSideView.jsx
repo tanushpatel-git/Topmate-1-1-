@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import badge_recommendation from "../../../assets/badge-recommendation.svg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -27,42 +27,67 @@ const RightSideView = () => {
                     </div>
                 )}
                 <div className="mt-5">
-                    <div className="flex gap-3 items-center">
-                        <button onClick={
-                            () => {
-                                if (activeSeriveTab == "All") {
-                                    return;
+                    {servicesOfUserInFrontEnd && servicesOfUserInFrontEnd.length > 0 && (
+                        <div className="flex gap-3 items-center">
+                            <button onClick={
+                                () => {
+                                    if (activeSeriveTab == "All") {
+                                        return;
+                                    }
+                                    setActiveServiceTab("All");
                                 }
-                                setActiveServiceTab("All");
-                            }
-                        } className={activeSeriveTab == "All" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium cursor-pointer" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium cursor-pointer"}>All</button>
-                        <button onClick={
-                            () => {
-                                if (activeSeriveTab == "1:1") {
-                                    return;
-                                }
-                                setActiveServiceTab("1:1");
-                            }
-                        } className={activeSeriveTab == "1:1" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>1:1</button>
-                        <button onClick={
-                            () => {
-                                if (activeSeriveTab == "Corhort") {
-                                    return;
-                                }
-                                setActiveServiceTab("Corhort");
-                            }
-                        } className={activeSeriveTab == "Corhort" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Corhort</button>
-                        <button onClick={
-                            () => {
-                                if (activeSeriveTab == "Webinar") {
-                                    return;
-                                }
-                                setActiveServiceTab("Webinar");
-                            }
-                        } className={activeSeriveTab == "Webinar" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Webinar</button>
-                    </div>
+                            } className={activeSeriveTab == "All" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium cursor-pointer" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium cursor-pointer"}>All</button>
+                            {servicesOfUserInFrontEnd?.some(s => s.category === "one-to-one") && (
+                                <button onClick={
+                                    () => {
+                                        if (activeSeriveTab == "1:1") {
+                                            return;
+                                        }
+                                        setActiveServiceTab("1:1");
+                                    }
+                                } className={activeSeriveTab == "1:1" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>1:1</button>
+                            )}
+                            {servicesOfUserInFrontEnd?.some(s => s.category === "corhort") && (
+                                <button onClick={
+                                    () => {
+                                        if (activeSeriveTab == "Corhort") {
+                                            return;
+                                        }
+                                        setActiveServiceTab("Corhort");
+                                    }
+                                } className={activeSeriveTab == "Corhort" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Corhort</button>
+                            )}
+                            {servicesOfUserInFrontEnd?.some(s => s.category === "webinar") && (
+                                <button onClick={
+                                    () => {
+                                        if (activeSeriveTab == "Webinar") {
+                                            return;
+                                        }
+                                        setActiveServiceTab("Webinar");
+                                    }
+                                } className={activeSeriveTab == "Webinar" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Webinar</button>
+                            )}
+                            {servicesOfUserInFrontEnd?.some(s => s.category === "priorityDm") && (
+                                <button onClick={
+                                    () => {
+                                        if (activeSeriveTab == "Priority DM") {
+                                            return;
+                                        }
+                                        setActiveServiceTab("Priority DM");
+                                    }
+                                } className={activeSeriveTab == "Priority DM" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Priority DM</button>
+                            )}
+                        </div>
+                    )}
                     <div className="grid grid-cols-2 gap-3 items-center">
-                        {servicesOfUserInFrontEnd && servicesOfUserInFrontEnd?.map((service) => (
+                        {servicesOfUserInFrontEnd && servicesOfUserInFrontEnd?.filter((service) => {
+                            if (activeSeriveTab === "All") return true;
+                            if (activeSeriveTab === "1:1") return service.category === "one-to-one";
+                            if (activeSeriveTab === "Corhort") return service.category === "corhort";
+                            if (activeSeriveTab === "Webinar") return service.category === "webinar";
+                            if (activeSeriveTab === "Priority DM") return service.category === "priorityDm";
+                            return true;
+                        }).map((service) => (
                             <motion.div
                                 key={service?._id}
                                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
