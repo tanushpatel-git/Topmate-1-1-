@@ -33,6 +33,7 @@ const Profile = lazy(() => import('./components/CreatorDashboard/Profile'))
 const BookingPages = lazy(() => import('./pages/bookingPages'))
 const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
 const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
+import ProtectedRoute from './components/commonCompo/ProtectedRoute'
 import {
   setUserName,
   setUserId,
@@ -194,24 +195,32 @@ const App = () => {
           </Suspense>
         } />
         <Route path="/seeker-dashboard/*" element={
-          <Suspense fallback={<Skeleton name="seeker-dashboard" loading />}>
-            <Skeleton name="seeker-dashboard" loading={false}><SekerDashboard /></Skeleton>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Skeleton name="seeker-dashboard" loading />}>
+              <Skeleton name="seeker-dashboard" loading={false}><SekerDashboard /></Skeleton>
+            </Suspense>
+          </ProtectedRoute>
         } />
         <Route path='/creator-dashboard/*' element={
-          <Suspense fallback={<Skeleton name="creator-dashboard" loading />}>
-            <Skeleton name="creator-dashboard" loading={false}><CreatorDashboard /></Skeleton>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Skeleton name="creator-dashboard" loading />}>
+              <Skeleton name="creator-dashboard" loading={false}><CreatorDashboard /></Skeleton>
+            </Suspense>
+          </ProtectedRoute>
         } />
         <Route path="/marketplace" element={
-          <Suspense fallback={<Skeleton name="marketplace" loading />}>
-            <Skeleton name="marketplace" loading={false}><Marketplace /></Skeleton>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Skeleton name="marketplace" loading />}>
+              <Skeleton name="marketplace" loading={false}><Marketplace /></Skeleton>
+            </Suspense>
+          </ProtectedRoute>
         } />
         <Route path="/profile" element={
-          <Suspense fallback={<Skeleton name="profile" loading />}>
-            <Skeleton name="profile" loading={false}><Profile /></Skeleton>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Skeleton name="profile" loading />}>
+              <Skeleton name="profile" loading={false}><Profile /></Skeleton>
+            </Suspense>
+          </ProtectedRoute>
         } />
         <Route path='/search-services' element={
           <Suspense fallback={<Skeleton name="search-services" loading />}>
@@ -219,14 +228,18 @@ const App = () => {
           </Suspense>
         } />
         <Route path='/booking/*' element={
-          <Suspense fallback={<Skeleton name="booking" loading />}>
-            <Skeleton name="booking" loading={false}><BookingPages /></Skeleton>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Skeleton name="booking" loading />}>
+              <Skeleton name="booking" loading={false}><BookingPages /></Skeleton>
+            </Suspense>
+          </ProtectedRoute>
         } />
         <Route path='/booking/confirm' element={
-          <Suspense fallback={<Skeleton name="booking-confirm" loading />}>
-            <Skeleton name="booking-confirm" loading={false}><BookingConfirm /></Skeleton>
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Skeleton name="booking-confirm" loading />}>
+              <Skeleton name="booking-confirm" loading={false}><BookingConfirm /></Skeleton>
+            </Suspense>
+          </ProtectedRoute>
         } />
       </Routes>
     </>
