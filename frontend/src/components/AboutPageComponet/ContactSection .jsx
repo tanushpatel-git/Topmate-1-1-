@@ -1,5 +1,6 @@
 import { PhoneCall, MapPin } from "lucide-react";
 import Image from "../../assets/topmate-light-logo.svg";
+import { Link } from "react-router-dom";
 
 const ContactSection = () => {
   return (
@@ -17,7 +18,7 @@ const ContactSection = () => {
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="font-semibold text-lg">Reach out</h3>
-                <p className="text-lg mt-2">support@topmate.io</p>
+                <Link to="mailto:tanush000patel@gmail.com" className="text-lg mt-2">support@topmate.io</Link>
               </div>
 
               <PhoneCall size={28} />
