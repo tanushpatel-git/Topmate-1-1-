@@ -71,20 +71,20 @@ const PublicProfile = () => {
     const services = profile.services || [];
 
     return (
-        <div className="min-h-screen w-full flex">
-            <div className="h-screen w-[35%] sticky top-0 flex flex-col" style={{ backgroundColor: color }}>
-                <div className="ml-6 mt-6">
+        <div className="min-h-screen w-full flex flex-col lg:flex-row">
+            <div className="w-full lg:w-[35%] lg:min-h-screen lg:sticky lg:top-0 flex flex-col" style={{ backgroundColor: color }}>
+                <div className="ml-4 lg:ml-6 mt-4 lg:mt-6">
                     <Link to="/" className="flex items-center gap-2 text-gray-600 hover:text-black">
                         <ArrowLeft size={20} />
                         <span>Back</span>
                     </Link>
                 </div>
-                <div className="ml-10 flex-1 overflow-auto">
-                    <img className="mt-10 w-30 h-30 rounded-full overflow-hidden" src={profileImage} alt="Profile" />
-                    <h1 className="mt-5 text-black text-4xl font-bold">{displayName}</h1>
+                <div className="ml-4 lg:ml-10 flex-1 overflow-auto">
+                    <img className="mt-6 lg:mt-10 w-20 h-20 sm:w-24 sm:h-24 lg:w-30 lg:h-30 rounded-full overflow-hidden" src={profileImage} alt="Profile" />
+                    <h1 className="mt-5 text-black text-2xl sm:text-3xl lg:text-4xl font-bold">{displayName}</h1>
                     {topmateIntro && (
-                        <div className="w-[80%] mt-2">
-                            <p className="mt-2 text-black text-2xl font-medium">{topmateIntro}</p>
+                        <div className="w-full lg:w-[80%] mt-2 pr-4 lg:pr-0">
+                            <p className="mt-2 text-black text-lg sm:text-xl lg:text-2xl font-medium">{topmateIntro}</p>
                         </div>
                     )}
                     <div className="mt-6 flex gap-3">
@@ -99,7 +99,7 @@ const PublicProfile = () => {
                         )}
                     </div>
                 </div>
-                <div className="absolute left-5 bottom-5 w-full flex justify-between">
+                <div className="lg:absolute lg:left-5 lg:bottom-5 w-full flex justify-between items-center px-4 lg:px-0 pb-5 lg:pb-0">
                     <Link to="/" className="flex justify-center items-center h-15">
                         <img src={topmate_light_logo} alt="topmate" />
                     </Link>
@@ -107,8 +107,8 @@ const PublicProfile = () => {
                 </div>
             </div>
 
-            <div className="h-screen w-[65%] overflow-auto bg-[#EFECE3]">
-                <div className="w-full pt-5 pl-10 pr-10 pb-10">
+            <div className="w-full lg:w-[65%] lg:max-h-screen lg:overflow-auto bg-[#EFECE3]">
+                <div className="w-full pt-5 px-4 sm:px-8 lg:pl-10 lg:pr-10 pb-10">
                     <div className="flex-1">
                         {recomdation.recomdationText && recomdation.from && (
                             <div className="h-40 flex flex-col bg-white rounded-2xl">
@@ -155,7 +155,7 @@ const PublicProfile = () => {
                                     </button>
                                 )}
                             </div>
-                            <div className="grid grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {services.filter(service => {
                                     if (activeServiceTab === "All") return true;
                                     if (activeServiceTab === "1:1") return service.category === "one-to-one";
@@ -186,7 +186,7 @@ const PublicProfile = () => {
 
                     {highlightLink.url && (
                         <div className="flex-1 mt-5">
-                            <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow gap-4">
+                            <div className="w-full lg:w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow gap-4">
                                 <p className="text-gray-600 text-lg break-all">{highlightLink.url}</p>
                                 <div className="w-20 h-20 shrink-0 bg-gray-200 rounded-xl flex items-center justify-center">
                                     {highlightLink?.imageUrl ? (
@@ -201,7 +201,7 @@ const PublicProfile = () => {
 
                     {testimonial.testimonialText && testimonial.from && (
                         <div className="flex-1 flex mt-5">
-                            <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 shadow flex flex-col justify-center gap-4">
+                            <div className="w-full lg:w-[30vw] bg-gray-100 rounded-3xl p-6 shadow flex flex-col justify-center gap-4">
                                 <Quote size={28} className="text-gray-400" />
                                 <p className="text-gray-700 text-lg leading-relaxed">{testimonial?.testimonialText}</p>
                                 {testimonial.from && (
@@ -213,7 +213,7 @@ const PublicProfile = () => {
 
                     {donation && (
                         <div className="flex-1 flex mt-5">
-                            <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
+                            <div className="w-full lg:w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
                                 <p className="text-gray-700 text-lg leading-snug">{donation}</p>
                                 <img
                                     src={give_charity_icon}
@@ -226,7 +226,7 @@ const PublicProfile = () => {
 
                     {offer && (
                         <div className="flex-1 flex mt-5">
-                            <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
+                            <div className="w-full lg:w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
                                 <p className="text-gray-700 text-lg">{offer}</p>
                                 <div className="w-16 h-16 shrink-0 rounded-xl flex items-center justify-center">
                                     <img src={discount_highlight} alt="discount" />
@@ -238,8 +238,8 @@ const PublicProfile = () => {
                     {aboutYourself && (
                         <div className="mt-5">
                             <div className="w-full flex flex-col">
-                                <h1 className="text-4xl font-bold">About me</h1>
-                                <p className="pt-2 text-xl text-black">{aboutYourself}</p>
+                                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">About me</h1>
+                                <p className="pt-2 text-lg sm:text-xl text-black">{aboutYourself}</p>
                             </div>
                         </div>
                     )}
