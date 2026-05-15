@@ -18,7 +18,7 @@ const DetailsCardArea = ({ detailsOfDeveloper = [] }) => {
             md:gap-6
             mt-5
             place-items-center
-            bg-red-300
+            
             mt-10
           "
 

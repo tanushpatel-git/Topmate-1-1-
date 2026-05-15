@@ -228,6 +228,13 @@ const App = () => {
             <Skeleton name="booking-confirm" loading={false}><BookingConfirm /></Skeleton>
           </Suspense>
         } />
+
+<Route path='/booking/success' element={
+          <Suspense fallback={<Skeleton name="booking-success" loading />}>
+            <Skeleton name="booking-success" loading={false}><BookingSuccess/></Skeleton>
+          </Suspense>
+        } />
+
       </Routes>
     </>
   )

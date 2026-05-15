@@ -26,10 +26,8 @@ const BookingSuccess = () => {
 
   const user = useSelector((state) => state.userData);
 
-  console.log("STATE:", state);
-  console.log("BOOKING:", booking);
-  console.log("SERVICE:", service);
-  console.log("CREATOR:", creator);
+console.log(creator)
+
 
   // SAFETY CHECK
   if (!booking || !service || !creator) {
@@ -65,6 +63,7 @@ const BookingSuccess = () => {
     const date = new Date();
     date.setHours(hours);
     date.setMinutes(minutes + duration);
+
 
     return date.toLocaleTimeString([], {
       hour: "2-digit",

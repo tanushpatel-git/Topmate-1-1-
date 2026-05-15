@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 
+
 import { useNavigate, useParams } from "react-router-dom";
 import EmptyScreen1 from "../../assets/img-empty1.svg";
 import EmptyScreen2 from "../../assets/img-empty2.svg";
@@ -119,11 +120,11 @@ const handleDelete = (id) => {
       </button>
     ))}
   </div>
-
+    
   {/* Actions */}
   <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 w-full lg:w-auto">
 
-    <button className="bg-black text-white px-4 py-2 rounded-md h-10 font-semibold w-full sm:w-auto">
+    <button className="bg-black text-white px-4 py-2 rounded-md h-10 font-semibold w-full sm:w-auto " onClick={() =>navigate(`/creator-dashboard/services/${activeFilter}/create`)}>
       + Add New
     </button>
 
