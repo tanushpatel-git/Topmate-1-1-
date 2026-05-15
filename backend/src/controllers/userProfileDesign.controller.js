@@ -43,4 +43,28 @@ const getProfileDesign = async (req, res) => {
     }
 }
 
-module.exports =  {makeProfileDesign, getProfileDesign};
+const getPublicProfile = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        if (!userId) {
+            return res.status(400).json({ status: false, message: "User ID is required" });
+        }
+        const user = await User.findById(userId).select("-password");
+        if (!user) {
+            return res.status(404).json({ status: false, message: "User not found" });
+        }
+        const profileDesign = await UserProfile.findOne({ user: userId });
+        return res.status(200).json({ 
+            status: true, 
+            data: { 
+                user, 
+                profileDesign 
+            } 
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+module.exports =  {makeProfileDesign, getProfileDesign, getPublicProfile};

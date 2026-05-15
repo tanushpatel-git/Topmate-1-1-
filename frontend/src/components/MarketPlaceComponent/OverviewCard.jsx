@@ -23,6 +23,11 @@ const OverviewCard = ({ service }) => {
 
   const name = `${user?.firstName || ""} ${user?.lastName || ""}`;
 
+  const handleProfileClick = (e) => {
+    e.preventDefault();
+    navigate(`/profile/${user?._id}`);
+  };
+
   return (
     <div className="
   w-[100%]
@@ -44,11 +49,13 @@ const OverviewCard = ({ service }) => {
       <div className="flex-1">
         {/* Top Section */}
         <div className="flex gap-3">
-          <img
-            src={user?.userImageUrl}
-            alt="user"
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover"
-          />
+          <button onClick={handleProfileClick} className="focus:outline-none">
+            <img
+              src={user?.userImageUrl}
+              alt="user"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl object-cover hover:opacity-80 transition"
+            />
+          </button>
 
           <div className="flex flex-col justify-between">
             <h2 className="text-base sm:text-lg font-semibold leading-tight line-clamp-2">
@@ -110,9 +117,9 @@ const OverviewCard = ({ service }) => {
       {/* Footer */}
       <div className="flex justify-between items-center border-t border-gray-200 pt-3 mt-3">
 
-        <p className="text-md line-clamp-1 text-gray-500 ">
+        <button onClick={handleProfileClick} className="text-md line-clamp-1 text-gray-500 hover:text-black text-left">
           by {name}
-        </p>
+        </button>
 
         <button className="bg-black text-white text-xs sm:text-sm px-2 sm:px-3 py-1.5 rounded-full hover:bg-gray-800" onClick={handleClick}
         >

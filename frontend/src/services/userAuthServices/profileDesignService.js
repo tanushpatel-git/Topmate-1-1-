@@ -26,3 +26,12 @@ export const getMyServices = async () => {
         throw error
     }
 }
+
+export const getPublicProfile = async (userId) => {
+    try {
+        const response = await axiosInstance.get(`/user/public-profile/${userId}`)
+        return response.data;
+    } catch (error) {
+        throw error
+    }
+}

@@ -10,12 +10,18 @@ import {
     Trophy,
 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4 }) => {
+const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4, view, setView }) => {
 
-    const [view, setView] = useState("desktop");
     const userProfile = useSelector((state) => state.userProfile);
     const { color } = userProfile;
+    const { userId } = useSelector(state => state.userData);
+    const navigate = useNavigate();
+
+    const handleLivePage = () => {
+        navigate(`/profile/${userId}`);
+    };
 
     return (
         <div className="w-full flex items-center justify-between px-6 py-3 bg-white shadow-sm border-b">
@@ -24,7 +30,7 @@ const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4 }) => {
             <div className="flex items-center gap-2 bg-gray-100 p-1 rounded-xl">
                 <button
                     onClick={() => setView("desktop")}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg ${view === "desktop"
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer ${view === "desktop"
                         ? "bg-gray-800 text-white"
                         : "text-gray-600"
                         }`}
@@ -35,7 +41,7 @@ const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4 }) => {
 
                 <button
                     onClick={() => setView("mobile")}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg ${view === "mobile"
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer ${view === "mobile"
                         ? "bg-gray-800 text-white"
                         : "text-gray-600"
                         }`}
@@ -107,7 +113,9 @@ const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4 }) => {
             </div>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-3">
+            <div
+                onClick={handleLivePage}
+                className="flex items-center gap-3">
                 <motion.button
                     whileHover={{ scale: 1.05 }}
                     className="px-4 py-2 bg-gray-200 rounded-xl font-medium"

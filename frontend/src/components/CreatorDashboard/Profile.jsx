@@ -29,6 +29,7 @@ const Profile = () => {
   const [open4, setOpen4] = useState(false);
   const [open5, setOpen5] = useState(false);
   const [selectedColor, setSelectedColor] = useState(savedColor || colors[4]);
+  const [view, setView] = useState("desktop");
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -41,7 +42,7 @@ const Profile = () => {
         const resOfService = await getMyServices();
         if (resOfService) {
           dispatch(setServices(resOfService));
-          await updateProfileDesign({services: resOfService})
+          await updateProfileDesign({ services: resOfService })
         }
       } catch (err) {
         console.error("Failed to load profile design", err);
@@ -57,6 +58,8 @@ const Profile = () => {
   return (
     <div className="h-screen overflow-auto flex flex-col scroll-smooth">
       <ProfileNavbar
+        view={view}
+        setView={setView}
         onClose4={() => setOpen4(!open4)}
         onClose3={() => setOpen3(!open3)}
         onClose2={() => setOpen2(!open2)}
@@ -88,7 +91,7 @@ const Profile = () => {
         onClose={() => setOpen5(!open5)}
       />
 
-      <MainProfile />
+      <MainProfile view={view} />
     </div>
   );
 };

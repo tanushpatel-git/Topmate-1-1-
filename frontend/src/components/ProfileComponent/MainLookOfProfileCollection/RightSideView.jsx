@@ -9,16 +9,16 @@ import discount_highlight from "../../../assets/discount-highlight.png";
 import { ExternalLink } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 
-const RightSideView = () => {
+const RightSideView = ({ mobile }) => {
 
     const [activeSeriveTab, setActiveServiceTab] = useState("All");
     const { recomdation, aboutYourself, offer, donation, highlightLink, testimonial, services: servicesOfUserInFrontEnd } = useSelector((state) => state.userProfile);
 
     return (
-        <div className="h-[91vh] absolute right-0 overflow-auto top-19 w-[65%] bg-[#EFECE3]">
-            <div className="w-full pt-5 pl-10">
+        <div className={mobile ? "" : "h-[91vh] absolute right-0 overflow-auto top-19 w-[53%] bg-[#EFECE3]"}>
+            <div className={mobile ? "w-full" : "w-full pt-5 pl-10"}>
                 {recomdation.recomdationText && recomdation.from && (
-                    <div className="w-100 h-40 flex flex-col bg-white rounded-2xl">
+                    <div className={mobile ? "w-full h-40 flex flex-col bg-white rounded-2xl" : "w-100 h-40 flex flex-col bg-white rounded-2xl"}>
                         <h1 className="p-2 text-black text-md">{recomdation.recomdationText}</h1>
                         <div className="flex justify-between items-center">
                             <h1 className="p-2 text-black text-md">from {recomdation.from}</h1>
@@ -28,7 +28,7 @@ const RightSideView = () => {
                 )}
                 <div className="mt-5">
                     {servicesOfUserInFrontEnd && servicesOfUserInFrontEnd.length > 0 && (
-                        <div className="flex gap-3 items-center">
+                        <div className="flex gap-3 items-center flex-wrap">
                             <button onClick={
                                 () => {
                                     if (activeSeriveTab == "All") {
@@ -79,7 +79,7 @@ const RightSideView = () => {
                             )}
                         </div>
                     )}
-                    <div className="grid grid-cols-2 gap-3 items-center">
+                    <div className={mobile ? "grid grid-cols-1 gap-3" : "grid grid-cols-2 gap-3 items-center"}>
                         {servicesOfUserInFrontEnd && servicesOfUserInFrontEnd?.filter((service) => {
                             if (activeSeriveTab === "All") return true;
                             if (activeSeriveTab === "1:1") return service.category === "one-to-one";
@@ -132,13 +132,13 @@ const RightSideView = () => {
                 {highlightLink.url && (<div
                     className="flex-1 mt-5 flex items-center"
                 >
-                    <div className="w-[30vw] bg-gray-100 rounded-3xl p-8 flex items-center justify-between shadow">
+                    <div className={mobile ? "w-full bg-gray-100 rounded-3xl p-8 flex items-center justify-between shadow" : "w-[30vw] bg-gray-100 rounded-3xl p-8 flex items-center justify-between shadow"}>
 
                         <p className="text-gray-600 text-lg">
                             {highlightLink.url}
                         </p>
 
-                        <div className="w-24 h-24 bg-gray-200 rounded-xl flex items-center justify-center">
+                        <div className="w-24 h-24 bg-gray-200 rounded-xl flex items-center justify-center shrink-0">
                             {highlightLink?.imageUrl ? <img className="w-full h-full" src={highlightLink.imageUrl} alt="loading..." /> : <ExternalLink size={40} />}
                         </div>
                     </div>
@@ -149,7 +149,7 @@ const RightSideView = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="flex-1 flex mt-5 items-center"
                     >
-                        <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 shadow flex flex-col justify-center gap-4">
+                        <div className={mobile ? "w-full bg-gray-100 rounded-3xl p-6 shadow flex flex-col justify-center gap-4" : "w-[30vw] bg-gray-100 rounded-3xl p-6 shadow flex flex-col justify-center gap-4"}>
 
                             <Quote size={28} className="text-gray-400" />
 
@@ -170,7 +170,7 @@ const RightSideView = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex-1 flex mt-5 items-center"
                 >
-                    <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
+                    <div className={mobile ? "w-full bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow" : "w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow"}>
 
                         <p className="text-gray-700 text-lg leading-snug">
                             {donation}
@@ -179,7 +179,7 @@ const RightSideView = () => {
                         <img
                             src={give_charity_icon}
                             alt="Give Charity Icon"
-                            className="w-20 h-20 rounded-xl"
+                            className="w-20 h-20 rounded-xl shrink-0"
                         />
                     </div>
                 </motion.div>)}
@@ -188,13 +188,13 @@ const RightSideView = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex-1 flex mt-5 items-center"
                 >
-                    <div className="w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow">
+                    <div className={mobile ? "w-full bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow" : "w-[30vw] bg-gray-100 rounded-3xl p-6 flex items-center justify-between shadow"}>
 
                         <p className="text-gray-700 text-lg">
                             {offer}
                         </p>
 
-                        <div className="w-20 h-20 rounded-xl flex items-center justify-center">
+                        <div className="w-20 h-20 rounded-xl flex items-center justify-center shrink-0">
                             <img src={discount_highlight} alt="loading..." />
                         </div>
                     </div>
