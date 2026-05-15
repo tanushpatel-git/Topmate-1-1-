@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 
-export default function SearchBar() {
+export default function SearchBar({ onSearch }) {
   const [active, setActive] = useState(false);
+  const [value, setValue] = useState("");
+
+  const handleSearch = () => {
+    if (onSearch) onSearch(value);
+    setActive(false);
+  };
 
   return (
     <>
@@ -41,17 +47,19 @@ export default function SearchBar() {
           <input
             type="text"
             placeholder="Search..."
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             onFocus={() => setActive(true)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                console.log("Enter clicked");
-                setActive(false);
+                handleSearch();
               }
             }}
             className="w-full text-sm sm:text-lg outline-none font-light bg-transparent"
           />
 
           <div
+            onClick={handleSearch}
             className="rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-[#983E01]/10 cursor-pointer"
           >
             <Search className="text-[#983E01]" size={20} />

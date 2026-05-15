@@ -297,15 +297,40 @@ const getAllUsers = async (req, res) => {
 
 const getMarketplaceData = async (req, res) => {
   try {
-    const services = await Service.find()
-      .populate("user", "-password -__v");
+    const { category, search, limit = 20, page = 1 } = req.query;
 
-    const filteredServices = services.filter((s) => s.user !== null);
+    const filter = {};
+
+    if (category) {
+      filter.category = category;
+    }
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+        { category: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    const skip = (page - 1) * limit;
+    const limitNum = Number(limit);
+
+    const services = await Service.find(filter)
+      .populate("user", "-password -__v")
+      .skip(skip)
+      .limit(limitNum);
+
+    const result = services.filter((s) => s.user !== null);
+    const total = await Service.countDocuments(filter);
 
     res.status(200).json({
       success: true,
-      count: filteredServices.length,
-      data: filteredServices,
+      count: result.length,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limitNum),
+      data: result,
     });
 
   } catch (error) {
