@@ -19,14 +19,14 @@ import { FaCheckCircle } from "react-icons/fa";
 const BookingSuccess = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.userData);
 
   const booking = state?.booking;
   const service = state?.service;
   const creator = state?.creator;
 
-  const user = useSelector((state) => state.userData);
-
 console.log(creator)
+console.log(service);
 
 
   // SAFETY CHECK
@@ -70,6 +70,8 @@ console.log(creator)
       minute: "2-digit",
     });
   };
+
+  
 
   return (
     <div className="min-h-screen bg-[#EDEDED] flex justify-center items-center p-4">

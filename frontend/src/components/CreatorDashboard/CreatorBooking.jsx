@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import GetCreatorBookingsHook from "../../hooks/GetCreatorBookingsHook";
 import { ChevronDown } from "lucide-react";
 import CancelBookingHook from "../../hooks/CancelBookingHook";
-
+import toast from "react-hot-toast";
 
 
 function CreatorBooking() {
@@ -16,6 +16,7 @@ function CreatorBooking() {
   const [data, setData] = useState([]);
   const [option , setoption] = useState(false)
   
+
   
   const {
     bookings,
@@ -150,19 +151,16 @@ const {
     activeTab,
   ]);
 
-  const handleTabChange = (tab) => {
-    navigate(
-      `/creator-dashboard/calls/${activeFilter}/${tab}`
-    );
-  };
+  const handleTabChange = (tab) => { navigate(`/creator-dashboard/calls/${activeFilter}/${tab}`); };
 
   const handleFilterChange = (
-    filter
-  ) => {
+filter  ) => {
     navigate(
       `/creator-dashboard/calls/${filter}/${activeTab}`
-    );
-  };
+    );};
+
+
+
 
   // LOADING
   if (loading) {
@@ -185,6 +183,9 @@ const {
       </div>
     );
   }
+
+
+console.log()
 
   return (
     <div className="w-full min-h-screen bg-gray-50 px-6 py-6">
@@ -255,7 +256,6 @@ const {
 
       {/* BOOKINGS */}
       {data.length > 0 ? (
-
         <div className="space-y-4 ">
 
           {data.map((item) => (
@@ -275,7 +275,7 @@ const {
 
                 <span className="text-black font-bold">
 
-                  {!["product", "priorityDm",].includes(item?.service?.category)? (formatBookingDateTime(item?.date, item?.time, item?.duration) ) : ( item.service.category === 'product' ? "Document" :'' ) }
+          {!["product", "priorityDm",].includes(item?.service?.category)? (formatBookingDateTime(item?.date, item?.time, item?.duration) ) : ( item.service.category === 'product' ? "Document" :'' ) }
 
                 </span>
 
@@ -285,9 +285,14 @@ const {
               <div className="p-6">
                 {/* SEEKER */}
                 <p className="text-blue-600mt-1 cursor-pointer">
-                  {item?.creator?.firstName}{" "}
-                  {item?.creator?.lastName}
+                  {item?.seeker?.firstName}{" "}
+                  {item?.seeker?.lastName}
                 </p>
+                <p className="text-blue-600mt-1 cursor-pointer">
+                  {item?.service.title}{" "}
+                </p>
+
+
 
 
 
@@ -297,8 +302,8 @@ const {
                   {/* STATUS */}
                   <span
                     className={`px-3 py-1 rounded-full  text-sm  font-medium capitalize ${item?.status === "completed"
-                      ? "bg-green-600 text-green-600"
-                      : item?.status ===
+                      ?"bg-green-600 text-green-600"
+                      :item?.status ===
                         "cancelled"
                         ? "bg-red-100 text-red-600"
                         : "bg-gray-100 text-gray-700"
@@ -338,16 +343,16 @@ const {
       </p>
 
       <p
-        className="px-4 py-2 hover:bg-red-100 text-red-500 cursor-pointer text-sm"  
-         onClick={async () => {
-
-    await cancelBooking(item._id);
-    // REFRESH BOOKINGS
+className={`px-4 py-2 hover:bg-red-100 text-red-500 cursor-pointer text-sm ${item?.service?.category === "product" || item?.service?.category === "priorityDm"? "hidden": ""}`}
+   onClick={async () => {
+  const res = await cancelBooking(item._id);
+  if (res?.success) {
+    
+    alert("Booking Cancelled");
     getCreatorBookings(userData.userId);
-    // CLOSE DROPDOWN
     setoption(false);
-
-  }}
+  }
+}}
       >
         Cancel
       </p>
@@ -357,16 +362,7 @@ const {
 
   {/* JOIN / ACCESS */}
   <button
-    disabled={
-      item?.service?.category !== "product" &&
-      !item?.meetingLink
-    }
-    className={`px-4 py-2 rounded-lg text-sm ${
-      item?.service?.category !== "product" &&
-      !item?.meetingLink
-        ? "bg-gray-400 cursor-not-allowed text-white"
-        : "bg-black text-white hover:opacity-90"
-    }`}
+    className={`px-4 py-2 rounded-lg text-sm   bg-black text-white hover:opacity-90 }`}
     onClick={() => {
 
       if (item?.service?.category === "product") {
@@ -378,15 +374,16 @@ const {
             creator: item?.seeker,
           },
         });
-
         return;
       }
-
-      if (item?.meetingLink) {
-        window.open(item.meetingLink, "_blank");
-      }
-
-    }}
+else if(item.service.category === 'one-to-one'){
+navigate("/booking/video-call-status", {
+  state: {
+    booking: item,
+    service: item?.service,
+    creator: item?.seeker,
+  },
+});}}}
   >
     {item?.service?.category === "product"
       ? "Access"

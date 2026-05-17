@@ -117,7 +117,7 @@ const getCreatorBookings = async (req, res) => {
     const { creatorId } = req.params;
 
     const bookings = await Booking.find({ creator: creatorId })
-      .populate("creator", "firstName lastName userImageUrl")
+      .populate("seeker", "firstName lastName userImageUrl")
       .populate("service");
 
     res.status(200).json({

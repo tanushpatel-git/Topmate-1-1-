@@ -4,6 +4,8 @@ import { Skeleton } from 'boneyard-js/react'
 import ScrollToTop from './services/ScrollOnTop'
 import useGetCurrUser from './hooks/useGetCurrUser'
 
+
+
 const Home = lazy(() => import('./pages/Home'))
 const Meeting = lazy(() => import('./pages/Meeting'))
 const Webniars = lazy(() => import('./pages/Webinar'))
@@ -33,6 +35,9 @@ const Profile = lazy(() => import('./components/CreatorDashboard/Profile'))
 const BookingPages = lazy(() => import('./pages/bookingPages'))
 const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
 const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
+const VideoCall = lazy(()=>import('./components/VideoCall/VideoCall'))
+const VideoCallWaiting = lazy(()=>import('./components/VideoCall/VideoCallWaiting'))
+
 import {
   setUserName,
   setUserId,
@@ -234,6 +239,19 @@ const App = () => {
             <Skeleton name="booking-success" loading={false}><BookingSuccess/></Skeleton>
           </Suspense>
         } />
+
+<Route   path="/video-call/:id" element={<Suspense fallback={<Skeleton name="video-call/:id" loading/>}>
+<Skeleton name="video-call/:id" loading={false}><VideoCall /></Skeleton>
+</Suspense>
+  }
+/>
+
+<Route  path="/booking/video-call-status" element={<Suspense fallback={<Skeleton name="/booking/video-call-status" loading/>}>
+<Skeleton name="/booking/video-call-status" loading={false}><VideoCallWaiting/></Skeleton>
+</Suspense>
+  }
+/>
+
 
       </Routes>
     </>

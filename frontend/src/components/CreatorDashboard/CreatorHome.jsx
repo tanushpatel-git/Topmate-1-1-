@@ -1,5 +1,5 @@
 
-import React  from "react";
+import React, { useEffect }  from "react";
 import loopdesktop from '../../assets/loopdesktop-img.svg'
 import loopMobile from '../../assets/loopmobile_img.svg'
 import { useSelector } from "react-redux";
@@ -12,7 +12,11 @@ import { motion, AnimatePresence, steps } from "framer-motion";
 
 const CreatorHome =()=>{
 
+
 const userData = useSelector((state) => state.userData);
+
+
+
 const navigate = useNavigate();
 const [steps, setSteps] = useState([
   {
