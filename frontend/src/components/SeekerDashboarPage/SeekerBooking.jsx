@@ -1,96 +1,202 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import GetSeekerBookingsHook from "../../hooks/GetSeekerBookingsHook";
 
 function SeekerBooking() {
 
+  const navigate = useNavigate();
 
-  const filters = [
-    "1:1 calls",
-    "Priority DM",
-    "Products/Courses",
-    "Workshops/Live Cohorts",
-    "Packages",
-  ];
-
-  const mockData = {
-    "1:1 calls": {
-      upcoming: [
-      ],
-      completed: [{
-        id: 1,
-        title: "Career Guidance Call",
-        expert: "Rahul Sharma",
-        date: "2026-04-20",
-      },],
-    },
-    "Priority DM": {
-      upcoming: [],
-      completed: [],
-    },
-    "Products/Courses": {
-      upcoming: [{
-        id: 2,
-        title: "React Mastery Course",
-        expert: "Aman Verma",
-        date: "2026-03-10",
-      },],
-      completed: [],
-    },
-    "Workshops/Live Cohorts": {
-      upcoming: [],
-      completed: [],
-    },
-    Packages: {
-      upcoming: [],
-      completed: [],
-    },
-  };
+  const userData = useSelector((state) => state.userData);
 
   const [activeTab, setActiveTab] = useState("upcoming");
-  const [activeFilter, setActiveFilter] = useState("1:1 calls");
+
+  const [activeFilter, setActiveFilter] =
+    useState("one-to-one");
+
   const [data, setData] = useState([]);
 
+
+
+  // FILTERS
+  const filters = [
+    {
+      label: "1:1 calls",
+      value: "one-to-one",
+    },
+    {
+      label: "Products/Courses",
+      value: "product",
+    },
+    
+    {
+      label: "PriorityDm",
+      value: "priorityDm",
+    },
+    {
+      label: "Workshops/Live Cohorts",
+      value: "webinar",
+    },
+    {
+      label: "Packages",
+      value: "package",
+    },
+
+  ];
+
+
+  const formatBookingDateTime = (date, time, duration) => {
+
+    const bookingDate = new Date(date);
+
+    // time = "08:20"
+    const [hours, minutes] = time.split(":");
+
+    bookingDate.setHours(hours);
+    bookingDate.setMinutes(minutes);
+
+    // START TIME
+    const startTime = bookingDate.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    // END TIME
+    const endDate = new Date(bookingDate.getTime() + duration * 60000);
+
+    const endTime = endDate.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+
+    // DATE
+    const formattedDate = bookingDate.toLocaleDateString("en-IN", {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+
+    return `${formattedDate} ${startTime} - ${endTime} (GMT+5:30)`;
+  };
+
+  // HOOK
+  const {
+    bookings,
+    loading,
+    error,
+    getSeekerBookings,
+  } = GetSeekerBookingsHook();
+
+  // FETCH BOOKINGS
   useEffect(() => {
 
-    // Replace this with real API call
-  const result = mockData[activeFilter][activeTab];
-    setData(result);
-  }, [activeFilter, activeTab]);
+    if (!userData?.userId) return;
 
-  const Navigate = useNavigate();
+    getSeekerBookings(userData.userId);
+
+  }, [userData]);
+
+
+
+  // FILTER BOOKINGS
+ useEffect(() => {
+  if (!bookings) return;
+
+  const filteredData = bookings.filter((item) => {
+    const categoryMatch =
+      item?.service?.category === activeFilter;
+
+    // categories that DON'T need tab filtering
+    const noTabFilterCategories = [
+      "product",
+      "priorityDm",
+      "package",
+    ];
+
+    // show all data
+    if (noTabFilterCategories.includes(activeFilter)) {
+      return categoryMatch;
+    }
+
+    // apply tab filtering
+    let statusMatch = false;
+
+    if (activeTab === "upcoming") {
+      statusMatch = item?.status === "confirmed";
+    }
+
+    if (activeTab === "completed") {
+      statusMatch = item?.status === "completed";
+    }
+
+    return categoryMatch && statusMatch;
+  });
+
+  setData(filteredData);
+}, [bookings, activeFilter, activeTab]);
+
+
+  // LOADING
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-xl font-semibold">
+          Loading...
+        </p>
+      </div>
+    );
+  }
+
+  // ERROR
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-red-500 font-semibold">
+          {error}
+        </p>
+      </div>
+    );
+  }
 
   return (
 
     <div className="w-full min-h-screen bg-gray-50 px-6 py-6">
 
-      {/* Heading */}
+      {/* HEADING */}
       <h1 className="text-3xl font-semibold text-gray-800 mb-6">
         Bookings
       </h1>
 
-      {/* Filters */}
+      {/* FILTERS */}
       <div className="flex flex-wrap gap-3 mb-6">
-        {filters.map((item, index) => (
+
+        {filters.map((item) => (
+
           <button
-            key={index}
-            onClick={() => setActiveFilter(item)}
-            className={`px-4 py-2 rounded-full border text-sm ${activeFilter === item
-                ? "bg-gray-100 border-black font-medium"
-                : "border-gray-300 text-gray-600"
+            key={item.value}
+            onClick={() => setActiveFilter(item.value)}
+            className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 ${activeFilter === item.value
+                ? "bg-black text-white border-black"
+                : "border-gray-300 bg-white text-gray-600"
               }`}
           >
-            {item}
+            {item.label}
           </button>
+
         ))}
+
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-6 border-b mb-10">
+      {/* TABS */} 
+      <div className={`flex gap-6 border-b mb-10 ${activeFilter === "one-to-one" ||activeFilter === "webinar"? "": "hidden"}`}>
+
         <button
           onClick={() => setActiveTab("upcoming")}
-          className={`pb-2 text-sm ${activeTab === "upcoming"
-              ? "border-b-2 border-black font-medium"
+          className={`pb-2 text-sm transition-all duration-200 ${activeTab === "upcoming"
+              ? "border-b-2 border-black font-medium text-black"
               : "text-gray-500"
             }`}
         >
@@ -99,108 +205,182 @@ function SeekerBooking() {
 
         <button
           onClick={() => setActiveTab("completed")}
-          className={`pb-2 text-sm ${activeTab === "completed"
-              ? "border-b-2 border-black font-medium"
+          className={`pb-2 text-sm transition-all duration-200 ${activeTab === "completed"
+              ? "border-b-2 border-black font-medium text-black"
               : "text-gray-500"
             }`}
         >
           Completed
         </button>
+
       </div>
 
-      {/*  Data Section */}
+      {/* BOOKINGS */}
       {data.length > 0 ? (
+
         <div className="space-y-4">
+
           {data.map((item) => (
+
             <div
-              key={item.id}
-              className=" max-w-lg border rounded-xl  bg-white shadow-sm"
+              key={item._id}
+              className="max-w-2xl  bg-white border rounded-2xl shadow-sm overflow-hidden"
             >
-              {/* Top Row */}
-              <div className="flex justify-between items-center py-2 px-6 mb-3 border-b-2 border-gray-300 pb-3">
-                <span className="text-sm bg-gray-100 px-3 py-1 rounded-full border">
-                  {item.type || "Video Call"}
+
+              {/* TOP */}
+              <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
+
+                <span className="text-sm bg-gray-100 border border-gray-400  px-3 py-1 rounded-full capitalize font-bold">
+                  {item?.service?.category === "one-to-one" ? 'Video call' : item?.service?.category}
+                </span>
+                <span className="text-black font-bold">
+                  {item?.service?.category !== "product" &&
+                    formatBookingDateTime(
+                      item?.date,
+                      item?.time,
+                      item?.duration
+                    )}
                 </span>
 
-                <span className="text-sm text-gray-500">
-                  {item.date}
-                </span>
               </div>
 
-              {/* Title */}
-              <h3 className="font-semibold text-gray-800 text-xl px-5">
-                {item.title}
-              </h3>
+              {/* BODY */}
+              <div className="p-6">
 
-              {/* Expert */}
-              <p className="text-lg text-blue-600 underline cursor-pointer px-5">
-                {item.expert}
-              </p>
+                {/* TITLE */}
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {item?.service?.title}
+                </h2>
 
-              {/* Bottom Row */}
-              <div className="flex justify-between items-center mt-4 px-5 py-2 ">
+                {/* CREATOR */}
+                <p className="text-blue-600 underline mt-1 cursor-pointer">
+                  {item?.creator?.firstName}{" "}
+                  {item?.creator?.lastName}
+                </p>
 
+                {/* BOTTOM */}
+                <div className="flex justify-between items-center mt-6">
 
-                <span
-                  className={`px-3 py-1 text-sm rounded-full font-semibold ${item.status === "cancelled"
-                      ? "bg-red-100 text-red-600"
-                      : item.status === "completed"
+                  {/* STATUS */}
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${item?.status === "completed"
                         ? "bg-green-100 text-green-600"
-                        : "bg-gray-100 text-gray-600"
-                    }`}
-                >
-                  {item.status === "cancelled"
-                    ? "Cancelled"
-                    : item.status === "completed"
-                      ? "Completed"
-                      : "Upcoming"}
-                </span>
+                        : item?.status === "cancelled"
+                          ? "bg-red-100 text-red-600"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                  >
+                    {item.service.category !== 'product' ?
+                      item?.status : ''
+                    }
 
-                {/* Button */}
-                <button className="bg-gray-100 hover:bg-gray-200 text-ms px-4 py-2 rounded-md font-semibold">
-                  Booking Details
-                </button>
+                  </span>
+
+                  {/* BUTTON */}
+
+
+              
+
+                  <div className="flex gap-2 "> 
+    <button className="bg-gray-300 text-black px-4 py-2 rounded-lg text-sm hover:opacity-90"
+  onClick={() => {
+    navigate("/booking/success", {
+      state: {
+        booking: item,
+        service: item?.service,
+        creator: item?.creator,
+      },
+    });
+  }}
+>
+  Booking Details
+
+
+</button>            
+<button
+  className="bg-black text-white px-4 py-2 rounded-lg text-sm hover:opacity-90"
+  onClick={() => {
+    if (item?.service?.category !== "product") {
+      // join logic
+    } else {
+      navigate("/booking/success", {
+      state: {
+        booking: item,
+        service: item?.service,
+        creator: item?.creator,
+      },
+    });
+    }
+  }}
+>
+  {item?.service?.category !== "product"
+    ? "Join"
+    : "Access"}
+</button>
+
+
+                    </div>
+
+                </div>
+
               </div>
+
             </div>
+
           ))}
+
         </div>
+
       ) : (
-        /*  Empty State */
-        <div className="flex flex-col items-center justify-center mt-[10rem] text-center">
-          <h2 className="text-4xl font-semibold text-gray-700 mb-2">
+
+        // EMPTY STATE
+        <div className="flex flex-col items-center justify-center mt-[8rem] text-center">
+
+          <h2 className="text-4xl font-semibold text-gray-700 mb-3">
             So empty..
           </h2>
 
-          <p className="text-gray-500 text-xl max-w-md mb-6">
-            No {activeFilter} {activeTab} bookings found.
+          <p className="text-gray-500 text-lg mb-8">
+            No {activeTab} bookings found.
           </p>
 
-          <div className="flex items-center justify-between w-full max-w-xl border rounded-xl p-4 bg-white shadow-sm">
+          <div className="flex items-center justify-between w-full max-w-xl border rounded-2xl p-5 bg-white shadow-sm">
 
             <div className="flex items-center gap-4">
+
               <img
-                className="w-12 h-12"
+                className="w-14 h-14"
                 src="https://topmate.io/cdn-cgi/image/width=96,quality=90/images/follower-dashboard/bookings/Empty-1.png"
                 alt=""
               />
 
               <div className="text-left">
-                <h3 className="font-semibold text-gray-800">
 
+                <h3 className="font-semibold text-gray-800">
                   Book a call
                 </h3>
+
                 <p className="text-sm text-gray-500">
                   Search for experts on topmate
                 </p>
+
               </div>
+
             </div>
 
-            <button className="bg-black text-white px-4 py-2 rounded-md text-sm" onClick={() => { Navigate('/search') }} >
+            <button
+              className="bg-black text-white px-5 py-2 rounded-lg text-sm hover:opacity-90"
+              onClick={() => navigate("/search")}
+            >
               Try Here
             </button>
+
           </div>
+
         </div>
+
       )}
+
     </div>
   );
 }

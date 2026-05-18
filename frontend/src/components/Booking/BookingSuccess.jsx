@@ -19,17 +19,15 @@ import { FaCheckCircle } from "react-icons/fa";
 const BookingSuccess = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.userData);
 
   const booking = state?.booking;
   const service = state?.service;
   const creator = state?.creator;
 
-  const user = useSelector((state) => state.userData);
+console.log(creator)
+console.log(service);
 
-  console.log("STATE:", state);
-  console.log("BOOKING:", booking);
-  console.log("SERVICE:", service);
-  console.log("CREATOR:", creator);
 
   // SAFETY CHECK
   if (!booking || !service || !creator) {
@@ -66,11 +64,14 @@ const BookingSuccess = () => {
     date.setHours(hours);
     date.setMinutes(minutes + duration);
 
+
     return date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
   };
+
+  
 
   return (
     <div className="min-h-screen bg-[#EDEDED] flex justify-center items-center p-4">

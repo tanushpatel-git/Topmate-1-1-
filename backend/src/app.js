@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./routes/user.route.js");
 const serviceRouter = require("./routes/Service.route.js");
 const bookingRoutes = require("./routes/Booking.routes.js");
-
+const streamRoutes = require('./routes/Stream.routes.js')
 const app = express();
 
 
@@ -23,4 +23,5 @@ app.use(cookieParser())
 app.use("/api/user",userRouter);
 app.use("/api/service",serviceRouter);
 app.use("/api/booking",bookingRoutes);
+app.use('/api/stream',streamRoutes)
 module.exports = app; 

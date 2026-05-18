@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import ScrollToTop from './services/ScrollOnTop'
 import useGetCurrUser from './hooks/useGetCurrUser'
 
+
+
 const Home = lazy(() => import('./pages/Home'))
 const Meeting = lazy(() => import('./pages/Meeting'))
 const Webniars = lazy(() => import('./pages/Webinar'))
@@ -33,7 +35,13 @@ const PublicProfile = lazy(() => import('./pages/PublicProfile'))
 const BookingPages = lazy(() => import('./pages/bookingPages'))
 const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
 const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
+<<<<<<< HEAD
 import ProtectedRoute from './components/commonCompo/ProtectedRoute'
+=======
+const VideoCall = lazy(()=>import('./components/VideoCall/VideoCall'))
+const VideoCallWaiting = lazy(()=>import('./components/VideoCall/VideoCallWaiting'))
+
+>>>>>>> nikesh
 import {
   setUserName,
   setUserId,
