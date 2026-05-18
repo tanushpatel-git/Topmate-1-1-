@@ -35,13 +35,7 @@ const PublicProfile = lazy(() => import('./pages/PublicProfile'))
 const BookingPages = lazy(() => import('./pages/bookingPages'))
 const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
 const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
-<<<<<<< HEAD
 import ProtectedRoute from './components/commonCompo/ProtectedRoute'
-=======
-const VideoCall = lazy(()=>import('./components/VideoCall/VideoCall'))
-const VideoCallWaiting = lazy(()=>import('./components/VideoCall/VideoCallWaiting'))
-
->>>>>>> nikesh
 import {
   setUserName,
   setUserId,
