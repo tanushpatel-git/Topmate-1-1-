@@ -1,28 +1,44 @@
 import {
   StreamCall,
   StreamTheme,
-  StreamVideo,
   SpeakerLayout,
   CallControls,
+  DeviceSettings,
+  useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 
 import { useEffect, useState } from "react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import axiosInstance from "../../utility/axios";
 
 import { initStreamClient } from "../../utility/Stream";
 
+function ParticipantCount() {
+
+  const { useParticipants } = useCallStateHooks();
+
+  const participants = useParticipants();
+
+  return (
+    <div className="text-sm text-gray-400">
+      {participants.length} Participants
+    </div>
+  );
+}
+
 function VideoCallPage() {
 
   const { callId } = useParams();
 
-  const [client, setClient] = useState(null);
+  const navigate = useNavigate();
 
   const [call, setCall] = useState(null);
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
@@ -32,7 +48,54 @@ function VideoCallPage() {
 
       try {
 
-        const res = await axiosInstance.get("/chat/token");
+        // ASK MEDIA PERMISSION
+        let mediaStream = null;
+
+        try {
+
+          mediaStream =
+            await navigator.mediaDevices.getUserMedia({
+              audio: true,
+              video: true,
+            });
+
+          console.log("MEDIA ACCESS GRANTED");
+
+        } catch (err) {
+
+          console.log(
+            "MEDIA ACCESS ERROR =>",
+            err
+          );
+        }
+
+        // GET DEVICES
+        const devices =
+          await navigator.mediaDevices.enumerateDevices();
+
+        const hasMic = devices.some(
+          (device) => device.kind === "audioinput"
+        );
+
+        const hasCamera = devices.some(
+          (device) => device.kind === "videoinput"
+        );
+
+        console.log("HAS MIC =>", hasMic);
+
+        console.log("HAS CAMERA =>", hasCamera);
+
+        // STOP TEMP STREAM
+        if (mediaStream) {
+
+          mediaStream.getTracks().forEach((track) => {
+            track.stop();
+          });
+        }
+
+        // GET STREAM TOKEN
+        const res =
+          await axiosInstance.get("/stream/token");
 
         const {
           token,
@@ -42,72 +105,181 @@ function VideoCallPage() {
           userImage,
         } = res.data;
 
-        const streamClient = await initStreamClient({
-          apiKey,
-          token,
-          user: {
-            id: userId,
-            name: userName,
-            image: userImage,
-          },
-        });
+        // INIT STREAM CLIENT
+        const streamClient =
+          await initStreamClient({
+            apiKey,
+            token,
+            user: {
+              id: userId,
+              name: userName,
+              image: userImage,
+            },
+          });
 
-        setClient(streamClient);
+        // CREATE CALL
+        currentCall =
+          streamClient.call("default", callId);
 
-        currentCall = streamClient.call(
-          "default",
-          callId
-        );
-
+        // JOIN FIRST
         await currentCall.join({
           create: true,
+          audio: true,
+          video: true,
         });
+
+        console.log("CALL JOINED");
+
+        // ENABLE CAMERA AFTER JOIN
+        if (hasCamera) {
+
+          try {
+
+            await currentCall.camera.enable();
+
+            console.log("CAMERA ENABLED");
+
+          } catch (err) {
+
+            console.log(
+              "CAMERA ENABLE ERROR =>",
+              err
+            );
+          }
+        }
+
+        // ENABLE MIC AFTER JOIN
+        if (hasMic) {
+
+          try {
+
+            await currentCall.microphone.enable();
+
+            console.log("MIC ENABLED");
+
+            console.log(
+              "MIC STATE =>",
+              currentCall.microphone.state
+            );
+
+          } catch (err) {
+
+            console.log(
+              "MIC ENABLE ERROR =>",
+              err
+            );
+          }
+        }
 
         setCall(currentCall);
 
+        setLoading(false);
+
       } catch (error) {
-        console.log(error);
+
+        console.log(
+          "VIDEO CALL ERROR =>",
+          error
+        );
+
+        alert("Failed to join video call");
+
+        navigate("/");
       }
     };
 
     init();
 
     return () => {
+
       if (currentCall) {
         currentCall.leave();
       }
     };
 
-  }, [callId]);
+  }, [callId, navigate]);
 
-  if (!client || !call) {
+  // LEAVE CALL
+  const handleLeave = async () => {
+
+    if (call) {
+      await call.leave();
+    }
+
+    navigate("/");
+  };
+
+  // LOADING
+  if (loading || !call) {
+
     return (
-      <div className="h-screen flex items-center justify-center">
-        Loading...
+      <div className="h-screen flex items-center justify-center bg-[#0f172a] text-white text-xl">
+        Loading Video Call...
       </div>
     );
   }
 
   return (
-    <StreamVideo client={client}>
-      <StreamCall call={call}>
-        <StreamTheme>
+    <StreamCall call={call}>
 
-          <div className="h-screen flex flex-col">
+      <StreamTheme className="str-video__theme-dark">
 
-            <div className="flex-1">
+        <div className="h-screen bg-[#0f172a] flex flex-col text-white">
+
+          {/* HEADER */}
+          <div className="h-16 border-b border-white/10 flex items-center justify-between px-6">
+
+            <h1 className="text-lg font-semibold">
+              Video Consultation
+            </h1>
+
+            <ParticipantCount />
+
+          </div>
+
+          {/* VIDEO AREA */}
+          <div className="flex-1 p-4 relative">
+
+            <div className="h-full rounded-3xl overflow-hidden shadow-2xl">
               <SpeakerLayout />
             </div>
 
-            <div className="p-4">
+            {/* CONTROLS */}
+            <div
+              className="
+                absolute bottom-6 left-1/2 -translate-x-1/2
+                flex items-center gap-4
+              "
+            >
+
+              {/* STREAM CONTROLS */}
               <CallControls />
+
+              {/* DEVICE SETTINGS */}
+              <DeviceSettings />
+
+              {/* LEAVE */}
+              <button
+                onClick={handleLeave}
+                className="
+                  bg-red-500 hover:bg-red-600
+                  text-white px-5 py-2
+                  rounded-full font-medium
+                  transition
+                "
+              >
+                Leave
+              </button>
+
             </div>
 
           </div>
 
-        </StreamTheme>
-      </StreamCall>
-    </StreamVideo>
+        </div>
+
+      </StreamTheme>
+
+    </StreamCall>
   );
 }
 
