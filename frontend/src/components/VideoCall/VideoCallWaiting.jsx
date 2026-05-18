@@ -172,7 +172,7 @@ function VideoCallWaiting() {
   onClick={() => {
     if (!isJoinEnabled()) {
       navigate(
-        `/video-call/${booking?.streamCallId || booking?._id}`
+        `/booking/video-call/${booking?.streamCallId || booking?._id}`
       );
     }
   }}

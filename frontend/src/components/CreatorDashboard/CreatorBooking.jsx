@@ -364,9 +364,7 @@ className={`px-4 py-2 hover:bg-red-100 text-red-500 cursor-pointer text-sm ${ite
   <button
     className={`px-4 py-2 rounded-lg text-sm   bg-black text-white hover:opacity-90 }`}
     onClick={() => {
-
       if (item?.service?.category === "product") {
-
         navigate("/booking/success", {
           state: {
             booking: item,
