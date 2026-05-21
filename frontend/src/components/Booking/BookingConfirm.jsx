@@ -152,11 +152,10 @@ useEffect(() => {
         </h2>
         { service.category=== "one-to-one" && <p className="text-gray-500">Video Call | {service?.duration}mins</p> }
         { service.category=== "product" && <p className="text-gray-500">Digital Product</p> }
-
-
+{ service.category=== "priorityDm" && <p className="text-gray-500">Priority DM</p> }
 </div>
 
-        <div className={`mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm ${service.category === "product" ? "hidden" : ""}`}>
+        <div className={`mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm ${service.category !== "one-to-one"  ? "hidden" : ""}`}>
 
           <div className="p-2 text-black font-bold ">
             <p>
@@ -172,6 +171,11 @@ useEffect(() => {
           </button>
         </div>
 
+<div className={`mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm ${service.category !== "priorityDm"  ? "" : "hidden"}`}>
+  <p>
+  {service.category.longDescription }
+  </p>
+</div>
 
       </div>
 

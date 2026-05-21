@@ -10,6 +10,7 @@ const BookingPages = () => {
       <Route index element={<h1>Booking Home</h1>} />
       <Route path="one-to-one/:id" element={<Suspense fallback={<div>Loading...</div>}><OnetoOne /></Suspense>} />
       <Route path="products/:id" element={<Suspense fallback={<div>Loading...</div>}><Products /></Suspense>} />
+    
     </Routes>
   );
 };

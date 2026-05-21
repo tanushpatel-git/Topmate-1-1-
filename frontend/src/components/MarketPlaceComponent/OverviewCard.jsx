@@ -11,7 +11,12 @@ const OverviewCard = ({ service }) => {
     if (category === "one-to-one") {
       navigate(`/booking/one-to-one/${service._id}`);
     } else if (category === "priorityDm") {
-      console.log("Open DM");
+        navigate("/booking/confirm", {
+            state: {
+                service,
+                user,
+            },
+        });
     } else if (category === "webinar") {
       console.log("Reserve webinar");
     } else {
