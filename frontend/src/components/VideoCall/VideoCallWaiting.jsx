@@ -1,28 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   CalendarDays,
-  RefreshCcw,
+  ExternalLink,
 } from "lucide-react";
 
 import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { current } from "@reduxjs/toolkit";
+import axiosInstance from "../../utility/axios";
 
 function VideoCallWaiting() {
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const booking =location.state?.booking;
-
-  const creator =location.state?.creator;
-
+  const stateBooking = location.state?.booking;
+  const creator = location.state?.creator;
   const service = location.state?.service;
 
-  // redirect if no state
+  const [booking, setBooking] = useState(stateBooking);
+
+  useEffect(() => {
+    if (stateBooking?._id) {
+      axiosInstance.get(`/booking/${stateBooking._id}`)
+        .then((res) => {
+          if (res.data?.booking) {
+            setBooking(res.data.booking);
+          }
+        })
+        .catch((err) => console.log("Failed to fetch booking:", err));
+    }
+  }, [stateBooking?._id]);
+
   if (!booking) {
     navigate("/");
     return null;
@@ -37,88 +48,52 @@ function VideoCallWaiting() {
       return "Date not available";
     }
 
-    const bookingDate =new Date(date);
-
-    const [hours, minutes] = time.split(":"); 
-
+    const bookingDate = new Date(date);
+    const [hours, minutes] = time.split(":");
     bookingDate.setHours(hours);
     bookingDate.setMinutes(minutes);
 
     const startTime =
-      bookingDate.toLocaleTimeString(
-        "en-IN",
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }
-      );
+      bookingDate.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
 
     const endDate = new Date(
-      bookingDate.getTime() +
-      duration * 60000
+      bookingDate.getTime() + duration * 60000
     );
 
     const endTime =
-      endDate.toLocaleTimeString(
-        "en-IN",
-        {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        }
-      );
+      endDate.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
 
     const formattedDate =
-      bookingDate.toLocaleDateString(
-        "en-IN",
-        {
-          weekday: "short",
-          day: "2-digit",
-          month: "short",
-        }
-      );
+      bookingDate.toLocaleDateString("en-IN", {
+        weekday: "short",
+        day: "2-digit",
+        month: "short",
+      });
 
     return `${formattedDate} | ${startTime} - ${endTime} (GMT+5:30)`;
   };
 
+  const handleJoinCall = () => {
+    if (booking?.meetingLink) {
+      window.open(booking.meetingLink, "_blank");
+    }
+  };
 
-  const isJoinEnabled = () => {
-
-  if (!booking?.date || !booking?.time) {
-    return false;
-  }
-
-  // booking start time
-  const bookingDateTime = new Date(booking.date);
-
-  const [hours, minutes] = booking.time.split(":");
-
-  bookingDateTime.setHours(hours);
-  bookingDateTime.setMinutes(minutes);
-  bookingDateTime.setSeconds(0);
-
-  // current time
-  const now = new Date();
-
-  // difference in minutes
-  const diffInMinutes =(bookingDateTime - now) / (1000 * 60);
-
-  // enable when:
-  // call is today
-  // and less than or equal to 30 mins remaining
-  return (
-    bookingDateTime.toDateString() ===
-      now.toDateString() &&
-    diffInMinutes <= 30
-  );
-};
   return (
     <div className="w-full min-h-screen bg-[#efcb95] flex flex-col items-center py-16 px-4">
-        
-<h1 className="text-5xl font-bold text-[#1f2937] mb-10">
-  {isJoinEnabled()? "Join Call": "Upcoming"}
-</h1>
+
+      <h1 className="text-5xl font-bold text-[#1f2937] mb-10">
+        Join Call
+      </h1>
+
       <div className="bg-[#f5f5f5] rounded-3xl shadow-md w-full max-w-md p-8 flex flex-col items-center">
 
         <img
@@ -128,62 +103,39 @@ function VideoCallWaiting() {
         />
 
         <h2 className="text-2xl font-bold mt-6 text-center">
-
-          Call with{" "}
-          {creator?.firstName}{" "}
-          {creator?.lastName}
-
+          Call with {creator?.firstName} {creator?.lastName}
         </h2>
 
         <p className="text-gray-500 text-sm mt-1">
-
-          for {booking?.duration} mins
-          video call
-
+          for {booking?.duration} mins video call
         </p>
 
         <div className="flex items-center gap-2 bg-[#eef7f1] text-green-700 px-4 py-3 rounded-xl mt-8 text-sm font-semibold">
-
           <CalendarDays size={18} />
-
           {formatBookingDateTime(
             booking?.date,
             booking?.time,
             booking?.duration
           )}
-
         </div>
 
         <div className="flex items-center justify-between gap-4 mt-8 w-full">
-
           <p className="text-xs text-gray-600 leading-5 max-w-[220px]">
-
-            Join Call activates 30 mins
-            before the call.
-
+            Click Join to open the Zoom meeting.
           </p>
 
           <button
-            className="flex items-center gap-2 bg-white border shadow-sm px-4 py-3 rounded-xl hover:bg-gray-50 transition"
+            onClick={handleJoinCall}
+            disabled={!booking?.meetingLink}
+            className={`flex items-center gap-2 bg-white border shadow-sm px-4 py-3 rounded-xl transition ${
+              booking?.meetingLink
+                ? "hover:bg-gray-50 cursor-pointer"
+                : "opacity-50 cursor-not-allowed"
+            }`}
           >
-
-            <RefreshCcw size={16} />
-<span
-  onClick={() => {
-    if (!isJoinEnabled()) {
-      navigate(
-        `/booking/video-call/${booking?.streamCallId || booking?._id}`
-      );
-    }
-  }}
-  className={`font-semibold text-sm ${
-isJoinEnabled()? "cursor-pointer text-blue-600": "cursor-not-allowed text-gray-400"}`}
->
-  {!isJoinEnabled() ? "Join Call" :"Upcoming"}
-</span>
-
+            <ExternalLink size={16} />
+            <span className="font-semibold text-sm">Join Call</span>
           </button>
-
         </div>
 
       </div>

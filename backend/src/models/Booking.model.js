@@ -54,6 +54,11 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    zoomMeetingId: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

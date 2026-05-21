@@ -1,8 +1,8 @@
-//  CREATE BOOKING
 const Booking = require("../models/Booking.model");
 const sendBookingEmails = require("../Services/sendBookingEmails");
 const User = require("../models/user.model");
 const Service = require("../models/userService.model");
+const { createMeeting } = require("../utility/Zoom");
 
 const createBooking = async (req, res) => {
   try {
@@ -68,6 +68,25 @@ const createBooking = async (req, res) => {
       status: "confirmed",
     });
 
+    //  CREATE ZOOM MEETING
+    try {
+      const [hours, minutes] = time.split(":");
+      const startDate = new Date(date);
+      startDate.setHours(hours, minutes, 0);
+      const startTime = startDate.toISOString();
+      const zoomMeeting = await createMeeting({
+        topic: `Meeting: ${serviceData?.name || "Consultation"}`,
+        duration: duration || 30,
+        startTime,
+      });
+
+      booking.meetingLink = zoomMeeting.joinUrl;
+      booking.zoomMeetingId = zoomMeeting.meetingId;
+      await booking.save();
+    } catch (zoomErr) {
+      console.log("Zoom meeting creation failed:", zoomErr.message);
+    }
+
     //  SEND EMAILS
     await sendBookingEmails({
       booking,
@@ -76,8 +95,6 @@ const createBooking = async (req, res) => {
       creator: creatorUser,
     });
 
-    
-    
     return res.status(201).json({
       success: true,
       booking,
@@ -134,6 +151,36 @@ const getCreatorBookings = async (req, res) => {
 };
 
 
+const getBookingById = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+
+    const booking = await Booking.findById(bookingId)
+      .populate("seeker", "firstName lastName userImageUrl")
+      .populate("creator", "firstName lastName userImageUrl")
+      .populate("service");
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      booking,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching booking",
+    });
+  }
+};
+
+
 const cancelBooking = async (req, res) => {
   try {
     const { bookingId } = req.params;
@@ -165,10 +212,7 @@ const confirmBooking = async (req, res) => {
 
     const booking = await Booking.findByIdAndUpdate(
       bookingId,
-      {
-        status: "confirmed",
-        meetingLink: "https://meet.link/xyz" // later dynamic
-      },
+      { status: "confirmed" },
       { returnDocument: "after" }
     );
 
@@ -187,11 +231,11 @@ const confirmBooking = async (req, res) => {
 };
 
 
-
 module.exports = {
   createBooking,
   getSeekerBookings,
   getCreatorBookings,
+  getBookingById,
   cancelBooking,
   confirmBooking,
 };
