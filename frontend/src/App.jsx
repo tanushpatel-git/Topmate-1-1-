@@ -1,7 +1,6 @@
-import React, { useEffect, Suspense, lazy } from 'react'
+import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import ScrollToTop from './services/ScrollOnTop'
-import useGetCurrUser from './hooks/useGetCurrUser'
 import { SkeletonPage, SkeletonDashboard, SkeletonProfilePage, SkeletonBookingProduct } from './components/ui/Skeleton'
 
 
@@ -39,56 +38,9 @@ const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
 const VideoCallWaiting  = lazy(()=> import ('./components/VideoCall/VideoCallWaiting'))
 const VideoCall = lazy(()=> import('./components/VideoCall/VideoCall'))
 import ProtectedRoute from './components/commonCompo/ProtectedRoute'
-
-import {
-  setUserName,
-  setUserId,
-  setUserImage,
-  setFirstName,
-  setLastName,
-  setEmail,
-  setCountry,
-  setCurrency,
-  setExpertise,
-  setLinkedInUrl,
-  setTwitterUrl,
-  setInstagramUrl,
-  setWhatsAppNumber,
-  setAvailability,
-  setService,
-  setGraduationYear,
-  setJoinDate
-} from './redux/userData/userDetails'
-import { useDispatch } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-
-  const { data } = useGetCurrUser();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (data?.user) {
-      const { user } = data;
-      dispatch(setUserId(user._id));
-      dispatch(setUserName(user.userName));
-      dispatch(setUserImage(user.userImageUrl));
-      dispatch(setFirstName(user.firstName));
-      dispatch(setLastName(user.lastName));
-      dispatch(setEmail(user.email));
-      dispatch(setCountry(user.country));
-      dispatch(setCurrency(user.currency));
-      dispatch(setExpertise(user.expertise));
-      dispatch(setLinkedInUrl(user.linkedInUrl));
-      dispatch(setTwitterUrl(user.twitterUrl));
-      dispatch(setInstagramUrl(user.instagramUrl));
-      dispatch(setWhatsAppNumber(user.whatsAppNumber));
-      dispatch(setAvailability(user.availability));
-      dispatch(setService(user.service));
-      dispatch(setGraduationYear(user.graduationYear));
-      dispatch(setJoinDate(user.joinDate));
-    }
-  }, [data])
 
   return (
     <>

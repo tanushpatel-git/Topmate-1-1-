@@ -22,7 +22,7 @@ const SeekerSidebar = ({ userData }) => {
 
       <div>
         {/* Logo */}
-        <div className="flex items-center gap-3 p-4 ">
+        <div onClick={() => setOpen(!open)} className="cursor-pointer flex items-center gap-3 p-4 ">
           <div className="w-10 h-10 ">
             <img src={Logoicon} alt="" />
           </div>
@@ -30,7 +30,7 @@ const SeekerSidebar = ({ userData }) => {
             <h2 className="font-semibold">Seeker Dashboard   </h2>
             <p className="text-sm text-gray-500">{userData.firstName + ' ' + userData.lastName || 'hii there'}</p>
           </div>
-          <div onClick={() => setOpen(!open)} className="cursor-pointer">
+          <div >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"

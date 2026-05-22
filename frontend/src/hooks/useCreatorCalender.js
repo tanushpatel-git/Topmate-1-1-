@@ -13,7 +13,7 @@ const useCreatorCalender = () => {
 
       if (data.success) {
         toast.success("Settings updated");
-        queryClient.invalidateQueries(["user"]);
+        queryClient.invalidateQueries({ queryKey: ["currUser"] });
       } else {
         toast.error(data.message || "Update failed");
       }

@@ -18,6 +18,7 @@ const clearExpiredMeetingLink = async (booking) => {
   if (new Date() >= endTime) {
     booking.meetingLink = "";
     booking.zoomMeetingId = "";
+    booking.status = "completed";
     await booking.save();
   }
 };
