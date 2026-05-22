@@ -69,7 +69,7 @@ const PublicProfile = () => {
 
     return (
         <div className="min-h-screen w-full flex flex-col lg:flex-row">
-            <div className="w-full lg:w-[35%] lg:min-h-screen lg:sticky lg:top-0 flex flex-col" style={{ backgroundColor: color }}>
+            <div className="w-full lg:w-[35%] lg:min-h-screen lg:sticky lg:top-0 flex flex-col" style={{ backgroundColor: `${color || '#F4D03F'}` }}>
                 <div className="ml-4 lg:ml-6 mt-4 lg:mt-6">
                     <Link to="/" className="flex items-center gap-2 text-gray-600 hover:text-black">
                         <ArrowLeft size={20} />

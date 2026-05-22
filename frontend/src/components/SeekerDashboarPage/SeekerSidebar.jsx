@@ -46,7 +46,7 @@ const SeekerSidebar = ({ userData }) => {
         {open && (
           <div className="flex items-center gap-2 p-8  ml-3 mr-3  rounded-lg bg-white shadow justify-center h-12">
             <FaUserAlt className="text-1xl text-gray-700" />
-            <h2 className="font-semibold text-sm text-gray-700" onClick={() => navigate('/creator-dashboard')}>Creator Dashboard</h2>
+            <h2 className="font-semibold text-sm text-gray-700 cursor-pointer" onClick={() => navigate('/creator-dashboard')}>Creator Dashboard</h2>
           </div>
 
         )}
@@ -71,7 +71,7 @@ const SeekerSidebar = ({ userData }) => {
         </div>
       )}
       {/* Bottom Profile */}
-      <div className="p-4 border-t flex items-center gap-3">
+      <div onClick={() => setlogoutOpen(!logoutOpen)} className="cursor-pointer p-4 border-t flex items-center gap-3">
         <img
           src={Logoicon}
           alt="profile"
@@ -85,7 +85,7 @@ const SeekerSidebar = ({ userData }) => {
         </div>
         <div className="flex items-center gap-2">
 
-          <div onClick={() => setlogoutOpen(!logoutOpen)} className="cursor-pointer">
+          <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
