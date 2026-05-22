@@ -22,4 +22,6 @@ app.use(cookieParser())
 app.use("/api/user",userRouter);
 app.use("/api/service",serviceRouter);
 app.use("/api/booking",bookingRoutes);
+
+
 module.exports = app; 
