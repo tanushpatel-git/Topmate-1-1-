@@ -197,7 +197,7 @@ function VideoCallPage() {
       }
     };
 
-  }, [callId, navigate]);
+  },[callId, navigate]);
 
   // LEAVE CALL
   const handleLeave = async () => {

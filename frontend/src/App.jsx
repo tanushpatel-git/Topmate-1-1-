@@ -94,6 +94,7 @@ const App = () => {
       <ScrollToTop />
       <Toaster />
       <Routes>
+
         <Route path="/" element={<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
         <Route path="/features/meeting" element={<Suspense fallback={<div>Loading...</div>}><Meeting /></Suspense>} />
         <Route path='/features/webinar' element={<Suspense fallback={<div>Loading...</div>}><Webniars /></Suspense>} />
@@ -124,8 +125,7 @@ const App = () => {
         <Route path='/booking/*' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingPages /></Suspense></ProtectedRoute>} />
         <Route path='/booking/confirm' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingConfirm /></Suspense></ProtectedRoute>} />
         <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><VideoCall /></Suspense></ProtectedRoute>}/> 
-        <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>
-
+        <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>        
       </Routes>
     </>
   )
