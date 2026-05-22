@@ -124,6 +124,7 @@ const App = () => {
         <Route path='/search-services' element={<Suspense fallback={<div>Loading...</div>}><SearchServices /></Suspense>} />
         <Route path='/booking/*' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingPages /></Suspense></ProtectedRoute>} />
         <Route path='/booking/confirm' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingConfirm /></Suspense></ProtectedRoute>} />
+        <Route path='/booking/success' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingSuccess /></Suspense></ProtectedRoute>} />
         <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><VideoCall /></Suspense></ProtectedRoute>}/> 
         <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>        
       </Routes>
