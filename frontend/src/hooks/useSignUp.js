@@ -9,7 +9,7 @@ const useSignUp = () => {
         onSuccess: (data) => {
             if (data?.status){
                 toast.success(data?.message || "Sign Up Sucessfull");
-                queryClient.invalidateQueries({ queryKey: ["currUser"] });
+                queryClient.invalidateQueries();
             }else{
                 toast.error(data?.message || "Sign Up Failed");
             }
