@@ -5,6 +5,7 @@ import OneToOneHook from "../../hooks/OneToOneHook";
 import { FaArrowLeft , FaCalendarAlt } from "react-icons/fa";
 import { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { SkeletonBookingProduct } from "../ui/Skeleton";
 
 const OnetoOne = () => {
 const navigate = useNavigate();    
@@ -145,7 +146,7 @@ useEffect(() => {
 
 
 
-if (isLoading) return <p>Loading...</p>;
+if (isLoading) return <SkeletonBookingProduct />;
 
 
   return (

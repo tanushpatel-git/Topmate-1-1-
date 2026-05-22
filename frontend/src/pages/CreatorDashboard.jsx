@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import CreatorSidebar from "../components/CreatorDashboard/CreatorSidebar";
 import CreatorBottomNavbar from "../components/CreatorDashboard/CreatorBottomNavbar";
+import { SkeletonDashboard, SkeletonPage } from "../components/ui/Skeleton";
 
 const CreatorHome = lazy(() => import("../components/CreatorDashboard/CreatorHome"));
 const CreatorBooking = lazy(() => import("../components/CreatorDashboard/CreatorBooking"));
@@ -29,15 +30,15 @@ const CreatorDashboard = () => {
       <div className="md:ml-64 pb-20 md:pb-0">
         <Routes>
           <Route index element={<Navigate to="home" />} />
-          <Route path="home" element={<Suspense fallback={<div>Loading...</div>}><CreatorHome /></Suspense>} />
-          <Route path="calls/:type/:status" element={<Suspense fallback={<div>Loading...</div>}><CreatorBooking /></Suspense>} />
-          <Route path="queries/answer" element={<Suspense fallback={<div>Loading...</div>}><PriorityDmAnswer /></Suspense>} />
-          <Route path="queries/pending" element={<Suspense fallback={<div>Loading...</div>}><PriorityDmPending /></Suspense>} />
-          <Route path="services/:type" element={<Suspense fallback={<div>Loading...</div>}><CreatorServices /></Suspense>} />
-          <Route path="services/:type/create" element={<Suspense fallback={<div>Loading...</div>}><CreateService /></Suspense>} />
-          <Route path="services/:type/edit/:serviceId" element={<Suspense fallback={<div>Loading...</div>}><ServiceCustomize /></Suspense>} />
-          <Route path="calendar/setting" element={<Suspense fallback={<div>Loading...</div>}><CreatorCalenderSetting /></Suspense>} />
-          <Route path="/profile" element={<Suspense fallback={<div>Loading...</div>}><Profile /></Suspense>} />
+          <Route path="home" element={<Suspense fallback={<SkeletonPage />}><CreatorHome /></Suspense>} />
+          <Route path="calls/:type/:status" element={<Suspense fallback={<SkeletonPage />}><CreatorBooking /></Suspense>} />
+          <Route path="queries/answer" element={<Suspense fallback={<SkeletonPage />}><PriorityDmAnswer /></Suspense>} />
+          <Route path="queries/pending" element={<Suspense fallback={<SkeletonPage />}><PriorityDmPending /></Suspense>} />
+          <Route path="services/:type" element={<Suspense fallback={<SkeletonPage />}><CreatorServices /></Suspense>} />
+          <Route path="services/:type/create" element={<Suspense fallback={<SkeletonPage />}><CreateService /></Suspense>} />
+          <Route path="services/:type/edit/:serviceId" element={<Suspense fallback={<SkeletonPage />}><ServiceCustomize /></Suspense>} />
+          <Route path="calendar/setting" element={<Suspense fallback={<SkeletonPage />}><CreatorCalenderSetting /></Suspense>} />
+          <Route path="/profile" element={<Suspense fallback={<SkeletonPage />}><Profile /></Suspense>} />
         </Routes>
 
       </div>

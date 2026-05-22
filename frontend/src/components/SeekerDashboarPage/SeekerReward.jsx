@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { SkeletonRewards } from "../ui/Skeleton";
 
 const SeekerRewards = () => {
   const [activeTab, setActiveTab] = useState("rewards");
@@ -43,7 +44,7 @@ const SeekerRewards = () => {
     }, 500);
   }, [activeTab]);
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) return <SkeletonRewards />;
 
   return (
     <div className="w-full min-h-screen bg-gray-50 px-6 md:px-12 py-8">

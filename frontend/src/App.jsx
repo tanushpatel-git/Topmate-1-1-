@@ -2,6 +2,7 @@ import React, { useEffect, Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import ScrollToTop from './services/ScrollOnTop'
 import useGetCurrUser from './hooks/useGetCurrUser'
+import { SkeletonPage, SkeletonDashboard, SkeletonProfilePage, SkeletonBookingProduct } from './components/ui/Skeleton'
 
 
 
@@ -94,37 +95,37 @@ const App = () => {
       <ScrollToTop />
       <Toaster />
       <Routes>
-        <Route path="/" element={<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
-        <Route path="/features/meeting" element={<Suspense fallback={<div>Loading...</div>}><Meeting /></Suspense>} />
-        <Route path='/features/webinar' element={<Suspense fallback={<div>Loading...</div>}><Webniars /></Suspense>} />
-        <Route path='/features/cohort' element={<Suspense fallback={<div>Loading...</div>}><Cohort /></Suspense>} />
-        <Route path='/about' element={<Suspense fallback={<div>Loading...</div>}><About /></Suspense>} />
-        <Route path='/contact' element={<Suspense fallback={<div>Loading...</div>}><Contact /></Suspense>} />
-        <Route path='/terms' element={<Suspense fallback={<div>Loading...</div>}><Terms /></Suspense>} />
-        <Route path='/privacy' element={<Suspense fallback={<div>Loading...</div>}><Privacy /></Suspense>} />
-        <Route path='/pricing' element={<Suspense fallback={<div>Loading...</div>}><Pricing /></Suspense>} />
-        <Route path='/search' element={<Suspense fallback={<div>Loading...</div>}><Search /></Suspense>} />
-        <Route path='/features/priority-dm' element={<Suspense fallback={<div>Loading...</div>}><PriorityDm /></Suspense>} />
-        <Route path='/use-cases/product-management' element={<Suspense fallback={<div>Loading...</div>}><ProductManagement /></Suspense>} />
-        <Route path='/use-cases/ai-ml' element={<Suspense fallback={<div>Loading...</div>}><AInML /></Suspense>} />
-        <Route path='/use-cases/software-engineer' element={<Suspense fallback={<div>Loading...</div>}><SoftwareEngineering /></Suspense>} />
-        <Route path='/use-cases/design' element={<Suspense fallback={<div>Loading...</div>}><DesignUxUi /></Suspense>} />
-        <Route path='/signin' element={<Suspense fallback={<div>Loading...</div>}><SignIn /></Suspense>} />
-        <Route path='/signup' element={<Suspense fallback={<div>Loading...</div>}><SignUp /></Suspense>} />
-        <Route path='/signup2' element={<Suspense fallback={<div>Loading...</div>}><SignUp2 /></Suspense>} />
-        <Route path='/signup3' element={<Suspense fallback={<div>Loading...</div>}><SignUp3 /></Suspense>} />
-        <Route path='/signup4' element={<Suspense fallback={<div>Loading...</div>}><SignUp4 /></Suspense>} />
-        <Route path='/signup5' element={<Suspense fallback={<div>Loading...</div>}><SignUp5 /></Suspense>} />
-        <Route path="/seeker-dashboard/*" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><SekerDashboard /></Suspense></ProtectedRoute>} />
-        <Route path='/creator-dashboard/*' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><CreatorDashboard /></Suspense></ProtectedRoute>} />
-        <Route path="/marketplace" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><Marketplace /></Suspense></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><Profile /></Suspense></ProtectedRoute>} />
-        <Route path="/profile/:userId" element={<Suspense fallback={<div>Loading...</div>}><PublicProfile /></Suspense>} />
-        <Route path='/search-services' element={<Suspense fallback={<div>Loading...</div>}><SearchServices /></Suspense>} />
-        <Route path='/booking/*' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingPages /></Suspense></ProtectedRoute>} />
-        <Route path='/booking/confirm' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingConfirm /></Suspense></ProtectedRoute>} />
-        <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><VideoCall /></Suspense></ProtectedRoute>}/> 
-        <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>
+        <Route path="/" element={<Suspense fallback={<SkeletonPage />}><Home /></Suspense>} />
+        <Route path="/features/meeting" element={<Suspense fallback={<SkeletonPage />}><Meeting /></Suspense>} />
+        <Route path='/features/webinar' element={<Suspense fallback={<SkeletonPage />}><Webniars /></Suspense>} />
+        <Route path='/features/cohort' element={<Suspense fallback={<SkeletonPage />}><Cohort /></Suspense>} />
+        <Route path='/about' element={<Suspense fallback={<SkeletonPage />}><About /></Suspense>} />
+        <Route path='/contact' element={<Suspense fallback={<SkeletonPage />}><Contact /></Suspense>} />
+        <Route path='/terms' element={<Suspense fallback={<SkeletonPage />}><Terms /></Suspense>} />
+        <Route path='/privacy' element={<Suspense fallback={<SkeletonPage />}><Privacy /></Suspense>} />
+        <Route path='/pricing' element={<Suspense fallback={<SkeletonPage />}><Pricing /></Suspense>} />
+        <Route path='/search' element={<Suspense fallback={<SkeletonPage />}><Search /></Suspense>} />
+        <Route path='/features/priority-dm' element={<Suspense fallback={<SkeletonPage />}><PriorityDm /></Suspense>} />
+        <Route path='/use-cases/product-management' element={<Suspense fallback={<SkeletonPage />}><ProductManagement /></Suspense>} />
+        <Route path='/use-cases/ai-ml' element={<Suspense fallback={<SkeletonPage />}><AInML /></Suspense>} />
+        <Route path='/use-cases/software-engineer' element={<Suspense fallback={<SkeletonPage />}><SoftwareEngineering /></Suspense>} />
+        <Route path='/use-cases/design' element={<Suspense fallback={<SkeletonPage />}><DesignUxUi /></Suspense>} />
+        <Route path='/signin' element={<Suspense fallback={<SkeletonPage />}><SignIn /></Suspense>} />
+        <Route path='/signup' element={<Suspense fallback={<SkeletonPage />}><SignUp /></Suspense>} />
+        <Route path='/signup2' element={<Suspense fallback={<SkeletonPage />}><SignUp2 /></Suspense>} />
+        <Route path='/signup3' element={<Suspense fallback={<SkeletonPage />}><SignUp3 /></Suspense>} />
+        <Route path='/signup4' element={<Suspense fallback={<SkeletonPage />}><SignUp4 /></Suspense>} />
+        <Route path='/signup5' element={<Suspense fallback={<SkeletonPage />}><SignUp5 /></Suspense>} />
+        <Route path="/seeker-dashboard/*" element={<ProtectedRoute><Suspense fallback={<SkeletonPage />}><SekerDashboard /></Suspense></ProtectedRoute>} />
+        <Route path='/creator-dashboard/*' element={<ProtectedRoute><Suspense fallback={<SkeletonDashboard />}><CreatorDashboard /></Suspense></ProtectedRoute>} />
+        <Route path="/marketplace" element={<ProtectedRoute><Suspense fallback={<SkeletonPage />}><Marketplace /></Suspense></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Suspense fallback={<SkeletonPage />}><Profile /></Suspense></ProtectedRoute>} />
+        <Route path="/profile/:userId" element={<Suspense fallback={<SkeletonProfilePage />}><PublicProfile /></Suspense>} />
+        <Route path='/search-services' element={<Suspense fallback={<SkeletonPage />}><SearchServices /></Suspense>} />
+        <Route path='/booking/*' element={<ProtectedRoute><Suspense fallback={<SkeletonBookingProduct />}><BookingPages /></Suspense></ProtectedRoute>} />
+        <Route path='/booking/confirm' element={<ProtectedRoute><Suspense fallback={<SkeletonPage />}><BookingConfirm /></Suspense></ProtectedRoute>} />
+        <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<SkeletonPage />}><VideoCall /></Suspense></ProtectedRoute>}/> 
+        <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<SkeletonPage />}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>
 
       </Routes>
     </>

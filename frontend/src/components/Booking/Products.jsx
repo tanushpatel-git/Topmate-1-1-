@@ -5,6 +5,7 @@ import OneToOneHook from "../../hooks/OneToOneHook";
 import { FaArrowLeft, FaBuffer, FaCalendarAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { SkeletonBookingProduct } from "../ui/Skeleton";
 
 
 const Products = () => {
@@ -67,7 +68,7 @@ const Products = () => {
         },
     ];
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <SkeletonBookingProduct />;
 
     const handleSubmit = async () => {
         console.log("Submit");

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import DeleteServiceHook from "../../hooks/DeleteServiceHook";
 import { useQueryClient } from "@tanstack/react-query";
+import { SkeletonForm } from "../ui/Skeleton";
 
 const ServiceCustomize = () => {
 
@@ -115,7 +116,7 @@ const handleDelete = (id) => {
   }, [data]);
 
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <SkeletonForm />;
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import GetSeekerBookingsHook from "../../hooks/GetSeekerBookingsHook";
+import { SkeletonBookingList } from "../ui/Skeleton";
 
 function SeekerBooking() {
 
@@ -151,13 +152,7 @@ function SeekerBooking() {
 
   // LOADING
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl font-semibold">
-          Loading...
-        </p>
-      </div>
-    );
+    return <SkeletonBookingList />;
   }
 
   // ERROR

@@ -10,6 +10,7 @@ import badge_recommendation from "../assets/badge-recommendation.svg";
 import give_charity_icon from "../assets/give-charity.2efae26c.svg";
 import discount_highlight from "../assets/discount-highlight.png";
 import topmate_light_logo from "../assets/topmate-light-logo.svg";
+import { SkeletonProfilePage } from "../components/ui/Skeleton";
 
 const PublicProfile = () => {
     const { userId } = useParams();
@@ -38,11 +39,7 @@ const PublicProfile = () => {
     }, [userId]);
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#EFECE3]">
-                <div className="w-12 h-12 border-4 border-gray-300 border-t-[#983E01] rounded-full animate-spin"></div>
-            </div>
-        );
+        return <SkeletonProfilePage />;
     }
 
     if (error) {

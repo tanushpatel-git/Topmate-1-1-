@@ -6,6 +6,7 @@ import GetCreatorBookingsHook from "../../hooks/GetCreatorBookingsHook";
 import { ChevronDown } from "lucide-react";
 import CancelBookingHook from "../../hooks/CancelBookingHook";
 import toast from "react-hot-toast";
+import { SkeletonBookingList } from "../ui/Skeleton";
 
 
 function CreatorBooking() {
@@ -175,13 +176,7 @@ function CreatorBooking() {
 
   // LOADING
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl font-semibold">
-          Loading...
-        </p>
-      </div>
-    );
+    return <SkeletonBookingList />;
   }
 
   // ERROR

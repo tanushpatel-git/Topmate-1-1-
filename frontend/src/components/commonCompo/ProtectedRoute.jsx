@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Navigate, useLocation } from 'react-router-dom'
 import useGetCurrUser from '../../hooks/useGetCurrUser'
+import { SkeletonPage } from '../ui/Skeleton'
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const userId = useSelector((state) => state.userData.userId)
@@ -10,11 +11,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const isAuthenticated = userId || data?.user
 
   if (!isAuthenticated && (isLoading || isFetching)) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-      </div>
-    )
+    return <SkeletonPage />
   }
 
   if (!isAuthenticated) {
