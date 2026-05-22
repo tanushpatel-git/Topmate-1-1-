@@ -39,6 +39,16 @@ function VideoCallWaiting() {
     return null;
   }
 
+  const isMeetingTimeReached = (date, time) => {
+    if (!date || !time) return false;
+    const [hours, minutes] = time.split(":");
+    const meetingDate = new Date(date);
+    meetingDate.setHours(hours);
+    meetingDate.setMinutes(minutes);
+    meetingDate.setSeconds(0);
+    return new Date() >= meetingDate;
+  };
+
   const formatBookingDateTime = (
     date,
     time,
@@ -126,9 +136,9 @@ function VideoCallWaiting() {
 
           <button
             onClick={handleJoinCall}
-            disabled={!booking?.meetingLink}
+            disabled={!booking?.meetingLink || !isMeetingTimeReached(booking?.date, booking?.time)}
             className={`flex items-center gap-2 bg-white border shadow-sm px-4 py-3 rounded-xl transition ${
-              booking?.meetingLink
+              booking?.meetingLink && isMeetingTimeReached(booking?.date, booking?.time)
                 ? "hover:bg-gray-50 cursor-pointer"
                 : "opacity-50 cursor-not-allowed"
             }`}

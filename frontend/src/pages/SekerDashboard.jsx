@@ -4,6 +4,7 @@ import { Suspense, lazy } from "react";
 import SeekerSidebar from "../components/SeekerDashboarPage/SeekerSidebar";
 import BottomNavbar from "../components/SeekerDashboarPage/BottomNavbar";
 import { useSelector } from "react-redux";
+import { SkeletonPage } from "../components/ui/Skeleton";
 
 const SeekerHome = lazy(() => import("../components/SeekerDashboarPage/SeekerHome"));
 const SeekerBooking = lazy(() => import("../components/SeekerDashboarPage/SeekerBooking"));
@@ -26,10 +27,10 @@ const SekerDashboard = () => {
       <div className="md:ml-64 pb-20 md:pb-0">
         <Routes>
           <Route index element={<Navigate to="home" />} />
-          <Route path="home" element={<Suspense fallback={<div>Loading...</div>}><SeekerHome userData={userData} /></Suspense>} />
-          <Route path="booking" element={<Suspense fallback={<div>Loading...</div>}><SeekerBooking userData={userData} /></Suspense>} />
-          <Route path="Profile" element={<Suspense fallback={<div>Loading...</div>}><SeekerProfile userData={userData} /></Suspense>} />
-          <Route path="reward" element={<Suspense fallback={<div>Loading...</div>}><SeekerReward userData={userData} /></Suspense>} />
+          <Route path="home" element={<Suspense fallback={<SkeletonPage />}><SeekerHome userData={userData} /></Suspense>} />
+          <Route path="booking" element={<Suspense fallback={<SkeletonPage />}><SeekerBooking userData={userData} /></Suspense>} />
+          <Route path="Profile" element={<Suspense fallback={<SkeletonPage />}><SeekerProfile userData={userData} /></Suspense>} />
+          <Route path="reward" element={<Suspense fallback={<SkeletonPage />}><SeekerReward userData={userData} /></Suspense>} />
         </Routes>
       </div>
 

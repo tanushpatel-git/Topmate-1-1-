@@ -4,6 +4,24 @@ const User = require("../models/user.model");
 const Service = require("../models/userService.model");
 const { createMeeting } = require("../utility/Zoom");
 
+const clearExpiredMeetingLink = async (booking) => {
+  if (!booking || !booking.date || !booking.time || !booking.meetingLink) return;
+
+  const [hours, minutes] = booking.time.split(":");
+  const endDate = new Date(booking.date);
+  endDate.setHours(hours);
+  endDate.setMinutes(minutes);
+  endDate.setSeconds(0);
+
+  const endTime = new Date(endDate.getTime() + (booking.duration || 0) * 60000);
+
+  if (new Date() >= endTime) {
+    booking.meetingLink = "";
+    booking.zoomMeetingId = "";
+    await booking.save();
+  }
+};
+
 const createBooking = async (req, res) => {
   try {
     const {
@@ -115,6 +133,8 @@ const getSeekerBookings = async (req, res) => {
       .populate("creator", "firstName lastName userImageUrl")
       .populate("service");
 
+    await Promise.all(bookings.map(clearExpiredMeetingLink));
+
     res.status(200).json({
       success: true,
       bookings,
@@ -136,6 +156,8 @@ const getCreatorBookings = async (req, res) => {
     const bookings = await Booking.find({ creator: creatorId })
       .populate("seeker", "firstName lastName userImageUrl")
       .populate("service");
+
+    await Promise.all(bookings.map(clearExpiredMeetingLink));
 
     res.status(200).json({
       success: true,
@@ -166,6 +188,8 @@ const getBookingById = async (req, res) => {
         message: "Booking not found",
       });
     }
+
+    await clearExpiredMeetingLink(booking);
 
     res.status(200).json({
       success: true,

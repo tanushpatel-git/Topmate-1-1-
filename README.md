@@ -1,149 +1,337 @@
-# Topmate Clone - Creator Monetization Platform
+# Topmate Clone — Creator Monetization Platform
 
-A full-stack creator storefront platform that enables experts, coaches, and mentors to monetize their knowledge through 1:1 meetings, webinars, cohort-based courses, priority DMs, and digital products.
+A full-stack creator storefront platform that enables experts, coaches, and mentors to monetize their knowledge through 1:1 video/audio meetings, webinars, cohort-based courses, priority DMs, and digital products. Inspired by [topmate.io](https://topmate.io).
 
-## Features
+---
 
-- **Authentication**: Email/password sign-up, OTP-based passwordless login, Google OAuth (Firebase), JWT with httpOnly cookies
-- **5-Step Onboarding Wizard**: Profile setup → Expertise → Services → Availability → Contact
-- **Creator Dashboard**: Manage services, bookings, calendar, profile, and settings
-- **Seeker Dashboard**: Goal-based career coaching, booking management, expert discovery
-- **Service Management**: Full CRUD for 1:1 calls, workshops, cohorts, products, packages, priority DMs
-- **Booking System**: Availability calendar with slot management, booking conflict prevention, confirmation/cancellation flow
-- **Marketplace**: Browse experts by 15+ categories with search and discovery
-- **Profile Pages**: Customizable public profiles with themes, testimonials, badges, and social links
+## ✨ Features
 
+### Authentication & Onboarding
+- Email/password sign-up and sign-in
+- OTP-based passwordless login (via Gmail SMTP)
+- Google OAuth via Firebase
+- JWT authentication with httpOnly cookies
+- Multi-step onboarding wizard (5 steps): profile → expertise → services → availability → contact
 
-## Tech Stack
+### Service Management (Creators)
+- Full CRUD for 5 service types:z
+  - **1:1 Calls** — video/audio sessions with scheduling
+  - **Workshops** — group sessions
+  - **Cohort-based Courses** — multi-session programs
+  - **Products** — digital downloads
+  - **Priority DMs** — paid messaging
+- File uploads (Multer + Cloudinary)
+- Custom pricing, descriptions, and categorization
+
+### Booking System
+- Availability calendar with configurable slot durations (default 30 min)
+- Conflict prevention (unique compound index on creator + date + time)
+- Booking confirmation and cancellation flow
+- Zoom meeting auto-creation on confirmation
+- Calendar invite (`.ics`) generation
+- Email notifications via Nodemailer
+
+### Dashboards
+- **Creator Dashboard**: manage services, bookings, calendar, profile design, and account settings
+- **Seeker Dashboard**: goal-based career coaching, booking history, expert discovery
+
+### Discovery & Profiles
+- Marketplace with 15+ category browsing
+- Search with MongoDB text indexes
+- Customizable public profile pages (themes, testimonials, badges, social links)
+
+### Video Calls
+- Zoom API integration (Server-to-Server OAuth)
+- Auto-generated Zoom meeting links for confirmed bookings
+
+---
+
+## 🛠 Tech Stack
 
 ### Frontend
-- **React 19** + **Vite** + **TailwindCSS v4**
-- **Redux Toolkit** (state management)
-- **TanStack React Query** (server state)
-- **React Router v7** (routing)
-- **Firebase** (Google Auth)
-- **Framer Motion** + **GSAP** (animations)
-- **Axios** (HTTP client)
+| Library | Purpose |
+|---|---|
+| **React 19** | UI framework |
+| **Vite 8** | Build tool & dev server |
+| **TailwindCSS v4** | Utility-first styling |
+| **Redux Toolkit** | Client-side state management |
+| **TanStack React Query** | Server-state caching & sync |
+| **React Router v7** | Client-side routing |
+| **Firebase** | Google OAuth authentication |
+| **Framer Motion + GSAP** | Animations |
+| **Axios** | HTTP client |
+| **React Hot Toast** | Toast notifications |
+| **Swiper** | Carousel/slider |
+| **Lucide React + React Icons** | Icon libraries |
 
 ### Backend
-- **Node.js** + **Express 5**
-- **MongoDB** + **Mongoose 9**
-- **JWT** + **bcrypt** (authentication)
-- **Nodemailer** (email/OTP)
-- **Cookie-parser** + **CORS**
+| Library | Purpose |
+|---|---|
+| **Node.js** | Runtime |
+| **Express 5** | Web framework |
+| **MongoDB + Mongoose 9** | Database & ODM |
+| **JWT (jsonwebtoken)** | Token-based auth |
+| **bcrypt** | Password hashing |
+| **Nodemailer** | Email (OTP, booking notifications) |
+| **Multer** | File upload handling |
+| **Cloudinary** | Cloud media storage |
+| **Zoom API** | Video conferencing |
+| **slugify** | URL-safe slugs |
+| **cookie-parser** | Cookie management |
+| **CORS** | Cross-origin requests |
 
+---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 topmate-1-1/
 ├── backend/
 │   ├── src/
-│   │   ├── controllers/     # Route handlers (auth, services, bookings)
-│   │   ├── models/          # Mongoose schemas (User, Service, Booking, Profile)
-│   │   ├── routes/          # Express route definitions
-│   │   └── utility/         # DB connection, JWT, bcrypt, nodemailer
-│   ├── server.js            # Entry point
+│   │   ├── controllers/         # Route handlers
+│   │   │   ├── Booking.controler.js
+│   │   │   ├── user.controler.js
+│   │   │   ├── userProfileDesign.controller.js
+│   │   │   └── userServices.controller.js
+│   │   ├── models/              # Mongoose schemas
+│   │   │   ├── Booking.model.js
+│   │   │   ├── user.model.js
+│   │   │   ├── userProfile.model.js
+│   │   │   └── userService.model.js
+│   │   ├── routes/              # Express route definitions
+│   │   │   ├── Booking.routes.js
+│   │   │   ├── Service.route.js
+│   │   │   └── user.route.js
+│   │   ├── Middleware/
+│   │   │   └── jsonWebTokenCheck.js
+│   │   ├── Services/
+│   │   │   └── sendBookingEmails.js
+│   │   ├── utility/             # Shared utilities
+│   │   │   ├── CloudInary.js    # Cloudinary connection
+│   │   │   ├── Zoom.js          # Zoom OAuth + meeting creation
+│   │   │   ├── Multer.js        # File upload config
+│   │   │   ├── bcrypt.js        # Password hashing
+│   │   │   ├── createICS.js     # .ics calendar file
+│   │   │   ├── jwToken.js       # JWT sign/verify
+│   │   │   ├── mongoDB.js       # MongoDB connection
+│   │   │   └── nodeMail.js      # Nodemailer transporter
+│   │   └── uploads/             # Temporary upload directory
+│   ├── server.js                # Entry point
+│   ├── .env                     # Environment variables
+│   ├── .env.example             # Env template
 │   └── package.json
+│
 ├── frontend/
+│   ├── public/                  # Static assets
 │   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── pages/           # Route pages (Home, Dashboards, Booking, etc.)
-│   │   ├── hooks/           # React Query hooks for API calls
-│   │   ├── redux/           # Redux slices (auth, profile, user data)
-│   │   ├── auth/            # Firebase config
-│   │   ├── services/        # Axios instance & API functions
-│   │   └── assets/          # Static assets
+│   │   ├── assets/              # Images, SVGs, homepage data
+│   │   ├── auth/                # Sign-in / Sign-up pages (5-step flow)
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── Booking/         # Booking flow (confirm, success, video call)
+│   │   │   ├── CreatorDashboard/
+│   │   │   ├── HomePageComponent/
+│   │   │   ├── MarketPlaceComponent/
+│   │   │   ├── ProfileComponent/
+│   │   │   ├── SeekerDashboarPage/
+│   │   │   ├── VideoCall/       # Zoom integration
+│   │   │   └── ui/              # Generic UI primitives
+│   │   ├── hooks/               # 23 custom React Query hooks
+│   │   ├── pages/               # Route-level page components (lazy-loaded)
+│   │   ├── redux/               # Redux slices
+│   │   ├── services/            # Axios instance & API service functions
+│   │   └── utility/
+│   │       ├── axios.js         # Configured Axios instance
+│   │       └── fireBase.js      # Firebase config
+│   ├── App.jsx                  # Route definitions
+│   ├── main.jsx                 # React entry point
+│   ├── index.css                # Global Tailwind styles
+│   ├── index.html               # HTML shell
+│   ├── .env                     # Environment variables
+│   ├── .env.example             # Env template
+│   ├── vite.config.js           # Vite config (port 5175)
 │   └── package.json
+│
 └── README.md
 ```
 
-## Getting Started
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 20+
-- MongoDB (local or Atlas)
+- **Node.js** 20+ (includes npm)
+- **MongoDB** — local instance or [MongoDB Atlas](https://www.mongodb.com/atlas) free tier
+- **Google Cloud Account** — for Firebase (Google OAuth)
+- **Zoom Account** — for video meeting creation (Server-to-Server OAuth app)
+- **Cloudinary Account** — for media uploads
+- **Gmail Account** — with [App Password](https://support.google.com/accounts/answer/185833) enabled for sending OTP/notification emails
 
-### Environment Variables
-
-**Backend** (`backend/.env`):
-```
-PORT=8001
-JWT_SECRET=<your_jwt_secret>
-MONGODB_URI=<mongodb_connection_string>
-NODE_HEADEMAIL=<gmail_for_otp>
-NODE_HEADEMAIL_PASS=<gmail_app_password>
-```
-
-**Frontend** (`frontend/.env`):
-```
-VITE_BACKEND_URL=http://localhost:8001/api
-VITE_FIREBASE_API_KEY=<firebase_api_key>
-VITE_FIREBASE_PROJECT_ID=<firebase_project_id>
-VITE_FIREBASE_AUTH_DOMAIN=<firebase_auth_domain>
-VITE_FIREBASE_STORAGE_BUCKET=<firebase_storage_bucket>
-VITE_FIREBASE_MESSAGING_SENDER_ID=<firebase_sender_id>
-VITE_FIREBASE_APP_ID=<firebase_app_id>
-```
-
-### Local Development
+### 1. Clone & Install
 
 ```bash
-# Backend
+git clone <repo-url>
+cd topmate-1-1
+
+# Install backend dependencies
 cd backend
 npm install
-npm run server    # Starts with nodemon on :8001
 
-# Frontend
-cd frontend
+# Install frontend dependencies
+cd ../frontend
 npm install
-npm run dev       # Starts Vite dev server on :5173
 ```
 
-## API Endpoints
+### 2. Environment Variables
 
-### User (`/api/user`)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/signup` | POST | Register new user |
-| `/signin` | POST | Login with email/password |
-| `/signin-with-google` | POST | Google OAuth login |
-| `/email-check` | POST | Send OTP for passwordless login |
-| `/otp-verification` | POST | Verify OTP |
-| `/getCurrUser` | GET | Get current authenticated user |
-| `/logout` | POST | Logout (clear cookie) |
-| `/update-profile` | POST | Update user profile |
-| `/update-settings` | PATCH | Update scheduling settings |
-| `/delete-account` | GET | Delete account |
-| `/marketplace` | GET | Get marketplace data |
-| `/get-all-users` | GET | Get all users |
+**Backend** — copy `backend/.env.example` to `backend/.env` and fill in:
 
-### Services (`/api/service`)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/create` | POST | Create a service |
-| `/my` | GET | Get my services |
-| `/id/:serviceId` | GET | Get service by ID |
-| `/search` | GET | Search services |
-| `/one-to-one/:id` | GET | Get service with user data |
-| `/update/:serviceId` | PUT | Update service |
-| `/:serviceId` | DELETE | Delete service |
-| `/get-all-services` | GET | Get all services |
+| Variable | Description |
+|---|---|
+| `PORT` | Server port (default `8001`) |
+| `JWT_SECRET` | Secret key for signing JWTs |
+| `MONGODB_URI` | MongoDB connection string |
+| `NODE_HEADEMAIL` | Gmail address for sending emails |
+| `NODE_HEADEMAIL_PASS` | Gmail app password |
+| `ZOOM_ACCOUNT_ID` | Zoom Server-to-Server OAuth account ID |
+| `ZOOM_CLIENT_ID` | Zoom OAuth client ID |
+| `ZOOM_CLIENT_SECRET` | Zoom OAuth client secret |
+| `CLOUDINARY_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Cloudinary API key |
+| `CLOUDINARY_SECRET_KEY` | Cloudinary API secret |
 
-### Bookings (`/api/booking`)
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/create` | POST | Create a booking |
-| `/seeker/:seekerId` | GET | Get seeker's bookings |
-| `/creator/:creatorId` | GET | Get creator's bookings |
-| `/cancel/:bookingId` | PUT | Cancel booking |
-| `/confirm/:bookingId` | PUT | Confirm booking |
+**Frontend** — copy `frontend/.env.example` to `frontend/.env` and fill in:
 
-## API Routes
+| Variable | Description |
+|---|---|
+| `VITE_BACKEND_URL` | Backend API URL (default `http://localhost:8001/api`) |
+| `VITE_FIREBASE_API_KEY` | Firebase API key |
+| `VITE_FIREBASE_PROJECT_ID` | Firebase project ID |
+| `VITE_FIREBASE_AUTH_DOMAIN` | Firebase auth domain |
+| `VITE_FIREBASE_STORAGE_BUCKET` | Firebase storage bucket |
+| `VITE_FIREBASE_MESSAGING_SENDER_ID` | Firebase sender ID |
+| `VITE_FIREBASE_APP_ID` | Firebase app ID |
 
+### 3. Run Development Server
+
+Open **two terminals**:
+
+```bash
+# Terminal 1 — Backend (http://localhost:8001)
+cd backend
+npm run server    # nodemon with auto-reload
+
+# Terminal 2 — Frontend (http://localhost:5175)
+cd frontend
+npm run dev       # Vite dev server
 ```
-/api/user        → user.route.js
-/api/service     → Service.route.js
-/api/booking     → Booking.routes.js
-```
+
+---
+
+## 📡 API Endpoints
+
+### User Routes — `/api/user`
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| POST | `/signup` | Register new user | ❌ |
+| POST | `/signin` | Login with email/password | ❌ |
+| POST | `/signin-with-google` | Google OAuth login | ❌ |
+| POST | `/email-check` | Send OTP for passwordless login | ❌ |
+| POST | `/otp-verification` | Verify OTP | ❌ |
+| GET | `/getCurrUser` | Get current authenticated user | ✅ |
+| POST | `/logout` | Logout (clear JWT cookie) | ✅ |
+| POST | `/update-profile` | Update user profile | ✅ |
+| PATCH | `/update-settings` | Update scheduling settings | ✅ |
+| GET | `/delete-account` | Delete user account | ✅ |
+| GET | `/marketplace` | Get marketplace data | ❌ |
+| GET | `/get-all-users` | List all users | ❌ |
+
+### Service Routes — `/api/service`
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| POST | `/create` | Create a service | ✅ |
+| GET | `/my` | Get current user's services | ✅ |
+| GET | `/id/:serviceId` | Get service by ID | ❌ |
+| GET | `/search` | Search services | ❌ |
+| GET | `/one-to-one/:id` | Get service with creator data | ❌ |
+| PUT | `/update/:serviceId` | Update a service | ✅ |
+| DELETE | `/:serviceId` | Delete a service | ✅ |
+| GET | `/get-all-services` | List all services | ❌ |
+
+### Booking Routes — `/api/booking`
+
+| Method | Endpoint | Description | Auth |
+|---|---|---|---|
+| POST | `/create` | Create a booking | ✅ |
+| GET | `/seeker/:seekerId` | Get seeker's bookings | ✅ |
+| GET | `/creator/:creatorId` | Get creator's bookings | ✅ |
+| PUT | `/cancel/:bookingId` | Cancel a booking | ✅ |
+| PUT | `/confirm/:bookingId` | Confirm a booking | ✅ |
+
+---
+
+## 📦 NPM Scripts
+
+### Backend
+
+| Script | Command | Description |
+|---|---|---|
+| `server` | `nodemon server.js` | Start with auto-reload |
+| `start` | `node server.js` | Start in production |
+| `test` | — | Placeholder (no tests yet) |
+
+### Frontend
+
+| Script | Command | Description |
+|---|---|---|
+| `dev` | `vite --host 0.0.0.0` | Start dev server (port 5175) |
+| `build` | `vite build` | Production build |
+| `preview` | `vite preview` | Preview production build |
+| `lint` | `eslint .` | Lint all source files |
+
+---
+
+## ⚙️ Configuration & Defaults
+
+| Setting | Default |
+|---|---|
+| Backend port | `8001` |
+| Frontend port | `5175` |
+| Timezone | `Asia/Kolkata` |
+| Slot duration | `30` minutes |
+| Notice period | `60` minutes |
+| JWT cookie | httpOnly, secure |
+| Service categories | `one-to-one`, `priorityDm`, `workshop`, `product`, `package` |
+| Booking statuses | `pending`, `confirmed`, `cancelled` |
+| User roles | `user` (seeker), `expert` (creator) |
+| CORS origin | `http://localhost:5175` |
+
+---
+
+## 🗺 Roadmap / Future Improvements
+
+- [x] Add automated test suite (unit + integration)
+- [x] Docker Compose for one-command setup
+- [x] Payment gateway integration (Razorpay / Stripe)
+- [x] Real-time chat for Priority DMs (Socket.io)
+- [x] Admin panel for platform management
+- [x] Analytics dashboard for creators
+- [x] CI/CD pipeline (GitHub Actions)
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is for educational/demonstration purposes.

@@ -6,6 +6,7 @@ import GetCreatorBookingsHook from "../../hooks/GetCreatorBookingsHook";
 import { ChevronDown } from "lucide-react";
 import CancelBookingHook from "../../hooks/CancelBookingHook";
 import toast from "react-hot-toast";
+import { SkeletonBookingList } from "../ui/Skeleton";
 
 
 function CreatorBooking() {
@@ -14,10 +15,10 @@ function CreatorBooking() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.userData);
   const [data, setData] = useState([]);
-  const [option , setoption] = useState(false)
-  
+  const [option, setoption] = useState(false)
 
-  
+
+
   const {
     bookings,
     loading,
@@ -25,11 +26,11 @@ function CreatorBooking() {
     getCreatorBookings,
   } = GetCreatorBookingsHook();
 
-const {
-  cancelBooking,
-  loading: cancelLoading,
-  error: cancelError,
-} = CancelBookingHook();
+  const {
+    cancelBooking,
+    loading: cancelLoading,
+    error: cancelError,
+  } = CancelBookingHook();
 
 
   const activeFilter = type || "one-to-one";
@@ -41,6 +42,16 @@ const {
     { label: "Workshops/Live Cohorts", value: "webinar" },
     { label: "Packages", value: "package" },
   ];
+
+  const isMeetingTimeReached = (date, time) => {
+    if (!date || !time) return false;
+    const [hours, minutes] = time.split(":");
+    const meetingDate = new Date(date);
+    meetingDate.setHours(hours);
+    meetingDate.setMinutes(minutes);
+    meetingDate.setSeconds(0);
+    return new Date() >= meetingDate;
+  };
 
   const formatBookingDateTime = (
     date,
@@ -154,23 +165,18 @@ const {
   const handleTabChange = (tab) => { navigate(`/creator-dashboard/calls/${activeFilter}/${tab}`); };
 
   const handleFilterChange = (
-filter  ) => {
+    filter) => {
     navigate(
       `/creator-dashboard/calls/${filter}/${activeTab}`
-    );};
+    );
+  };
 
 
 
 
   // LOADING
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl font-semibold">
-          Loading...
-        </p>
-      </div>
-    );
+    return <SkeletonBookingList />;
   }
 
   // ERROR
@@ -184,8 +190,6 @@ filter  ) => {
     );
   }
 
-
-console.log()
 
   return (
     <div className="w-full min-h-screen bg-gray-50 px-6 py-6">
@@ -275,7 +279,7 @@ console.log()
 
                 <span className="text-black font-bold">
 
-          {!["product", "priorityDm",].includes(item?.service?.category)? (formatBookingDateTime(item?.date, item?.time, item?.duration) ) : ( item.service.category === 'product' ? "Document" :'' ) }
+                  {!["product", "priorityDm",].includes(item?.service?.category) ? (formatBookingDateTime(item?.date, item?.time, item?.duration)) : (item.service.category === 'product' ? "Document" : '')}
 
                 </span>
 
@@ -302,8 +306,8 @@ console.log()
                   {/* STATUS */}
                   <span
                     className={`px-3 py-1 rounded-full  text-sm  font-medium capitalize ${item?.status === "completed"
-                      ?"bg-green-600 text-green-600"
-                      :item?.status ===
+                      ? "bg-green-600 text-green-600"
+                      : item?.status ===
                         "cancelled"
                         ? "bg-red-100 text-red-600"
                         : "bg-gray-100 text-gray-700"
@@ -313,82 +317,89 @@ console.log()
                   </span>
 
                   {/* BUTTONS */}
-                  
-<div className="flex gap-3 relative ">
 
-  {/* DETAILS */}
-  <button
-    className="bg-gray-100 text-black px-4 py-2 rounded-lg text-sm hover:opacity-90 flex items-center"
-    onClick={() => setoption((prev) => !prev)}
-  >
-    More Action
-    <ChevronDown size={18} className="ml-2" />
-  </button>
+                  <div className="flex gap-3 relative ">
 
-  {option && (
-    <div className="absolute right-0 top-12 bg-white  shadow-lg rounded-lg w-40 z-20">
+                    {/* DETAILS */}
+                    <button
+                      className="bg-gray-100 text-black px-4 py-2 rounded-lg text-sm hover:opacity-90 flex items-center"
+                      onClick={() => setoption((prev) => !prev)}
+                    >
+                      More Action
+                      <ChevronDown size={18} className="ml-2" />
+                    </button>
 
-      <p
-        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm" 
-       onClick={ ()=>{
-        navigate("/booking/success", {
-          state: {
-            booking: item,
-            service: item?.service,
-            creator: item?.seeker,
-          },
-        });}}
-      >
-        Booking details
-      </p>
+                    {option && (
+                      <div className="absolute right-0 top-12 bg-white  shadow-lg rounded-lg w-40 z-20">
 
-      <p
-className={`px-4 py-2 hover:bg-red-100 text-red-500 cursor-pointer text-sm ${item?.service?.category === "product" || item?.service?.category === "priorityDm"? "hidden": ""}`}
-   onClick={async () => {
-  const res = await cancelBooking(item._id);
-  if (res?.success) {
-    
-    alert("Booking Cancelled");
-    getCreatorBookings(userData.userId);
-    setoption(false);
-  }
-}}
-      >
-        Cancel
-      </p>
+                        <p
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                          onClick={() => {
+                            navigate("/booking/success", {
+                              state: {
+                                booking: item,
+                                service: item?.service,
+                                creator: item?.seeker,
+                              },
+                            });
+                          }}
+                        >
+                          Booking details
+                        </p>
 
-    </div>
-  )}
+                        <p
+                          className={`px-4 py-2 hover:bg-red-100 text-red-500 cursor-pointer text-sm ${item?.service?.category === "product" || item?.service?.category === "priorityDm" ? "hidden" : ""}`}
+                          onClick={async () => {
+                            const res = await cancelBooking(item._id);
+                            if (res?.success) {
 
-  {/* JOIN / ACCESS */}
-  <button
-    className={`px-4 py-2 rounded-lg text-sm   bg-black text-white hover:opacity-90 }`}
-    onClick={() => {
-      if (item?.service?.category === "product") {
-        navigate("/booking/success", {
-          state: {
-            booking: item,
-            service: item?.service,
-            creator: item?.seeker,
-          },
-        });
-        return;
-      }
-else if(item.service.category === 'one-to-one'){
-navigate("/booking/video-call-status", {
-  state: {
-    booking: item,
-    service: item?.service,
-    creator: item?.seeker,
-  },
-});}}}
-  >
-    {item?.service?.category === "product"
-      ? "Access"
-      : "Join"}
-  </button>
+                              alert("Booking Cancelled");
+                              getCreatorBookings(userData.userId);
+                              setoption(false);
+                            }
+                          }}
+                        >
+                          Cancel
+                        </p>
 
-</div>
+                      </div>
+                    )}
+
+                    {/* JOIN / ACCESS */}
+                    <button
+                      className={`px-4 py-2 rounded-lg text-sm ${item?.service?.category !== "product" && !isMeetingTimeReached(item?.date, item?.time)
+                          ? "bg-gray-400 text-gray-500 cursor-not-allowed"
+                          : "bg-black text-white hover:opacity-90"
+                        }`}
+                      onClick={() => {
+                        if (item?.service?.category === "product") {
+                          navigate("/booking/success", {
+                            state: {
+                              booking: item,
+                              service: item?.service,
+                              creator: item?.seeker,
+                            },
+                          });
+                          return;
+                        }
+                        else if (item.service.category === 'one-to-one') {
+                          navigate("/booking/video-call-status", {
+                            state: {
+                              booking: item,
+                              service: item?.service,
+                              creator: item?.seeker,
+                            },
+                          });
+                        }
+                      }}
+                      disabled={item?.service?.category !== "product" && !isMeetingTimeReached(item?.date, item?.time)}
+                    >
+                      {item?.service?.category === "product"
+                        ? "Access"
+                        : "Join"}
+                    </button>
+
+                  </div>
 
                 </div>
 

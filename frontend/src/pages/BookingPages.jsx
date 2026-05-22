@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+import { SkeletonBookingProduct } from "../components/ui/Skeleton";
 
 const OnetoOne = lazy(() => import("../components/Booking/OnetoOne"));
 const Products = lazy(() => import("../components/Booking/Products"));

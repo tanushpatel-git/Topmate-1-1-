@@ -7,8 +7,7 @@ const logout = async (navigate,dispatch,queryClient) => {
         const response = await axiosInstance.get("/user/logout")
         dispatch(clearUserDetails());
         if (response.status) {
-            queryClient.removeQueries({ queryKey: ["currUser"] });
-            queryClient.setQueryData(["currUser"], null);
+            queryClient.clear();
             toast.success("Log out Sucessfully");
             navigate("/")
         } else {

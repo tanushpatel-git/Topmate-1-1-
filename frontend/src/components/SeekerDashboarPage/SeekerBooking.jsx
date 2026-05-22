@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import GetSeekerBookingsHook from "../../hooks/GetSeekerBookingsHook";
+import { SkeletonBookingList } from "../ui/Skeleton";
 
 function SeekerBooking() {
 
@@ -28,7 +29,7 @@ function SeekerBooking() {
       label: "Products/Courses",
       value: "product",
     },
-    
+
     {
       label: "PriorityDm",
       value: "priorityDm",
@@ -44,6 +45,16 @@ function SeekerBooking() {
 
   ];
 
+
+  const isMeetingTimeReached = (date, time) => {
+    if (!date || !time) return false;
+    const [hours, minutes] = time.split(":");
+    const meetingDate = new Date(date);
+    meetingDate.setHours(hours);
+    meetingDate.setMinutes(minutes);
+    meetingDate.setSeconds(0);
+    return new Date() >= meetingDate;
+  };
 
   const formatBookingDateTime = (date, time, duration) => {
 
@@ -102,52 +113,46 @@ function SeekerBooking() {
 
 
   // FILTER BOOKINGS
- useEffect(() => {
-  if (!bookings) return;
+  useEffect(() => {
+    if (!bookings) return;
 
-  const filteredData = bookings.filter((item) => {
-    const categoryMatch =
-      item?.service?.category === activeFilter;
+    const filteredData = bookings.filter((item) => {
+      const categoryMatch =
+        item?.service?.category === activeFilter;
 
-    // categories that DON'T need tab filtering
-    const noTabFilterCategories = [
-      "product",
-      "priorityDm",
-      "package",
-    ];
+      // categories that DON'T need tab filtering
+      const noTabFilterCategories = [
+        "product",
+        "priorityDm",
+        "package",
+      ];
 
-    // show all data
-    if (noTabFilterCategories.includes(activeFilter)) {
-      return categoryMatch;
-    }
+      // show all data
+      if (noTabFilterCategories.includes(activeFilter)) {
+        return categoryMatch;
+      }
 
-    // apply tab filtering
-    let statusMatch = false;
+      // apply tab filtering
+      let statusMatch = false;
 
-    if (activeTab === "upcoming") {
-      statusMatch = item?.status === "confirmed";
-    }
+      if (activeTab === "upcoming") {
+        statusMatch = item?.status === "confirmed";
+      }
 
-    if (activeTab === "completed") {
-      statusMatch = item?.status === "completed";
-    }
+      if (activeTab === "completed") {
+        statusMatch = item?.status === "completed";
+      }
 
-    return categoryMatch && statusMatch;
-  });
+      return categoryMatch && statusMatch;
+    });
 
-  setData(filteredData);
-}, [bookings, activeFilter, activeTab]);
+    setData(filteredData);
+  }, [bookings, activeFilter, activeTab]);
 
 
   // LOADING
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl font-semibold">
-          Loading...
-        </p>
-      </div>
-    );
+    return <SkeletonBookingList />;
   }
 
   // ERROR
@@ -179,8 +184,8 @@ function SeekerBooking() {
             key={item.value}
             onClick={() => setActiveFilter(item.value)}
             className={`px-4 py-2 rounded-full border text-sm transition-all duration-200 ${activeFilter === item.value
-                ? "bg-black text-white border-black"
-                : "border-gray-300 bg-white text-gray-600"
+              ? "bg-black text-white border-black"
+              : "border-gray-300 bg-white text-gray-600"
               }`}
           >
             {item.label}
@@ -190,14 +195,14 @@ function SeekerBooking() {
 
       </div>
 
-      {/* TABS */} 
-      <div className={`flex gap-6 border-b mb-10 ${activeFilter === "one-to-one" ||activeFilter === "webinar"? "": "hidden"}`}>
+      {/* TABS */}
+      <div className={`flex gap-6 border-b mb-10 ${activeFilter === "one-to-one" || activeFilter === "webinar" ? "" : "hidden"}`}>
 
         <button
           onClick={() => setActiveTab("upcoming")}
           className={`pb-2 text-sm transition-all duration-200 ${activeTab === "upcoming"
-              ? "border-b-2 border-black font-medium text-black"
-              : "text-gray-500"
+            ? "border-b-2 border-black font-medium text-black"
+            : "text-gray-500"
             }`}
         >
           Upcoming
@@ -206,8 +211,8 @@ function SeekerBooking() {
         <button
           onClick={() => setActiveTab("completed")}
           className={`pb-2 text-sm transition-all duration-200 ${activeTab === "completed"
-              ? "border-b-2 border-black font-medium text-black"
-              : "text-gray-500"
+            ? "border-b-2 border-black font-medium text-black"
+            : "text-gray-500"
             }`}
         >
           Completed
@@ -264,10 +269,10 @@ function SeekerBooking() {
                   {/* STATUS */}
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium capitalize ${item?.status === "completed"
-                        ? "bg-green-100 text-green-600"
-                        : item?.status === "cancelled"
-                          ? "bg-red-100 text-red-600"
-                          : "bg-gray-100 text-gray-700"
+                      ? "bg-green-100 text-green-600"
+                      : item?.status === "cancelled"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-gray-100 text-gray-700"
                       }`}
                   >
                     {item.service.category !== 'product' ?
@@ -279,49 +284,53 @@ function SeekerBooking() {
                   {/* BUTTON */}
 
 
-              
-
-                  <div className="flex gap-2 "> 
-    <button className="bg-gray-300 text-black px-4 py-2 rounded-lg text-sm hover:opacity-90"
-  onClick={() => {
-    navigate("/booking/success", {
-      state: {
-        booking: item,
-        service: item?.service,
-        creator: item?.creator,
-      },
-    });
-  }}
->
-  Booking Details
 
 
-</button>            
-<button
-  className="bg-black text-white px-4 py-2 rounded-lg text-sm hover:opacity-90"
-  onClick={() => {
-    if (item?.service?.category !== "product") {
-      if (item?.meetingLink) {
-        window.open(item.meetingLink, "_blank");
-      }
-    } else {
-      navigate("/booking/success", {
-      state: {
-        booking: item,
-        service: item?.service,
-        creator: item?.creator,
-      },
-    });
-    }
-  }}
->
-  {item?.service?.category !== "product"
-    ? "Join"
-    : "Access"}
-</button>
+                  <div className="flex gap-2 ">
+                    <button className="bg-gray-300 text-black px-4 py-2 rounded-lg text-sm hover:opacity-90"
+                      onClick={() => {
+                        navigate("/booking/success", {
+                          state: {
+                            booking: item,
+                            service: item?.service,
+                            creator: item?.creator,
+                          },
+                        });
+                      }}
+                    >
+                      Booking Details
 
 
-                    </div>
+                    </button>
+                    <button
+                      className={`px-4 py-2 rounded-lg text-sm ${item?.service?.category !== "product" && !isMeetingTimeReached(item?.date, item?.time)
+                        ? "bg-gray-400 text-gray-500 cursor-not-allowed"
+                        : "bg-black text-white hover:opacity-90"
+                        }`}
+                      onClick={() => {
+                        if (item?.service?.category !== "product") {
+                          if (item?.meetingLink && isMeetingTimeReached(item?.date, item?.time)) {
+                            window.open(item.meetingLink, "_blank");
+                          }
+                        } else {
+                          navigate("/booking/success", {
+                            state: {
+                              booking: item,
+                              service: item?.service,
+                              creator: item?.creator,
+                            },
+                          });
+                        }
+                      }}
+                      disabled={item?.service?.category !== "product" && !isMeetingTimeReached(item?.date, item?.time)}
+                    >
+                      {item?.service?.category !== "product"
+                        ? "Join"
+                        : "Access"}
+                    </button>
+
+
+                  </div>
 
                 </div>
 
