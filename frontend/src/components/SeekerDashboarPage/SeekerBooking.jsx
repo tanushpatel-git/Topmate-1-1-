@@ -301,7 +301,9 @@ function SeekerBooking() {
   className="bg-black text-white px-4 py-2 rounded-lg text-sm hover:opacity-90"
   onClick={() => {
     if (item?.service?.category !== "product") {
-      // join logic
+      if (item?.meetingLink) {
+        window.open(item.meetingLink, "_blank");
+      }
     } else {
       navigate("/booking/success", {
       state: {
