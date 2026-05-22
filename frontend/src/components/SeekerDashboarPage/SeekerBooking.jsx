@@ -45,6 +45,16 @@ function SeekerBooking() {
   ];
 
 
+  const isMeetingTimeReached = (date, time) => {
+    if (!date || !time) return false;
+    const [hours, minutes] = time.split(":");
+    const meetingDate = new Date(date);
+    meetingDate.setHours(hours);
+    meetingDate.setMinutes(minutes);
+    meetingDate.setSeconds(0);
+    return new Date() >= meetingDate;
+  };
+
   const formatBookingDateTime = (date, time, duration) => {
 
     const bookingDate = new Date(date);
@@ -298,10 +308,14 @@ function SeekerBooking() {
 
 </button>            
 <button
-  className="bg-black text-white px-4 py-2 rounded-lg text-sm hover:opacity-90"
+  className={`px-4 py-2 rounded-lg text-sm ${
+    item?.service?.category !== "product" && !isMeetingTimeReached(item?.date, item?.time)
+      ? "bg-gray-400 text-gray-500 cursor-not-allowed"
+      : "bg-black text-white hover:opacity-90"
+  }`}
   onClick={() => {
     if (item?.service?.category !== "product") {
-      if (item?.meetingLink) {
+      if (item?.meetingLink && isMeetingTimeReached(item?.date, item?.time)) {
         window.open(item.meetingLink, "_blank");
       }
     } else {
@@ -314,6 +328,7 @@ function SeekerBooking() {
     });
     }
   }}
+  disabled={item?.service?.category !== "product" && !isMeetingTimeReached(item?.date, item?.time)}
 >
   {item?.service?.category !== "product"
     ? "Join"
