@@ -1,26 +1,25 @@
 
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import SeekerSidebar from "../components/SeekerDashboarPage/SeekerSidebar";
 import BottomNavbar from "../components/SeekerDashboarPage/BottomNavbar";
 import { useSelector } from "react-redux";
 import { SkeletonPage } from "../components/ui/Skeleton";
-
 const SeekerHome = lazy(() => import("../components/SeekerDashboarPage/SeekerHome"));
 const SeekerBooking = lazy(() => import("../components/SeekerDashboarPage/SeekerBooking"));
 const SeekerProfile = lazy(() => import("../components/SeekerDashboarPage/SeekerProfile"));
 const SeekerReward = lazy(() => import("../components/SeekerDashboarPage/SeekerReward"));
 
 const SekerDashboard = () => {
-  const userData = useSelector((state) => state.userData);
 
-  console.log(userData)
+  const userData=useSelector((state)=>state.userData);
+
   return (
     <div className="min-h-screen w-full">
 
       {/* Desktop Sidebar */}
       <div className="hidden md:block">
-        <SeekerSidebar userData={userData} />
+        <SeekerSidebar userData={userData} /> 
       </div>
 
       {/* Main Content */}

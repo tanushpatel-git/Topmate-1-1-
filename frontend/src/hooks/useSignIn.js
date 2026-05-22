@@ -9,6 +9,7 @@ const useSignIn = () => {
         onSuccess: (data) => {
             if (data?.status){
                 toast.success(data?.message);
+                queryClient.setQueryData(["currUser"], { user: data.user });
                 queryClient.invalidateQueries();
             }else{
                 toast.error(data?.message);

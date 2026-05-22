@@ -5,11 +5,16 @@ import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import logout from "../../services/userAuthServices/logOut";
+import { useDispatch } from "react-redux";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 const CreatorSidebar = () => {
-
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [logoutBtn, setLogoutBtn] = useState(false);
   const navigate = useNavigate();
 
   const [settingOpen, setSettingOpen] = useState(false);
@@ -25,7 +30,7 @@ const CreatorSidebar = () => {
 
       <div>
         {/* Logo */}
-        <div className="flex items-center gap-3 p-4 ">
+        <div onClick={() => setOpen(!open)} className="flex cursor-pointer items-center gap-3 p-4 ">
           <div className="w-10 h-10 ">
             <img src={Logoicon} alt="" />
           </div>
@@ -33,7 +38,7 @@ const CreatorSidebar = () => {
             <h2 className="font-semibold">Dashboard   </h2>
             <p className="text-sm text-gray-500">{userData.firstName + ' ' + userData.lastName || 'hii there'}</p>
           </div>
-          <div onClick={() => setOpen(!open)} className="cursor-pointer">
+          <div >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -50,7 +55,7 @@ const CreatorSidebar = () => {
 
           <div className="flex items-center gap-2 p-8  ml-3 mr-3  rounded-lg bg-white shadow justify-center h-12">
             <FaUserAlt className="text-1xl text-gray-700" />
-            <h2 className="font-semibold text-sm text-gray-700" onClick={() => navigate('/seeker-dashboard')}> Seeker Dashboard</h2>
+            <h2 className="font-semibold text-sm text-gray-700 cursor-pointer" onClick={() => navigate('/seeker-dashboard')}> Seeker Dashboard</h2>
           </div>
 
         )}
@@ -106,8 +111,16 @@ const CreatorSidebar = () => {
         </nav>
       </div>
 
+      {
+        logoutBtn && (
+          <div onClick={() => logout(navigate, dispatch, queryClient)} className="absolute bottom-19 flex items-center gap-2 p-8  ml-3 mr-3 rounded-lg bg-white shadow justify-center h-12 w-48">
+            <FaUserAlt className="text-1xl text-gray-700" />
+            <h2 className="font-semibold text-sm text-gray-700 cursor-pointer" onClick={() => navigate('/seeker-dashboard')}> LogOut</h2>
+          </div>
+        )
+      }
       {/* Bottom Profile */}
-      <div className="p-4 border-t flex items-center gap-3">
+      <div onClick={() => setLogoutBtn(!logoutBtn)} className="p-4 border-t flex items-center gap-3 cursor-pointer">
         <img
           src={Logoicon}
           alt="profile"
