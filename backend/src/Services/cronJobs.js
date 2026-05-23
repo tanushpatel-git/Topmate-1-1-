@@ -1,52 +1,56 @@
 const cron = require("node-cron");
 const Booking = require("../models/Booking.model");
-const User = require("../models/user.model");
-const Service = require("../models/userService.model");
 const sendReminderEmail = require("./sendReminderEmails");
 
+const CONCURRENCY_LIMIT = 5;
+
 const startReminderCron = () => {
-  // Every minute check for bookings today that need reminders
-  cron.schedule("* * * * *", async () => {
+  cron.schedule("*/10 * * * *", async () => {
     try {
       const now = new Date();
-      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const endOfToday = new Date(startOfToday.getTime() + 86400000);
-
-      // Only send reminders after 8:00 AM
-      const currentHour = now.getHours();
-      if (currentHour < 8) return;
+      const windowStart = new Date(now.getTime() - 30 * 1000);
+      const windowEnd = new Date(now.getTime() + 30 * 1000);
 
       const bookings = await Booking.find({
-        date: { $gte: startOfToday, $lt: endOfToday },
+        reminderTime: { $gte: windowStart, $lte: windowEnd },
         reminderSent: false,
-        status: { $in: ["confirmed"] },
-      });
+        status: "confirmed",
+      })
+        .populate("seeker creator service")
+        .lean();
 
-      for (const booking of bookings) {
-        const [hours, minutes] = booking.time.split(":").map(Number);
-        const meetingTime = new Date(booking.date);
-        meetingTime.setHours(hours, minutes, 0);
+      const bookingIds = [];
 
-        // Don't send if the meeting has already passed
-        if (now >= meetingTime) continue;
+      const runBatch = async (batch) => {
+        await Promise.all(
+          batch.map(async (booking) => {
+            const { seeker, creator, service } = booking;
+            if (!seeker || !creator || !service) return;
 
-        const seeker = await User.findById(booking.seeker);
-        const creator = await User.findById(booking.creator);
-        const service = await Service.findById(booking.service);
+            await sendReminderEmail({ booking, service, seeker, creator });
+            bookingIds.push(booking._id);
+          })
+        );
+      };
 
-        if (!seeker || !creator || !service) continue;
-
-        await sendReminderEmail({ booking, service, seeker, creator });
-
-        booking.reminderSent = true;
-        await booking.save();
+      for (let i = 0; i < bookings.length; i += CONCURRENCY_LIMIT) {
+        await runBatch(bookings.slice(i, i + CONCURRENCY_LIMIT));
       }
+
+      if (bookingIds.length > 0) {
+        await Booking.updateMany(
+          { _id: { $in: bookingIds } },
+          { $set: { reminderSent: true } }
+        );
+      }
+
+      console.log(`Reminders sent for ${bookingIds.length} booking(s)`);
     } catch (error) {
       console.error("Reminder cron error:", error);
     }
   });
 
-  console.log("Reminder cron job started (checks every minute)");
+  console.log("Optimized reminder cron started");
 };
 
 module.exports = startReminderCron;

@@ -87,6 +87,13 @@ const createBooking = async (req, res) => {
       status: "confirmed",
     });
 
+    // ⏰ Set reminder time (30 min before)
+    const [hours, minutes] = time.split(":").map(Number);
+    const meetingTime = new Date(date);
+    meetingTime.setHours(hours, minutes, 0, 0);
+    booking.reminderTime = new Date(meetingTime.getTime() - 30 * 60 * 1000);
+    await booking.save();
+
     //  CREATE ZOOM MEETING
     try {
       const [hours, minutes] = time.split(":");

@@ -282,10 +282,6 @@ function SeekerBooking() {
                   </span>
 
                   {/* BUTTON */}
-
-
-
-
                   <div className="flex gap-2 ">
                     <button className="bg-gray-300 text-black px-4 py-2 rounded-lg text-sm hover:opacity-90"
                       onClick={() => {

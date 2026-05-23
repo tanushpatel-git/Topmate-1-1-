@@ -64,6 +64,10 @@ const bookingSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    reminderTime: {
+      type: Date,
+      index: true, 
+    },
   },
   { timestamps: true }
 );
@@ -72,6 +76,11 @@ const bookingSchema = new mongoose.Schema(
 bookingSchema.index(
   { creator: 1, date: 1, time: 1 },
   { unique: true }
+);
+
+bookingSchema.index(
+  { reminderTime: 1, reminderSent: 1, status: 1 },
+  { background: true }
 );
 
 module.exports = mongoose.model("Booking", bookingSchema);
