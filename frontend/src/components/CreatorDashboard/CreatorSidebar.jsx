@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaUser, FaUserAlt, FaGift, FaSearch, FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import logout from "../../services/userAuthServices/logOut";
 import { useDispatch } from "react-redux";
@@ -16,14 +16,7 @@ const CreatorSidebar = () => {
   const [open, setOpen] = useState(false);
   const [logoutBtn, setLogoutBtn] = useState(false);
   const navigate = useNavigate();
-
-  const [settingOpen, setSettingOpen] = useState(false);
-
   const userData = useSelector((state) => state.userData);
-
-  useEffect(() => {
-
-  }, [userData]);
 
   return (
     <div className="w-64 bg-[#F7F6F2] border-r-1 border-gray-200 flex flex-col justify-between fixed h-full">
@@ -84,28 +77,9 @@ const CreatorSidebar = () => {
             <p className="text-xs text-gray-400 mb-2">Your Page</p>
 
             <SidebarLink to="/creator-dashboard/analytics" icon={<FaSearch />} text="Analytics" />
-            <SidebarLink to="/creator-dashboard/testimonials" icon={<FaUser />} text="Testimonials" />
             <SidebarLink to="/creator-dashboard/profile" icon={<FaUserAlt />} text="Edit Profile" />
-            <SidebarLink to="/creator-dashboard/settings" icon={<FaGift />} text="Settings" onClick={() => setSettingOpen(!settingOpen)} />
-            {
-              settingOpen && (
-                <h1>Settings</h1>
+            <SidebarLink to="/creator-dashboard/settings" icon={<FaGift />} text="Settings" />
 
-              )
-            }
-
-          </div>
-
-
-
-
-
-          {/* MORE */}
-          <div>
-            <p className="text-xs text-gray-400 mb-2">More</p>
-
-            <SidebarLink to="/creator-dashboard/advanced" icon={<MdOutlineCategory />} text="Advanced" />
-            <SidebarLink to="/creator-dashboard/sites" icon={<FaSearch />} text="Sites" />
           </div>
 
         </nav>
