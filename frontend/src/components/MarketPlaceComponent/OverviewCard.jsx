@@ -34,23 +34,7 @@ const OverviewCard = ({ service }) => {
   };
 
   return (
-    <div className="
-  w-[100%]
-  h-[250px]
-  sm:w-[260px]
-  min-h-[170px]
-  sm:min-h-[300px]
-  bg-white
-  rounded-2xl
-  shadow-sm
-  p-3
-  sm:p-4
-  hover:shadow-md
-  transition
-  flex
-  flex-col
-  justify-between
-">
+  <div className=" w-[100%] h-[250px] sm:w-[260px] min-h-[170px] sm:min-h-[300px] bg-white rounded-2xl shadow-sm p-3 sm:p-4 hover:shadow-md transition flex flex-col justify-between">
       <div className="flex-1">
         {/* Top Section */}
         <div className="flex gap-3">

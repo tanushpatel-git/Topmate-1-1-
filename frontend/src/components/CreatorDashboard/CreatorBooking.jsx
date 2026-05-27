@@ -5,8 +5,9 @@ import { useSelector } from "react-redux";
 import GetCreatorBookingsHook from "../../hooks/GetCreatorBookingsHook";
 import { ChevronDown } from "lucide-react";
 import CancelBookingHook from "../../hooks/CancelBookingHook";
-import toast from "react-hot-toast";
 import { SkeletonBookingList } from "../ui/Skeleton";
+import toast from "react-hot-toast";
+import PriorityDmAnswer from "./PriorityDmAnswer";
 
 
 function CreatorBooking() {
@@ -154,7 +155,8 @@ function CreatorBooking() {
       }
     );
 
-    setData(filteredData);
+      setData(filteredData);
+
 
   }, [
     bookings,
@@ -260,17 +262,17 @@ function CreatorBooking() {
 
       {/* BOOKINGS */}
       {data.length > 0 ? (
-        <div className="space-y-4 ">
+        <div className="space-y-4  ">
 
           {data.map((item) => (
 
-            <div
+            <div 
               key={item._id}
-              className="max-w-2xl border rounded-2xl shadow-sm relative "
+              className="max-w-2xl border rounded-2xl shadow-sm relative  "
             >
 
               {/* TOP */}
-              <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
+              <div className="flex justify-between items-center px-6 py-4 border-b  top-rounded-xl">
 
                 <span className=" text-sm  bg-green-300 border border-gray-300 px-3 py-1 rounded-full capitalize font-bold">
 

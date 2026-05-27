@@ -8,7 +8,6 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
 
-
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -21,7 +20,14 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
 
-    notes:{type:String},
+    question:{
+      type:String,
+      default: ""
+    }, 
+    answer : {
+      type:String,
+      default: "",
+    },
 
     date: {
       type: Date,
@@ -74,7 +80,7 @@ const bookingSchema = new mongoose.Schema(
 
 
 bookingSchema.index(
-  { creator: 1, date: 1, time: 1 },
+  { creator: 1, time: 1 },
   { unique: true }
 );
 

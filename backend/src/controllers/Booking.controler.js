@@ -42,10 +42,7 @@ const createBooking = async (req, res) => {
     const serviceData = await Service.findById(service);
 
 
-    console.log(serviceData?.category , "Booking Body");
-
-
-    if(serviceData.category == 'product'){
+    if(serviceData.category == 'product' || serviceData.category == 'priorityDm' ){
     if (!seeker || !creator || !service ) {
       return res.status(400).json({
         success: false,
@@ -87,7 +84,7 @@ const createBooking = async (req, res) => {
       status: "confirmed",
     });
 
-    // ⏰ Set reminder time (30 min before)
+    // Set reminder time (30 min before)
     const [hours, minutes] = time.split(":").map(Number);
     const meetingTime = new Date(date);
     meetingTime.setHours(hours, minutes, 0, 0);
@@ -131,6 +128,73 @@ const createBooking = async (req, res) => {
     res.status(500).json({ success: false });
   }
 };
+
+
+const createBookingForDm= async (req, res) => {
+  try {
+    const {
+      seeker,
+      creator,
+      service,
+      price,
+      question
+    } = req.body;
+
+
+    //  Fetch full details
+    const seekerUser = await User.findById(seeker);
+    const creatorUser = await User.findById(creator);
+    const serviceData = await Service.findById(service);
+
+
+    if(serviceData.category == 'product' || serviceData.category == 'priorityDm' ){
+    if (!seeker || !creator || !service ) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing fields",
+      });
+    }   
+  }
+    else {
+      if (!seeker || !creator || !service ) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing fields",
+        });
+      }
+    }
+
+
+
+    const booking = await Booking.create({
+      seeker,
+      creator,
+      service,
+      price,
+      question,      
+      status: "confirmed",
+    });
+
+
+    //  SEND EMAILS
+    await sendBookingEmails({
+      booking,
+      service: serviceData,
+      seeker: seekerUser,
+      creator: creatorUser,
+    });
+
+    return res.status(201).json({
+      success: true,
+      booking,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false });
+  }
+};
+
 
 
 const getSeekerBookings = async (req, res) => {
@@ -270,5 +334,6 @@ module.exports = {
   getBookingById,
   cancelBooking,
   confirmBooking,
+  createBookingForDm,
 };
 
