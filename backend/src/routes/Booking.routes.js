@@ -7,7 +7,8 @@ const {
   getCreatorBookings,
   getBookingById,
   cancelBooking,
-  confirmBooking
+  confirmBooking,
+  updateBookingdm,
 } = require("../controllers/Booking.controler");
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.get("/creator/:creatorId", getCreatorBookings);
 router.get("/:bookingId", getBookingById);
 router.put("/cancel/:bookingId", cancelBooking);
 router.put("/confirm/:bookingId", confirmBooking);
+router.put("/update/:id", updateBookingdm);
 
 module.exports = router;
 

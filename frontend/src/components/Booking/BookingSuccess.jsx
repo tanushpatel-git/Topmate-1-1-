@@ -25,10 +25,6 @@ const BookingSuccess = () => {
   const service = state?.service;
   const creator = state?.creator;
 
-console.log(creator)
-console.log(service);
-
-
   // SAFETY CHECK
   if (!booking || !service || !creator) {
     return (

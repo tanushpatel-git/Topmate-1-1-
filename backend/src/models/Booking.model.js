@@ -34,12 +34,11 @@ const bookingSchema = new mongoose.Schema(
       default: Date.now().toString(),
     },
 
+time: {
+  type: String,
+  default: () => Date.now().toString(),
+},
     
-    time: {
-      type: String,
-      default: Date.now().toString(),
-    },
-
     duration: {
       type: Number,
       default: 15,

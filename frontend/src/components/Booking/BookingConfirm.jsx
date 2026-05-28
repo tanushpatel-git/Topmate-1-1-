@@ -41,6 +41,7 @@ const BookingConfirm = () => {
     error: bookingError,
   } = CreateBookingHook();
 
+
   const {
     createBookingDM,
     loading: bookingLoadingDM,
@@ -117,7 +118,7 @@ const BookingConfirm = () => {
       let res;
 
       // PRIORITY DM
-      if (service?.category === "priorityDm") {
+      if (service?.category === "priorityDm" || service?.category === "product") {
         res = await createBookingDM(bookingData);
       } else {
         res = await createBooking(bookingData);
@@ -128,8 +129,6 @@ if (res) {
     "Booking Confirmed Successfully"
   );
 
-  setTimeout(() => {
-
     navigate("/booking/success", {
       state: {
         booking: res.booking,
@@ -138,7 +137,6 @@ if (res) {
       },
     });
 
-  }, 1500);
 
 } else {
 
