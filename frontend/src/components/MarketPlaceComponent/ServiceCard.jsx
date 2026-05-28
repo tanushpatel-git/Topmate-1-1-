@@ -26,15 +26,8 @@ const ServiceCard = ({ service }) => {
 
   };  
 
-
-
-
-
-
-
   return (
-    <div className="bg-white rounded-xl shadow-sm h-[300px] p-4 w-[260px] hover:shadow-md transition ">
-
+    <div className=" w-[100%] h-[250px] sm:w-[260px] min-h-[170px] sm:min-h-[300px] bg-white rounded-2xl shadow-sm p-3 sm:p-4 hover:shadow-md transition flex flex-col justify-between">
 
 <div className="h-[75%]">
       {/* Top Section */}
@@ -78,7 +71,6 @@ const ServiceCard = ({ service }) => {
         </p>
 
         <button className="bg-black text-white text-sm px-3 py-1.5 rounded-full " onClick={handleClick} >
-          
             Check out
         </button>
       </div>

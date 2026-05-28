@@ -1,38 +1,65 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import logoIcon from "../../assets/logo-icon2.svg";
-import { FaLock } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import CreateBookingHook from "../../hooks/CreateBookingHook";
 import { toast } from "react-toastify";
 
-const BookingConfirm = () => {
+import "react-toastify/dist/ReactToastify.css";
 
+import logoIcon from "../../assets/logo-icon2.svg";
+
+import CreateBookingHook from "../../hooks/CreateBookingHook";
+import createBookingDMHook from "../../hooks/createBookingDMHook";
+
+const BookingConfirm = () => {
   const { state } = useLocation();
+
   const safeState = state || {};
+
   const service = safeState.service;
-  const creator = safeState.user; // renamed 
+  const creator = safeState.user;
   const selectedDate = safeState.selectedDate;
   const selectedTime = safeState.selectedTime;
-  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const { createBooking, loading: bookingLoading, error: bookingError } = CreateBookingHook();
-
   const user = useSelector((state) => state.userData);
+
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
-    email: user?.email || "",
-    phone: user?.whatsAppNumber || "",
-    notes: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    question: "",
   });
 
+  const {
+    createBooking,
+    loading: bookingLoading,
+    error: bookingError,
+  } = CreateBookingHook();
 
+
+  const {
+    createBookingDM,
+    loading: bookingLoadingDM,
+    error: bookingErrorDM,
+  } = createBookingDMHook();
+
+  // SET USER DATA
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      email: user?.email || "",
+      phone: user?.whatsAppNumber || "",
+    }));
+  }, [user]);
+
+  // HANDLE CHANGE
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -40,237 +67,360 @@ const BookingConfirm = () => {
     });
   };
 
-
+  // SUBMIT
   const handleSubmit = async () => {
-
-    // if (!user.userId) {
-    //   alert("User not logged in");
-    //   return;
-    // }
-
-    // if (!creator?._id || !service?._id) {
-    //   alert("Service data missing");
-    //   return;
-    // }
-
-    // if (!selectedDate || !selectedTime) {
-    //   alert("Please select date & time");
-    //   return;
-    // }
-
-    // if (!form.firstName || !form.email || !form.phone) {
-    //   alert("Please fill all required fields");
-    //   return;
-    // }
-    if (!form.notes.trim()) {
-      alert("Please enter your question");
+    // VALIDATIONS
+    if (!user?.userId) {
+      toast.error("Please login first");
       return;
     }
 
+    if (!creator?._id || !service?._id) {
+      toast.error("Service data missing");
+      return;
+    }
+
+    if (
+      service?.category === "one-to-one" &&
+      (!selectedDate || !selectedTime)
+    ) {
+      toast.error("Please select date & time");
+      return;
+    }
+
+    if (
+      !form.firstName ||!form.email ||!form.phone) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    if (!form.question?.trim()) {
+      toast.error("Please enter your question");
+      return;
+    }
 
     const bookingData = {
       seeker: user.userId,
       creator: creator._id,
       service: service._id,
-      date: new Date(selectedDate),
-      time: selectedTime,
-      duration: service.duration,
-      price: service.price,
-      notes: form.notes
+      date: selectedDate
+        ? new Date(selectedDate)
+        : null,
+      time: selectedTime || "",
+      duration: service?.duration || 0,
+      price: service?.price || 0,
+      question: form.question,
     };
 
     try {
       setLoading(true);
 
+      let res;
 
-      // FREE BOOKING
-      if (service.price === 0) {
-        const res = await createBooking(bookingData);
-
-        if (res.success) {
-          alert("Booking Confirmed Successfully ✅");
-          navigate("/booking/success", {
-            state: {
-              booking: res.booking,
-              service,
-              creator,
-            },
-          });
-        } else {
-          alert(res.message);
-        }
-
+      // PRIORITY DM
+      if (service?.category === "priorityDm" || service?.category === "product") {
+        res = await createBookingDM(bookingData);
       } else {
-        alert("Proceed to payment 💳");
+        res = await createBooking(bookingData);
       }
+if (res) {
+
+  toast.success(
+    "Booking Confirmed Successfully"
+  );
+
+    navigate("/booking/success", {
+      state: {
+        booking: res.booking,
+        service,
+        creator,
+      },
+    });
+
+
+} else {
+
+  toast.error("Booking failed");
+}
 
     } catch (err) {
-      console.log("ERROR:", err.response?.data || err.message);
+      console.log(
+        "ERROR:",
+        err?.response?.data || err.message
+      );
 
-      alert(err.response?.data?.message || "Booking failed");
-
+      toast.error(
+        err?.response?.data?.message ||
+          "Booking failed"
+      );
     } finally {
       setLoading(false);
     }
   };
 
-
-  useEffect(() => {
-    setForm({
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      email: user?.email || "",
-      phone: user?.whatsAppNumber || "",
-      notes: form.notes || "",
-    });
-  }, [user]);
-
-
   return (
-    <div className="min-h-screen bg-[#8FB3D9] flex justify-center items-start pt-10">
-
+    <div className="min-h-screen bg-[#8FB3D9] flex justify-center items-start pt-10 ">
       {/* MAIN CARD */}
-      <div className="bg-white w-[420px] h-screen rounded-2xl shadow-md  ">
-
+      <div className="bg-white min-h-screen w-[420px] rounded-2xl shadow-md overflow-hidden">
         {/* HEADER */}
-        <div className="mb-4">
-          <div className="flex items-center gap-4  border-b-2 p-5 border-gray-300 cursor-pointer" onClick={() => navigate('/profile/allservice')}>
+        <div>
+          {/* TOP BAR */}
+          <div
+            className="flex items-center gap-4 border-b-2 p-5 border-gray-300 cursor-pointer"
+            onClick={() =>
+              navigate("/profile/allservice")
+            }
+          >
             <FaArrowLeft className="text-lg" />
+
             <img
               src={creator?.userImageUrl}
               alt="User Profile"
-              className="w-8 h-8 rounded-t-full object-cover"
+              className="w-10 h-10 rounded-full object-cover"
             />
+
             <p className="text-md font-semibold">
-              {creator?.firstName} {creator?.lastName}
+              {creator?.firstName}{" "}
+              {creator?.lastName}
             </p>
           </div>
-          <div className=" p-5">
 
+          {/* SERVICE DETAILS */}
+          <div className="p-5">
             <h2 className="font-semibold text-xl text-black">
               {service?.title}
             </h2>
-            {service.category === "one-to-one" && <p className="text-gray-500">Video Call | {service?.duration}mins</p>}
-            {service.category === "product" && <p className="text-gray-500">Digital Product</p>}
-            {service.category === "priorityDm" && <p className="text-gray-500">Priority DM</p>}
-          </div>
 
-          <div className={`mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm ${service.category !== "one-to-one" ? "hidden" : ""}`}>
-
-            <div className="p-2 text-black font-bold ">
-              <p>
-                {new Date(selectedDate).toDateString()}
+            {service?.category ===
+              "one-to-one" && (
+              <p className="text-gray-500">
+                Video Call |{" "}
+                {service?.duration} mins
               </p>
-              <p className="text-gray-700">Time - {selectedTime}</p>
+            )}
 
+            {service?.category ===
+              "product" && (
+              <p className="text-gray-500">
+                Digital Product
+              </p>
+            )}
 
+            {service?.category ===
+              "priorityDm" && (
+              <p className="text-gray-500">
+                Priority DM
+              </p>
+            )}
+          </div>
+
+          {/* DATE/TIME */}
+          {service?.category ===
+            "one-to-one" && (
+            <div className="mt-3 bg-gray-100 p-4 mx-5 rounded-lg flex justify-between items-center text-sm">
+              <div className="text-black font-bold">
+                <p>
+                  {new Date(
+                    selectedDate
+                  ).toDateString()}
+                </p>
+
+                <p className="text-gray-700">
+                  Time - {selectedTime}
+                </p>
+              </div>
+
+              <button
+                className="text-md font-bold border bg-white px-5 py-3 rounded-full"
+                onClick={() =>
+                  navigate(
+                    `/booking/one-to-one/${service?._id}`
+                  )
+                }
+              >
+                Change
+              </button>
             </div>
+          )}
 
-            <button className="text-md font-bold  border bg-white  px-5 py-3  rounded-full" onClick={() => navigate(`/booking/one-to-one/${service?._id}`)}>
-              Change
-            </button>
-          </div>
-
-          <div className={`mt-3 bg-gray-100 p-2 m-5 rounded-lg flex justify-between items-center text-sm ${service.category !== "priorityDm" ? "" : "hidden"}`}>
-            <p>
-              {service.category.longDescription}
-            </p>
-          </div>
-
+          {/* PRIORITY DM DESCRIPTION */}
+          {service?.category ===
+            "priorityDm" && (
+            <div className="mt-3 bg-gray-100 p-4 mx-5 rounded-lg text-sm">
+              <p>
+                {service?.longDescription}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* FORM */}
-        <div className="space-y-3 p-5" >
-          <label className="text-md font-semibold">Full Name</label>
-          <input
-            type="text"
-            name="firstName"
-            value={form.firstName + " " + form.lastName}
-            onChange={handleChange}
-            className="w-full border p-2 rounded-md text-sm"
-          />
+        <div className="space-y-4 p-5">
+          {/* FIRST NAME */}
+          <div>
+            <label className="text-md font-semibold">
+              First Name
+            </label>
 
-          <label className="text-md font-semibold">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-            className="w-full border p-2 rounded-md text-sm"
-          />
+            <input
+              type="text"
+              name="firstName"
+              value={form.firstName}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md text-sm mt-1"
+            />
+          </div>
 
-          <label className="text-md font-semibold">Your Question</label>
-          <input
-            required
-            type="text"
-            name="notes"
-            value={form.notes}
-            onChange={handleChange}
-            className="w-full border p-2 rounded-md text-sm"
-          />
+          {/* LAST NAME */}
+          <div>
+            <label className="text-md font-semibold">
+              Last Name
+            </label>
+
+            <input
+              type="text"
+              name="lastName"
+              value={form.lastName}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md text-sm mt-1"
+            />
+          </div>
+
+          {/* EMAIL */}
+          <div>
+            <label className="text-md font-semibold">
+              Email
+            </label>
+
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md text-sm mt-1"
+            />
+          </div>
+
+          {/* PHONE */}
+          <div>
+            <label className="text-md font-semibold">
+              WhatsApp Number
+            </label>
+
+            <input
+              type="text"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              className="w-full border p-2 rounded-md text-sm mt-1"
+            />
+          </div>
+
+          {/* QUESTION */}
+          <div>
+            <label className="text-md font-semibold">
+              Your Question
+            </label>
+
+            <textarea
+              required
+              rows={4}
+              name="question"
+              value={form.question}
+              onChange={handleChange}
+              placeholder="Ask your question..."
+              className="w-full border p-2 rounded-md text-sm mt-1 resize-none"
+            />
+          </div>
 
           <label className="flex items-center gap-2 text-xs">
-            <input type="checkbox" defaultChecked />
+            <input
+              type="checkbox"
+              defaultChecked
+            />
             Receive booking details on phone
           </label>
-
         </div>
 
         {/* ORDER SUMMARY */}
-        <div className="mt-5 bg-gray-100  rounded-lg text-sm m-5 line-clamp-1 font-semibold" >
-
-
-          <div className="flex justify-between  border-b border-gray-300 p-3">
+        <div className="mt-5 bg-gray-100 rounded-lg text-sm m-5 font-semibold overflow-hidden">
+          <div className="flex justify-between border-b border-gray-300 p-3">
             <span>Order Summary</span>
-            <span>  {service?.price == 0 ? "₹0" : "₹" + (service?.price + 10)}  </span>
 
+            <span>
+              {service?.price === 0
+                ? "₹0"
+                : `₹${service?.price + 10}`}
+            </span>
           </div>
 
-
-          <div className="flex justify-between  border-b border-gray-300 p-3">
+          <div className="flex justify-between border-b border-gray-300 p-3">
             <span>{service?.title}</span>
-            <span>  {service?.price == 0 ? "Free" : "₹" + service?.price}</span>
 
+            <span>
+              {service?.price === 0
+                ? "Free"
+                : `₹${service?.price}`}
+            </span>
           </div>
 
-          <div className="flex justify-between  p-3 border-b border-gray-300">
+          <div className="flex justify-between p-3 border-b border-gray-300">
             <span>Platform fee</span>
-            <span>  {service?.price == 0 ? "Free" : "₹" + 10}</span>
-          </div>
 
+            <span>
+              {service?.price === 0
+                ? "Free"
+                : "₹10"}
+            </span>
+          </div>
 
           <div className="flex justify-between font-semibold p-3">
             <span>Total</span>
-            <span>{service?.price == 0 ? "₹0" : "₹" + (service?.price + 10)}</span>
-          </div>
 
+            <span>
+              {service?.price === 0
+                ? "₹0"
+                : `₹${service?.price + 10}`}
+            </span>
+          </div>
         </div>
 
         {/* TERMS */}
-        <p className="text-xs text-gray-400 mt-3 font-semibold tracking-wide text-center">
-          By clicking Confirm, you agree to <span className="text-gray-1000 underline ">Terms & Refund Policies</span>
+        <p className="text-xs text-gray-400 mt-3 font-semibold tracking-wide text-center px-5">
+          By clicking Confirm, you agree
+          to{" "}
+          <span className="text-black underline">
+            Terms & Refund Policies
+          </span>
         </p>
 
-        <p className="text-xs text-gray-400 mt-3 font-semibold tracking-wide text-center  bg-gray-100 p-3 m-5 rounded-lg ">
-          Payments are 100% secure & encrypted
-          Terms & Conditions
+        {/* SECURITY */}
+        <p className="text-xs text-gray-400 mt-3 font-semibold tracking-wide text-center bg-gray-100 p-3 m-5 rounded-lg">
+          Payments are 100% secure &
+          encrypted Terms & Conditions
         </p>
+
+        {/* POWERED BY */}
         <div className="flex flex-col justify-center items-center mt-5 bg-gray-50 p-3 m-5 rounded-lg font-semibold">
-          <p className="flex items-center gap-2"><img src={logoIcon} alt="" className="w-4 h-4" /> Powered by topmate.io</p>
-          <p className="text-sm font-semibold p-2"> (Nikesh & Tanush Technologies Private Limited )</p>
+          <p className="flex items-center gap-2">
+            <img
+              src={logoIcon}
+              alt=""
+              className="w-4 h-4"
+            />
+            Powered by topmate.io
+          </p>
 
-
-
-
+          <p className="text-sm font-semibold p-2 text-center">
+            (Nikesh & Tanush Technologies
+            Private Limited)
+          </p>
         </div>
-
-
       </div>
 
       {/* STICKY FOOTER */}
-      <div className="fixed bottom-0 left-0 w-full   flex justify-center py-3">
-        <div className="w-[420px] x-5 shadow-lg flex p-5 justify-between items-center bg-gray-300">
-
+      <div className="fixed bottom-0 left-0 w-full flex justify-center py-3">
+        <div className="w-[420px] shadow-lg flex p-5 justify-between items-center bg-gray-300 rounded-xl">
           <span className="font-semibold">
             ₹ {service?.price}
           </span>
@@ -278,21 +428,20 @@ const BookingConfirm = () => {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className={`px-4 py-2 rounded-lg ${loading
+            className={`px-4 py-2 rounded-lg ${
+              loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-black text-white"
-              }`}
+            }`}
           >
             {loading
               ? "Processing..."
               : service?.price === 0
-                ? "Confirm"
-                : "Confirm & Pay"}
+              ? "Confirm"
+              : "Confirm & Pay"}
           </button>
-
         </div>
       </div>
-
     </div>
   );
 };

@@ -41,9 +41,9 @@ const App = () => {
 
   return (
     <>
-      <ScrollToTop />
-      <Toaster />
-      <Routes>
+    <ScrollToTop />
+    <Toaster />
+    <Routes>
 
         <Route path="/" element={<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
         <Route path="/features/meeting" element={<Suspense fallback={<div>Loading...</div>}><Meeting /></Suspense>} />

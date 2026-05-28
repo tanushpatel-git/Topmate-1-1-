@@ -3,6 +3,7 @@ const sendBookingEmails = require("../Services/sendBookingEmails");
 const User = require("../models/user.model");
 const Service = require("../models/userService.model");
 const { createMeeting } = require("../utility/Zoom");
+const sendPriorityDMResponseEmail = require(  "../Services/sendPriorityDMResponseEmail");
 
 const clearExpiredMeetingLink = async (booking) => {
   if (!booking || !booking.date || !booking.time || !booking.meetingLink) return;
@@ -42,10 +43,7 @@ const createBooking = async (req, res) => {
     const serviceData = await Service.findById(service);
 
 
-    console.log(serviceData?.category , "Booking Body");
-
-
-    if(serviceData.category == 'product'){
+    if(serviceData.category == 'product' || serviceData.category == 'priorityDm' ){
     if (!seeker || !creator || !service ) {
       return res.status(400).json({
         success: false,
@@ -87,7 +85,7 @@ const createBooking = async (req, res) => {
       status: "confirmed",
     });
 
-    // ⏰ Set reminder time (30 min before)
+    // Set reminder time (30 min before)
     const [hours, minutes] = time.split(":").map(Number);
     const meetingTime = new Date(date);
     meetingTime.setHours(hours, minutes, 0, 0);
@@ -133,13 +131,80 @@ const createBooking = async (req, res) => {
 };
 
 
+const createBookingForDm= async (req, res) => {
+  try {
+    const {
+      seeker,
+      creator,
+      service,
+      price,
+      question
+    } = req.body;
+
+
+    //  Fetch full details
+    const seekerUser = await User.findById(seeker);
+    const creatorUser = await User.findById(creator);
+    const serviceData = await Service.findById(service);
+
+
+    if(serviceData.category == 'product' || serviceData.category == 'priorityDm' ){
+    if (!seeker || !creator || !service ) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing fields",
+      });
+    }   
+  }
+    else {
+      if (!seeker || !creator || !service ) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing fields",
+        });
+      }
+    }
+
+
+
+    const booking = await Booking.create({
+      seeker,
+      creator,
+      service,
+      price,
+      question,      
+      status: "confirmed",
+    });
+
+
+    //  SEND EMAILS
+    await sendBookingEmails({
+      booking,
+      service: serviceData,
+      seeker: seekerUser,
+      creator: creatorUser,
+    });
+
+    return res.status(201).json({
+      success: true,
+      booking,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false });
+  }
+};
+
+
+
 const getSeekerBookings = async (req, res) => {
   try {
     const { seekerId } = req.params;
 
     const bookings = await Booking.find({ seeker: seekerId })
-      .populate("creator", "firstName lastName userImageUrl")
-      .populate("service");
+      .populate("creator", "firstName lastName userImageUrl email whatsAppNumber")
+      .populate("service", "title description price duration category");
 
     await Promise.all(bookings.map(clearExpiredMeetingLink));
 
@@ -162,8 +227,8 @@ const getCreatorBookings = async (req, res) => {
     const { creatorId } = req.params;
 
     const bookings = await Booking.find({ creator: creatorId })
-      .populate("seeker", "firstName lastName userImageUrl")
-      .populate("service");
+      .populate("seeker", "firstName lastName userImageUrl email   whatsAppNumber")
+      .populate("service",);
 
     await Promise.all(bookings.map(clearExpiredMeetingLink));
 
@@ -263,6 +328,69 @@ const confirmBooking = async (req, res) => {
 };
 
 
+
+const updateBookingdm = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const { answer } = req.body;
+
+    const booking = await Booking.findById(id)
+      .populate("seeker")
+      .populate("creator");
+
+    if (!booking) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+
+    }
+
+    // UPDATE BOOKING
+    if (answer !== undefined) {
+
+      booking.answer = answer;
+
+      booking.status = "completed";
+
+    }
+
+    // SAVE
+    await booking.save();
+
+    // SEND EMAIL
+    await sendPriorityDMResponseEmail({
+      seeker: booking.seeker,
+      creator: booking.creator,
+      booking,
+    });
+
+    // RESPONSE
+    res.status(200).json({
+      success: true,
+      message: "Query updated successfully",
+      booking,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+
+};
+
+
+
 module.exports = {
   createBooking,
   getSeekerBookings,
@@ -270,5 +398,7 @@ module.exports = {
   getBookingById,
   cancelBooking,
   confirmBooking,
+  createBookingForDm,
+  updateBookingdm,
 };
 

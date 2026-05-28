@@ -103,11 +103,8 @@ function SeekerBooking() {
 
   // FETCH BOOKINGS
   useEffect(() => {
-
     if (!userData?.userId) return;
-
     getSeekerBookings(userData.userId);
-
   }, [userData]);
 
 
@@ -116,9 +113,14 @@ function SeekerBooking() {
   useEffect(() => {
     if (!bookings) return;
 
+if (activeFilter === "priorityDm") {
+    setData([]);
+    return;
+  }
+
+
     const filteredData = bookings.filter((item) => {
-      const categoryMatch =
-        item?.service?.category === activeFilter;
+      const categoryMatch = item?.service?.category === activeFilter;
 
       // categories that DON'T need tab filtering
       const noTabFilterCategories = [
@@ -146,7 +148,9 @@ function SeekerBooking() {
       return categoryMatch && statusMatch;
     });
 
-    setData(filteredData);
+
+
+      setData(filteredData);
   }, [bookings, activeFilter, activeTab]);
 
 
@@ -347,9 +351,15 @@ function SeekerBooking() {
             So empty..
           </h2>
 
-          <p className="text-gray-500 text-lg mb-8">
-            No {activeTab} bookings found.
-          </p>
+          {activeFilter === "priorityDm" ? (
+            <p className="text-gray-700 text-lg font-semibold mb-8">
+              Already sent a DM? Your answer will be delivered straight to your email and WhatsApp inbox
+            </p>
+          ): (
+            <p className="text-gray-700 text-lg font-semibold mb-8">
+              No {activeTab} bookings found.
+            </p>)
+          }
 
           <div className="flex items-center justify-between w-full max-w-xl border rounded-2xl p-5 bg-white shadow-sm">
 
@@ -362,10 +372,17 @@ function SeekerBooking() {
               />
 
               <div className="text-left">
-
-                <h3 className="font-semibold text-gray-800">
-                  Book a call
-                </h3>
+{
+  activeFilter === "priorityDm" ? (
+    <h3 className="font-semibold text-gray-800">
+      Send DM to 100+ experts
+    </h3>
+  ) : (
+    <h3 className="font-semibold text-gray-800">
+      No {activeTab} bookings found.
+    </h3>
+  )
+}
 
                 <p className="text-sm text-gray-500">
                   Search for experts on topmate
