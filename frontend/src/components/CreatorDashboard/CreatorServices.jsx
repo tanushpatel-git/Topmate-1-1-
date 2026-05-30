@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 
 import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import EmptyScreen1 from "../../assets/img-empty1.svg";
 import EmptyScreen2 from "../../assets/img-empty2.svg";
 import EmptyScreen3 from "../../assets/img-empty3.svg";
@@ -62,8 +63,17 @@ const { mutate: deleteService } = DeleteServiceHook();
 
 
   const handleFilterChange = (activeFilter) => {
-
-    navigate(`/creator-dashboard/services/${activeFilter}`); // Navigate to the correct route based on the active filter and tab
+    if (activeFilter === "webinar") {
+      toast("Webinars & Workshops coming soon!", { icon: "🚧" });
+      navigate("/upcoming", { state: { type: "webinar" } });
+      return;
+    }
+    if (activeFilter === "package") {
+      toast("Packages coming soon!", { icon: "🚧" });
+      navigate("/upcoming", { state: { type: "package" } });
+      return;
+    }
+    navigate(`/creator-dashboard/services/${activeFilter}`);
   };
 
 
@@ -124,7 +134,19 @@ const handleDelete = (id) => {
   {/* Actions */}
   <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 w-full lg:w-auto">
 
-    <button className="bg-black text-white px-4 py-2 rounded-md h-10 font-semibold w-full sm:w-auto " onClick={() =>navigate(`/creator-dashboard/services/${activeFilter}/create`)}>
+    <button className="bg-black text-white px-4 py-2 rounded-md h-10 font-semibold w-full sm:w-auto " onClick={() => {
+      if (activeFilter === "webinar") {
+        toast("Webinars & Workshops coming soon!", { icon: "🚧" });
+        navigate("/upcoming", { state: { type: "webinar" } });
+        return;
+      }
+      if (activeFilter === "package") {
+        toast("Packages coming soon!", { icon: "🚧" });
+        navigate("/upcoming", { state: { type: "package" } });
+        return;
+      }
+      navigate(`/creator-dashboard/services/${activeFilter}/create`);
+    }}>
       + Add New
     </button>
 
@@ -243,9 +265,19 @@ const handleDelete = (id) => {
 
             <button
               className="bg-black text-white font-semibold px-6 py-3 rounded-md mt-4"
-              onClick={() =>
-                navigate(`/creator-dashboard/services/${activeFilter}/create`)
-              }
+              onClick={() => {
+                if (activeFilter === "webinar") {
+                  toast("Webinars & Workshops coming soon!", { icon: "🚧" });
+                  navigate("/upcoming", { state: { type: "webinar" } });
+                  return;
+                }
+                if (activeFilter === "package") {
+                  toast("Packages coming soon!", { icon: "🚧" });
+                  navigate("/upcoming", { state: { type: "package" } });
+                  return;
+                }
+                navigate(`/creator-dashboard/services/${activeFilter}/create`);
+              }}
             >
               +Add New
             </button>

@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import AddServiceHook from "../../hooks/AddServiceHook";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 
 
@@ -46,6 +47,18 @@ const userData = useSelector((state) => state.userData);
   };
   
 const handleSubmit = () => {
+
+  if (selected === "workshop") {
+    toast("Cohorts & Workshops coming soon!", { icon: "🚧" });
+    navigate("/upcoming", { state: { type: "cohort" } });
+    return;
+  }
+
+  if (selected === "package") {
+    toast("Packages coming soon!", { icon: "🚧" });
+    navigate("/upcoming", { state: { type: "package" } });
+    return;
+  }
 
   if (!formData.title) {
     alert("Fill required fields");
@@ -111,6 +124,16 @@ const filter = [
 
 
 const handleFilterChange = (value) => {
+  if (value === "workshop") {
+    toast("Cohorts & Workshops coming soon!", { icon: "🚧" });
+    navigate("/upcoming", { state: { type: "cohort" } });
+    return;
+  }
+  if (value === "package") {
+    toast("Packages coming soon!", { icon: "🚧" });
+    navigate("/upcoming", { state: { type: "package" } });
+    return;
+  }
   navigate(`/creator-dashboard/services/${value}/create`);
 };
 

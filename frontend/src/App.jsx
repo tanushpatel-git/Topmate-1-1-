@@ -34,6 +34,7 @@ const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
 const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
 const VideoCallWaiting  = lazy(()=> import ('./components/VideoCall/VideoCallWaiting'))
 const VideoCall = lazy(()=> import('./components/VideoCall/VideoCall'))
+const Upcoming = lazy(() => import('./pages/Upcoming'))
 import ProtectedRoute from './components/commonCompo/ProtectedRoute'
 import { Toaster } from 'react-hot-toast'
 
@@ -77,7 +78,7 @@ const App = () => {
         <Route path='/booking/success' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingSuccess /></Suspense></ProtectedRoute>} />
         <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><VideoCall /></Suspense></ProtectedRoute>}/> 
         <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>        
-      </Routes>
+        <Route path="/upcoming" element={<Suspense fallback={<div>Loading...</div>}><Upcoming /></Suspense>} />      </Routes>
     </>
   )
 }

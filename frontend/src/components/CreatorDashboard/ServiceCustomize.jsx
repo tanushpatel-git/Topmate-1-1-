@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import useGetService from "../../hooks/useGetService";
 import useUpdateService from "../../hooks/useUpdateService";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import DeleteServiceHook from "../../hooks/DeleteServiceHook";
 import { useQueryClient } from "@tanstack/react-query";
 import { SkeletonForm } from "../ui/Skeleton";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import badge_recommendation from "../../../assets/badge-recommendation.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Quote } from "lucide-react";
 import { motion } from "framer-motion";
@@ -8,9 +8,11 @@ import give_charity_icon from "../../../assets/give-charity.2efae26c.svg";
 import discount_highlight from "../../../assets/discount-highlight.png";
 import { ExternalLink } from "lucide-react";
 import { ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
 
 const RightSideView = ({ mobile }) => {
 
+    const navigate = useNavigate();
     const [activeSeriveTab, setActiveServiceTab] = useState("All");
     const { recomdation, aboutYourself, offer, donation, highlightLink, testimonial, services: servicesOfUserInFrontEnd } = useSelector((state) => state.userProfile);
 
@@ -53,7 +55,8 @@ const RightSideView = ({ mobile }) => {
                                         if (activeSeriveTab == "Corhort") {
                                             return;
                                         }
-                                        setActiveServiceTab("Corhort");
+                                        toast("Cohorts coming soon!", { icon: "🚧" });
+                                        navigate("/upcoming", { state: { type: "cohort" } });
                                     }
                                 } className={activeSeriveTab == "Corhort" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}>Corhort</button>
                             )}
@@ -121,6 +124,15 @@ const RightSideView = ({ mobile }) => {
                                         whileHover={{ scale: 1.08 }}
                                         whileTap={{ scale: 0.92 }}
                                         className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center shadow-md"
+                                        onClick={() => {
+                                            if (service?.category === "corhort") {
+                                                toast("Cohorts coming soon!", { icon: "🚧" });
+                                                navigate("/upcoming", { state: { type: "cohort" } });
+                                            } else if (service?.category === "webinar") {
+                                                toast("Webinars coming soon!", { icon: "🚧" });
+                                                navigate("/upcoming", { state: { type: "webinar" } });
+                                            }
+                                        }}
                                     >
                                         <ArrowRight className="text-white w-8 h-8" strokeWidth={1.5} />
                                     </motion.button>

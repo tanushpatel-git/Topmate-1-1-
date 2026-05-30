@@ -68,24 +68,24 @@
 │               ▼          ▼          ▼                       │
 │         ┌──────────┐ ┌────────┐ ┌───────────┐               │
 │         │  User    │ │Service │ │  Booking  │               │
-│         │Controller│ │Control │ │ Controller │              │
+│         │Controller│ │Control │ │ Controller│               │
 │         └────┬─────┘ └───┬────┘ └─────┬─────┘               │
 │              │           │            │                     │
 │              ▼           ▼            ▼                     │
 │         ┌─────────────────────────────────────┐             │
-│         │          Models (Mongoose)           │            │
-│         │  User │ Service │ Booking │ Profile  │            │
+│         │          Models (Mongoose)          │             │
+│         │  User │ Service │ Booking │ Profile │             │
 │         └─────────────────┬───────────────────┘             │
 │                           │                                 │
 │         ┌─────────────────┴────────────────────────┐        │
-│         │           External Services               │       │
+│         │           External Services              │        │
 │         │  ┌─────────┐ ┌────────┐ ┌────────────┐   │        │
 │         │  │MongoDB  │ │Zoom API│ │ Cloudinary │   │        │
 │         │  │(Atlas)  │ │(OAuth) │ │ (Media)    │   │        │
 │         │  └─────────┘ └────────┘ └────────────┘   │        │
 │         │  ┌─────────┐ ┌────────────────────┐      │        │
-│         │  │Gmail    │ │ node-cron (every    │      │       │
-│         │  │SMTP     │ │ 10 min reminders)   │      │       │
+│         │  │Gmail    │ │ node-cron (every   │      │        │
+│         │  │SMTP     │ │ 10 min reminders)  │      │        │
 │         │  └─────────┘ └────────────────────┘      │        │
 │         └──────────────────────────────────────────┘        │
 └─────────────────────────────────────────────────────────────┘

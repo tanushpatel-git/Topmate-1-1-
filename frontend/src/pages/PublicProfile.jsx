@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getPublicProfile } from "../services/userAuthServices/profileDesignService";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,9 +11,11 @@ import give_charity_icon from "../assets/give-charity.2efae26c.svg";
 import discount_highlight from "../assets/discount-highlight.png";
 import topmate_light_logo from "../assets/topmate-light-logo.svg";
 import { SkeletonProfilePage } from "../components/ui/Skeleton";
+import toast from "react-hot-toast";
 
 const PublicProfile = () => {
     const { userId } = useParams();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [profileData, setProfileData] = useState(null);
@@ -137,10 +139,24 @@ const PublicProfile = () => {
                                 )}
                                 {services.some(s => s.category === "webinar") && (
                                     <button
-                                        onClick={() => setActiveServiceTab("Webinar")}
+                                        onClick={() => {
+                                            toast("Webinars coming soon!", { icon: "🚧" });
+                                            navigate("/upcoming", { state: { type: "webinar" } });
+                                        }}
                                         className={activeServiceTab === "Webinar" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}
                                     >
                                         Webinar
+                                    </button>
+                                )}
+                                {services.some(s => s.category === "corhort") && (
+                                    <button
+                                        onClick={() => {
+                                            toast("Cohorts coming soon!", { icon: "🚧" });
+                                            navigate("/upcoming", { state: { type: "cohort" } });
+                                        }}
+                                        className={activeServiceTab === "Corhort" ? "w-25 h-13 bg-black rounded-2xl text-white font-medium" : "w-25 h-13 rounded-2xl bg-transparent border border-gray-400 text-black font-medium"}
+                                    >
+                                        Corhort
                                     </button>
                                 )}
                                 {services.some(s => s.category === "priorityDm") && (
@@ -171,7 +187,17 @@ const PublicProfile = () => {
                                         <div className="border-t border-gray-300" />
                                         <div className="flex items-center justify-between py-2 px-4">
                                             <span className="text-md font-bold tracking-tight text-black">₹ {service?.price}</span>
-                                            <button className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center">
+                                            <button className="h-10 w-10 rounded-full bg-[#2f2f2f] flex items-center justify-center"
+                                          onClick={() => {
+                                            if (service?.category === "corhort") {
+                                              toast("Cohorts coming soon!", { icon: "🚧" });
+                                              navigate("/upcoming", { state: { type: "cohort" } });
+                                            } else if (service?.category === "webinar") {
+                                              toast("Webinars coming soon!", { icon: "🚧" });
+                                              navigate("/upcoming", { state: { type: "webinar" } });
+                                            }
+                                          }}
+                                        >
                                                 <ArrowRight className="text-white w-8 h-8" strokeWidth={1.5} />
                                             </button>
                                         </div>

@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast";
 
 import logoIcon from "../../assets/logo-icon2.svg";
 

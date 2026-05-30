@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const OverviewCard = ({ service }) => {
 
@@ -18,9 +19,11 @@ const OverviewCard = ({ service }) => {
             },
         });
     } else if (category === "webinar") {
-      console.log("Reserve webinar");
+      toast("Webinars coming soon!", { icon: "🚧" });
+      navigate("/upcoming", { state: { type: "webinar" } });
     } else {
-      console.log("Book package");
+      toast("Packages coming soon!", { icon: "🚧" });
+      navigate("/upcoming", { state: { type: "package" } });
     }
   };
 

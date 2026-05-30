@@ -1,7 +1,7 @@
 // hooks/useUpdateBooking.js
 
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import UpdateBookingDM from "../services/booking-services/UpdateBookinDm";
 
 const UpdateBookingDMhook = () => {

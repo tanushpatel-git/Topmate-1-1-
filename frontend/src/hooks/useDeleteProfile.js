@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import userDeleteProfile from "../services/userAuthServices/userDeleteProfile";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 

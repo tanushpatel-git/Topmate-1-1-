@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 const ServiceCard = ({ service }) => {
 
   const {
@@ -20,7 +21,8 @@ const ServiceCard = ({ service }) => {
       navigate(`/booking/products/${service._id}`);
     }
     else if(category === "package"){
-      navigate("/booking/package", { state: { service } });
+      toast("Packages coming soon!", { icon: "🚧" });
+      navigate("/upcoming", { state: { type: "package" } });
     }
 
 

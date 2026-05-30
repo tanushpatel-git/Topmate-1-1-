@@ -1,5 +1,5 @@
 import { useMutation} from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import updateService from "../services/CreatorService/updateService";
 
 const useUpdateService = () => {

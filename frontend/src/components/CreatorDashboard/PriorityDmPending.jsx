@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import EmptyScreen from "../../assets/empty-screen-dm.svg";
 import GetCreatorBookingsHook from "../../hooks/GetCreatorBookingsHook";
