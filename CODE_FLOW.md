@@ -1,4 +1,13 @@
-# Code Flow Documentation — Topmate Clone
+# Code Flow Documentation
+
+![MERN](https://img.shields.io/badge/Stack-MERN-green)
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![Node](https://img.shields.io/badge/Backend-Node.js-green)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
+![Firebase](https://img.shields.io/badge/Auth-Firebase-orange)
+![Zoom API](https://img.shields.io/badge/API-Zoom-blueviolet)
+![Status](https://img.shields.io/badge/Status-Production--Ready-success)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 > **Platform**: Creator monetization (1:1 calls, workshops, cohorts, products, priority DMs)
 > **Architecture**: Full-stack MERN (MongoDB, Express, React, Node.js) + Firebase Auth + Zoom API
