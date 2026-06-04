@@ -32,8 +32,8 @@ const PublicProfile = lazy(() => import('./pages/PublicProfile'))
 const BookingPages = lazy(() => import('./pages/bookingPages'))
 const BookingConfirm = lazy(() => import('./components/Booking/BookingConfirm'))
 const BookingSuccess = lazy(() => import('./components/Booking/BookingSuccess'))
-const VideoCallWaiting  = lazy(()=> import ('./components/VideoCall/VideoCallWaiting'))
-const VideoCall = lazy(()=> import('./components/VideoCall/VideoCall'))
+const VideoCallWaiting = lazy(() => import('./components/VideoCall/VideoCallWaiting'))
+const VideoCall = lazy(() => import('./components/VideoCall/VideoCall'))
 const Upcoming = lazy(() => import('./pages/Upcoming'))
 import ProtectedRoute from './components/commonCompo/ProtectedRoute'
 import { Toaster } from 'react-hot-toast'
@@ -42,10 +42,9 @@ const App = () => {
 
   return (
     <>
-    <ScrollToTop />
-    <Toaster />
-    <Routes>
-
+      <ScrollToTop />
+      <Toaster />
+      <Routes>
         <Route path="/" element={<Suspense fallback={<div>Loading...</div>}><Home /></Suspense>} />
         <Route path="/features/meeting" element={<Suspense fallback={<div>Loading...</div>}><Meeting /></Suspense>} />
         <Route path='/features/webinar' element={<Suspense fallback={<div>Loading...</div>}><Webniars /></Suspense>} />
@@ -76,9 +75,10 @@ const App = () => {
         <Route path='/booking/*' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingPages /></Suspense></ProtectedRoute>} />
         <Route path='/booking/confirm' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingConfirm /></Suspense></ProtectedRoute>} />
         <Route path='/booking/success' element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><BookingSuccess /></Suspense></ProtectedRoute>} />
-        <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><VideoCall /></Suspense></ProtectedRoute>}/> 
-        <Route path="/booking/video-call-status" element={ <ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting/></Suspense></ProtectedRoute>}/>        
-        <Route path="/upcoming" element={<Suspense fallback={<div>Loading...</div>}><Upcoming /></Suspense>} />      </Routes>
+        <Route path="/booking/video-call/:id" element={<ProtectedRoute><Suspense fallback={<div>Loading...</div>}><VideoCall /></Suspense></ProtectedRoute>} />
+        <Route path="/booking/video-call-status" element={<ProtectedRoute> <Suspense fallback={<div>Loading...</div>}> <VideoCallWaiting /></Suspense></ProtectedRoute>} />
+        <Route path="/upcoming" element={<Suspense fallback={<div>Loading...</div>}><Upcoming /></Suspense>} />
+      </Routes>
     </>
   )
 }

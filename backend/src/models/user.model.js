@@ -162,6 +162,21 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  accountNumber: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+  meetingLink: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+  meetingIntegrationType: {
+    type: String,
+    enum: ["zoom", "custom"],
+    default: "zoom"
+  },
   notifications: {
     type: Boolean,
     default: true

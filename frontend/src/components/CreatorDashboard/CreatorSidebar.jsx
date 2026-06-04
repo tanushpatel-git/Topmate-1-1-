@@ -78,7 +78,7 @@ const CreatorSidebar = () => {
 
             <SidebarLink to="/creator-dashboard/analytics" icon={<FaSearch />} text="Analytics" />
             <SidebarLink to="/creator-dashboard/profile" icon={<FaUserAlt />} text="Edit Profile" />
-            <SidebarLink to="/creator-dashboard/settings" icon={<FaGift />} text="Settings" />
+            <SidebarLink to="/creator-dashboard/setting" icon={<FaGift />} text="Settings" />
 
           </div>
 

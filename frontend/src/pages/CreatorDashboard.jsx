@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import CreatorSidebar from "../components/CreatorDashboard/CreatorSidebar";
 import CreatorBottomNavbar from "../components/CreatorDashboard/CreatorBottomNavbar";
-import { SkeletonDashboard, SkeletonPage } from "../components/ui/Skeleton";
+import { SkeletonPage } from "../components/ui/Skeleton";
 
 const CreatorHome = lazy(() => import("../components/CreatorDashboard/CreatorHome"));
 const CreatorBooking = lazy(() => import("../components/CreatorDashboard/CreatorBooking"));
@@ -13,6 +13,7 @@ const CreatorCalenderSetting = lazy(() => import("../components/CreatorDashboard
 const Profile = lazy(() => import("../components/CreatorDashboard/Profile"));
 const CreateService = lazy(() => import("../components/CreatorDashboard/CreateService"));
 const ServiceCustomize = lazy(() => import("../components/CreatorDashboard/ServiceCustomize"));
+const Setting = lazy(() => import("../components/CreatorDashboard/Setting"));
 
 const CreatorDashboard = () => {
 
@@ -39,6 +40,7 @@ const CreatorDashboard = () => {
           <Route path="services/:type/edit/:serviceId" element={<Suspense fallback={<SkeletonPage />}><ServiceCustomize /></Suspense>} />
           <Route path="calendar/setting" element={<Suspense fallback={<SkeletonPage />}><CreatorCalenderSetting /></Suspense>} />
           <Route path="/profile" element={<Suspense fallback={<SkeletonPage />}><Profile /></Suspense>} />
+          <Route path='/setting' element={<Suspense fallback={<div>Loading...</div>}><Setting /></Suspense>} />
         </Routes>
 
       </div>

@@ -92,23 +92,28 @@ const createBooking = async (req, res) => {
     booking.reminderTime = new Date(meetingTime.getTime() - 30 * 60 * 1000);
     await booking.save();
 
-    //  CREATE ZOOM MEETING
-    try {
-      const [hours, minutes] = time.split(":");
-      const startDate = new Date(date);
-      startDate.setHours(hours, minutes, 0);
-      const startTime = startDate.toISOString();
-      const zoomMeeting = await createMeeting({
-        topic: `Meeting: ${serviceData?.name || "Consultation"}`,
-        duration: duration || 30,
-        startTime,
-      });
-
-      booking.meetingLink = zoomMeeting.joinUrl;
-      booking.zoomMeetingId = zoomMeeting.meetingId;
+    //  CREATE MEETING LINK
+    if (creatorUser?.meetingIntegrationType === "custom") {
+      booking.meetingLink = creatorUser.meetingLink || "";
       await booking.save();
-    } catch (zoomErr) {
-      console.log("Zoom meeting creation failed:", zoomErr.message);
+    } else {
+      try {
+        const [hours, minutes] = time.split(":");
+        const startDate = new Date(date);
+        startDate.setHours(hours, minutes, 0);
+        const startTime = startDate.toISOString();
+        const zoomMeeting = await createMeeting({
+          topic: `Meeting: ${serviceData?.name || "Consultation"}`,
+          duration: duration || 30,
+          startTime,
+        });
+
+        booking.meetingLink = zoomMeeting.joinUrl;
+        booking.zoomMeetingId = zoomMeeting.meetingId;
+        await booking.save();
+      } catch (zoomErr) {
+        console.log("Zoom meeting creation failed:", zoomErr.message);
+      }
     }
 
     //  SEND EMAILS
