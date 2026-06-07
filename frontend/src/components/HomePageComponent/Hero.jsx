@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import Card from "./Card";
+import { useNavigate } from "react-router-dom";
 
 
 import p1 from '../../assets/person1.jpg'
@@ -50,6 +51,9 @@ const Hero = () => {
   const scrollRef1 = useRef();
   const scrollRef2 = useRef();
   const textanime = useRef();
+
+const Navigate = useNavigate();
+
   useEffect(() => {
     const ctx = gsap.context(() => {
 
@@ -109,8 +113,8 @@ const Hero = () => {
         </p>
 
         {/* BUTTON + STATS */}
-        <div className="mt-6 md:mt-8 flex flex-wrap gap-4 md:gap-6 items-center">
-          <button className="bg-black text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl flex items-center gap-2 sm:gap-3 md:gap-4 hover:scale-105 transition">
+        <div className="mt-6 md:mt-8 flex flex-wrap gap-4 md:gap-6 items-center"  >
+          <button onClick={() => Navigate('/creator-dashboard/home')} className=" cursor-pointer bg-black text-white px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl flex items-center gap-2 sm:gap-3 md:gap-4 hover:scale-105 transition">
             <span className="text-base sm:text-lg md:text-xl font-bold">Start My Page</span>
             <span className="bg-white text-black px-2 py-1 rounded-md flex items-center justify-center ml-2 sm:ml-3 md:ml-5">
               →

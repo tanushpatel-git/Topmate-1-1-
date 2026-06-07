@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
@@ -20,25 +21,26 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
 
-    question:{
-      type:String,
-      default: ""
-    }, 
-    answer : {
-      type:String,
+    question: {
+      type: String,
+      default: "",
+    },
+
+    answer: {
+      type: String,
       default: "",
     },
 
     date: {
       type: Date,
-      default: Date.now().toString(),
+      default: Date.now,
     },
 
-time: {
-  type: String,
-  default: () => Date.now().toString(),
-},
-    
+    time: {
+      type: String,
+      default: "",
+    },
+
     duration: {
       type: Number,
       default: 15,
@@ -51,8 +53,28 @@ time: {
 
     status: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled","completed"],
-      default: "confirmed",
+      enum: [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "completed",
+      ],
+      default: "pending",
+    },
+
+    payment: {
+      type: Boolean,
+      default: false,
+    },
+
+    paymentId: {
+      type: String,
+      default: "",
+    },
+
+    orderId: {
+      type: String,
+      default: "",
     },
 
     meetingLink: {
@@ -69,23 +91,15 @@ time: {
       type: Boolean,
       default: false,
     },
+
     reminderTime: {
       type: Date,
-      index: true, 
+      index: true,
     },
   },
-  { timestamps: true }
-);
-
-
-bookingSchema.index(
-  { creator: 1, time: 1 },
-  { unique: true }
-);
-
-bookingSchema.index(
-  { reminderTime: 1, reminderSent: 1, status: 1 },
-  { background: true }
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = mongoose.model("Booking", bookingSchema);
