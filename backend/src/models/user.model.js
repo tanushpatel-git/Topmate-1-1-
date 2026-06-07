@@ -167,6 +167,26 @@ const userSchema = new mongoose.Schema({
     trim: true,
     default: ""
   },
+  ifscCode: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+  accountHolderName: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+  upiId: {
+    type: String,
+    trim: true,
+    default: ""
+  },
+  bankName: {
+    type: String,
+    trim: true,
+    default: ""
+  },
   meetingLink: {
     type: String,
     trim: true,

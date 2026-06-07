@@ -25,6 +25,10 @@ const Setting = () => {
   const [password, setPassword] = useState("");
 
   const [accountNumber, setAccountNumber] = useState("");
+  const [ifscCode, setIfscCode] = useState("");
+  const [accountHolderName, setAccountHolderName] = useState("");
+  const [upiId, setUpiId] = useState("");
+  const [bankName, setBankName] = useState("");
 
   const [integrationType, setIntegrationType] = useState("zoom");
   const [zoomLink, setZoomLink] = useState("");
@@ -38,6 +42,10 @@ const Setting = () => {
           setEmail(res.user.email || "");
           setMobile(res.user.whatsAppNumber || "");
           setAccountNumber(res.user.accountNumber || "");
+          setIfscCode(res.user.ifscCode || "");
+          setAccountHolderName(res.user.accountHolderName || "");
+          setUpiId(res.user.upiId || "");
+          setBankName(res.user.bankName || "");
           const link = res.user.meetingLink || "";
           const type = res.user.meetingIntegrationType || "zoom";
           setIntegrationType(type);
@@ -82,7 +90,7 @@ const Setting = () => {
       toast.error("Account number is required");
       return;
     }
-    updateAccount({ accountNumber });
+    updateAccount({ accountNumber, ifscCode, accountHolderName, upiId, bankName });
   };
 
   const handleIntegrationSave = () => {
@@ -193,6 +201,21 @@ const Setting = () => {
               <div className="flex gap-3">
                 <CreditCard className="w-5 h-5 text-gray-600 mt-1" />
                 <div>
+                  <h2 className="text-sm font-medium">Account Holder Name</h2>
+                  <p className="text-xs text-gray-500">Name on the bank account</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 w-full md:w-72">
+                <input type="text" value={accountHolderName} onChange={(e) => setAccountHolderName(e.target.value)} placeholder="Enter account holder name" className="text-sm border rounded-lg px-4 py-2 w-full" />
+              </div>
+            </div>
+
+            <hr />
+
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex gap-3">
+                <CreditCard className="w-5 h-5 text-gray-600 mt-1" />
+                <div>
                   <h2 className="text-sm font-medium">Account Number</h2>
                   <p className="text-xs text-gray-500">Required for payouts</p>
                 </div>
@@ -200,6 +223,51 @@ const Setting = () => {
               <div className="flex flex-col gap-1 w-full md:w-72">
                 <input type="text" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} placeholder="Enter your account number" className="text-sm border rounded-lg px-4 py-2 w-full" />
                 {!accountNumber.trim() && <p className="text-xs text-red-500">* Account number is mandatory</p>}
+              </div>
+            </div>
+
+            <hr />
+
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex gap-3">
+                <CreditCard className="w-5 h-5 text-gray-600 mt-1" />
+                <div>
+                  <h2 className="text-sm font-medium">IFSC Code</h2>
+                  <p className="text-xs text-gray-500">Your bank branch IFSC code</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 w-full md:w-72">
+                <input type="text" value={ifscCode} onChange={(e) => setIfscCode(e.target.value)} placeholder="Enter IFSC code" className="text-sm border rounded-lg px-4 py-2 w-full" />
+              </div>
+            </div>
+
+            <hr />
+
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex gap-3">
+                <CreditCard className="w-5 h-5 text-gray-600 mt-1" />
+                <div>
+                  <h2 className="text-sm font-medium">Bank Name</h2>
+                  <p className="text-xs text-gray-500">Name of your bank</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 w-full md:w-72">
+                <input type="text" value={bankName} onChange={(e) => setBankName(e.target.value)} placeholder="Enter bank name" className="text-sm border rounded-lg px-4 py-2 w-full" />
+              </div>
+            </div>
+
+            <hr />
+
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex gap-3">
+                <CreditCard className="w-5 h-5 text-gray-600 mt-1" />
+                <div>
+                  <h2 className="text-sm font-medium">UPI ID</h2>
+                  <p className="text-xs text-gray-500">Your UPI ID for payments</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 w-full md:w-72">
+                <input type="text" value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="Enter UPI ID" className="text-sm border rounded-lg px-4 py-2 w-full" />
               </div>
             </div>
 
