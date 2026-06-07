@@ -5,15 +5,13 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import logoIcon from "../../assets/logo-icon2.svg";
-
 import CreateBookingHook from "../../hooks/CreateBookingHook";
 import createBookingDMHook from "../../hooks/createBookingDMHook";
-
+import useBookingPayment from "../../hooks/useBookingPayment";
 const BookingConfirm = () => {
   const { state } = useLocation();
 
   const safeState = state || {};
-
   const service = safeState.service;
   const creator = safeState.user;
   const selectedDate = safeState.selectedDate;
@@ -33,11 +31,17 @@ const BookingConfirm = () => {
     question: "",
   });
 
-  const {
-    createBooking,
-    loading: bookingLoading,
-    error: bookingError,
-  } = CreateBookingHook();
+  const { bookService,
+    loading: bookingLoadingRZ,
+    error: bookingErrorRz
+  } = useBookingPayment();
+
+
+const {
+createBooking,
+loading: bookingLoading,
+error: bookingError,
+} = CreateBookingHook();
 
 
   const {
@@ -56,6 +60,9 @@ const BookingConfirm = () => {
       phone: user?.whatsAppNumber || "",
     }));
   }, [user]);
+
+
+
 
   // HANDLE CHANGE
   const handleChange = (e) => {
@@ -106,27 +113,20 @@ const BookingConfirm = () => {
         : null,
       time: selectedTime || "",
       duration: service?.duration || 0,
-      price: service?.price || 0,
+      price: (service?.price) || 0,
       question: form.question,
     };
 
     try {
       setLoading(true);
 
-      let res;
+  let res;
 
-      // PRIORITY DM
-      if (service?.category === "priorityDm" || service?.category === "product") {
-        res = await createBookingDM(bookingData);
-      } else {
-        res = await createBooking(bookingData);
-      }
-if (res) {
+  if (service?.price > 0) {
 
-  toast.success(
-    "Booking Confirmed Successfully"
-  );
-
+    const res = await bookService(bookingData);
+    console.log('res', res);
+  
     navigate("/booking/success", {
       state: {
         booking: res.booking,
@@ -135,9 +135,29 @@ if (res) {
       },
     });
 
+    return;
+}
+if (service?.category === "priorityDm" ||service?.category === "product") {
+  res = await createBookingDM(bookingData);
+} else {
+  res = await createBooking(bookingData);
+}
+
+
+console.log( 'res msg  ',  res)
+
+if (res) {
+  toast.success("Booking Confirmed Successfully");
+    
+  navigate("/booking/success", {
+      state: {
+        booking: res.booking,
+        service,
+        creator,
+      },
+    });
 
 } else {
-
   toast.error("Booking failed");
 }
 
@@ -166,7 +186,7 @@ if (res) {
           <div
             className="flex items-center gap-4 border-b-2 p-5 border-gray-300 cursor-pointer"
             onClick={() =>
-              navigate("/profile/allservice")
+              navigate("/marketplace")
             }
           >
             <FaArrowLeft className="text-lg" />
@@ -378,7 +398,7 @@ if (res) {
             <span>
               {service?.price === 0
                 ? "₹0"
-                : `₹${service?.price + 10}`}
+                : `₹${service?.price +10}`}
             </span>
           </div>
         </div>
@@ -419,8 +439,8 @@ if (res) {
       {/* STICKY FOOTER */}
       <div className="fixed bottom-0 left-0 w-full flex justify-center py-3">
         <div className="w-[420px] shadow-lg flex p-5 justify-between items-center bg-gray-300 rounded-xl">
-          <span className="font-semibold">
-            ₹ {service?.price}
+          <span className="font-semibold ">
+            {service?.price === 0 ? "Free" : `₹ ${service?.price + 10}`}
           </span>
 
           <button

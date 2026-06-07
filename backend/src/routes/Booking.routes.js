@@ -9,6 +9,8 @@ const {
   cancelBooking,
   confirmBooking,
   updateBookingdm,
+  createBookingOrder,
+  verifyBookingPayment,
 } = require("../controllers/Booking.controler");
 
 const router = express.Router();
@@ -21,6 +23,11 @@ router.get("/:bookingId", getBookingById);
 router.put("/cancel/:bookingId", cancelBooking);
 router.put("/confirm/:bookingId", confirmBooking);
 router.put("/update/:id", updateBookingdm);
+// Place order with Razorpay
+router.post("/razorpay", createBookingOrder);  
+router.post("/verifyRazorpay", verifyBookingPayment);
+
+
 
 module.exports = router;
 
