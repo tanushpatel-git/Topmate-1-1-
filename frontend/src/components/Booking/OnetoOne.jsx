@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { SkeletonBookingProduct } from "../ui/Skeleton";
 
 const OnetoOne = () => {
-const navigate = useNavigate();    
+const navigate = useNavigate();
 const [selectedDay, setSelectedDay] = useState(null);
 const [selectedTime, setSelectedTime] = useState(null);
 const [selectedDate, setSelectedDate] = useState(null);

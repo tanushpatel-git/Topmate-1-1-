@@ -11,11 +11,25 @@ const CreatorCalender = () => {
 
 
   const userTimezone = useSelector((state) => state.userData.timezone);
+  const userAvailability = useSelector((state) => state.userData.availability);
   const [timezone, setTimezone] = useState("GMT+5:30 Chennai, Kolkata");
 
   useEffect(() => {
     if (userTimezone) setTimezone(userTimezone);
   }, [userTimezone]);
+
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+  const buildScheduleFromAvailability = (avail) => {
+    if (!avail || !Array.isArray(avail) || avail.length === 0) return null;
+    const sched = {};
+    daysOfWeek.forEach((day) => {
+      const found = avail.find((a) => a.day === day);
+      sched[day] = found && found.slots?.length ? found.slots : [];
+    });
+    return sched;
+  };
+
   const [bookingPeriod, setBookingPeriod] = useState("3 Months");
   const [noticePeriod, setNoticePeriod] = useState(240);
   const [noticeUnit, setNoticeUnit] = useState("Minutes");
@@ -51,6 +65,11 @@ const CreatorCalender = () => {
 
   const [schedule, setSchedule] = useState(defaultSchedule);
 
+  useEffect(() => {
+    const saved = buildScheduleFromAvailability(userAvailability);
+    if (saved) setSchedule(saved);
+  }, [userAvailability]);
+
 
   const toggleDay = (day) => {
     setSchedule((prev) => ({
@@ -60,12 +79,11 @@ const CreatorCalender = () => {
   };
 
   const updateTime = (day, index, field, value) => {
-    const updated = [...schedule[day]];
-    updated[index][field] = value;
-
     setSchedule((prev) => ({
       ...prev,
-      [day]: updated,
+      [day]: prev[day].map((slot, i) =>
+        i === index ? { ...slot, [field]: value } : slot
+      ),
     }));
   };
 
@@ -301,8 +319,8 @@ const CreatorCalender = () => {
                 type="number"
                 value={noticePeriod}
                 onChange={(e) => {
-                  setBookingPeriod(e.target.value);
-                  sendUpdate({ bookingPeriod: e.target.value });
+                  setNoticePeriod(e.target.value);
+                  sendUpdate({ noticePeriod: e.target.value });
                 }}
 
                 className="text-sm border rounded-l-lg px-3 py-2 w-16"
