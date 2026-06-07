@@ -1,7 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import ScrollToTop from './services/ScrollOnTop'
-import { SkeletonPage, SkeletonDashboard, SkeletonProfilePage, SkeletonBookingProduct } from './components/ui/Skeleton'
 const Home = lazy(() => import('./pages/Home'))
 const Meeting = lazy(() => import('./pages/Meeting'))
 const Webniars = lazy(() => import('./pages/Webinar'))
