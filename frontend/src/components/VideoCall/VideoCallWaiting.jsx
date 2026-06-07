@@ -67,7 +67,7 @@ function VideoCallWaiting() {
       bookingDate.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
-        hour12: true,
+        hour12: false,
       });
 
     const endDate = new Date(
@@ -78,7 +78,7 @@ function VideoCallWaiting() {
       endDate.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
-        hour12: true,
+        hour12: false,
       });
 
     const formattedDate =
@@ -88,7 +88,7 @@ function VideoCallWaiting() {
         month: "short",
       });
 
-    return `${formattedDate} | ${startTime} - ${endTime} (GMT+5:30)`;
+    return `${formattedDate} | ${startTime} - ${endTime}`;
   };
 
   const handleJoinCall = () => {

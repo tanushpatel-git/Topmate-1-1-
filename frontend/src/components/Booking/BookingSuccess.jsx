@@ -50,20 +50,16 @@ const BookingSuccess = () => {
   }
 
   const getEndTime = (startTime, duration) => {
-    const [time, modifier] = startTime.split(" ");
-    let [hours, minutes] = time.split(":").map(Number);
-
-    if (modifier === "PM" && hours !== 12) hours += 12;
-    if (modifier === "AM" && hours === 12) hours = 0;
+    let [hours, minutes] = startTime.split(":").map(Number);
 
     const date = new Date();
     date.setHours(hours);
     date.setMinutes(minutes + duration);
 
-
     return date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
+      hour12: false,
     });
   };
 
@@ -133,8 +129,7 @@ const BookingSuccess = () => {
                   {getEndTime(
                     booking?.time,
                     service?.duration
-                  )}{" "}
-                  GMT+5:30
+                  )}
                 </span>
               </div>
             </div>

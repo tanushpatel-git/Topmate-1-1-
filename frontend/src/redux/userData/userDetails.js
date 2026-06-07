@@ -16,6 +16,7 @@ const userDetailsSlice = createSlice({
         instagramUrl: "",
         whatsAppNumber: "",
         availability: null,
+        timezone: "",
         service: null,
         userImage: null,
         graduationYear: new Date().getFullYear() - 4,
@@ -57,6 +58,9 @@ const userDetailsSlice = createSlice({
         setAvailability: (state, action) => {
             state.availability = action.payload;
         },
+        setTimezone: (state, action) => {
+            state.timezone = action.payload;
+        },
         setService: (state, action) => {
             state.service = action.payload;
         },
@@ -86,6 +90,7 @@ const userDetailsSlice = createSlice({
             state.instagramUrl = "";
             state.whatsAppNumber = "";
             state.availability = null;
+            state.timezone = "";
             state.service = null;
             state.userImage = null;
             state.graduationYear = new Date().getFullYear() - 4;
@@ -107,6 +112,7 @@ export const {
     setInstagramUrl,
     setWhatsAppNumber,
     setAvailability,
+    setTimezone,
     setService,
     setUserImage,
     setGraduationYear,

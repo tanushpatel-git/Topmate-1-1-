@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Calendar() {
   const [selectedDay, setSelectedDay] = useState(21);
-  const [selectedTime, setSelectedTime] = useState("9:30 AM");
-  const [confirmed, setConfirmed] = useState(false);
+  const [selectedTime, setSelectedTime] = useState("09:30");
 
   const days = [
     14, 15, 16, 17, 18,
@@ -12,7 +11,7 @@ export default function Calendar() {
     24, 25, 26, 27, 28,
   ];
 
-  const times = ["9:00 AM", "9:30 AM", "10:00 AM"];
+  const times = ["09:00", "09:30", "10:00"];
 
   function handleConfirm() {
     setConfirmed(true);

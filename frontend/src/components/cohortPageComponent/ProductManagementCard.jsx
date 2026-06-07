@@ -63,19 +63,19 @@ export default function ProductManagementCard() {
             <div className="bg-neutral-700/60 p-4 rounded-xl flex justify-between items-center">
               <div>
                 <p className="font-medium">Introduction to PM</p>
-                <p className="text-xs text-neutral-400">Oct 21 • 7:00 PM</p>
+                <p className="text-xs text-neutral-400">Oct 21 • 19:00</p>
               </div>
               <PlayCircle className="text-emerald-400" />
             </div>
 
             <div className="bg-neutral-700/40 p-4 rounded-xl">
               <p className="font-medium">Product Strategy</p>
-              <p className="text-xs text-neutral-400">Oct 28 • 7:00 PM</p>
+              <p className="text-xs text-neutral-400">Oct 28 • 19:00</p>
             </div>
 
             <div className="bg-neutral-700/40 p-4 rounded-xl">
               <p className="font-medium">Metrics & Analytics</p>
-              <p className="text-xs text-neutral-400">Nov 04 • 7:00 PM</p>
+              <p className="text-xs text-neutral-400">Nov 04 • 19:00</p>
             </div>
           </div>
 

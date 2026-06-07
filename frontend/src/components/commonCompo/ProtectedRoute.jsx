@@ -17,6 +17,7 @@ import {
   setInstagramUrl,
   setWhatsAppNumber,
   setAvailability,
+  setTimezone,
   setService,
   setGraduationYear,
   setJoinDate
@@ -44,6 +45,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     dispatch(setInstagramUrl(user.instagramUrl))
     dispatch(setWhatsAppNumber(user.whatsAppNumber))
     dispatch(setAvailability(user.availability))
+    dispatch(setTimezone(user.timezone))
     dispatch(setService(user.service))
     dispatch(setGraduationYear(user.graduationYear))
     dispatch(setJoinDate(user.joinDate))

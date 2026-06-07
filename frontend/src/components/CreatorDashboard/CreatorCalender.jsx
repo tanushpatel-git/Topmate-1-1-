@@ -10,7 +10,12 @@ const CreatorCalender = () => {
   const { updateSettings, isPending } = useCreatorCalender();
 
 
+  const userTimezone = useSelector((state) => state.userData.timezone);
   const [timezone, setTimezone] = useState("GMT+5:30 Chennai, Kolkata");
+
+  useEffect(() => {
+    if (userTimezone) setTimezone(userTimezone);
+  }, [userTimezone]);
   const [bookingPeriod, setBookingPeriod] = useState("3 Months");
   const [noticePeriod, setNoticePeriod] = useState(240);
   const [noticeUnit, setNoticeUnit] = useState("Minutes");

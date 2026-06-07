@@ -195,7 +195,7 @@ export default function TopOccurSectionOfPriorityDm() {
                                             </div>
 
                                             <div className="text-sm text-gray-400">
-                                                10:30 AM
+                                                10:30
                                             </div>
                                         </div>
 

@@ -67,15 +67,13 @@ function CreatorBooking() {
     bookingDate.setHours(hours);
     bookingDate.setMinutes(minutes);
 
-    // START TIME
     const startTime =
       bookingDate.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
-        hour12: true,
+        hour12: false,
       });
 
-    // END TIME
     const endDate = new Date(
       bookingDate.getTime() + duration * 60000
     );
@@ -84,10 +82,9 @@ function CreatorBooking() {
       endDate.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit",
-        hour12: true,
+        hour12: false,
       });
 
-    // DATE
     const formattedDate =
       bookingDate.toLocaleDateString("en-IN", {
         weekday: "short",
@@ -96,7 +93,7 @@ function CreatorBooking() {
         year: "numeric",
       });
 
-    return `${formattedDate} ${startTime} - ${endTime} (GMT+5:30)`;
+    return `${formattedDate} ${startTime} - ${endTime}`;
   };
 
   // FETCH BOOKINGS

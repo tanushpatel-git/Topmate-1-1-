@@ -77,7 +77,7 @@ export default function WorldClassExperience() {
         <motion.div variants={fadeUp} className={cardBase}>
           <div className="flex items-center justify-center h-40">
             <div className="bg-gray-800 rounded-2xl px-6 py-6 text-center shadow-lg">
-              <p className="text-sm text-gray-400">10:30 AM - 11:00 AM</p>
+              <p className="text-sm text-gray-400">10:30 - 11:00</p>
               <p className="mt-2 font-semibold">1:1 Mentorship Session</p>
               <div className="flex justify-center gap-2 mt-3 text-xs text-gray-400">
                 <span className="bg-gray-700 px-2 py-1 rounded">Y</span>
