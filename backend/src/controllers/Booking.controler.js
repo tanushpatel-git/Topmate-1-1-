@@ -409,10 +409,7 @@ const createBookingOrder = async (req, res) => {
 
     if (serviceData.category === "product" ||serviceData.category === "priorityDm") {
       if (!seeker || !creator || !service) {
-        return res.status(400).json({
-          success: false,
-          message: "Missing fields",
-        });
+        return res.status(400).json({          success: false,  message: "Missing fields", });
       }
 
     } else {
@@ -446,7 +443,7 @@ const createBookingOrder = async (req, res) => {
       date,
       time,
       duration,
-      price,
+      price: price, 
       status: "pending",
       payment: false,
     });
@@ -458,12 +455,7 @@ const createBookingOrder = async (req, res) => {
 
       const meetingTime = new Date(date);
 
-      meetingTime.setHours(
-        hours,
-        minutes,
-        0,
-        0
-      );
+      meetingTime.setHours(hours,minutes,0,0);
 
       booking.reminderTime = new Date(
         meetingTime.getTime() -
@@ -473,12 +465,15 @@ const createBookingOrder = async (req, res) => {
       await booking.save();
     }
 
-    const order =
-      await razorpayInstance.orders.create({
-        amount: price * 100,
-        currency: "INR",
-        receipt: booking._id.toString(),
-      });
+
+const totalPaid = price + 10;
+
+const order =
+  await razorpayInstance.orders.create({
+    amount: totalPaid * 100,
+    currency: "INR",
+    receipt: booking._id.toString(),
+  });
 
     booking.orderId = order.id;
     await booking.save();
@@ -548,10 +543,26 @@ const verifyBookingPayment = async (req, res) => {
         booking,
       });
     }
-    booking.payment = true;
-    booking.paymentId =razorpay_payment_id;
-    booking.orderId =razorpay_order_id;
-    booking.status = "confirmed";
+
+
+booking.payment = true;
+booking.paymentId =razorpay_payment_id;
+booking.orderId =razorpay_order_id;
+booking.status ="confirmed";
+const sellerPrice =booking.price;
+const userPlatformFee =10;
+const sellerCommission =Math.round(sellerPrice * 0.10);
+const sellerEarning =sellerPrice - sellerCommission;
+const totalPaid =sellerPrice + userPlatformFee;
+const platformRevenue =userPlatformFee + sellerCommission;
+booking.userPlatformFee =userPlatformFee;
+booking.totalPaid =totalPaid;
+booking.sellerCommission =sellerCommission;
+booking.sellerEarning =sellerEarning;
+booking.platformRevenue =platformRevenue;
+booking.withdrawn = false;
+
+
 
     // Create reminder time
     if (booking.date && booking.time) {
@@ -661,6 +672,72 @@ const verifyBookingPayment = async (req, res) => {
 };
 
 
+const getSellerEarnings = async (req, res) => {
+  try {
+    const sellerId = req.user.id;
+    const bookings = await Booking.find({
+      creator: sellerId,
+      payment: true,
+      sellerEarning: { $gt: 0 },
+    })
+      .populate("service", "title").sort({ createdAt: -1 });
+
+    const totalEarnings = bookings.reduce(
+      (sum, booking) =>sum + (booking.sellerEarning || 0),0);
+
+
+      const availableBalance = bookings
+  .filter(
+    (booking) =>
+      !booking.withdrawn &&
+      booking.status === "completed"
+  )
+  .reduce(
+    (sum, booking) =>
+      sum + (booking.sellerEarning || 0),
+    0
+  );
+
+    const completedEarnings = bookings
+      .filter(
+        (booking) =>booking.status === "completed"
+      )
+      .reduce(
+        (sum, booking) =>
+          sum + (booking.sellerEarning || 0),
+        0
+      );
+
+    const totalBookings = bookings.length;
+    const completedBookings = bookings.filter(
+      (booking) =>booking.status === "completed"
+    ).length;
+
+    const pendingBookings = bookings.filter(
+      (booking) =>booking.status === "confirmed"
+    ).length;
+
+    return res.status(200).json({
+      success: true,
+      stats: {
+        totalEarnings,
+        availableBalance,
+        completedEarnings,
+        totalBookings,
+        completedBookings,
+        pendingBookings,
+      },
+      bookings,
+    });
+  } catch (error) {
+    console.log("Seller Earnings Error:",error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
 createBooking,
   getSeekerBookings,
@@ -672,6 +749,7 @@ createBooking,
   updateBookingdm,
   createBookingOrder,
   verifyBookingPayment,
+  getSellerEarnings,
 };
 
 

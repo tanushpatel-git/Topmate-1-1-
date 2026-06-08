@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import CreatorSidebar from "../components/CreatorDashboard/CreatorSidebar";
 import CreatorBottomNavbar from "../components/CreatorDashboard/CreatorBottomNavbar";
 import { SkeletonPage } from "../components/ui/Skeleton";
+import PayoutSeller from "../components/CreatorDashboard/PayoutSeller";
 
 const CreatorHome = lazy(() => import("../components/CreatorDashboard/CreatorHome"));
 const CreatorBooking = lazy(() => import("../components/CreatorDashboard/CreatorBooking"));
@@ -41,6 +42,7 @@ const CreatorDashboard = () => {
           <Route path="calendar/setting" element={<Suspense fallback={<SkeletonPage />}><CreatorCalenderSetting /></Suspense>} />
           <Route path="/profile" element={<Suspense fallback={<SkeletonPage />}><Profile /></Suspense>} />
           <Route path='/setting' element={<Suspense fallback={<div>Loading...</div>}><Setting /></Suspense>} />
+          <Route path='/payout' element={<Suspense fallback={<div>Loading...</div>}><PayoutSeller/></Suspense>} />
         </Routes>
 
       </div>

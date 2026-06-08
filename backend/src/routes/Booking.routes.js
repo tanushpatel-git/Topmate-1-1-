@@ -1,5 +1,7 @@
 
 const express = require("express");
+const auth = require("../middleware/jsonWebTokenCheck");
+
 const {
   createBooking,
   createBookingForDm,
@@ -11,6 +13,7 @@ const {
   updateBookingdm,
   createBookingOrder,
   verifyBookingPayment,
+  getSellerEarnings
 } = require("../controllers/Booking.controler");
 
 const router = express.Router();
@@ -26,8 +29,7 @@ router.put("/update/:id", updateBookingdm);
 // Place order with Razorpay
 router.post("/razorpay", createBookingOrder);  
 router.post("/verifyRazorpay", verifyBookingPayment);
-
-
+router.get("/seller/earnings",auth, getSellerEarnings);
 
 module.exports = router;
 

@@ -13,8 +13,6 @@ const port = process.env.PORT || 8001;
 app.listen(port, async () => {
   try {
     await mongoDB();
-
-   
     connectCloudinary();
     startReminderCron();
     console.log(`Server is running on port ${port}`);
