@@ -117,7 +117,7 @@ export default function Recommedations() {
                     disabled={saving}
                     className={`w-full py-4 rounded-xl text-lg font-medium ${saving ? "bg-gray-400" : "bg-black text-white"}`}
                 >
-                    {saving ? "Saving..." : "Add Highlight"}
+                    {saving ? "Saving..." : recomdation.recomdationText && recomdation.from ? "Update Highlight" : "Add Highlight"}
                 </motion.button>
             </div>
         </div>

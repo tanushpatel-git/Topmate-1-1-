@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import discount_highlight from "../../../assets/discount-highlight.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setOffer } from "../../../redux/userProfileDesign/profile";
 import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function OfferAndDiscount() {
-    const [offerText, setOfferText] = useState("");
+    const { offer } = useSelector((state) => state.userProfile);
+    const [offerText, setOfferText] = useState(offer || "");
     const [saving, setSaving] = useState(false);
     const dispatch = useDispatch();
+    const isEditing = !!offer;
 
     const handleClick = async () => {
         dispatch(setOffer(offerText));
@@ -78,7 +80,7 @@ export default function OfferAndDiscount() {
                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}
                 >
-                    {saving ? "Saving..." : "Add Highlight"}
+                    {saving ? "Saving..." : isEditing ? "Update Highlight" : "Add Highlight"}
                 </motion.button>
             </div>
         </div>

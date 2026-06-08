@@ -8,6 +8,7 @@ const {
   getBookingById,
   cancelBooking,
   confirmBooking,
+  completeBooking,
   updateBookingdm,
   createBookingOrder,
   verifyBookingPayment,
@@ -22,6 +23,7 @@ router.get("/creator/:creatorId", getCreatorBookings);
 router.get("/:bookingId", getBookingById);
 router.put("/cancel/:bookingId", cancelBooking);
 router.put("/confirm/:bookingId", confirmBooking);
+router.put("/complete/:bookingId", completeBooking);
 router.put("/update/:id", updateBookingdm);
 // Place order with Razorpay
 router.post("/razorpay", createBookingOrder);  

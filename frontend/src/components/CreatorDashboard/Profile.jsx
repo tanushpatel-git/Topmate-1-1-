@@ -28,8 +28,14 @@ const Profile = () => {
   const [open3, setOpen3] = useState(false);
   const [open4, setOpen4] = useState(false);
   const [open5, setOpen5] = useState(false);
+  const [editHighlightType, setEditHighlightType] = useState(-1);
   const [selectedColor, setSelectedColor] = useState(savedColor || colors[4]);
   const [view, setView] = useState("desktop");
+
+  const handleEditHighlight = (type) => {
+    setEditHighlightType(type);
+    setOpen3(true);
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -80,7 +86,8 @@ const Profile = () => {
       />
       <AddHighlight
         isOpen={open3}
-        onClose={() => setOpen3(!open3)}
+        onClose={() => { setOpen3(!open3); setEditHighlightType(-1); }}
+        editType={editHighlightType}
       />
       <ArrangmentOfServicePrice
         isOpen={open4}
@@ -91,7 +98,7 @@ const Profile = () => {
         onClose={() => setOpen5(!open5)}
       />
 
-      <MainProfile view={view} />
+      <MainProfile view={view} onEditHighlight={handleEditHighlight} />
     </div>
   );
 };

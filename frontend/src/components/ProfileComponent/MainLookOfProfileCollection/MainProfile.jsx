@@ -2,7 +2,7 @@ import React from "react";
 import LeftSideVeiw from "./LeftSideVeiw";
 import RightSideView from "./RightSideView";
 
-const MainProfile = ({ view }) => {
+const MainProfile = ({ view, onEditHighlight }) => {
     if (view === "mobile") {
         return (
             <div className="flex justify-center items-start py-10 bg-[#EFECE3] min-h-[91vh] overflow-auto">
@@ -11,7 +11,7 @@ const MainProfile = ({ view }) => {
                         <LeftSideVeiw mobile />
                     </div>
                     <div className="p-5 bg-[#EFECE3]">
-                        <RightSideView mobile />
+                        <RightSideView mobile onEditHighlight={onEditHighlight} />
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@ const MainProfile = ({ view }) => {
     return (
         <div className="w-full flex h-[94vh]">
             <LeftSideVeiw />
-            <RightSideView />
+            <RightSideView onEditHighlight={onEditHighlight} />
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Upload, Plus, Check, ExternalLink } from "lucide-react";
+import { X, Upload, Check, ExternalLink } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import {
@@ -11,11 +11,12 @@ import {
   setSocialLink,
   setProfileImage,
 } from "../../redux/userProfileDesign/profile";
-import { updateProfileDesign } from "../../services/userAuthServices/profileDesignService";
+import { updateProfileDesign, uploadProfileImage } from "../../services/userAuthServices/profileDesignService";
 
 export default function AccountEdit({ isOpen, onClose }) {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const {
     firstName,
@@ -91,11 +92,20 @@ export default function AccountEdit({ isOpen, onClose }) {
                   type="file"
                   hidden
                   id="upload"
-                  onChange={(e) => {
+                  accept="image/*"
+                  onChange={async (e) => {
                     const file = e.target.files[0];
-                    if (file) {
-                      const url = URL.createObjectURL(file)
-                      dispatch(setProfileImage(url));
+                    if (!file) return;
+                    setUploading(true);
+                    try {
+                      const res = await uploadProfileImage(file);
+                      if (res.status) {
+                        dispatch(setProfileImage(res.imageUrl));
+                      }
+                    } catch (err) {
+                      console.error("Failed to upload image", err);
+                    } finally {
+                      setUploading(false);
                     }
                   }}
                 />
@@ -104,7 +114,7 @@ export default function AccountEdit({ isOpen, onClose }) {
                   htmlFor="upload"
                   className="flex items-center gap-2 text-sm underline cursor-pointer"
                 >
-                  <Upload size={16} /> Upload Photo
+                  <Upload size={16} /> {uploading ? "Uploading..." : "Upload Photo"}
                 </label>
               </div>
 

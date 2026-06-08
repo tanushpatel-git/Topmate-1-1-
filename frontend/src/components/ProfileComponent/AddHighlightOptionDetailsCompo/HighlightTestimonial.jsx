@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setTestimonial } from "../../../redux/userProfileDesign/profile";
 import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function HighlightTestimonial() {
-  const [text, setText] = useState("");
-  const [from, setFrom] = useState("");
+  const { testimonial } = useSelector((state) => state.userProfile);
+  const [text, setText] = useState(testimonial.testimonialText || "");
+  const [from, setFrom] = useState(testimonial.from || "");
   const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
+  const isEditing = !!(testimonial.testimonialText && testimonial.from);
 
   const handleClick = async () => {
     dispatch(setTestimonial({ testimonialText: text, from: from }));
@@ -100,7 +102,7 @@ export default function HighlightTestimonial() {
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
         >
-          {saving ? "Saving..." : "Add Highlight"}
+          {saving ? "Saving..." : isEditing ? "Update Highlight" : "Add Highlight"}
         </motion.button>
       </div>
     </div>

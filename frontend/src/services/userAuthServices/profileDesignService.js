@@ -27,6 +27,28 @@ export const getMyServices = async () => {
     }
 }
 
+export const uploadProfileImage = async (file) => {
+    try {
+        const formData = new FormData();
+        formData.append("profileImage", file);
+        const response = await axiosInstance.post("/user/profile-design/image", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteProfileHighlight = async (field) => {
+    try {
+        const response = await axiosInstance.delete("/user/profile-design/highlight", { data: { field } });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getPublicProfile = async (userId) => {
     try {
         const response = await axiosInstance.get(`/user/public-profile/${userId}`)

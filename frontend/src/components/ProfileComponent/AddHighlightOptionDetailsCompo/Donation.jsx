@@ -2,13 +2,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import give_charity_icon from "../../../assets/give-charity.2efae26c.svg"
 import { setDonation } from "../../../redux/userProfileDesign/profile";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function Donation() {
-  const [pledge, setPledge] = useState("");
+  const { donation } = useSelector((state) => state.userProfile);
+  const [pledge, setPledge] = useState(donation || "");
   const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
+  const isEditing = !!donation;
 
   const handleClick = async () => {
     dispatch(setDonation(pledge));
@@ -84,7 +86,7 @@ export default function Donation() {
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
         >
-          {saving ? "Saving..." : "Add Highlight"}
+          {saving ? "Saving..." : isEditing ? "Update Highlight" : "Add Highlight"}
         </motion.button>
       </div>
     </div>

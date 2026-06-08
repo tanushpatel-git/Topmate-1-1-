@@ -283,19 +283,41 @@ const cancelBooking = async (req, res) => {
   try {
     const { bookingId } = req.params;
 
-    const booking = await Booking.findByIdAndUpdate(
-      bookingId,
-      { status: "cancelled" },
-      { returnDocument: "after" }
-    );
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    let newStatus = "cancelled";
+
+    if (booking.date && booking.time) {
+      const [hours, minutes] = booking.time.split(":").map(Number);
+      if (!isNaN(hours) && !isNaN(minutes)) {
+        const endDate = new Date(booking.date);
+        endDate.setHours(hours, minutes, 0, 0);
+        const endTime = new Date(endDate.getTime() + (booking.duration || 0) * 60000);
+
+        if (new Date() >= endTime) {
+          newStatus = "completed";
+        }
+      }
+    }
+
+    booking.status = newStatus;
+    await booking.save();
 
     res.status(200).json({
       success: true,
-      message: "Booking cancelled",
+      message: newStatus === "completed" ? "Booking marked as completed" : "Booking cancelled",
       booking,
     });
 
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Error cancelling booking",
@@ -303,6 +325,73 @@ const cancelBooking = async (req, res) => {
   }
 };
 
+
+const completeBooking = async (req, res) => {
+  try {
+    const { bookingId } = req.params;
+
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    if (booking.status === "completed") {
+      return res.status(200).json({
+        success: true,
+        message: "Booking already completed",
+        booking,
+      });
+    }
+
+    if (!booking.date || !booking.time) {
+      return res.status(400).json({
+        success: false,
+        message: "Booking has no scheduled time",
+      });
+    }
+
+    const [hours, minutes] = booking.time.split(":").map(Number);
+    if (isNaN(hours) || isNaN(minutes)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid booking time",
+      });
+    }
+
+    const endDate = new Date(booking.date);
+    endDate.setHours(hours, minutes, 0, 0);
+    const endTime = new Date(endDate.getTime() + (booking.duration || 0) * 60000);
+
+    if (new Date() < endTime) {
+      return res.status(400).json({
+        success: false,
+        message: "Meeting time has not ended yet",
+      });
+    }
+
+    booking.status = "completed";
+    booking.meetingLink = "";
+    booking.zoomMeetingId = "";
+    await booking.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Booking marked as completed",
+      booking,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error completing booking",
+    });
+  }
+};
 
 const confirmBooking = async (req, res) => {
   try {
@@ -668,6 +757,7 @@ createBooking,
   getBookingById,
   cancelBooking,
   confirmBooking,
+  completeBooking,
   createBookingForDm,
   updateBookingdm,
   createBookingOrder,

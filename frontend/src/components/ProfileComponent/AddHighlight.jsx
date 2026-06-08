@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Recommedations from "./AddHighlightOptionDetailsCompo/Recommedations";
 import WebLink from "./AddHighlightOptionDetailsCompo/WebLink";
@@ -16,8 +16,16 @@ import {
 } from "lucide-react";
 import Donation from "./AddHighlightOptionDetailsCompo/Donation";
 
-export default function AddHighlight({ isOpen = false, onClose }) {
+export default function AddHighlight({ isOpen = false, onClose, editType = -1 }) {
   const [mainOpen, setMainOpen] = useState(-1);
+
+  useEffect(() => {
+    if (isOpen && editType !== -1) {
+      setMainOpen(editType);
+    } else if (!isOpen) {
+      setMainOpen(-1);
+    }
+  }, [isOpen, editType]);
 
   const options = [
     { label: "Recommendations", openMain: 1, icon: Sparkles },

@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setHighlightLink } from "../../../redux/userProfileDesign/profile";
 import { updateProfileDesign } from "../../../services/userAuthServices/profileDesignService";
 
 export default function WebLink() {
-    const [url, setUrl] = useState("");
-    const [getDetail, setGetDetail] = useState(false);
-    const [imageUrl, setImageUrl] = useState("");
+    const { highlightLink } = useSelector((state) => state.userProfile);
+    const [url, setUrl] = useState(highlightLink.url || "");
+    const [getDetail, setGetDetail] = useState(!!highlightLink.imageUrl);
+    const [imageUrl, setImageUrl] = useState(highlightLink.imageUrl || "");
     const [saving, setSaving] = useState(false);
     const dispatch = useDispatch();
+    const isEditing = !!highlightLink.url;
 
     const handleAddHighlight = async () => {
         const payload = getDetail
@@ -104,7 +106,7 @@ export default function WebLink() {
                             : "bg-gray-300 text-gray-500 cursor-not-allowed"
                         }`}
                 >
-                    {saving ? "Saving..." : "Add Highlight"}
+                    {saving ? "Saving..." : isEditing ? "Update Highlight" : "Add Highlight"}
                 </motion.button>
             </div>
         </div>

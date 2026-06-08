@@ -116,6 +116,21 @@ const userProfileSlice = createSlice({
         setImageFun: (state, action) => {
             state.imageFun = action.payload;
         },
+        clearHighlightLink: (state) => {
+            state.highlightLink = { url: "", imageUrl: "" };
+        },
+        clearRecomdation: (state) => {
+            state.recomdation = { from: "", recomdationText: "" };
+        },
+        clearTestimonial: (state) => {
+            state.testimonial = { from: "", testimonialText: "" };
+        },
+        clearOffer: (state) => {
+            state.offer = "";
+        },
+        clearDonation: (state) => {
+            state.donation = "";
+        },
         resetUserProfile: () => initialState,
     },
 });
@@ -139,6 +154,11 @@ export const {
     setServices,
     setBadges,
     setImageFun,
+    clearHighlightLink,
+    clearRecomdation,
+    clearTestimonial,
+    clearOffer,
+    clearDonation,
     resetUserProfile,
 } = userProfileSlice.actions;
 
