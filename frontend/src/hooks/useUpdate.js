@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 import updateProfile from "../services/userAuthServices/updateProfile"
 
+
 const useUpdate = () => {
     const queryClient = useQueryClient()
     return useMutation({

@@ -69,7 +69,7 @@ const CreatorSidebar = () => {
             <SidebarLink to="/creator-dashboard/services/one-to-one" icon={<MdOutlineCategory />} text="Services" badge />
             <SidebarLink to="/creator-dashboard/calendar/setting" icon={<FaSearch />} text="Calendar" badge />
             <SidebarLink to="/creator-dashboard/autodm" icon={<FaUserAlt />} text="AutoDM" />
-            <SidebarLink to="/creator-dashboard/payouts" icon={<FaGift />} text="Payouts" />
+            <SidebarLink to="/creator-dashboard/payout" icon={<FaGift />} text="Payout" />
           </div>
 
           {/* YOUR PAGE */}
