@@ -34,7 +34,7 @@ const SekerDashboard = () => {
       </div>
 
       {/* Mobile Bottom Navbar */}
-      <BottomNavbar />
+      <BottomNavbar userData={userData} />
 
     </div>
   );
