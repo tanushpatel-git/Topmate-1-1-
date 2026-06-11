@@ -36,26 +36,34 @@ const getDataOfBooking = async (req, res) => {
         ]);
 
         const counts = Object.fromEntries(agg.map((d) => [d._id, d.count]));
-        const result = [];
+        const labels = [];
+        const data = [];
 
         if (format === "%Y-%m-%d") {
             let cursor = new Date(startDate);
             while (cursor < endDate) {
                 const key = cursor.toISOString().split("T")[0];
-                result.push(counts[key] || 0);
+                const month = String(cursor.getMonth() + 1).padStart(2, "0");
+                const day = String(cursor.getDate()).padStart(2, "0");
+                labels.push(`${month}/${day}`);
+                data.push(counts[key] || 0);
                 cursor.setDate(cursor.getDate() + 1);
             }
         } else {
             for (let m = 0; m < 12; m++) {
                 const key = `${year}-${String(m + 1).padStart(2, "0")}`;
-                result.push(counts[key] || 0);
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                labels.push(months[m]);
+                data.push(counts[key] || 0);
             }
         }
 
-        return res.json({ message: "Success", data: result });
+        const total = data.reduce((sum, c) => sum + c, 0);
+
+        return res.json({ success: true, message: "Success", data: { labels, data, total } });
     } catch (err) {
         console.log(err);
-        return res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 };
 

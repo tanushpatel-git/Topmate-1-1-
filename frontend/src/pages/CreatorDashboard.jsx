@@ -15,6 +15,7 @@ const Profile = lazy(() => import("../components/CreatorDashboard/Profile"));
 const CreateService = lazy(() => import("../components/CreatorDashboard/CreateService"));
 const ServiceCustomize = lazy(() => import("../components/CreatorDashboard/ServiceCustomize"));
 const Setting = lazy(() => import("../components/CreatorDashboard/Setting"));
+const Analytics = lazy(() => import("../components/CreatorDashboard/Analytics"));
 
 const CreatorDashboard = () => {
 
@@ -43,6 +44,7 @@ const CreatorDashboard = () => {
           <Route path="/profile" element={<Suspense fallback={<SkeletonPage />}><Profile /></Suspense>} />
           <Route path='/setting' element={<Suspense fallback={<div>Loading...</div>}><Setting /></Suspense>} />
           <Route path='/payout' element={<Suspense fallback={<div>Loading...</div>}><PayoutSeller/></Suspense>} />
+          <Route path='/analytics' element={<Suspense fallback={<div>Loading...</div>}><Analytics/></Suspense>} />
         </Routes>
 
       </div>
