@@ -21,7 +21,7 @@ const cards = [
   { img: p2, name: "Pooja Verma", role: "Developer", desc: "Full stack dev. Builds apps.", color: "bg-cyan-400/40" },
   { img: p3, name: "Nikesh Singh", role: "Mentor", desc: "Career mentor. Guides students.", color: "bg-emerald-400/40" },
   { img: p4, name: "Nikita Gupta", role: "Founder", desc: "Startup founder. Builds ideas.", color: "bg-lime-400/40" },
-  { img: p5, name: "Tanush Patel", role: "Marketer", desc: "Digital marketer. Grows brands.", color: "bg-cyan-500/40" },
+  { img: p5, name: "Tanush Patel", role: "Senior Developer", desc: "Digital marketer. Grows brands.", color: "bg-cyan-500/40" },
   { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
   { img: p7, name: "Anjali Roy", role: "Designer", desc: "Graphic designer. Loves visuals.", color: "bg-indigo-400/40" },
   { img: p8, name: "Vikas Yadav", role: "Developer", desc: "Backend dev. Handles APIs.", color: "bg-cyan-400/40" },
@@ -40,7 +40,7 @@ const cards2 = [
   { img: p2, name: "Pooja Verma", role: "Developer", desc: "Full stack dev. Builds apps.", color: "bg-cyan-400/40" },
   { img: p3, name: "Nikesh Singh", role: "Mentor", desc: "Career mentor. Guides students.", color: "bg-emerald-400/40" },
   { img: p4, name: "Nikita Gupta", role: "Founder", desc: "Startup founder. Builds ideas.", color: "bg-lime-400/40" },
-  { img: p5, name: "Tanush Patel", role: "Marketer", desc: "Digital marketer. Grows brands.", color: "bg-cyan-500/40" },
+  { img: p5, name: "Tanush Patel", role: "Senior Developer", desc: "Digital marketer. Grows brands.", color: "bg-cyan-500/40" },
   { img: p6, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
 ];
 
