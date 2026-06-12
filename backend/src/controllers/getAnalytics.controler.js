@@ -1,9 +1,10 @@
 const Booking = require("../models/Booking.model");
+const mongoose = require("mongoose");
 
 const getDataOfBooking = async (req, res) => {
     try {
         const { type } = req.params;
-        const userId = req.user._id;
+        const userId = new mongoose.Types.ObjectId(req.user.id);
 
         const now = new Date();
         const year = now.getFullYear();
