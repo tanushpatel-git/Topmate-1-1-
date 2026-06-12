@@ -30,7 +30,7 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchAnalytics(activePeriod);
-  }, [activePeriod]);
+  }, [activePeriod, fetchAnalytics]);
 
   const maxVal = Math.max(...(analytics?.data || []), 0);
 

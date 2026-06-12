@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { getAnalytics } from "../services/booking-services/getAnalytics";
 
 const useAnalytics = () => {
@@ -6,10 +6,11 @@ const useAnalytics = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchAnalytics = async (type = "week") => {
+  const fetchAnalytics = useCallback(async (type = "week") => {
     try {
       setLoading(true);
       setError(null);
+      setAnalytics(null);
       const result = await getAnalytics(type);
       if (!result.success && result.message) {
         throw new Error(result.message);
@@ -22,7 +23,7 @@ const useAnalytics = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return { analytics, loading, error, fetchAnalytics };
 };
