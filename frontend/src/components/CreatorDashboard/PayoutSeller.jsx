@@ -9,14 +9,16 @@ const PayoutSeller = () => {
 
   const navigate = useNavigate();
 
-  const [showWithdrawals, setShowWithdrawals] =
-    useState(false);
+  const [showWithdrawals, setShowWithdrawals] =useState(false);
 
   const {
     earnings,
     loading,
     fetchEarnings,
   } = useSellerEarnings();
+
+
+console.log(earnings);
 
   const {
     requestWithdrawal,
