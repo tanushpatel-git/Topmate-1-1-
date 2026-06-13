@@ -10,6 +10,7 @@ import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
 import { auth, googleProvider } from "../utility/fireBase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useEmailCheck, useOtpVerification } from "../hooks/SignInWithTwoStep";
 
 export default function SignIn() {
@@ -40,7 +41,12 @@ export default function SignIn() {
 
   useEffect(() => {
     if (data?.user || googleData?.user || otpData?.user) {
-      navigate("/creator-dashboard")
+      const user = data?.user || googleData?.user || otpData?.user;
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/creator-dashboard");
+      }
     }
   }, [data, googleData, otpData])
 
