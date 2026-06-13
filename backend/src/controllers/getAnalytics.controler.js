@@ -1,9 +1,12 @@
 const Booking = require("../models/Booking.model");
+const mongoose = require("mongoose");
+
 
 const getDataOfBooking = async (req, res) => {
     try {
         const { type } = req.params;
-        const userId = req.user._id;
+        const userId = new mongoose.Types.ObjectId(req.user.id);
+
 
         const now = new Date();
         const year = now.getFullYear();
@@ -29,6 +32,7 @@ const getDataOfBooking = async (req, res) => {
             format = "%Y-%m";
         }
 
+ 
         const agg = await Booking.aggregate([
             { $match: { creator: userId, date: { $gte: startDate, $lt: endDate } } },
             { $group: { _id: { $dateToString: { format, date: "$date" } }, count: { $sum: 1 } } },
@@ -65,6 +69,6 @@ const getDataOfBooking = async (req, res) => {
         console.log(err);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
-};
+}; 
 
 module.exports = { getDataOfBooking };
