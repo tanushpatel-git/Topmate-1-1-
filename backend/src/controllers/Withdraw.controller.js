@@ -13,9 +13,10 @@ console.log("transfers", razorpay.transfers);
 console.log("payouts", razorpay.payouts);
 console.log("fundAccount", razorpay.fundAccount);
 console.log('contacts', razorpay.contacts);
+
+// seller 
 const requestWithdrawal = async (req, res) => {
 try {
-
 const sellerId = req.user.id;
 const seller = await User.findById(sellerId);
 if (
@@ -29,7 +30,7 @@ if (
 
 const bookings = await Booking.find({
   creator: sellerId,
-  payment: true,
+  payment:true,
   status: "completed",
   withdrawn: false,
 });
@@ -52,12 +53,27 @@ const withdrawal = await Withdrawal.create({
     bookings: bookings.map((b) => b._id), status: "pending",
 });
 
+
+await Booking.updateMany(
+  {
+    creator: sellerId,
+    payment: true,
+    status: "completed",
+    withdrawn: false,
+  },
+  {
+    $set: {
+      withdrawn:true,
+    },
+  }
+);
+
+
+
 return res.status(200).json({
-  success: true,
-  message:
-    "Withdrawal request sent to admin for approval",
-  withdrawal,
+  success: true, message: "Withdrawal request sent to admin for approval",withdrawal,
 });
+
 
 } catch (error) {
 console.log(error);
@@ -67,7 +83,6 @@ return res.status(500).json({
 });
 }
 };
-
 
 const getWithdrawals = async (req, res) => {
   try {
@@ -96,6 +111,7 @@ const getWithdrawals = async (req, res) => {
 };
 
 
+// admin
 const getAllWithdrawals = async (req, res) => {
   try {
     const { status } = req.query;
@@ -216,3 +232,4 @@ const updateWithdrawalStatus = async (req, res) => {
 };
 
 module.exports = { requestWithdrawal, getWithdrawals, getAllWithdrawals, updateWithdrawalStatus };
+

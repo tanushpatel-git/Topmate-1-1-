@@ -498,7 +498,7 @@ const createBookingOrder = async (req, res) => {
 
     if (serviceData.category === "product" ||serviceData.category === "priorityDm") {
       if (!seeker || !creator || !service) {
-        return res.status(400).json({          success: false,  message: "Missing fields", });
+        return res.status(400).json({success: false,  message: "Missing fields", });
       }
 
     } else {
@@ -760,50 +760,67 @@ booking.withdrawn = false;
   }
 };
 
-
 const getSellerEarnings = async (req, res) => {
   try {
     const sellerId = req.user.id;
+
     const bookings = await Booking.find({
       creator: sellerId,
       payment: true,
-      sellerEarning: { $gt: 0 },
     })
-      .populate("service", "title").sort({ createdAt: -1 });
+      .populate("service", "title")
+      .sort({ createdAt: -1 });
 
-    const totalEarnings = bookings.reduce(
-      (sum, booking) =>sum + (booking.sellerEarning || 0),0);
+    // Total earnings (all completed bookings)
+    const totalEarnings = bookings
+      .filter((booking) => booking.status === "completed")
+      .reduce((sum, booking) => sum + (booking.sellerEarning || 0),0);
 
-
-      const availableBalance = bookings
-  .filter(
-    (booking) =>
-      !booking.withdrawn &&
-      booking.status === "completed"
-  )
-  .reduce(
-    (sum, booking) =>
-      sum + (booking.sellerEarning || 0),
-    0
-  );
-
-    const completedEarnings = bookings
+    // Available balance
+    const availableBalance = bookings
       .filter(
-        (booking) =>booking.status === "completed"
+        (booking) =>
+          booking.status === "completed" &&
+          booking.withdrawn === false
+      )
+      .reduce((sum, booking) => sum + (booking.sellerEarning || 0),0);
+
+    // // Withdrawal requested but not yet paid
+    // const pendingWithdrawal = bookings
+    //   .filter(
+    //     (booking) =>
+    //       booking.status === "completed" &&
+    //       booking.withdrawn === true
+    //   )
+    //   .reduce(
+    //     (sum, booking) => sum + (booking.sellerEarning || 0),
+    //     0
+    //   );
+
+    //     pendingWithdrawal,
+
+    // payment pending by admin
+    const withdrawnAmount = bookings
+      .filter(
+        (booking) =>
+          booking.status === "completed" &&
+          booking.withdrawn === true
       )
       .reduce(
-        (sum, booking) =>
-          sum + (booking.sellerEarning || 0),
+        (sum, booking) => sum + (booking.sellerEarning || 0),
         0
       );
 
     const totalBookings = bookings.length;
+
     const completedBookings = bookings.filter(
-      (booking) =>booking.status === "completed"
+      (booking) => booking.status === "completed"
     ).length;
 
     const pendingBookings = bookings.filter(
-      (booking) =>booking.status === "confirmed"
+      (booking) =>
+        booking.status === "confirmed" ||
+        booking.status === "pending"
     ).length;
 
     return res.status(200).json({
@@ -811,7 +828,7 @@ const getSellerEarnings = async (req, res) => {
       stats: {
         totalEarnings,
         availableBalance,
-        completedEarnings,
+        withdrawnAmount,
         totalBookings,
         completedBookings,
         pendingBookings,
@@ -819,7 +836,7 @@ const getSellerEarnings = async (req, res) => {
       bookings,
     });
   } catch (error) {
-    console.log("Seller Earnings Error:",error);
+    console.log("Seller Earnings Error:", error);
 
     return res.status(500).json({
       success: false,
@@ -827,6 +844,7 @@ const getSellerEarnings = async (req, res) => {
     });
   }
 };
+
 module.exports = {
 createBooking,
   getSeekerBookings,

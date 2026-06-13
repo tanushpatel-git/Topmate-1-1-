@@ -46,6 +46,7 @@ const AdminDashboard = () => {
   const [failureReason, setFailureReason] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
 
+  
   const fetchWithdrawals = async () => {
     try {
       setLoading(true);
@@ -57,6 +58,9 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+
+//  setSelectedWithdrawal(withdrawal);
+// setShowConfirmModal(true);
 
   useEffect(() => {
     fetchWithdrawals();
@@ -344,7 +348,7 @@ const AdminDashboard = () => {
                                   }}
                                   className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 transition cursor-pointer"
                                 >
-                                  Approve
+                                  Payout
                                 </button>
                                 <button
                                   onClick={() => {

@@ -37,17 +37,15 @@ const cards = [
   { img: p10, name: "Rohit Kumar", role: "Tech", desc: "Tech lover. Builds projects.", color: "bg-cyan-400/40" },
 ];
 
-
 const cards2 = [
-
-  { img: p11, name: "Anjali Roy", role: "Designer", desc: "Graphic designer. Loves visuals.", color: "bg-indigo-400/40" },
-  { img: p12, name: "Vikas Yadav", role: "Developer", desc: "Backend dev. Handles APIs.", color: "bg-cyan-400/40" },
-  { img: p13, name: "Priya Nair", role: "Designer", desc: "UI designer. Focus on UX.", color: "bg-cyan-400/40" },
-  { img: p14, name: "Rohit Kumar", role: "Tech", desc: "Tech lover. Builds projects.", color: "bg-cyan-400/40" },
-  { img: p15, name: "Rahul Sharma", role: "Designer", desc: "Creative designer. Loves clean UI.", color: "bg-orange-400/40" },
-  { img: p16, name: "Pooja Verma", role: "Developer", desc: "Full stack dev. Builds apps.", color: "bg-cyan-400/40" },
-  { img: p17, name: "Nikesh Singh", role: "Mentor", desc: "Career mentor. Guides students.", color: "bg-emerald-400/40" },
-  { img: p18, name: "Nikita Gupta", role: "Founder", desc: "Startup founder. Builds ideas.", color: "bg-lime-400/40" },
+  { img: p11, name: "Ayush Singh", role: "Designer", desc: "Graphic designer. Loves visuals.", color: "bg-indigo-400/40" },
+  { img: p12, name: "Chiradeep Patra", role: "Developer", desc: "Backend dev. Handles APIs.", color: "bg-cyan-400/40" },
+  { img: p13, name: "Ganesh Balakrishnan", role: "Designer", desc: "UI designer. Focus on UX.", color: "bg-cyan-400/40" },
+  { img: p14, name: "Josh Burns", role: "Tech", desc: "Tech lover. Builds projects.", color: "bg-cyan-400/40" },
+  { img: p15, name: "Kartik Kapoor", role: "Designer", desc: "Creative designer. Loves clean UI.", color: "bg-orange-400/40" },
+  { img: p16, name: "Mitchell Clements", role: "Developer", desc: "Full stack dev. Builds apps.", color: "bg-cyan-400/40" },
+  { img: p17, name: "Prakriti Ashish", role: "Mentor", desc: "Career mentor. Guides students.", color: "bg-emerald-400/40" },
+  { img: p18, name: "Priyanka Wanderess", role: "Founder", desc: "Startup founder. Builds ideas.", color: "bg-lime-400/40" },
   { img: p10, name: "Tanush Patel", role: "Senior Developer", desc: "Digital marketer. Grows brands.", color: "bg-cyan-500/40" },
   { img: p5, name: "Nikesh Parte", role: "Engineer", desc: "Software engineer. Builds systems.", color: "bg-pink-400/40" },
 ];

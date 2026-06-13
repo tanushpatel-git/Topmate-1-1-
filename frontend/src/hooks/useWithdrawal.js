@@ -10,7 +10,6 @@ const useWithdrawal = () => {
   const requestWithdrawal = async () => {
     try {
       setLoading(true);
-
       const token = localStorage.getItem("token");
       const data = await requestWithdrawalApi(token);
       return data;
@@ -21,6 +20,7 @@ const useWithdrawal = () => {
       setLoading(false);
     }
   };
+
   const getWithdrawals = async () => {
     try {
       setLoading(true);

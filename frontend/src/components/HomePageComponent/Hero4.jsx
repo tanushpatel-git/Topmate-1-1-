@@ -1,9 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-
-gsap.registerPlugin(ScrollTrigger);
+import React, { useState } from "react";
 
 
 const testimonials = [
@@ -46,70 +41,24 @@ const testimonials = [
 ];
 
 const Hero4 = () => {
-    const scrollRef = useRef();
     const [active, setActive] = useState(0);
-
-
-    const handleScroll = () => {
-        const scrollLeft = scrollRef.current.scrollLeft;
-        const width = scrollRef.current.offsetWidth;
-        const index = Math.round(scrollLeft / width);
-        setActive(index);
-    };
 
     const groupedTestimonials = [];
     for (let i = 0; i < testimonials.length; i += 2) {
         groupedTestimonials.push(testimonials.slice(i, i + 2));
     }
+    
 
-
-
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-
-            gsap.from(".testimonial-card", {
-                y: 80,
-                opacity: 0,
-                scale: 0.95,
-                duration: 0.8,
-                stagger: 0.15,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: ".testimonial-card",
-                    start: "top 85%",
-                    toggleActions: "play none none none",
-                },
-            });
-
-        });
-
-        return () => ctx.revert();
-    }, []);
-
-    return (
-        <div className="bg-[#123c3c] py-16 px-4 " >
-            <h2 className="text-white text-3xl md:text-5xl font-semibold text-center mb-10">
-                Don't Just Take Our Word for It
-            </h2>
-
+return (
+<div className="bg-[#123c3c] py-16 px-4 " >
+<h2 className="text-white text-3xl md:text-5xl font-semibold text-center mb-10" >Don't Just Take Our Word for It </h2>
 
             <div className="md:hidden "  >
-                <div
-                    ref={scrollRef}
-                    onScroll={handleScroll}
-                    className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-4"
-                >
+                <div                    className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar px-4">
                     {groupedTestimonials.map((group, index) => (
-                        <div
-                            key={index}
-                            className="shrink-0 w-full snap-center flex flex-col gap-4 mr-10"
-                        >
+                        <div key={index} className="shrink-0 w-full snap-center flex flex-col gap-4 mr-10">
                             {group.map((item, i) => (
-                                <div
-                                    key={i}
-                                    className="testimonial-card relative bg-gray-200 rounded-[30px] p-6 min-h-[220px] flex flex-col justify-between"
-                                >
+                                <div key={i} className="testimonial-card relative bg-gray-200 rounded-[30px] p-6 min-h-[220px] flex flex-col justify-between">
 
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +95,7 @@ const Hero4 = () => {
                     ))}
                 </div>
 
-                {/* 🔹 Dots = number of groups */}
+                {/*  Dots = number of groups */}
                 <div className="flex justify-center mt-4 gap-2">
                     {groupedTestimonials.map((_, index) => (
                         <div
@@ -159,7 +108,7 @@ const Hero4 = () => {
             </div>
 
 
-            {/* 🔹 Desktop Grid */}
+            {/* Desktop Grid */}
             <div className="hidden md:grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto" >
 
                 {testimonials.map((item, index) => (

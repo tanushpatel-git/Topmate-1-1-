@@ -2,8 +2,10 @@ import React, { useEffect } from "react";
 import useSellerEarnings from "../../hooks/useSellerEarnings";
 import { useNavigate } from "react-router-dom";
 import useWithdrawal from "../../hooks/useWithdrawal";
-
 import { useState } from "react";
+import toast from "react-hot-toast";
+
+
 
 const PayoutSeller = () => {
 
@@ -17,15 +19,13 @@ const PayoutSeller = () => {
     fetchEarnings,
   } = useSellerEarnings();
 
-
-console.log(earnings);
-
   const {
     requestWithdrawal,
     getWithdrawals,
     withdrawals,
     loading: withdrawalLoading,
   } = useWithdrawal();
+
 
   useEffect(() => {
     fetchEarnings();
@@ -37,22 +37,14 @@ console.log(earnings);
 
   const handleWithdraw = async () => {
     try {
-
-      const res =
-        await requestWithdrawal();
-
-      alert(res.message);
-
+      const res = await requestWithdrawal();
+      toast.success(res.message);
       await fetchEarnings();
-      await getWithdrawals();
+       await getWithdrawals();
+
 
     } catch (error) {
-
-      alert(
-        error?.response?.data?.message ||
-        "Withdrawal failed"
-      );
-
+      toast.error(error?.response?.data?.message || "Withdrawal failed");
     }
   };
 
@@ -64,8 +56,20 @@ console.log(earnings);
     );
   }
 
-  const stats = earnings?.stats || {};
 
+    // Withdrawal requested but not yet paid
+    const pendingWithdrawal = withdrawals
+      .filter(
+        (withdrawal) =>
+          withdrawal.status === "pending" 
+      )
+      .reduce(
+        (sum, withdrawal) => sum + withdrawal.amount,
+        0
+      );
+
+
+  const stats = earnings?.stats || {};
   return (
   
     <div className="w-full min-h-screen bg-white">
@@ -82,36 +86,22 @@ console.log(earnings);
         {/* Withdrawable */}
         <div className="bg-[#faf7ef] border border-[#f1d18a] rounded-2xl p-6 shadow-sm">
           <p className="text-xs uppercase text-gray-500 font-semibold">Withdrawable Balance </p>
-
           <h2 className="text-4xl font-bold mt-3">
             ₹{stats.availableBalance || 0}
           </h2>
 
           <div className="flex gap-3 mt-6">
 
-            <button
-              onClick={handleWithdraw}
-              disabled={
-                stats.availableBalance <= 0 ||
-                withdrawalLoading
-              }
-              className={`flex-1 py-2 rounded-lg font-medium ${stats.availableBalance > 0
-                  ? "bg-black text-white"
-                  : "bg-gray-300 text-gray-500"
-                }`}
-            >
+            <button onClick={handleWithdraw} disabled={ stats.availableBalance <= 0 || withdrawalLoading } className={`flex-1 py-2 rounded-lg font-medium ${stats.availableBalance > 0 ? "bg-black text-white": "bg-gray-300 text-gray-500"}`}>
               {withdrawalLoading
                 ? "Processing..."
                 : `Withdraw ₹${stats.availableBalance}`}
             </button>
 
-
-
             <button className="border px-4 rounded-lg">
               Breakdown
             </button>
           </div>
-
           <p className="text-sm text-gray-500 mt-4">
             No holds
           </p>
@@ -124,7 +114,7 @@ console.log(earnings);
           </p>
 
           <h2 className="text-4xl font-bold mt-3">
-            ₹{stats.pendingWithdrawal || 0}
+            ₹{pendingWithdrawal || 0}            
           </h2>
 
           <p className="text-gray-500 mt-3">

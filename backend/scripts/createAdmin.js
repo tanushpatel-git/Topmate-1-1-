@@ -5,8 +5,8 @@ require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const User = require("../src/models/user.model");
 const { hashingPassword } = require("../src/utility/bcrypt");
 
-const email = "tanush000patel@gmail.com";
-const password = "tanu@123";
+const email = "nikeshparte726@gmail.com";
+const password = "Password$4";
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -38,3 +38,4 @@ mongoose
     console.error(err);
     process.exit(1);
   });
+
