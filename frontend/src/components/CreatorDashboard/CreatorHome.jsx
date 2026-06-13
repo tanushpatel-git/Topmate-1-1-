@@ -233,12 +233,6 @@ const CreatorHome = () => {
         </div>
       </div>
 
-      <div className="index bg-amber-300 flex-1 h-[40vh]">
-        <h1> indexing div</h1>
-
-
-      </div>
-
     </div>
 
   )

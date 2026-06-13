@@ -11,17 +11,14 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+
 import { Line } from "react-chartjs-2";
 import useAnalytics from "../../hooks/useAnalytics";
 import { FiCalendar } from "react-icons/fi";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const periods = [
-  { key: "week", label: "Week" },
-  { key: "month", label: "Month" },
-  { key: "year", label: "Year" },
-];
+const periods = [ { key: "week", label: "Week" },{ key: "month", label: "Month" },{ key: "year", label: "Year" },];
 
 const Analytics = () => {
   const userData = useSelector((state) => state.userData);
@@ -32,7 +29,7 @@ const Analytics = () => {
     fetchAnalytics(activePeriod);
   }, [activePeriod, fetchAnalytics]);
 
-  const maxVal = Math.max(...(analytics?.data || []), 0);
+const maxVal = Math.max(...(analytics?.data || []), 0);
 
   const chartData = {
     labels: analytics?.labels || [],

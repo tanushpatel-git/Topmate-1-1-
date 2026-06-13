@@ -30,6 +30,7 @@ const getDataOfBooking = async (req, res) => {
             format = "%Y-%m";
         }
 
+ 
         const agg = await Booking.aggregate([
             { $match: { creator: userId, date: { $gte: startDate, $lt: endDate } } },
             { $group: { _id: { $dateToString: { format, date: "$date" } }, count: { $sum: 1 } } },
@@ -66,6 +67,6 @@ const getDataOfBooking = async (req, res) => {
         console.log(err);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
-};
+}; 
 
 module.exports = { getDataOfBooking };
