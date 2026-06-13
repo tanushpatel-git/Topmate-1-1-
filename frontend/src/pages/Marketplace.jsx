@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import Navbar from "../components/commonCompo/Navbar";
 import CategoryNavbar from "../components/MarketPlaceComponent/CategoryNavbar";
@@ -14,8 +14,14 @@ const BLOCKED_CATEGORIES = {
 
 const Marketplace = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
+
+  useEffect(() => {
+    const urlSearch = searchParams.get("search");
+    if (urlSearch) setSearchQuery(urlSearch);
+  }, [searchParams]);
 
   const handleCategoryChange = (category) => {
     if (BLOCKED_CATEGORIES[category]) {
@@ -25,6 +31,11 @@ const Marketplace = () => {
       return;
     }
     setSelectedCategory(category);
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    navigate(`/marketplace${query ? `?search=${encodeURIComponent(query)}` : ""}`, { replace: true });
   };
 
   const params = {};
@@ -38,7 +49,7 @@ const Marketplace = () => {
       <Navbar/>
       <CategoryNavbar onCategoryChange={handleCategoryChange}/>
       <DetailsCardArea detailsOfDeveloper={data?.data} isLoading={isLoading} isError={isError}/>
-      <SearchBar onSearch={setSearchQuery} />
+      <SearchBar onSearch={handleSearch} />
     </>
   );
 };

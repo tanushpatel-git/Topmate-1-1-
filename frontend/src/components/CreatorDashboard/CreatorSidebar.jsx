@@ -68,7 +68,7 @@ const CreatorSidebar = () => {
             <SidebarLink to="/creator-dashboard/queries/pending" icon={<FaUser />} text="Priority DM" badge={true} />
             <SidebarLink to="/creator-dashboard/services/one-to-one" icon={<MdOutlineCategory />} text="Services" badge />
             <SidebarLink to="/creator-dashboard/calendar/setting" icon={<FaSearch />} text="Calendar" badge />
-            <SidebarLink to="/creator-dashboard/autodm" icon={<FaUserAlt />} text="AutoDM" />
+            <SidebarLink to="/upcoming" icon={<FaUserAlt />} text="AutoDM" state={{ type: "autodm" }} />
             <SidebarLink to="/creator-dashboard/payout" icon={<FaGift />} text="Payout" />
           </div>
 
@@ -124,10 +124,11 @@ const CreatorSidebar = () => {
 
 export default CreatorSidebar;
 
-const SidebarLink = ({ to, icon, text, badge }) => {
+const SidebarLink = ({ to, icon, text, badge, state }) => {
   return (
     <NavLink
       to={to}
+      state={state}
       className={({ isActive }) =>
         `flex items-center justify-between px-4 py-2 rounded-lg transition-colors
         ${isActive

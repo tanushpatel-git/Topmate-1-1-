@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4, view, setView }) => {
 
@@ -86,6 +87,7 @@ const ProfileNavbar = ({ onClose, onClose5, onClose2, onClose3, onClose4, view, 
                 </motion.button>
 
                 <motion.button
+                    onClick={() => toast("This feature is not available yet!", { icon: "🚧" })}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200"

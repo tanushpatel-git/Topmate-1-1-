@@ -183,6 +183,13 @@ const UpcomingFeature = ({ type }) => {
         "We're building cohort-based programs to help you run multi-week immersive learning experiences. Stay tuned!",
       color: "#d88942",
     },
+    autodm: {
+      title: "Auto DM",
+      subtitle: "Coming Soon",
+      description:
+        "We're building an automated DM feature to help you connect with your audience effortlessly. Stay tuned!",
+      color: "#4A90D9",
+    },
   };
 
   const current = config[type] || config.webinar;
