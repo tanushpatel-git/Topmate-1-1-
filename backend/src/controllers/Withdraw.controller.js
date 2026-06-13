@@ -13,7 +13,6 @@ console.log("transfers", razorpay.transfers);
 console.log("payouts", razorpay.payouts);
 console.log("fundAccount", razorpay.fundAccount);
 console.log('contacts', razorpay.contacts);
-
 const requestWithdrawal = async (req, res) => {
 try {
 
@@ -50,63 +49,13 @@ const amount = bookings.reduce(
 
 const withdrawal = await Withdrawal.create({
     seller: sellerId, amount,
-    bookings: bookings.map((b) => b._id),status: "processing",});
-
-
-    // Create Contact
-    const contact = await razorpay.contacts.create({
-      name: seller.accountHolderName,
-      email: seller.email,
-      contact: seller.whatsAppNumber,
-      type: "vendor",
-    });
-    
-
-    
-
-// Create Fund Account
-const fundAccount = await razorpay.fundAccount.create({
-    contact_id: contact.id,
-    bank_account: {
-      name: seller.accountHolderName,
-      ifsc: seller.ifscCode,
-      account_number: seller.accountNumber,
-    },
-  });
-
-// Create Payout
-const payout = await razorpay.payouts.create({
-    account_number: process.env.RAZORPAY_MASTER_ACCOUNT,
-    fund_account_id: fundAccount.id,
-    amount: amount * 100,
-    currency: "INR",
-    mode: "IMPS",
-    purpose: "payout",
-    queue_if_low_balance: true,
-    reference_id: withdrawal._id.toString(),
-  });
-
-withdrawal.payoutId = payout.id;
-withdrawal.status = payout.status === "processed" ? "completed" : "processing";
-await withdrawal.save();
-
-// Mark bookings withdrawn only after payout created successfully
-await Booking.updateMany({
-    _id: { $in: bookings.map( (b) => b._id),},
-  },
-  {
-    withdrawn: true,
-    withdrawnAt: new Date(),
-    withdrawalId:
-      withdrawal._id,
-  }
-);
+    bookings: bookings.map((b) => b._id), status: "pending",
+});
 
 return res.status(200).json({
   success: true,
   message:
-    "Withdrawal processed successfully",
-  payoutId: payout.id,
+    "Withdrawal request sent to admin for approval",
   withdrawal,
 });
 
@@ -147,4 +96,123 @@ const getWithdrawals = async (req, res) => {
 };
 
 
-module.exports = { requestWithdrawal, getWithdrawals };
+const getAllWithdrawals = async (req, res) => {
+  try {
+    const { status } = req.query;
+    const filter = {};
+    if (status) filter.status = status;
+
+    const withdrawals = await Withdrawal.find(filter)
+      .populate("seller", "firstName lastName email userName")
+      .populate("bookings")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      withdrawals,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const updateWithdrawalStatus = async (req, res) => {
+  try {
+    const { withdrawalId } = req.params;
+    const { status, failureReason } = req.body;
+
+    if (!["completed", "failed"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Status must be 'completed' or 'failed'",
+      });
+    }
+
+    const withdrawal = await Withdrawal.findById(withdrawalId).populate("seller");
+    if (!withdrawal) {
+      return res.status(404).json({
+        success: false,
+        message: "Withdrawal not found",
+      });
+    }
+
+    if (withdrawal.status === "completed") {
+      return res.status(400).json({
+        success: false,
+        message: "Withdrawal already completed",
+      });
+    }
+
+    if (status === "failed") {
+      withdrawal.status = "failed";
+      if (failureReason) withdrawal.failureReason = failureReason;
+      await withdrawal.save();
+      return res.status(200).json({
+        success: true,
+        message: "Withdrawal rejected",
+        withdrawal,
+      });
+    }
+
+    const seller = withdrawal.seller;
+
+    const contact = await razorpay.contacts.create({
+      name: seller.accountHolderName,
+      email: seller.email,
+      contact: seller.whatsAppNumber,
+      type: "vendor",
+    });
+
+    const fundAccount = await razorpay.fundAccount.create({
+      contact_id: contact.id,
+      bank_account: {
+        name: seller.accountHolderName,
+        ifsc: seller.ifscCode,
+        account_number: seller.accountNumber,
+      },
+    });
+
+    const payout = await razorpay.payouts.create({
+      account_number: process.env.RAZORPAY_MASTER_ACCOUNT,
+      fund_account_id: fundAccount.id,
+      amount: withdrawal.amount * 100,
+      currency: "INR",
+      mode: "IMPS",
+      purpose: "payout",
+      queue_if_low_balance: true,
+      reference_id: withdrawal._id.toString(),
+    });
+
+    withdrawal.payoutId = payout.id;
+    withdrawal.status = "completed";
+    await withdrawal.save();
+
+    await Booking.updateMany(
+      { _id: { $in: withdrawal.bookings } },
+      {
+        withdrawn: true,
+        withdrawnAt: new Date(),
+        payoutStatus: "withdrawn",
+        withdrawalId: withdrawal._id,
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Withdrawal completed. Payout sent to creator.",
+      payoutId: payout.id,
+      withdrawal,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { requestWithdrawal, getWithdrawals, getAllWithdrawals, updateWithdrawalStatus };

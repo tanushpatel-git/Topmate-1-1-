@@ -18,9 +18,9 @@ import p10 from '../../assets/person10.jpg'
 import p11 from "../../assets/ayush-singh.jpg"
 import p12 from "../../assets/chiradeep-patra.jpg"
 import p13 from "../../assets/ganesh-balakrishnan.jpg"
-import p14 from "../../assets/josh-burns.jpq"
+import p14 from "../../assets/josh-burns.jpg"
 import p15 from "../../assets/kartik-kapoor.jpg"
-import p16 from "../../assets/melissa-chapman.jpg"
+import p16 from "../../assets/mitchell-clements.jpg"
 import p17 from "../../assets/prakriti-ashish.jpg"
 import p18 from "../../assets/priyanka-wanderess.jpg"
 
