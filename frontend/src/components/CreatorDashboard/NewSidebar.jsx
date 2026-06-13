@@ -149,10 +149,11 @@ const NewSidebar = ({ open, setOpen }) => {
                 />
 
                 <SidebarLink
-                  to="/creator-dashboard/autodm"
+                  to="/upcoming"
                   icon={<FaUserAlt />}
                   text="AutoDM"
                   setOpen={setOpen}
+                  state={{ type: "autodm" }}
                 />
 
                 <SidebarLink
@@ -240,10 +241,12 @@ const SidebarLink = ({
   text,
   badge,
   setOpen,
+  state,
 }) => {
   return (
     <NavLink
       to={to}
+      state={state}
       onClick={() => setOpen(false)}
       className={({ isActive }) =>
         `flex items-center justify-between px-4 py-2 rounded-lg transition-colors
