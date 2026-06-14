@@ -83,7 +83,7 @@ const Products = () => {
 
                     <div className="flex items-center gap-2 text-sm mb-4 cursor-pointer">
                         <span className="font-medium bg-white px-3 py-1 rounded-full shadow-sm cursor-pointer hover:bg-gray-100 flex gap-2 items-center ">
-                            <FaArrowLeft className="text-lg" onClick={() => navigate('/marketplace')} />
+                            <FaArrowLeft className="text-lg" onClick={() => navigate(`/profile/${user._id}`)} />
                             Back
                         </span>
                     </div>

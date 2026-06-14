@@ -158,7 +158,7 @@ if (isLoading) return <SkeletonBookingProduct />;
 <div className="bg-[#F7DDDB] p-6 rounded-t-3xl">
     
   <div className="flex items-center gap-2 text-sm mb-4 cursor-pointer">
-    <FaArrowLeft className="text-lg"   onClick={() => navigate('/marketplace')} />
+    <FaArrowLeft className="text-lg"   onClick={() => navigate(`/profile/${user._id}`)} />
     <span className="font-medium">
       {user?.firstName} {user?.lastName}
     </span>

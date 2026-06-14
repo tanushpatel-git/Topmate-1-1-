@@ -186,7 +186,7 @@ if (res) {
           <div
             className="flex items-center gap-4 border-b-2 p-5 border-gray-300 cursor-pointer"
             onClick={() =>
-              navigate("/marketplace")
+              navigate(`/profile/${creator._id}`)
             }
           >
             <FaArrowLeft className="text-lg" />
