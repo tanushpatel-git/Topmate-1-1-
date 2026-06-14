@@ -119,7 +119,7 @@ const getAllWithdrawals = async (req, res) => {
     if (status) filter.status = status;
 
     const withdrawals = await Withdrawal.find(filter)
-      .populate("seller", "firstName lastName email userName")
+      .populate("seller", "firstName lastName email userName accountNumber accountHolderName ifscCode bankName upiId whatsAppNumber")
       .populate("bookings")
       .sort({ createdAt: -1 });
 

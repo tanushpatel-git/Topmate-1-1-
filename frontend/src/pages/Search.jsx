@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/commonCompo/Navbar";
 
 const tags = [
@@ -53,7 +54,6 @@ const ParticleBackground = () => {
         p.x += p.speedX;
         p.y += p.speedY;
 
-        // subtle mouse interaction
         if (mouse.x && mouse.y) {
           const dx = mouse.x - p.x;
           const dy = mouse.y - p.y;
@@ -93,6 +93,19 @@ const ParticleBackground = () => {
 };
 
 const Search = () => {
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearch = (query) => {
+    const q = (query || searchInput).trim();
+    if (!q) return;
+    navigate(`/marketplace?search=${encodeURIComponent(q)}`);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSearch();
+  };
+
   return (
     <>
       <Navbar />
@@ -117,11 +130,17 @@ const Search = () => {
           <div className="mt-8 hover:border hover:border-white hover:scale-[1.05] transition-all duration-300 flex items-center bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 shadow-lg">
             <input
               type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder='Describe your requirements...'
               className="w-full bg-transparent outline-none text-sm sm:text-base placeholder:text-gray-500"
             />
 
-            <button className="ml-3 bg-orange-500 hover:bg-orange-600 transition p-3 rounded-lg">
+            <button
+              onClick={() => handleSearch()}
+              className="ml-3 bg-orange-500 hover:bg-orange-600 transition p-3 rounded-lg"
+            >
               <ArrowRight size={18} />
             </button>
           </div>
@@ -132,6 +151,7 @@ const Search = () => {
               <motion.span
                 key={i}
                 whileHover={{ scale: 1.05 }}
+                onClick={() => handleSearch(tag)}
                 className="px-4 py-2 border bg-[#0D0D0D] border-white/30 rounded-xl text-sm text-gray-300 hover:text-white hover:border-white cursor-pointer hover:bg-white/10 transition"
               >
                 {tag}

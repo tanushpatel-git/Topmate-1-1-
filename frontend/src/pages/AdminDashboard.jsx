@@ -6,7 +6,7 @@ import {
   updateWithdrawalStatusApi,
 } from "../services/adminService/adminWithdrawalsApi";
 import toast from "react-hot-toast";
-import { FaHome, FaCoins, FaCheckCircle, FaTimesCircle, FaHourglassHalf, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaCoins, FaCheckCircle, FaTimesCircle, FaHourglassHalf, FaCog, FaSignOutAlt, FaBuilding, FaUser, FaHashtag, FaMoneyCheck, FaQrcode } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import { useQueryClient } from "@tanstack/react-query";
 import logout from "../services/userAuthServices/logOut";
@@ -379,21 +379,90 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Confirm Modal */}
+      {/* Confirm Payout Modal */}
       {showConfirmModal && selectedWithdrawal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 animate-scaleIn">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 animate-scaleIn">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
                 <FaCheckCircle className="text-green-600 text-lg" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900">Confirm Withdrawal</h3>
+              <h3 className="text-xl font-bold text-gray-900">Confirm Payout</h3>
             </div>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Mark withdrawal of <strong className="text-gray-900">₹{selectedWithdrawal.amount?.toLocaleString()}</strong>{" "}
-              by <strong className="text-gray-900">{selectedWithdrawal.seller?.firstName} {selectedWithdrawal.seller?.lastName}</strong>{" "}
-              as completed? This confirms the creator has received the payout.
+
+            {/* Creator Info */}
+            <div className="bg-gray-50 rounded-xl p-4 mb-4">
+              <p className="text-sm text-gray-500 mb-1">Creator</p>
+              <p className="font-semibold text-gray-900">
+                {selectedWithdrawal.seller?.firstName} {selectedWithdrawal.seller?.lastName}
+              </p>
+              <p className="text-sm text-gray-500">{selectedWithdrawal.seller?.email}</p>
+              <p className="text-lg font-bold text-gray-900 mt-2">
+                ₹{selectedWithdrawal.amount?.toLocaleString()}
+              </p>
+            </div>
+
+            {/* Bank Details */}
+            <div className="border border-gray-200 rounded-xl p-4 mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <FaBuilding className="text-gray-400 text-sm" />
+                <h4 className="font-semibold text-gray-800 text-sm">Bank Account Details</h4>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <FaUser className="text-gray-300 w-4 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-400">Account Holder</p>
+                    <p className="text-sm font-medium text-gray-800 truncate">
+                      {selectedWithdrawal.seller?.accountHolderName || <span className="text-red-400">Not provided</span>}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <FaMoneyCheck className="text-gray-300 w-4 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-400">Account Number</p>
+                    <p className="text-sm font-medium text-gray-800">
+                      {selectedWithdrawal.seller?.accountNumber
+                        ? selectedWithdrawal.seller.accountNumber
+                        : <span className="text-red-400">Not provided</span>}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <FaHashtag className="text-gray-300 w-4 shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-xs text-gray-400">IFSC Code</p>
+                    <p className="text-sm font-medium text-gray-800">
+                      {selectedWithdrawal.seller?.ifscCode || <span className="text-red-400">Not provided</span>}
+                    </p>
+                  </div>
+                </div>
+                {selectedWithdrawal.seller?.bankName && (
+                  <div className="flex items-center gap-3">
+                    <FaBuilding className="text-gray-300 w-4 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-xs text-gray-400">Bank Name</p>
+                      <p className="text-sm font-medium text-gray-800">{selectedWithdrawal.seller.bankName}</p>
+                    </div>
+                  </div>
+                )}
+                {selectedWithdrawal.seller?.upiId && (
+                  <div className="flex items-center gap-3">
+                    <FaQrcode className="text-gray-300 w-4 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-xs text-gray-400">UPI ID</p>
+                      <p className="text-sm font-medium text-gray-800">{selectedWithdrawal.seller.upiId}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <p className="text-gray-500 text-sm mb-6 leading-relaxed">
+              Proceed to process the payout via Razorpay to the bank account above?
             </p>
+
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => {
@@ -417,7 +486,7 @@ const AdminDashboard = () => {
                     </svg>
                     Processing...
                   </span>
-                ) : "Confirm"}
+                ) : "Proceed with Payout"}
               </button>
             </div>
           </div>
