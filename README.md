@@ -332,6 +332,45 @@ npm run dev       # Vite dev server
 
 ---
 
+---
+
+## 🔍 Architecture Analysis
+
+### Strengths
+
+| Area | Analysis |
+|------|----------|
+| **State Management** | Dual-layer approach (Redux for UI state + React Query for server state) is well-architected. Redux handles transient form wizard data while React Query manages caching, background refetching, and automatic cache invalidation — eliminating boilerplate for API state. |
+| **Security** | httpOnly cookies with SameSite=Strict for JWTs is a robust XSS/CSRF defense. Passwords hashed with bcrypt (10 rounds). No tokens exposed to JavaScript. |
+| **Booking Integrity** | Compound unique index on `creator + time` at the database level provides bulletproof double-booking prevention, backed by application-level UI filtering. |
+| **Scalable Organization** | Feature-based directory structure on both frontend and backend. Three-layer API pattern (Service → Hook → Component) enforces clean separation. |
+| **External Integrations** | Zoom Server-to-Server OAuth with cached tokens avoids repeated auth; Nodemailer with Gmail SMTP handles transactional emails; Cloudinary provides scalable media storage. |
+| **Code Splitting** | All routes are lazy-loaded with React.lazy + Suspense, reducing initial bundle size. |
+
+### Weaknesses & Risks
+
+| Area | Risk | Recommendation |
+|------|------|---------------|
+| **In-Memory OTP** | OTPs stored in a JS Map — lost on server restart or in multi-instance deployments. | Migrate to Redis or DB-backed OTP storage with TTL. |
+| **No Automated Tests** | Zero tests across the codebase. Manual testing only. | Add Jest/Mocha unit tests for controllers, React Testing Library for components, and Cypress for E2E flows. |
+| **Error Handling** | No centralized error-handling middleware in Express; try-catch scattered across controllers. | Implement a global Express error handler with consistent JSON error responses. |
+| **File Upload Efficiency** | Multer writes to disk before Cloudinary upload — unnecessary I/O for update path. | Use direct Cloudinary uploads with presigned URLs or stream uploads. |
+| **No Rate Limiting** | Public endpoints (signin, email-check, OTP) are unprotected against brute-force attacks. | Add `express-rate-limit` on auth routes. |
+| **Cron Reliability** | node-cron in a single process — if the server restarts, missed reminders during downtime are lost. | Use a persistent job queue (Bull + Redis) for reliable scheduled tasks. |
+| **No Input Validation Library** | Validation is manual in each controller. | Use Joi, Zod, or express-validator for consistent schema validation. |
+| **Environment Config** | No validation that required env vars are present at startup. | Use `envalid` or similar to validate env on boot. |
+
+### Performance Analysis
+
+| Metric | Current Status | Bottleneck |
+|--------|---------------|------------|
+| **Bundle Size** | Lazy-loaded routes minimize initial load. | No bundle analysis or code splitting beyond route level. |
+| **API Latency** | Booking creation calls Zoom + DB + email sequentially (2-5s total). | Could be queued for async processing. |
+| **DB Queries** | Text indexes on services, compound index on bookings. | Marketplace search may slow as data grows — consider adding pagination. |
+| **Concurrent Users** | Single Node.js process, single MongoDB instance. | Horizontal scaling requires shared session store (Redis) and load balancer. |
+
+---
+
 ## 📄 License
 
 This project is for educational/demonstration purposes.

@@ -412,7 +412,260 @@ The marketplace fetches data via React Query hooks that pass category filters an
 
 ---
 
-### Q35: How would you add a new service category (e.g., "Podcast")?
+---
+
+## Code Quality & Analysis
+
+### Q35: What is the overall code quality assessment of this project?
+
+**Answer:** The project demonstrates good architectural decisions for an MVP but has areas for improvement:
+
+**Strengths:**
+- **Clean separation of concerns** — Three-layer API pattern (Component → Hook → Service) on frontend; Routes → Controllers → Models on backend.
+- **Consistent naming** — Files and functions follow predictable naming conventions across the codebase.
+- **Feature-based organization** — Related files are co-located, making navigation intuitive.
+- **Security-first decisions** — httpOnly cookies, bcrypt hashing, SameSite cookies.
+- **Error handling** — Try-catch blocks in controllers with meaningful HTTP status codes.
+
+**Areas for improvement:**
+- **No automated tests** — Zero test coverage across the entire project. Critical booking and payment flows are untested.
+- **No input validation library** — Manual validation in each controller is error-prone and inconsistent.
+- **No TypeScript** — The entire codebase is JavaScript. TypeScript would catch type-related bugs at compile time.
+- **Inconsistent error responses** — No standardized error response format across controllers.
+- **Hardcoded values** — Some configuration values (timezone, slot durations) appear in both frontend and backend code.
+- **Missing centralized error middleware** — Express error handlers could be unified.
+
+---
+
+### Q36: How does this project compare to production-grade standards?
+
+**Answer:** The project is at a solid **MVP/Prototype stage** — functional but with gaps for production:
+
+| Dimension | Current State | Production Standard |
+|-----------|---------------|-------------------|
+| **Testing** | None | Unit + Integration + E2E (80%+ coverage) |
+| **Monitoring** | None | APM (New Relic/Datadog), error tracking (Sentry), structured logging (Winston) |
+| **CI/CD** | None | GitHub Actions / GitLab CI with lint, test, build, deploy stages |
+| **Containerization** | None | Docker + docker-compose for reproducible environments |
+| **API Documentation** | README only | OpenAPI/Swagger with auto-generated docs |
+| **Rate Limiting** | None | express-rate-limit on auth and public endpoints |
+| **Input Validation** | Manual | Zod/Joi schemas with auto-generated TypeScript types |
+| **Secrets Management** | .env files | Vault / AWS Secrets Manager / encrypted CI variables |
+| **Database Migrations** | None | Migrate / Mongoose migration framework |
+| **Health Checks** | None | /health endpoint with DB connectivity check |
+| **Graceful Shutdown** | None | SIGTERM handler for DB disconnection and ongoing request draining |
+
+---
+
+### Q37: What technical debt exists in this project?
+
+**Answer:** Key areas of technical debt:
+
+1. **In-memory OTP storage** — A JavaScript Map cannot survive server restarts or scale across multiple instances. Requires Redis.
+
+2. **Synchronous email sending** — Booking creation blocks the HTTP response while waiting for SMTP. Should be async via a job queue.
+
+3. **No pagination** — API endpoints like `/get-all-users`, `/get-all-services`, and booking lists return all records without pagination. Will become slow with real data volumes.
+
+4. **File upload inefficiency** — Multer writes to disk before Cloudinary upload. Creates unnecessary I/O and temporary files that need cleanup.
+
+5. **Duplicate env configuration** — Some defaults (timezone, slot duration) exist in both backend and frontend without a single source of truth.
+
+6. **No migration system** — Schema changes require manual MongoDB updates or dropping collections.
+
+7. **Mixed concerns in controllers** — Some controllers handle both business logic and response formatting, making unit testing harder.
+
+8. **No logging framework** — Only `morgan` for HTTP logs and `console.log` scattered throughout. No structured logging.
+
+9. **Cron reliability** — Single-process node-cron will miss jobs if the server is down. No retry mechanism.
+
+10. **No type safety** — Full JavaScript codebase means runtime errors from undefined properties are common.
+
+---
+
+### Q38: How would you migrate this project to TypeScript?
+
+**Answer:** A phased migration approach:
+
+**Phase 1 — Backend (2-3 days)**
+1. Rename `.js` to `.ts` incrementally starting with models (they define the data shapes)
+2. Add Mongoose schema types with `Interface` definitions
+3. Convert utility files (bcrypt, jwToken, Zoom, Cloudinary)
+4. Add types for request/response in controllers
+5. Convert routes and middleware last
+6. Add `ts-node` or compile with `tsc`
+
+**Phase 2 — Frontend (3-4 days)**
+1. Rename `.jsx` to `.tsx` starting with service layer (API response types)
+2. Define interfaces for all API responses (User, Service, Booking, Profile)
+3. Type the Redux slices (typed state + actions)
+4. Add generics to React Query hooks
+5. Convert components — start with pages, then shared components
+
+**Key types to define:**
+```typescript
+interface IUser { _id: string; firstName: string; lastName: string; email: string; role: 'user' | 'expert'; availability: IAvailabilitySlot[]; /* ... */ }
+interface IService { _id: string; title: string; category: 'one-to-one' | 'priorityDm' | 'workshop' | 'product' | 'package'; price: number; /* ... */ }
+interface IBooking { _id: string; seeker: IUser; creator: IUser; service: IService; date: string; time: string; status: 'pending' | 'confirmed' | 'cancelled'; /* ... */ }
+```
+
+---
+
+### Q39: How would you add monitoring and observability?
+
+**Answer:** A three-pillar approach:
+
+**1. Logging (Structured)**
+```javascript
+// Replace console.log with Winston/Pino
+import pino from 'pino';
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
+
+// In controllers:
+logger.info({ bookingId, userId }, 'Booking created successfully');
+logger.error({ err, bookingId }, 'Failed to create booking');
+```
+
+**2. Metrics (Application Performance)**
+- Use `express-prom-bundle` or OpenTelemetry to expose Prometheus metrics:
+  - Request count, duration, error rate per endpoint
+  - Database query timing
+  - External API call timing (Zoom, Cloudinary, Razorpay)
+- Track business metrics: bookings created/hour, revenue, active creators
+
+**3. Error Tracking (Sentry)**
+```javascript
+import Sentry from '@sentry/node';
+Sentry.init({ dsn: process.env.SENTRY_DSN });
+
+// Automatic error capture + manual breadcrumbs
+Sentry.setUser({ id: userId, email });
+Sentry.captureException(error);
+```
+
+**4. Health Checks**
+```
+GET /health → { status: 'ok', db: 'connected', uptime: 12345 }
+Used by load balancers and container orchestrators.
+```
+
+---
+
+### Q40: What is the database query performance analysis?
+
+**Answer:** Based on the schema and indexes:
+
+| Query Pattern | Index Used | Performance | Notes |
+|---------------|-----------|-------------|-------|
+| `User.find({email})` | Unique email index | O(log n), fast | Used on every sign-in |
+| `Booking.find({creator, time})` | Compound unique: creator+time | O(log n), fast | Double-booking prevention |
+| `Booking.find({reminderTime}, {reminderSent: false})` | Compound: reminderTime+reminderSent+status | O(log n), fast | Cron job query |
+| `Service.find({$text: {search}})` | Text index on title+description | O(n) full scan for partial matches | Text indexes use OR logic; consider Atlas Search for production |
+| `Booking.aggregate([$match, $group])` | No index on `createdAt` | Collection scan for date filtering | Add index on `{creator: 1, createdAt: -1}` |
+| `User.find().populate('services')` | N/A (application-level join) | O(n) — n queries instead of 1 | Use `$lookup` aggregation or denormalize |
+
+**Recommendation:** Add missing compound index `{ creator: 1, createdAt: -1 }` to optimize analytics aggregation queries.
+
+---
+
+### Q41: How would you refactor the booking creation for better performance?
+
+**Answer:** The current booking creation is synchronous and sequential. Here's an async refactoring:
+
+```
+Current (synchronous, ~1.5-3s response time):
+  validate → insert DB → Zoom API → .ics file → send email seeker → send email creator → respond
+
+Refactored (asynchronous, ~200ms response time):
+  validate → insert DB (status: "processing") → respond immediately
+                                              ↓
+                              Background Job Queue (Bull + Redis):
+                               1. Attempt Zoom API (retry 3x on failure)
+                               2. Generate .ics file
+                               3. Queue email sends (separate jobs)
+                               4. Update booking status: "confirmed"
+                               5. If Zoom fails → status: "confirmed_no_meeting", log alert
+```
+
+**Frontend changes:**
+- After booking creation, poll or use WebSocket to check when status changes to "confirmed"
+- Show "Processing booking..." state with the meeting link appearing once available
+- This improves UX (instant response) and reliability (retries, no blocking)
+
+---
+
+### Q42: What is the analysis of the Razorpay payment integration architecture?
+
+**Answer:** Based on the codebase, the payment flow follows Razorpay's standard two-step process:
+
+```
+1. Frontend: Create Razorpay Order
+   POST /api/booking/create
+   → Backend creates Booking document
+   → Returns booking details
+
+2. Frontend: Open Razorpay Checkout
+   razorpay = new Razorpay({ key, amount, prefill })
+   razorpay.open()
+
+3. On Success: Verify Payment
+   POST /api/payment/verify
+   → Backend verifies razorpay_signature
+   → Updates booking payment status
+   → Confirms the booking
+
+4. On Failure:
+   → Booking remains in "pending_payment" state
+   → User can retry or booking auto-cancels after TTL
+```
+
+**Analysis:**
+- ✅ **Two-step verification** prevents payment forgery
+- ⚠️ **No webhook handler** — Razorpay webhooks (for failed payments, refunds) are not implemented. Production requires webhook verification.
+- ⚠️ **No refund flow** — If a booking is cancelled, there's no mechanism to process refunds via Razorpay.
+- ✅ **Order creation inside booking creation** ensures atomicity — no orphaned payments.
+
+---
+
+## Design Decisions & Trade-offs
+
+### Q43: Why might you choose PostgreSQL over MongoDB for this application?
+
+**Answer:** While MongoDB was chosen for schema flexibility, PostgreSQL would offer:
+
+| Factor | MongoDB (Current) | PostgreSQL (Alternative) |
+|--------|------------------|------------------------|
+| **Schema flexibility** | ✅ Embedding, no migrations | ❌ Fixed schema, migrations needed |
+| **Booking integrity** | Compound unique index | ✅ Multi-column unique constraint + CHECK constraints |
+| **Availability query** | Array of embedded docs | ✅ JSONB or separate availability table with exclusion constraints |
+| **Analytics** | Aggregation pipeline | ✅ Window functions, CTEs, materialized views |
+| **Search** | Text indexes | ✅ Full-text search with ranking, tsvector/tsquery, trigrams |
+| **Transactions** | Single-document atomicity | ✅ ACID multi-document transactions |
+| **Consistency** | Eventual consistency (replica sets) | ✅ Strong consistency by default |
+| **Joins** | Manual population or $lookup | ✅ Native JOINs with proper indexing |
+
+**Verdict:** MongoDB is appropriate for an MVP with varied service structures. PostgreSQL would be better for a production system requiring complex reporting, strict data integrity, and relational queries.
+
+---
+
+### Q44: How does the file upload strategy compare to alternatives?
+
+**Answer:** Three approaches compared:
+
+| Approach | Latency | Server Load | Complexity | Cost |
+|----------|---------|-------------|------------|------|
+| **Current: Multer → Disk → Cloudinary** | Medium | High (buffers file) | Medium | Low (temp disk) |
+| **Alternative 1: Direct-to-Cloudinary (presigned)** | Low | Minimal | Low (frontend SDK) | Low |
+| **Alternative 2: Multer → Cloudinary (stream)** | Low | Low | Medium | Low |
+| **Alternative 3: S3 + CloudFront** | Low | None | High (AWS setup) | Medium |
+
+**Recommendation:** Switch to **direct-to-Cloudinary uploads** from the frontend using unsigned upload presets (limited to specific file types and sizes) or signed uploads with a backend-generated signature. This eliminates server disk I/O, reduces server load, and improves upload speed.
+
+---
+
+## General
+
+### Q45: How would you add a new service category (e.g., "Podcast")?
 
 **Answer:** Adding "Podcast" as a new service category would require changes in:
 
