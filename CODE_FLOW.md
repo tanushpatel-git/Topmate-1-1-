@@ -1262,4 +1262,177 @@ draft ──▶ published ──▶ archived
 
 ---
 
+## 17. Code Flow Analysis
+
+### Architecture Analysis
+
+```
+                        ┌──────────────────────────────────────────────────┐
+                        │           THREE-LAYER API PATTERN               │
+                        │                                                  │
+                        │  Component Layer (Pages/Components)              │
+                        │    ↓ calls hooks                                 │
+                        │  ──────────────────────────────────────────      │
+                        │  Hook Layer (custom React Query hooks)           │
+                        │    ↓ wraps service functions                     │
+                        │  ──────────────────────────────────────────      │
+                        │  Service Layer (raw Axios API calls)             │
+                        │    ↓ HTTP requests                               │
+                        │  ──────────────────────────────────────────      │
+                        │  Express Backend (Routes → Controllers → Models) │
+                        └──────────────────────────────────────────────────┘
+```
+
+**Pros of this pattern:**
+- Components never make raw HTTP calls
+- Hooks encapsulate caching, invalidation, loading/error states
+- Service layer is testable in isolation
+- If the backend API changes, only the service layer needs updates
+
+**Cons:**
+- Three files per feature (component + hook + service) increases boilerplate
+- Potential over-abstraction for simple read-only endpoints
+
+### State Management Analysis
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                   STATE MANAGEMENT DECISION MAP                      │
+│                                                                      │
+│  Is it server data (API response)?                                   │
+│    └─Yes → React Query (cache, refetch, invalidate)                  │
+│    └─No  → Is it transient UI form state?                            │
+│             └─Yes → Redux Toolkit (signUpSlice, signInSlice)          │
+│             └─No  → Is it globally needed user data?                  │
+│                      └─Yes → Redux (userDetails)                     │
+│                      └─No  → Component-local useState/useReducer     │
+│                                                                      │
+│  React Query Query Keys:                                             │
+│  ───────────────────────                                             │
+│  ["currUser"]           → ProtectedRoute hydration                    │
+│  ["my-services"]        → Creator's service list                     │
+│  ["all-services"]       → Marketplace browsing                       │
+│  ["creator-bookings"]   → Creator dashboard                          │
+│  ["seeker-bookings"]    → Seeker dashboard                           │
+│  ["single-service", id] → Service detail/edit                        │
+│  ["one-to-one", id]     → Booking page for a service                 │
+│  ["all-users"]          → Admin panel                                │
+│  ["analytics", type]    → Creator analytics chart                    │
+│                                                                      │
+│  Cache invalidation triggers (automatic after mutations):            │
+│  ─────────────────────────────────────────────                       │
+│  createBooking  → ["seeker-bookings"]                                │
+│  cancelBooking  → ["creator-bookings", "seeker-bookings"]            │
+│  answerDM       → ["creator-bookings"] (refetches to update status)   │
+│  createService  → ["my-services"]                                    │
+│  updateService  → ["my-services", "single-service"]                  │
+│  deleteService  → ["my-services"]                                    │
+│  updateProfile  → ["currUser"]                                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Data Flow Analysis: Booking Creation (Critical Path)
+
+```
+Timing breakdown of POST /api/booking/create:
+
+  1. Request validation        ~5ms
+  2. DB conflict check         ~10ms
+  3. Booking document create   ~15ms
+  4. Zoom API call             ~800-1500ms (network latency dependent)
+  5. .ics file generation      ~2ms
+  6. Email send (seeker)       ~200-500ms (SMTP dependent)
+  7. Email send (creator)      ~200-500ms (SMTP dependent)
+                              ──────────────
+  Total: ~1.2-2.5s
+
+  Note: Steps 4-7 are sequential. For better UX, steps 4-7 could be
+  offloaded to a background job queue, returning immediately after
+  step 3 with a "Processing" state.
+```
+
+### Security Flow Analysis
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                  SECURITY LAYERS (Defense in Depth)                  │
+│                                                                      │
+│  Layer 1: Transport                                                  │
+│    CORS restricted to http://localhost:5175                          │
+│    (production: HTTPS + specific domain)                             │
+│                                                                      │
+│  Layer 2: Authentication                                             │
+│    JWT in httpOnly cookie (not accessible via JS)                    │
+│    SameSite=Strict (not sent on cross-origin requests)               │
+│    Cookie signed by server-side JWT_SECRET                           │
+│                                                                      │
+│  Layer 3: Authorization                                              │
+│    jsonWebTokenCheck middleware on protected routes                  │
+│    adminAuth middleware for admin-only endpoints                     │
+│    Controllers verify user owns resources (e.g., service belongs to  │
+│    authenticated creator before update/delete)                       │
+│                                                                      │
+│  Layer 4: Input                                                      │
+│    Manual field validation in controllers                            │
+│    Mongoose schema validation at model level                         │
+│    Missing: centralized input validation library                     │
+│                                                                      │
+│  Layer 5: Password Storage                                           │
+│    bcrypt with 10 salt rounds                                        │
+│    Never logged or returned in API responses                         │
+│                                                                      │
+│  Gap Analysis:                                                       │
+│  ──────────────────                                                  │
+│  ❌ No rate limiting on auth endpoints (brute force risk)            │
+│  ❌ No request size limiting (Multer files)                          │
+│  ❌ No Helmet.js for HTTP security headers                           │
+│  ❌ No input sanitization (XSS via service title/description)        │
+│  ✅ httpOnly cookies (XSS protection)                                │
+│  ✅ bcrypt password hashing                                          │
+│  ✅ JWT with expiry                                                  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Scalability Analysis
+
+| Scaling Dimension | Current State | Limit | Recommendation |
+|-------------------|---------------|-------|----------------|
+| **Backend Instances** | Single process | Single-core CPU-bound | Horizontal scaling with PM2 cluster or Docker + load balancer |
+| **Session/OAuth State** | In-memory Map | Lost on restart, broken across instances | Redis for OTP storage and Zoom token cache |
+| **Email Sending** | Synchronous in request lifecycle | Blocks response, SMTP rate limits | Async job queue (Bull + Redis) for all email notifications |
+| **File Uploads** | Through backend server | Consumes server bandwidth and disk | Direct-to-Cloudinary uploads via presigned URLs |
+| **Database** | Single MongoDB instance | Connection pool exhaustion, read pressure | MongoDB Atlas with read replicas, connection pooling |
+| **Frontend Assets** | Vite dev server | No CDN, no compression | Production build served via CDN with gzip/brotli |
+| **Cron Jobs** | Single node-cron | Only one instance should run | Use distributed lock (Redis) or dedicated worker |
+
+### Design Pattern Analysis
+
+| Pattern | Where Used | Evaluation |
+|---------|-----------|------------|
+| **Repository/DAO** | Models encapsulate DB logic | ✅ Clean separation |
+| **Middleware Chain** | Express middleware pipeline | ✅ Standard Express pattern |
+| **Observer (Pub-Sub)** | React Query cache invalidation | ✅ Efficient reactive updates |
+| **Container/Presenter** | Pages as containers, components as presenters | ✅ Partial — some pages mix concerns |
+| **Singleton** | Axios instance, Redux store, Zoom token cache | ✅ Appropriate usage |
+| **Strategy** | Different booking types (1:1, DM, workshop) | ✅ Shared controller with type branching |
+| **Aggregation Pipeline** | Analytics endpoint | ✅ Efficient server-side computation |
+
+### Dependency Analysis
+
+```
+Critical dependencies (app breaks without these):
+  Express, Mongoose, MongoDB, jsonwebtoken, bcrypt
+  React, React Router, React Query, Axios
+
+Important dependencies (key features break without these):
+  Razorpay (payments), Zoom API (meetings), Cloudinary (media),
+  Nodemailer (emails), Multer (uploads), Firebase (Google Auth)
+
+Utility dependencies (non-critical, replaceable):
+  slugify, cookie-parser, cors, morgan, Framer Motion,
+  TailwindCSS, Lucide React, Swiper, GSAP
+```
+
+---
+
 *Document generated from codebase analysis. For setup instructions, see [README.md](./README.md).*
