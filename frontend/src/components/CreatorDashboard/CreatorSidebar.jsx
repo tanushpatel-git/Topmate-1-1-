@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaUser, FaUserAlt, FaGift, FaSearch, FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineCategory } from "react-icons/md";
 import Logoicon from '../../assets/logo-icon.svg'
@@ -24,9 +24,9 @@ const CreatorSidebar = () => {
       <div>
         {/* Logo */}
         <div onClick={() => setOpen(!open)} className="flex cursor-pointer items-center gap-3 p-4 ">
-          <div className="w-10 h-10 ">
+          <Link to="/" onClick={(e) => e.stopPropagation()} className="w-10 h-10 ">
             <img src={Logoicon} alt="" />
-          </div>
+          </Link>
           <div>
             <h2 className="font-semibold">Dashboard   </h2>
             <p className="text-sm text-gray-500">{userData.firstName + ' ' + userData.lastName || 'hii there'}</p>

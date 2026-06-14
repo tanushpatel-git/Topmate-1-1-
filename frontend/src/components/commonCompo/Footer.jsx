@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Image from "../../assets/topmate-dark-logo.svg";
 
 
@@ -29,7 +29,7 @@ const Footer = () => {
         <div className="flex flex-col gap-6 items-center lg:items-start">
           <div className="flex items-center gap-3">
             
-            <img src={Image} alt="" />
+            <Link to="/"><img src={Image} alt="" /></Link>
           </div>
         </div>
 
