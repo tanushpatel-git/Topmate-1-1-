@@ -26,7 +26,7 @@ const ContactSection = () => {
           </div>
 
           <div className="flex items-center gap-2 mt-10">
-            <img src={Image} alt="" />
+            <Link to="/"><img src={Image} alt="" /></Link>
           </div>
         </div>
 

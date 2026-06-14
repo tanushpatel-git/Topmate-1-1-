@@ -73,8 +73,9 @@ const allDates =
 
 const visibleDates = allDates.slice(startIndex, startIndex + visibleCount);
 
-const generateSlots = (start, end, duration) => {
+const generateSlots = (start, end, duration, selectedDate) => {
   const slots = [];
+  const now = new Date();
 
   const [sh, sm] = start.split(":").map(Number);
   const [eh, em] = end.split(":").map(Number);
@@ -85,15 +86,22 @@ const generateSlots = (start, end, duration) => {
   const endTime = new Date();
   endTime.setHours(eh, em, 0);
 
+  const isToday = selectedDate &&
+    selectedDate.getFullYear() === now.getFullYear() &&
+    selectedDate.getMonth() === now.getMonth() &&
+    selectedDate.getDate() === now.getDate();
+
   while (current < endTime) {
     const next = new Date(current.getTime() + (duration + 5) * 60000);
 
     if (next <= endTime) {
-      slots.push(current.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }));
+      if (!isToday || current > now) {
+        slots.push(current.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }));
+      }
     }
 
     current = next;
@@ -105,7 +113,7 @@ const generateSlots = (start, end, duration) => {
 
 const slots =
   selectedDay?.slots?.flatMap((slot) =>
-    generateSlots(slot.start, slot.end, service.duration)
+    generateSlots(slot.start, slot.end, service.duration, selectedDate)
   ) || [];
 
 
