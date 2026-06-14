@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   FaUser,
   FaGift,
@@ -42,11 +42,13 @@ import Logoicon from "../../assets/logo-icon.svg";
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-3">
-            <img
-              src={Logoicon}
-              alt=""
-              className="w-10 h-10"
-            />
+            <Link to="/">
+              <img
+                src={Logoicon}
+                alt=""
+                className="w-10 h-10"
+              />
+            </Link>
 
             <div>
               <h2 className="font-semibold">

@@ -9,7 +9,7 @@ import useSignIn from "../hooks/useSignIn";
 import useSignInWithGoogle from "../hooks/useSignInWithGoogle";
 import { auth, googleProvider } from "../utility/fireBase";
 import { signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useEmailCheck, useOtpVerification } from "../hooks/SignInWithTwoStep";
 
@@ -77,7 +77,7 @@ export default function SignIn() {
           {/* Logo */}
           <div className="flex flex-col">
             <div className="flex justify-between items-center gap-2 mb-6 sm:mb-10">
-              <img className="w-32 sm:w-40" src={topmateLogo} alt="topmate" />
+              <Link to="/"><img className="w-32 sm:w-40" src={topmateLogo} alt="topmate" /></Link>
               <button
                 className="text-gray-500 text-sm sm:text-base font-semibold active:scale-95 hover:text-blue-500 hover:border-blue-500 transition h-9 sm:h-10 px-4 rounded-full border border-gray-500"
                 onClick={() => navigate('/signup')}

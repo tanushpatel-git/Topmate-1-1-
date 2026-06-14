@@ -4,7 +4,7 @@ import gsap from "gsap";
 import Card from "../components/HomePageComponent/Card";
 import Logo from '../assets/topmate-light-logo.svg'
 
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { FaLinkedin } from "react-icons/fa";
 import { Eye, EyeOff } from "lucide-react";
@@ -177,7 +177,7 @@ const SignUp = () => {
 
         {/* Navbar */}
         <div className="flex items-center justify-between px-6 sm:px-10 border-b border-gray-200 pb-4">
-          <img src={Logo} alt="logo" className="h-6 sm:h-7" />
+          <Link to="/"><img src={Logo} alt="logo" className="h-6 sm:h-7" /></Link>
           <button
             onClick={() => navigate('/signin')}
             className="border px-4 py-1.5 rounded-md text-sm sm:text-base font-medium hover:bg-gray-100"

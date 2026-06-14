@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getAllWithdrawalsApi,
@@ -119,9 +119,9 @@ const AdminDashboard = () => {
       <aside className="hidden md:flex w-64 bg-[#F7F6F2] border-r border-gray-200 flex-col justify-between fixed h-full z-30">
         <div>
           <div className="flex items-center gap-3 p-4">
-            <div className="w-10 h-10">
+            <Link to="/" className="w-10 h-10">
               <img src={Logoicon} alt="" />
-            </div>
+            </Link>
             <div>
               <h2 className="font-semibold text-gray-800">Admin Panel</h2>
               <p className="text-sm text-gray-500">Withdrawals</p>

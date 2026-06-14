@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaUser,
@@ -62,11 +62,13 @@ const NewSidebar = ({ open, setOpen }) => {
               onClick={() => setShowSwitch(!showSwitch)}
               className="flex cursor-pointer items-center gap-3 p-4"
             >
-              <img
-                src={Logoicon}
-                alt="logo"
-                className="w-10 h-10"
-              />
+              <Link to="/" onClick={(e) => e.stopPropagation()}>
+                <img
+                  src={Logoicon}
+                  alt="logo"
+                  className="w-10 h-10"
+                />
+              </Link>
 
               <div className="flex-1">
                 <h2 className="font-semibold">Dashboard</h2>

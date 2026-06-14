@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -421,11 +422,13 @@ if (res) {
         {/* POWERED BY */}
         <div className="flex flex-col justify-center items-center mt-5 bg-gray-50 p-3 m-5 rounded-lg font-semibold">
           <p className="flex items-center gap-2">
-            <img
-              src={logoIcon}
-              alt=""
-              className="w-4 h-4"
-            />
+            <Link to="/">
+              <img
+                src={logoIcon}
+                alt=""
+                className="w-4 h-4"
+              />
+            </Link>
             Powered by topmate.io
           </p>
 
