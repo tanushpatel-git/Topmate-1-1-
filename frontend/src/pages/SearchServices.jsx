@@ -1,95 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/commonCompo/Navbar";
 import { Search, ArrowLeft } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import DetailsCardArea from "../components/MarketPlaceComponent/DetailsCardArea";
 
 const SearchServices = ({ searchName = "Software" }) => {
+  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
 
-    const data = [
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-        {
-            id: 1,
-            image: "",
-            name: "Tanush",
-            title: "Software Engineer",
-            price: 100,
-            rating: 4.5,
-            reviews: 100,
-        },
-    ]
-
+  const handleSearch = () => {
+    const q = searchInput.trim();
+    if (!q) return;
+    navigate(`/marketplace?search=${encodeURIComponent(q)}`);
+  };
 
     return (
         <div className="bg-[#E9E6DE] h-screen w-full">
@@ -118,25 +41,27 @@ const SearchServices = ({ searchName = "Software" }) => {
                         <input
                             type="text"
                             placeholder="Search for people, services..."
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
-                                    console.log("Enter clicked");
-                                    setActive(false);
+                                    handleSearch();
                                 }
                             }}
                             className="w-full text-sm sm:text-base outline-none bg-transparent placeholder:text-gray-400"
                         />
 
-                        <button className="ml-2 p-2 rounded-full bg-[#983E01]/10 hover:bg-[#983E01]/20 transition">
+                        <button
+                          onClick={handleSearch}
+                          className="ml-2 p-2 rounded-full bg-[#983E01]/10 hover:bg-[#983E01]/20 transition"
+                        >
                             <Search className="text-[#983E01]" size={18} />
                         </button>
                     </div>
 
                 </div>
             </div>
-            <DetailsCardArea
-                detailsOfDeveloper={data}
-            />
+            <DetailsCardArea />
         </div>
     );
 };

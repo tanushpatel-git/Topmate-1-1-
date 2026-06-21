@@ -49,7 +49,7 @@ const Marketplace = () => {
       <Navbar/>
       <CategoryNavbar onCategoryChange={handleCategoryChange}/>
       <DetailsCardArea detailsOfDeveloper={data?.data} isLoading={isLoading} isError={isError}/>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={handleSearch} currentSearch={searchQuery} />
     </>
   );
 };
